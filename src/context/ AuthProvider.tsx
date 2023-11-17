@@ -45,18 +45,17 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setNome(response?.data?.nome);
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
                 setUser(response?.data);
-                setLoading(true);
-
                 setTimeout(() => {
-                  
                     setLoading(false);
-                }, 1500);
+                }, 50);
             }).catch((erro) => {
                 console.log(erro);
             });
 
         }).catch((erro) => {
             console.log(erro);
+            setLoading(false);
+            alert("Usuarios ou senha incorretos")
         })
     };
 
@@ -72,7 +71,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     if (loading) {
         return (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                <StatusBar translucent={false} backgroundColor='white' barStyle='light-content' />
+                <StatusBar/>
                 <ActivityIndicator animating={true} color={"#0B7EBE"} size={50} />
             </View>
         );

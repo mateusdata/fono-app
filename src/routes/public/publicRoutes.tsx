@@ -7,7 +7,10 @@ const AppStack = createStackNavigator();
 const PublicRoutes = () => {
   return (
     <AppStack.Navigator>
-    <AppStack.Screen name="Login" component={Login}/>
+    <AppStack.Screen name="Login" component={Login} options={{
+      headerShown:false
+    }}/>
+   
     </AppStack.Navigator>
   )
 }
