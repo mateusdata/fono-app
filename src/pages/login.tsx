@@ -1,21 +1,22 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
 import { Context } from '../context/ AuthProvider';
 import { TextInput } from 'react-native-paper';
-import {  useFonts, Poppins_600SemiBold, Poppins_800ExtraBold} from '@expo-google-fonts/poppins';
+import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
 import { AntDesign } from '@expo/vector-icons';
-const LoginForm = () => {
+import PrimaryButton from '../components/primaryButton';
+const LoginForm = ({ navigation }: any) => {
     const [email, setEmail] = useState('mateuspele2015@gmail.com');
     const [senha, setSenha] = useState('123456');
-    const { login, setLoading} = useContext(Context);
+    const { login, setLoading } = useContext(Context);
     let [fontsLoaded] = useFonts({
         Poppins_600SemiBold, Poppins_800ExtraBold
-      });
-    
-      if (!fontsLoaded) {
+    });
+
+    if (!fontsLoaded) {
         return null;
-      }
-    
+    }
+
 
     const handleLogin = async () => {
         setLoading(true);
@@ -25,7 +26,7 @@ const LoginForm = () => {
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-            <AntDesign style={{position:"absolute", right:5,bottom:112}} name="close" size={30} color="#4d4d4f" />
+                <AntDesign onPress={() => navigation.navigate("pre-login")}  style={{ position: "absolute", right: 5, bottom: 112 }} name="close" size={30} color="#4d4d4f" />
                 <Text style={styles.titleText}>Bem-vindo de volta</Text>
             </View>
 
@@ -35,11 +36,13 @@ const LoginForm = () => {
                     mode="outlined"
                     label="Email"
                     placeholder="Digite seu email"
-                    style={{height:52,
-                         borderRadius:150}}
+                    style={{
+                        height: 52,
+                        borderRadius: 150
+                    }}
                     value={email}
                     activeOutlineColor='#376fe8'
-                    
+
                     onChangeText={(text) => setEmail(text)}
                 />
 
@@ -50,19 +53,17 @@ const LoginForm = () => {
                     placeholder="Digite sua senha"
                     secureTextEntry
                     value={senha}
-                    style={{height:52}}
-                    
+                    style={{ height: 52 }}
+
                     activeOutlineColor='#376fe8'
                     onChangeText={(text) => setSenha(text)}
                 />
-             
-
-                <TouchableOpacity style={styles.button} onPress={handleLogin}>
-                    <Text style={styles.buttonText}>Entrar</Text>
-                </TouchableOpacity>
-                <View style={{width:"auto", alignItems:"center", justifyContent:"center", marginTop:15 }}>
-                <Text style={{fontFamily:"Poppins_600SemiBold", color:"gray"}}>Não tem uma conta</Text>
-                <Text style={{fontFamily:"Poppins_600SemiBold", color:"#407AFF"}}>Criar uma conta</Text>
+                <PrimaryButton name="Login" handleButton={handleLogin} />
+                <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
+                    <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua senha ?</Text>
+                    <TouchableOpacity onPress={() => navigation.navigate("esqueceu-senha")}>
+                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recumperar senha</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         </View>
@@ -71,29 +72,29 @@ const LoginForm = () => {
 
 const styles = StyleSheet.create({
     container: {
-         fontFamily:"Poppins_600SemiBold",
+        fontFamily: "Poppins_600SemiBold",
         flex: 1,
         backgroundColor: '#FFFFFF',
         justifyContent: 'flex-start',
         padding: 20,
     },
     titleContainer: {
-         fontFamily:"Poppins_600SemiBold",
+        fontFamily: "Poppins_600SemiBold",
         justifyContent: 'center',
         alignItems: 'center',
     },
     titleText: {
-         fontFamily:"Poppins_800ExtraBold",
+        fontFamily: "Poppins_800ExtraBold",
         fontSize: 25,
         marginBottom: 0,
-        marginTop:100,
-        color:"#4d4d4f"
+        marginTop: 100,
+        color: "#4d4d4f"
 
-        
+
 
     },
     formContainer: {
-         fontFamily:"Poppins_600SemiBold",
+        fontFamily: "Poppins_600SemiBold",
         flex: 1,
         backgroundColor: '#ffffff',
         padding: 20,
@@ -101,12 +102,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     label: {
-         fontFamily:"Poppins_600SemiBold",
+        fontFamily: "Poppins_600SemiBold",
         color: '#000000',
         marginBottom: 5,
     },
     input: {
-         fontFamily:"Poppins_600SemiBold",
+        fontFamily: "Poppins_600SemiBold",
         backgroundColor: '#FFFFFF',
         borderRadius: 5,
         borderWidth: 1,
@@ -116,18 +117,18 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
-         fontFamily:"Poppins_600SemiBold",
+        fontFamily: "Poppins_600SemiBold",
         backgroundColor: '#407AFF',
         borderRadius: 5,
         padding: 18,
         alignItems: 'center',
-        marginTop:15
+        marginTop: 15
     },
     buttonText: {
-        fontFamily:"Poppins_800ExtraBold",
+        fontFamily: "Poppins_800ExtraBold",
         color: '#f4f4f4',
         fontWeight: 'bold',
-        fontSize:17
+        fontSize: 17
     },
 });
 

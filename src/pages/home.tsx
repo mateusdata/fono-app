@@ -1,7 +1,8 @@
 // HomePage.js
 import React, { useContext } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Context } from '../context/ AuthProvider';
+import { Button,Text } from 'tamagui';
 
 const HomePage = () => {
 const {logOut} = useContext(Context);
@@ -25,6 +26,10 @@ const {logOut} = useContext(Context);
       <TouchableOpacity style={styles.logoutButton} onPress={logOut}>
         <Text style={styles.logoutButtonText}>Sair da Conta</Text>
       </TouchableOpacity>
+
+      <Button onPress={() => alert("Esse aqui é um botão tamaqui")} bg={"blue"}>
+            <Text col={"white"}>Botão tamaqui</Text>
+          </Button>
     </View>
   );
 };
