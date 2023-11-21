@@ -3,6 +3,7 @@ import React, { useContext } from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Context } from '../context/ AuthProvider';
 import { Button,Text } from 'tamagui';
+import MyLoader from '../components/myLoader';
 
 const HomePage = () => {
 const {logOut} = useContext(Context);
@@ -10,6 +11,7 @@ const {logOut} = useContext(Context);
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerText}>App </Text>
+        <MyLoader/>
       </View>
 
       <View style={styles.welcomeContainer}>
