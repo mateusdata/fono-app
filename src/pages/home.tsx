@@ -9,7 +9,7 @@ const {logOut} = useContext(Context);
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>App de Fonoaudiologia</Text>
+        <Text style={styles.headerText}>App </Text>
       </View>
 
       <View style={styles.welcomeContainer}>
@@ -26,10 +26,6 @@ const {logOut} = useContext(Context);
       <TouchableOpacity style={styles.logoutButton} onPress={logOut}>
         <Text style={styles.logoutButtonText}>Sair da Conta</Text>
       </TouchableOpacity>
-
-      <Button onPress={() => alert("Esse aqui é um botão tamaqui")} bg={"blue"}>
-            <Text col={"white"}>Botão tamaqui</Text>
-          </Button>
     </View>
   );
 };

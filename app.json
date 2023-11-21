@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Fono app",
-    "slug": "Fono app",
+    "name": "Fonotherapp",
+    "slug": "Fonotherapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -26,16 +26,16 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "extra": {
-      "eas": {
-        "projectId": "320ede61-4837-464f-ad74-a0bc893cbb97"
-      }
-    },
     "runtimeVersion": {
       "policy": "appVersion"
     },
+    "extra": {
+      "eas": {
+        "projectId": "e3c9b204-ce1e-4b0d-801c-dfe2ea224bc0"
+      }
+    },
     "updates": {
-      "url": "https://u.expo.dev/320ede61-4837-464f-ad74-a0bc893cbb97"
+      "url": "https://u.expo.dev/e3c9b204-ce1e-4b0d-801c-dfe2ea224bc0"
     }
   }
 }
