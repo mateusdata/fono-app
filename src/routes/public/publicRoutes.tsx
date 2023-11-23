@@ -4,15 +4,15 @@ import Login from '../../pages/login';
 import PreLogin from '../../pages/preLogin';
 import ForgotPassword from '../../pages/forgotPassword';
 import CreateAcount from '../../pages/createAcount';
-import SendCode from '../../pages/sendCode';
 import ChangePassword from '../../pages/changePassword';
+import CheckEmail from '../../pages/checkEmail';
 
 
 const AppStack = createStackNavigator();
 const PublicRoutes = () => {
   return (
     <AppStack.Navigator>
-    <AppStack.Screen name="pre-login" component={PreLogin} options={{
+    <AppStack.Screen name="pre-login" component={CheckEmail} options={{
       headerShown:false
     }}/>
     <AppStack.Screen name="Login" component={Login} options={{
