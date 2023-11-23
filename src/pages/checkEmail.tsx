@@ -20,7 +20,7 @@ const CheckEmail = ({ navigation }: any) => {
                     Esqueceu sua senha ?
                 </Text>
                 <Text style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
-                    Insira seu email pra obter um codigo de segurança
+                    Insira seu email pra obter um código de segurança
                 </Text>
             </View>
             <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", marginTop: 100 }}>
@@ -28,7 +28,7 @@ const CheckEmail = ({ navigation }: any) => {
                 <View style={{ justifyContent: "center", alignItems: "center" }}>
                     <TextInput
                         mode="outlined"
-                        label="Email de recumepração"
+                        label="Email de recuperação"
                         placeholder="Email"
                         secureTextEntry
                         style={{ height: 52, width: "90%" }}

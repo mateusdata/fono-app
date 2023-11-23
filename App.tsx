@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
-import AuthProvider from './src/context/ AuthProvider';
+import AuthProvider from './src/context/AuthProvider';
 import Routes from './src/routes/public/routes';
 import { TamaguiProvider } from 'tamagui';
 import config from './tamagui.config'

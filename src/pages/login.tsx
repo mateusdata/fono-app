@@ -1,6 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
-import { Context } from '../context/ AuthProvider';
+import { Context } from '../context/AuthProvider';
 import { TextInput } from 'react-native-paper';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
 import { AntDesign } from '@expo/vector-icons';

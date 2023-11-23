@@ -32,9 +32,9 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         AsyncStorage.getItem("usuario").then((response) => {
             setUser(response);
             setTimeout(() => {
-                setLoading(false)
+                setLoading(false);
             }, 6000);
-        })
+        });
     }, []);
 
     const login = async (email: string, senha: string) => {

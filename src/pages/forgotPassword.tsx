@@ -20,7 +20,7 @@ const ForgotPassword = ({ navigation }: any) => {
                     Esqueceu sua senha ?
                 </Text>
                 <Text style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
-                    Insira seu email pra obter um codigo de segurança
+                    Insira seu email pra obter um código de segurança
                 </Text>
             </View>
             <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", marginTop: 100 }}>
@@ -40,7 +40,7 @@ const ForgotPassword = ({ navigation }: any) => {
                 <View style={{ padding: 20 }}>
                     <PrimaryButton name="Enviar email" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua enha</Text>
+                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
                         <TouchableOpacity onPress={() => navigation.navigate("Login")}>
                             <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
                         </TouchableOpacity>
