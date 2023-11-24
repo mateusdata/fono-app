@@ -26,7 +26,7 @@ const PublicRoutes = () => {
        headerShown:true,
        headerTitle: () => null,
     }}/>
-      <AppStack.Screen name="Login" component={CheckEmail} options={{
+      <AppStack.Screen name="checar-email" component={CheckEmail} options={{
       headerShown:false
     }}/>
     <AppStack.Screen name="alterar-senha" component={ChangePassword} options={{
