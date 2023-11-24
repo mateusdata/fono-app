@@ -17,7 +17,6 @@ const LoginForm = ({ navigation }: any) => {
         return null;
     }
 
-
     const handleLogin = async () => {
         setLoading(true);
         login(email, senha);

@@ -12,7 +12,7 @@ const AppStack = createStackNavigator();
 const PublicRoutes = () => {
   return (
     <AppStack.Navigator>
-    <AppStack.Screen name="pre-login" component={PreLogin} options={{
+    <AppStack.Screen name="pre-login" component={ChangePassword} options={{
       headerShown:false
     }}/>
     <AppStack.Screen name="Login" component={Login} options={{

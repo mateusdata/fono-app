@@ -16,7 +16,7 @@ const HomePage = () => {
         <View style={{ width: 50, height: 50, backgroundColor: 'black', borderRadius: 30 }}>
         </View>
         <Text>
-          {'NONONO NONO NONONO'}
+          {'Jose Alcanjo Valerios'}
         </Text>
       </View>
       <View style={styles.header}>

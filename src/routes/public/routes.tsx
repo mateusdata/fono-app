@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import PublicRoutes from "./publicRoutes";
-import PrivateRoutes from "../private/privateRoutes";
 import { Context } from "../../context/AuthProvider";
+import PrivateRoutes from "../private/privateRoutes";
 
 
 const Routes = () => {
