@@ -12,10 +12,10 @@ const AppStack = createStackNavigator();
 const PublicRoutes = () => {
   return (
     <AppStack.Navigator>
-    <AppStack.Screen name="pre-login" component={CheckEmail} options={{
+    <AppStack.Screen name="pre-login" component={Login} options={{
       headerShown:false
     }}/>
-    <AppStack.Screen name="Login" component={Login} options={{
+    <AppStack.Screen name="Login" component={CheckEmail} options={{
       headerShown:false
     }}/>
     <AppStack.Screen name="Criar conta" component={CreateAcount} options={{
@@ -26,11 +26,12 @@ const PublicRoutes = () => {
        headerShown:true,
        headerTitle: () => null,
     }}/>
+    
     <AppStack.Screen name="alterar-senha" component={ChangePassword} options={{
        headerShown:true,
        headerTitle: () => null,
     }}/>
-   
+
     </AppStack.Navigator>
   )
 }
