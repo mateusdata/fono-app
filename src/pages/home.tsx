@@ -1,14 +1,14 @@
 // HomePage.js
 import React, { useContext } from 'react';
-import { View, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet, Pressable } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { Button, Text } from 'tamagui';
-import { Facebook, Circle } from 'react-content-loader/native'
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
+import { AntDesign } from '@expo/vector-icons';
 
-const HomePage = () => {
+const HomePage = ({ navigation }: { navigation: any }) => {
   const { logOut, user } = useContext(Context);
   return (
     <View style={styles.container}>
@@ -29,16 +29,18 @@ const HomePage = () => {
           <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}><Text style={{ fontWeight: 'bold' }}>150.000.000</Text><SimpleLineIcons name='eye' size={15} color='#36B3B9' /></View>
         </View>
         <View style={{ flex: 0.5, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-          <Text style={{color:'#36B3B9'}}>Ver todos</Text>
+          <Text style={{ color: '#36B3B9' }}>Ver todos</Text>
         </View>
-        
+
       </View>
       <View style={styles.welcomeContainer}>
-        <View style={{flexDirection:'row', gap:10}}>
-          <View style={{ width: 100, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'grey' }}>
-            <SimpleLineIcons name='eye' size={15} color='black' />
-            <Text>Menu</Text>
-          </View>
+        <View style={{ flexDirection: 'row', gap: 10 }}>
+          <Pressable onPress={() => navigation.navigate('Anamnese')}>
+            <View style={{ width: 100, height: 100, rowGap:10, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'grey' }}>
+              <AntDesign name="pluscircleo" size={25} color="black" />
+              <Text>Novo Paciente</Text>
+            </View>
+          </Pressable>
           <View style={{ width: 100, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'grey' }}>
             <SimpleLineIcons name='eye' size={15} color='black' />
             <Text>Menu</Text>
@@ -48,7 +50,7 @@ const HomePage = () => {
             <Text>Menu</Text>
           </View>
         </View>
-        <View style={{minWidth:"auto", alignItems:'center'}}><MaterialIcons name="keyboard-arrow-down" size={20} color="black" /></View>
+        <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="black" /></View>
       </View>
 
       <TouchableOpacity style={styles.logoutButton} onPress={logOut}>

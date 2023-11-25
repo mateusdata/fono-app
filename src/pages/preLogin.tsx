@@ -2,16 +2,9 @@ import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import PrimaryButton from '../components/primaryButton'
 import FazerLogin from '../components/fazerLogin'
-import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 
 const PreLogin = ({ navigation }: any) => {
-    let [fontsLoaded] = useFonts({
-        Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
-    });
 
-    if (!fontsLoaded) {
-        return null;
-    }
     return (
         <View style={{ flex: 1, alignItems: "center", backgroundColor:"#F5F7FF" }}>
             <Image style={{ width: "100%", height: "43%" }} source={{ uri: 'https://clinicasepam.com.br/wp-content/uploads/2021/06/O-que-e-terapia-da-fala-fono.png' }} />
