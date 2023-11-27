@@ -6,8 +6,8 @@ import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold } from '@expo-googl
 import { AntDesign } from '@expo/vector-icons';
 import PrimaryButton from '../components/primaryButton';
 const Login = ({ navigation }: any) => {
-    const [email, setEmail] = useState('mateuspele2015@gmail.com');
-    const [senha, setSenha] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
     const { login, setLoading } = useContext(Context);
     let [fontsLoaded] = useFonts({
         Poppins_600SemiBold, Poppins_800ExtraBold
