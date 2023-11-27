@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import PrimaryButton from '../components/primaryButton'
-import FazerLogin from '../components/fazerLogin'
+import FazerLogin from '../components/spanLogin'
 import { TextInput } from 'react-native-paper'
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 

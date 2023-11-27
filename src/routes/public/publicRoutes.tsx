@@ -11,8 +11,13 @@ import CheckEmail from '../../pages/checkEmail';
 const AppStack = createStackNavigator();
 const PublicRoutes = () => {
   return (
-    <AppStack.Navigator>
-    <AppStack.Screen name="pre-login" component={ChangePassword} options={{
+    <AppStack.Navigator screenOptions={{
+      headerPressColor:"red",
+      headerStyle:{
+        backgroundColor:"#36B3B9"
+      }
+    }}>
+    <AppStack.Screen name="pre-login" component={PreLogin} options={{
       headerShown:false
     }}/>
     <AppStack.Screen name="Login" component={Login} options={{

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import PrimaryButton from '../components/primaryButton'
-import FazerLogin from '../components/fazerLogin'
+import FazerLogin from '../components/spanLogin'
 import { TextInput } from 'react-native-paper'
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 
@@ -38,7 +38,7 @@ const ForgotPassword = ({ navigation }: any) => {
                     />
                 </View>
                 <View style={{ padding: 20 }}>
-                    <PrimaryButton name="Enviar email" />
+                    <PrimaryButton handleButton={() => navigation.navigate("alterar-senha")} name="Enviar email" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                         <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
                         <TouchableOpacity onPress={() => navigation.navigate("Login")}>

@@ -16,7 +16,7 @@ export default function App() {
   }
   return (
     <NavigationContainer>
-      <StatusBar translucent={false} backgroundColor='white' />
+      <StatusBar translucent={false} backgroundColor='#36B3B9' style='light' />
       <AuthProvider>
         <TamaguiProvider config={config}>
           <Routes />

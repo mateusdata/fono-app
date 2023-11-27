@@ -1,7 +1,7 @@
 import React from 'react'
 import { Image, Text, TouchableOpacity, View } from 'react-native'
 import PrimaryButton from '../components/primaryButton'
-import FazerLogin from '../components/fazerLogin'
+import FazerLogin from '../components/spanLogin'
 
 const PreLogin = ({ navigation }: any) => {
 

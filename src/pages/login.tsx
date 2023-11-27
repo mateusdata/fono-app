@@ -7,7 +7,7 @@ import { AntDesign } from '@expo/vector-icons';
 import PrimaryButton from '../components/primaryButton';
 const LoginForm = ({ navigation }: any) => {
     const [email, setEmail] = useState('mateuspele2015@gmail.com');
-    const [senha, setSenha] = useState('123456');
+    const [senha, setSenha] = useState('123456@');
     const { login, setLoading } = useContext(Context);
     let [fontsLoaded] = useFonts({
         Poppins_600SemiBold, Poppins_800ExtraBold
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins_600SemiBold",
         flex: 1,
         backgroundColor: '#ffffff',
-        padding: 20,
+        padding: 0,
         borderRadius: 10,
         justifyContent: 'center',
     },

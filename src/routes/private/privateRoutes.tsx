@@ -1,7 +1,7 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import TabsNavigation from './stack/staksRoutes';
 import Anamnese from '../../pages/anamnese';
+import TabsNavigation from './tabNavigation/tabNavigation';
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {

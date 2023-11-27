@@ -12,7 +12,13 @@ const TabsNavigation = () => {
             <Tabs.Screen name='home' component={HomePage} options={{
                 tabBarIcon: ({ color }) => (
                     <Ionicons name="add-circle-sharp" size={34} color="#36B3B9" />
-                )
+                ),
+                headerStyle:{
+                    backgroundColor:"#36B3B9"
+                  }
+                  ,
+                headerTintColor:"white",
+                headerTitle:""
             }} />
         </Tabs.Navigator>
     )

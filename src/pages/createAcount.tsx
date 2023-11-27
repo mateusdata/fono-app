@@ -75,7 +75,7 @@ const CreateAcount = ({ navigation }:any) => {
                     activeOutlineColor='#376fe8'
 
                 />
-                <PrimaryButton name="Login" handleButton={() => { }} />
+                <PrimaryButton name="Criar conta" handleButton={() => navigation.navigate("Login")} />
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                     <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua enha</Text>
 
