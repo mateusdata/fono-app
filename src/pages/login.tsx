@@ -5,9 +5,9 @@ import { TextInput } from 'react-native-paper';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
 import { AntDesign } from '@expo/vector-icons';
 import PrimaryButton from '../components/primaryButton';
-const LoginForm = ({ navigation }: any) => {
+const Login = ({ navigation }: any) => {
     const [email, setEmail] = useState('mateuspele2015@gmail.com');
-    const [senha, setSenha] = useState('123456@');
+    const [senha, setSenha] = useState('123456');
     const { login, setLoading } = useContext(Context);
     let [fontsLoaded] = useFonts({
         Poppins_600SemiBold, Poppins_800ExtraBold
@@ -25,27 +25,25 @@ const LoginForm = ({ navigation }: any) => {
     return (
         <View style={styles.container}>
             <View style={styles.titleContainer}>
-                <AntDesign onPress={() => navigation.navigate("pre-login")}  style={{ position: "absolute", right: 5, bottom: 112 }} name="close" size={30} color="#4d4d4f" />
                 <Text style={styles.titleText}>Bem-vindo de volta</Text>
-            </View>
+                <Image source={{uri:"https://institutoacorde.org.br/wp-content/uploads/2021/02/fono.jpg"}} resizeMode='cover' style={{height:150, width:150}}  /> 
+                </View>
 
             <View style={styles.formContainer}>
-                <Text style={styles.label}>Email:</Text>
                 <TextInput
                     mode="outlined"
                     label="Email"
                     placeholder="Digite seu email"
                     style={{
                         height: 52,
-                        borderRadius: 150
+                        borderRadius: 150,
+                        marginBottom:10
                     }}
                     value={email}
                     activeOutlineColor='#376fe8'
 
                     onChangeText={(text) => setEmail(text)}
                 />
-
-                <Text style={styles.label}>Senha:</Text>
                 <TextInput
                     mode="outlined"
                     label="Senha"
@@ -60,7 +58,7 @@ const LoginForm = ({ navigation }: any) => {
                 <PrimaryButton name="Login" handleButton={handleLogin} />
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                     <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua senha ?</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("esqueceu-senha")}>
+                    <TouchableOpacity onPress={() => navigation.navigate("SendEmail")}>
                         <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recumperar senha</Text>
                     </TouchableOpacity>
                 </View>
@@ -75,7 +73,7 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#FFFFFF',
         justifyContent: 'flex-start',
-        padding: 20,
+        padding: 2,
     },
     titleContainer: {
         fontFamily: "Poppins_600SemiBold",
@@ -86,7 +84,7 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins_800ExtraBold",
         fontSize: 25,
         marginBottom: 0,
-        marginTop: 100,
+        marginTop: 0,
         color: "#4d4d4f"
 
 
@@ -96,7 +94,7 @@ const styles = StyleSheet.create({
         fontFamily: "Poppins_600SemiBold",
         flex: 1,
         backgroundColor: '#ffffff',
-        padding: 0,
+        padding: 20,
         borderRadius: 10,
         justifyContent: 'center',
     },
@@ -131,4 +129,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default LoginForm;
+export default Login;

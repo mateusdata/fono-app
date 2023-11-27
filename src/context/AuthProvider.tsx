@@ -68,14 +68,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         }, 500);
     };
 
-    if (loading) {
-        return (
-            <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                <StatusBar/>
-                <ActivityIndicator animating={true} color={"#0B7EBE"} size={50} />
-            </View>
-        );
-    }
+    
     return (
         <Context.Provider
             value={{

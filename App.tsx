@@ -13,7 +13,7 @@ export default function App() {
 
   if (!fontsLoaded) {
     return null;
-  }
+  } 
   return (
     <NavigationContainer>
       <StatusBar translucent={false} backgroundColor='#36B3B9' style='light' />

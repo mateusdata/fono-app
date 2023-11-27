@@ -11,6 +11,7 @@ const PrivateRoutes = () => {
         headerShown:false,
       }}/>
       <AppStack.Screen name='Anamnese' component={Anamnese} />
+      
     </AppStack.Navigator>
   )
 }

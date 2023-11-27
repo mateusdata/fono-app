@@ -20,7 +20,7 @@ const PrimaryButton = ({handleButton, name}:any) => {
 const styles = StyleSheet.create({
 
     button: {
-         fontFamily:"Poppins_600SemiBold",
+        fontFamily:"Poppins_600SemiBold",
         backgroundColor: '#36B3B9',
         borderRadius: 5,
         padding: 18,

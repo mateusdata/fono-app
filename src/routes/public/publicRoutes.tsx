@@ -1,11 +1,12 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../../pages/login';
 import PreLogin from '../../pages/preLogin';
-import ForgotPassword from '../../pages/forgotPassword';
-import CreateAcount from '../../pages/createAcount';
+import Login from '../../pages/login';
+import CreateAccount from '../../pages/createAccount';
 import ChangePassword from '../../pages/changePassword';
-import CheckEmail from '../../pages/checkEmail';
+import SendEmail from '../../pages/sendEmail';
+import CheckCode from '../../pages/CheckCode';
+
 
 
 const AppStack = createStackNavigator();
@@ -17,26 +18,33 @@ const PublicRoutes = () => {
         backgroundColor:"#36B3B9"
       }
     }}>
-    <AppStack.Screen name="pre-login" component={PreLogin} options={{
-      headerShown:false
+    <AppStack.Screen name="PreLogin" component={PreLogin} options={{
+       headerShown:false,
+       headerTitle: () => null,
+       headerTintColor:"white"
     }}/>
     <AppStack.Screen name="Login" component={Login} options={{
-      headerShown:false
+       headerShown:true,
+       headerTitle: () => null,
+       headerTintColor:"white"
     }}/>
-    <AppStack.Screen name="Criar conta" component={CreateAcount} options={{
+    <AppStack.Screen name="ChangePassword" component={ChangePassword} options={{
+       headerShown:true,
+       headerTitle: () => null,
+    }}/>
+      <AppStack.Screen name="SendEmail" component={SendEmail} options={{
+       headerShown:true,
+       headerTitle: () => null,
+       headerTintColor:"white"
+    }}/>
+  
+    <AppStack.Screen name="CheckCode" component={CheckCode} options={{
+       headerShown:true,
+       headerTitle: () => null,
+    }}/>
+     <AppStack.Screen name="CreateAccount" component={CreateAccount} options={{
       headerShown:true,
       headerTitle: () => null,
-    }}/>
-    <AppStack.Screen name="esqueceu-senha" component={ForgotPassword} options={{
-       headerShown:true,
-       headerTitle: () => null,
-    }}/>
-      <AppStack.Screen name="checar-email" component={CheckEmail} options={{
-      headerShown:false
-    }}/>
-    <AppStack.Screen name="alterar-senha" component={ChangePassword} options={{
-       headerShown:true,
-       headerTitle: () => null,
     }}/>
 
     </AppStack.Navigator>
