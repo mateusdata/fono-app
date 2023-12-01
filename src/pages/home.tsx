@@ -1,6 +1,6 @@
 // HomePage.js
 import React, { useContext } from 'react';
-import { View, TouchableOpacity, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
+import { View, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { Button, Text } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -31,18 +31,18 @@ const HomePage = ({ navigation }: { navigation: any }) => {
       <View style={styles.welcomeContainer}>
         <View style={{ flexDirection: 'row', gap: 10 }}>
           
-          <TouchableOpacity onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
             <AntDesign name="pluscircleo" size={20} color="orange" />
             <Text>Paciente</Text>
-          </TouchableOpacity >
-          <TouchableOpacity  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+          </Pressable >
+          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
             <SimpleLineIcons name='eye' size={20} color='orange' />
             <Text>Acompanhar</Text>
-          </TouchableOpacity >
-          <TouchableOpacity  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+          </Pressable >
+          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
             <SimpleLineIcons name='action-redo' size={20} color='orange' />
             <Text>Exercícios</Text>
-          </TouchableOpacity >
+          </Pressable >
         </View>
         <View style={{ flexDirection: 'row', gap: 10 }}>
           
@@ -63,9 +63,9 @@ const HomePage = ({ navigation }: { navigation: any }) => {
       </View>
       
 
-      <TouchableOpacity style={styles.logoutButton} onPress={logOut}>
+      <Pressable style={styles.logoutButton} onPress={logOut}>
         <Text style={styles.logoutButtonText}>Sair da Conta</Text>
-      </TouchableOpacity>
+      </Pressable>
       
     </View>
     

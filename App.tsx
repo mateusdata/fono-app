@@ -3,7 +3,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import AuthProvider from './src/context/AuthProvider';
 import Routes from './src/routes/public/routes';
 import { TamaguiProvider } from 'tamagui';
-import config from './tamagui.config'
+import config from './tamagui.config';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 
 export default function App() {
