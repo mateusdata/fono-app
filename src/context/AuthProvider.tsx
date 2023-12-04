@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StatusBar, Text, View } from "react-native";
 import { ActivityIndicator } from "react-native";
 import axiosInstance from "../config/axiosInstance";
+import LoadingComponent from "../components/LoadingComponent";
 
 interface ContextProps {
     user: boolean | null;
@@ -67,6 +68,11 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoading(false)
         }, 500);
     };
+    if (loading) {
+        return (
+          <LoadingComponent/>
+        );
+      }
 
     
     return (
