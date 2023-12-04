@@ -68,12 +68,12 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoading(false)
         }, 500);
     };
-    if (loading) {
+   /* if (loading) {
         return (
           <LoadingComponent/>
         );
       }
-
+*/
     
     return (
         <Context.Provider
