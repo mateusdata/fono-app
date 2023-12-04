@@ -1,5 +1,5 @@
-import React from 'react'
-import { StyleSheet, Text, TouchableOpacity } from 'react-native'
+import React from 'react';
+import { StyleSheet, Text, Pressable } from 'react-native';
 import {  useFonts, Poppins_600SemiBold, Poppins_800ExtraBold} from '@expo-google-fonts/poppins';
 
 const PrimaryButton = ({handleButton, name}:any) => {
@@ -11,9 +11,9 @@ const PrimaryButton = ({handleButton, name}:any) => {
         return null;
       }
     return (
-        <TouchableOpacity style={styles.button} onPress={handleButton}>
+        <Pressable style={styles.button} onPress={handleButton}>
             <Text style={styles.buttonText}>{name}</Text>
-        </TouchableOpacity>
+        </Pressable>
     )
 }
 

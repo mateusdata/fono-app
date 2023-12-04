@@ -1,7 +1,7 @@
-import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
-import PrimaryButton from '../components/primaryButton'
-import { TextInput } from 'react-native-paper'
+import React from 'react';
+import { Image, Text, Pressable, View } from 'react-native';
+import PrimaryButton from '../components/primaryButton';
+import { TextInput } from 'react-native-paper';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 
 const CheckCode = ({ navigation }: any) => {
@@ -47,9 +47,9 @@ const CheckCode = ({ navigation }: any) => {
                     <PrimaryButton handleButton={() => navigation.navigate("ChangePassword")} name="Verificar código" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                         <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
-                        <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                        <Pressable onPress={() => navigation.navigate("Login")}>
                             <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
-                        </TouchableOpacity>
+                        </Pressable>
                     </View>
                 </View>
             </View>

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Image, Text, TouchableOpacity, View } from 'react-native'
-import PrimaryButton from '../components/primaryButton'
+import React from 'react';
+import { Image, Text, Pressable, View } from 'react-native';
+import PrimaryButton from '../components/primaryButton';
 const PreLogin = ({ navigation }: any) => {
 
     return (
@@ -23,9 +23,9 @@ const PreLogin = ({ navigation }: any) => {
                 <View style={{ padding: 0 }}>
                     <PrimaryButton name="Criar conta" handleButton={() => navigation.navigate("CreateAccount")} />
                 </View>
-                <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+                <Pressable onPress={() => navigation.navigate("Login")}>
                     <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#36B3B9", textAlign: "center" }}>Login</Text>
-                </TouchableOpacity>
+                </Pressable>
 
             </View>
         </View>

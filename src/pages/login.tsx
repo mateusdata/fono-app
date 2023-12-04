@@ -1,14 +1,16 @@
 import React, { useContext, useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Image } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { TextInput } from 'react-native-paper';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
 import { AntDesign } from '@expo/vector-icons';
 import PrimaryButton from '../components/primaryButton';
 const Login = ({ navigation }: any) => {
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
+    const [email, setEmail] = useState('mateuspele2015@gmail.com');
+    const [senha, setSenha] = useState('123456');
+
     const { login, setLoading } = useContext(Context);
+    
     let [fontsLoaded] = useFonts({
         Poppins_600SemiBold, Poppins_800ExtraBold
     });
@@ -58,9 +60,9 @@ const Login = ({ navigation }: any) => {
                 <PrimaryButton name="Login" handleButton={handleLogin} />
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                     <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua senha ?</Text>
-                    <TouchableOpacity onPress={() => navigation.navigate("SendEmail")}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recumperar senha</Text>
-                    </TouchableOpacity>
+                    <Pressable onPress={() => navigation.navigate("SendEmail")}>
+                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recuperar senha</Text>
+                    </Pressable>
                 </View>
             </View>
         </View>
