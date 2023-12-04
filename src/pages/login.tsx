@@ -9,8 +9,6 @@ const Login = ({ navigation }: any) => {
     const [email, setEmail] = useState('mateuspele2015@gmail.com');
     const [senha, setSenha] = useState('123456');
 
-    const [email, setEmail] = useState('');
-    const [senha, setSenha] = useState('');
     const { login, setLoading } = useContext(Context);
     
     let [fontsLoaded] = useFonts({
