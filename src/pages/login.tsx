@@ -4,6 +4,8 @@ import { Context } from '../context/AuthProvider';
 import { TextInput } from 'react-native-paper';
 import PrimaryButton from '../components/primaryButton';
 import CustomText from '../components/custonText';
+import { ActivityIndicator } from "react-native";
+
 const Login = ({ navigation }: any) => {
     const [email, setEmail] = useState('mateuspele2015@gmail.com');
     const [senha, setSenha] = useState('123456');
@@ -49,7 +51,9 @@ const Login = ({ navigation }: any) => {
                     activeOutlineColor='#376fe8'
                     onChangeText={(text) => setSenha(text)}
                 />
-                <PrimaryButton name="Login" handleButton={handleLogin} />
+               <View>
+                 <PrimaryButton name="Login" handleButton={handleLogin} />
+               </View>
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                     <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua senha ?</CustomText>
                     <Pressable onPress={() => navigation.navigate("SendEmail")}>

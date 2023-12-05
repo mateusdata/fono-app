@@ -20,16 +20,18 @@ export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<any>([false]);
-    const [loading, setLoading] = useState<boolean>(true);
+    const [loading, setLoading] = useState<boolean>(false);
 
     useEffect(() => {
         AsyncStorage.getItem("usuario").then((response) => {
-           if(response){
-            setUser(response);
+           if(response !=null){
+            setUser(JSON.parse(response));
             setTimeout(() => {
                 setLoading(false);
-            }, 6000);
+            }, 100);
+            return
            }
+           
         });
     }, []);
 
@@ -40,18 +42,17 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         }).then((response) => {
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
                 setLoading(true);
-                setUser(response?.data);
+                
                 setTimeout(() => {
                     setLoading(false);
-                }, 1000);
+                    setUser(response?.data);
+                }, 2000);
             }).catch((erro) => {
-                console.log(erro);
                 setLoading(false);
             });
 
         })
         .catch((erro) => {
-            console.log(erro);
             setLoading(false);
             alert("Usuarios ou senha incorretos")
         })
@@ -65,7 +66,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoading(false)
         }, 500);
     };
-    if (loading) {
+    if (false) {
         return (
           <LoadingComponent/>
         );
@@ -84,6 +85,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
                 logOut
             }}
         >
+         
          
             {children}
         </Context.Provider>

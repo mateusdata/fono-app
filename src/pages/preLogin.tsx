@@ -11,7 +11,7 @@ const PreLogin = ({ navigation }: any) => {
         
         <View style={{flex: 0.4,  justifyContent: "flex-start", width: "100%", alignItems: "center" }}>
             <View style={{ width: "80%", gap: 5, marginTop: 0 }}>
-                <CustomText fontFamily="Poppins_900Black_Italic" style={{ color: "#3b3d3d", fontSize: 25, textAlign: "center", paddingTop:15 }}>
+                <CustomText fontFamily="Poppins_600SemiBold" style={{ color: "#3b3d3d", fontSize: 25, textAlign: "center", paddingTop:15 }}>
                     Descubra o seu melhor com o Fono App
                 </CustomText>
                 <CustomText style={{ fontSize: 16, textAlign: "center" }}>
@@ -24,7 +24,7 @@ const PreLogin = ({ navigation }: any) => {
                 <View style={{ padding: 0 }}>
                     <PrimaryButton name="Criar conta" handleButton={() => navigation.navigate("CreateAccount")} />
                 </View>
-                <Pressable android_ripple={{color:"#9dcee0", foreground:true}} onPress={() => navigation.navigate("Login")} style={{borderWidth:0.5, borderColor:"#9dcee0", padding:20, marginTop:10}}>
+                <Pressable android_ripple={{color:"#9dcee0", foreground:true}} onPress={() => navigation.navigate("Login")} style={{borderWidth:0.5, borderColor:"#daebf2",backgroundColor:"#ECF2FF", padding:15, borderRadius:5, marginTop:6}}>
                     <CustomText style={{ color: "#36B3B9", textAlign: "center" }}>Login</CustomText>
                 </Pressable>
 
