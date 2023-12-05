@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthProvider from './src/context/AuthProvider';
-import Routes from './src/routes/public/routes';
+import Routes from './src/routes/routes';
 import { TamaguiProvider } from 'tamagui';
 import config from './tamagui.config';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';

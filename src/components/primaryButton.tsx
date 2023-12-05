@@ -11,7 +11,7 @@ const PrimaryButton = ({handleButton, name}:any) => {
         return null;
       }
     return (
-        <Pressable style={styles.button} onPress={handleButton}>
+        <Pressable android_ripple={{color:"#9dcee0", foreground:false}} style={styles.button} onPress={handleButton}>
             <Text style={styles.buttonText}>{name}</Text>
         </Pressable>
     )

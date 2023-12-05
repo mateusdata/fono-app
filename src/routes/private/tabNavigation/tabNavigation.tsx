@@ -1,5 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import React from 'react';
+import React, { useContext } from 'react';
 import HomePage from '../../../pages/home';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Image, Text } from 'react-native';
@@ -7,9 +7,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import MyAccount from '../../../pages/myAccount';
+import { Context } from '../../../context/AuthProvider';
 const Tabs = createBottomTabNavigator();
 
 const TabsNavigation = () => {
+    const {user} =  useContext(Context);
     return (
 
         <Tabs.Navigator screenOptions={{
@@ -19,7 +21,7 @@ const TabsNavigation = () => {
                     <Image source={{uri:"https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/24630_7E9A5B3C65889D88.jpg?w=1024"}} style={{width:50, height:50, resizeMode:"contain", borderRadius:50}} />
                   </View>
                   <Text style={{fontSize:18, color:"white"}}>
-                    {'Agenlina Valerios Alves'}
+                    {user.name}
                   </Text>
                 </View>
               ),

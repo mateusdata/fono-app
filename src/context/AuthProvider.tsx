@@ -6,13 +6,9 @@ import axiosInstance from "../config/axiosInstance";
 import LoadingComponent from "../components/LoadingComponent";
 
 interface ContextProps {
-    user: boolean | null;
-    nome: string;
-    email: string;
+    user: any;
     loading: boolean;
     setUser: Dispatch<SetStateAction<boolean | any>>;
-    setNome: Dispatch<SetStateAction<string>>;
-    setEmail: Dispatch<SetStateAction<string>>;
     setLoading: Dispatch<SetStateAction<boolean>>;
     login: (email: string, senha: string) => void;
     logOut: () => any;
@@ -23,37 +19,38 @@ interface ContextProps {
 export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-    const [user, setUser] = useState<boolean | any>(false);
-
-    const [nome, setNome] = useState<string>("");
-    const [email, setEmail] = useState<string>("");
+    const [user, setUser] = useState<any>([false]);
     const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
         AsyncStorage.getItem("usuario").then((response) => {
+           if(response){
             setUser(response);
             setTimeout(() => {
                 setLoading(false);
             }, 6000);
+           }
         });
     }, []);
 
     const login = async (email: string, senha: string) => {
-        axiosInstance.post("/auth/login", {
+        axiosInstance.post("/login", {
             email,
-            senha
+            password:senha
         }).then((response) => {
-            setNome(response?.data?.nome);
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
+                setLoading(true);
                 setUser(response?.data);
                 setTimeout(() => {
                     setLoading(false);
-                }, 50);
+                }, 1000);
             }).catch((erro) => {
                 console.log(erro);
+                setLoading(false);
             });
 
-        }).catch((erro) => {
+        })
+        .catch((erro) => {
             console.log(erro);
             setLoading(false);
             alert("Usuarios ou senha incorretos")
@@ -68,29 +65,26 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoading(false)
         }, 500);
     };
-   /* if (loading) {
+    if (loading) {
         return (
           <LoadingComponent/>
         );
       }
-*/
+
     
     return (
         <Context.Provider
             value={{
                 user,
-                nome,
-                email,
                 loading,
                 setUser,
                 logado: !!user,
-                setNome,
-                setEmail,
                 setLoading,
                 login,
                 logOut
             }}
         >
+         
             {children}
         </Context.Provider>
     );
@@ -102,3 +96,4 @@ export default AuthProvider;
 
 
 
+ 
