@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image, Text, Pressable, View } from 'react-native';
 import PrimaryButton from '../components/primaryButton';
-import CustomText from '../components/custonText';
+import CustomText from '../components/customText';
 const PreLogin = ({ navigation }: any) => {
 
     return (

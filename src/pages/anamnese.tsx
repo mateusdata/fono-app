@@ -4,6 +4,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { useForm, Controller } from 'react-hook-form';
 import { TextInput } from 'react-native-paper';
 import dayjs from 'dayjs';
+import type { ICarouselInstance } from "react-native-reanimated-carousel";
+import Carousel from 'react-native-reanimated-carousel';
+import React from 'react';
 
 interface value {
   name: string,
@@ -11,17 +14,47 @@ interface value {
   birthday?: string
 }
 
+type v = 'name' | 'cpf' | 'birthday'
+
+type Field = {
+  name: v,
+  label: string,
+  rules: object,
+  style: object,
+}
+
 const Anamnese = () => {
+
+  const ref = React.useRef<ICarouselInstance>(null);
   const defaultValues: value = {
     name: '',
     cpf: '',
     birthday: undefined,
-
   }
   const { getValues, setValue, watch, register, control, formState: { errors } } = useForm({
     defaultValues: defaultValues,
     mode: 'all'
   });
+
+  const fields: Array<Array<Field>> = [[
+    {
+      name: 'cpf',
+      label: 'CPF',
+      rules: {
+        required: { value: true, message: 'Obrigatório' },
+        pattern: { value: /(\d{3}\.?){3}-?\d{2}/, message: '000.000.000-00' }
+      },
+      style: { borderColor: errors.cpf ? 'red' : 'blue', width: 250 },
+    },
+    {
+      name: 'name',
+      label: 'Nome',
+      rules: {
+        required: { value: true, message: 'Obrigatório' }
+      },
+      style: { borderColor: errors.name ? 'red' : 'blue', width: 250 },
+    }]
+  ];
 
   return (
     <View style={{ flexDirection: 'column', height: '100%' }}>
@@ -29,7 +62,8 @@ const Anamnese = () => {
         <View style={{ borderWidth: 1, borderBlockColor: "black", borderRadius: 5 }}><AntDesign name="adduser" size={150} color="black" /></View>
       </View>
       <View style={{ flexDirection: 'column', alignItems: 'center', borderWidth: 1, borderBlockColor: "black", rowGap: 25, height: '100%' }}>
-        
+
+        {/*
         <View style={{ width: 250 }}>
           <Controller
             control={control}
@@ -78,10 +112,43 @@ const Anamnese = () => {
           <Text>{watch('cpf')}</Text>
           {errors.birthday && <Text style={{ color: 'red' }}>{errors.birthday.message}</Text>}
         </View>
+            */}
+        <Carousel
+          vertical
+          style={{ borderWidth: 1, borderColor: "red" }}
+          enabled
+          ref={ref}
+          testID='yeas'
+          pagingEnabled={true}
+          data={fields}
+          snapEnabled={true}
+          width={350 / 2}
+          height={200}
+
+          onSnapToItem={index => console.log("current index:", index)}
+          renderItem={({ item }) => <>{item.map((field, index) =>
+            <Controller
+              control={control}
+              name={field.name}
+              rules={field.rules}
+              render={({ field: { onChange, onBlur, value } }) => <TextInput key={index} mode="outlined" label={field.label} outlineStyle={field.style} value={value} onChangeText={onChange} onBlur={onBlur} />
+              }
+            />)}</>}
+
+        />
       </View>
     </View>
   );
 };
+
+{/*
+            <Controller
+              control={control}
+              name={item.name}
+              rules={item.rules}
+              render={({ field: { onChange, onBlur, value } }) => <TextInput mode="outlined" label={item.label} outlineStyle={item.style} value={value} onChangeText={onChange} onBlur={onBlur} />
+              }
+            />*/}
 
 const styles = StyleSheet.create({
   container: {

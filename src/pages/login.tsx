@@ -3,7 +3,7 @@ import { View, Pressable, StyleSheet, Image } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { TextInput } from 'react-native-paper';
 import PrimaryButton from '../components/primaryButton';
-import CustomText from '../components/custonText';
+import CustomText from '../components/customText';
 import { ActivityIndicator } from "react-native";
 
 const Login = ({ navigation }: any) => {
