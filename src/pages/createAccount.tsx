@@ -1,21 +1,44 @@
-import React from 'react';
-import { Image, ScrollView, Text, View, Pressable } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { ScrollView, Text, View, Pressable } from 'react-native';
 import PrimaryButton from '../components/primaryButton';
 import { TextInput } from 'react-native-paper';
-import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
+import axiosInstance from '../config/axiosInstance';
+import { Context } from '../context/AuthProvider';
 
-const CreateAccount = ({ navigation }: any) => {
-    let [fontsLoaded] = useFonts({
-        Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
+const CreateAccount = ({ navigation }:any) => {
+    const {login} = useContext(Context);
+    const [userDetails, setUserDetails] = useState({
+        name: '',
+        email: '',
+        crfa: '',
+        password: ''
     });
 
-    if (!fontsLoaded) {
-        return null;
-    }
+    const handleInputChange = (field:any, value:any) => {
+        setUserDetails({
+            ...userDetails,
+            [field]: value
+        });
+    };
+
+    const handleCreateAccount = () => {
+       axiosInstance.post("/create-user",{
+        first_name: "eeee tocador",
+        sur_name: "silva",
+        last_name: "oreia seca",
+        cpf: "sasassssas",
+        birthday: "1912-10-08",
+        email: "alexempre2ss@gmail.com",
+        password: "123456"
+      }).then((response)=>{
+        console.log(response);
+        login("alexempre2ss@gmail.com", "123456");
+       })
+        console.log(userDetails);
+    };
 
     return (
         <ScrollView>
-
             <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
                 <Text style={{
                     fontFamily: "Poppins_800ExtraBold",
@@ -37,7 +60,7 @@ const CreateAccount = ({ navigation }: any) => {
                             borderRadius: 150
                         }}
                         activeOutlineColor='#376fe8'
-
+                        onChangeText={(value) => handleInputChange('name', value)}
                     />
                     <TextInput
                         mode="outlined"
@@ -45,9 +68,8 @@ const CreateAccount = ({ navigation }: any) => {
                         placeholder="email"
                         secureTextEntry
                         style={{ height: 52 }}
-
                         activeOutlineColor='#376fe8'
-
+                        onChangeText={(value) => handleInputChange('email', value)}
                     />
                     <TextInput
                         mode="outlined"
@@ -59,23 +81,20 @@ const CreateAccount = ({ navigation }: any) => {
                             borderRadius: 150
                         }}
                         activeOutlineColor='#376fe8'
-
+                        onChangeText={(value) => handleInputChange('crfa', value)}
                     />
-
                     <TextInput
                         mode="outlined"
                         label="Senha"
                         placeholder="Senha"
                         secureTextEntry
                         style={{ height: 52 }}
-
                         activeOutlineColor='#376fe8'
-
+                        onChangeText={(value) => handleInputChange('password', value)}
                     />
-                    <PrimaryButton name="Criar conta" handleButton={() => navigation.navigate("Login")} />
+                    <PrimaryButton name="Criar conta" handleButton={handleCreateAccount} />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua enha</Text>
-
+                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
                         <Pressable onPress={() => navigation.navigate("Login")}>
                             <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
                         </Pressable>
@@ -86,4 +105,4 @@ const CreateAccount = ({ navigation }: any) => {
     )
 }
 
-export default CreateAccount
+export default CreateAccount;
