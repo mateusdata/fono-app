@@ -7,7 +7,7 @@ import axiosInstance from '../config/axiosInstance';
 
 const CheckCode = ({ navigation }: any) => {
     const { email, setEmail } = useContext(Context);
-    const [codigo, setcodigo] = useState<any>("732488");
+    const [codigo, setcodigo] = useState<any>("");
     const [showError, setShowError] = useState<boolean>(false);
     const [mensageError, setMensageErro] = useState<string>("Email invalido")
     const [colorText, setColorText] = useState<any>("red");

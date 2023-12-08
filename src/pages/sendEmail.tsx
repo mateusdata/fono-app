@@ -26,7 +26,7 @@ const SendEmail = ({ navigation }: any) => {
                     
                     setTimeout(() => {
                         navigation.navigate("CheckCode");
-                    }, 1500);
+                    }, 500);
                 }
             }).catch((error)=>{
                 console.log(error?.response.status);
@@ -62,7 +62,6 @@ const SendEmail = ({ navigation }: any) => {
                         mode="outlined"
                         label="Email"
                         placeholder="Email"
-                        defaultValue='mateuspele2015@gmail.com'
                         style={{ height: 52, width: "90%" }}
                         onChangeText={(e)=> {
                             setMensageErro("Email invalido")
