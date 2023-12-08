@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import type { ICarouselInstance } from "react-native-reanimated-carousel";
 import Carousel from 'react-native-reanimated-carousel';
 import React, { useEffect, useState } from 'react';
+import { Button, XStack } from 'tamagui';
 
 interface value {
   name: string,
@@ -42,7 +43,7 @@ const Anamnese = () => {
       name: 'cpf',
       label: 'CPF',
       rules: {
-        required: { value: true, message: 'Obrigatório' },
+        required: { value: true, message: 'CPF é obrigatório' },
         pattern: { value: /(\d{3}\.?){3}-?\d{2}/, message: '000.000.000-00' }
       },
       style: { borderColor: errors.cpf ? 'red' : 'blue' },
@@ -51,7 +52,7 @@ const Anamnese = () => {
       name: 'name',
       label: 'Nome',
       rules: {
-        required: { value: true, message: 'Obrigatório' }
+        required: { value: true, message: 'Nome é obrigatório' }
       },
       style: { borderColor: errors.name ? 'red' : 'blue' },
     },
@@ -59,7 +60,7 @@ const Anamnese = () => {
       name: 'birthday',
       label: 'Data de Nascimento',
       rules: {
-        required: { value: true, message: 'Obrigatório' },
+        required: { value: true, message: 'Data de nascimento é brigatório' },
         validate: (val: any) => {
           return (dayjs(val).isAfter(dayjs().subtract(100, 'year')) && dayjs(val).isBefore()) || 'Data inválida';
         }
@@ -71,7 +72,7 @@ const Anamnese = () => {
       name: 'cpf',
       label: 'CPF',
       rules: {
-        required: { value: true, message: 'Obrigatório' },
+        required: { value: true, message: 'CPF é obrigatório' },
         pattern: { value: /(\d{3}\.?){3}-?\d{2}/, message: '000.000.000-00' }
       },
       style: { borderColor: errors.cpf ? 'red' : 'blue' },
@@ -80,7 +81,7 @@ const Anamnese = () => {
       name: 'name',
       label: 'Nome',
       rules: {
-        required: { value: true, message: 'Obrigatório' }
+        required: { value: true, message: 'Nome é obrigatório' }
       },
       style: { borderColor: errors.name ? 'red' : 'blue' },
     },
@@ -88,7 +89,7 @@ const Anamnese = () => {
       name: 'birthday',
       label: 'Data de Nascimento',
       rules: {
-        required: { value: true, message: 'Obrigatório' },
+        required: { value: true, message: 'Data de Nascimento é obrigatório' },
         validate: (val: any) => {
           return (dayjs(val).isAfter(dayjs().subtract(100, 'year')) && dayjs(val).isBefore()) || 'Data inválida';
         }
@@ -100,7 +101,7 @@ const Anamnese = () => {
       name: 'cpf',
       label: 'CPF',
       rules: {
-        required: { value: true, message: 'Obrigatório' },
+        required: { value: true, message: 'CPF é brigatório' },
         pattern: { value: /(\d{3}\.?){3}-?\d{2}/, message: '000.000.000-00' }
       },
       style: { borderColor: errors.cpf ? 'red' : 'blue' },
@@ -109,7 +110,7 @@ const Anamnese = () => {
       name: 'name',
       label: 'Nome',
       rules: {
-        required: { value: true, message: 'Obrigatório' }
+        required: { value: true, message: 'Nome é origatório' }
       },
       style: { borderColor: errors.name ? 'red' : 'blue' },
     },
@@ -117,7 +118,7 @@ const Anamnese = () => {
       name: 'birthday',
       label: 'Data de Nascimento',
       rules: {
-        required: { value: true, message: 'Obrigatório' },
+        required: { value: true, message: 'Data de Nascimento é obrigatório' },
         validate: (val: any) => {
           return (dayjs(val).isAfter(dayjs().subtract(100, 'year')) && dayjs(val).isBefore()) || 'Data inválida';
         }
@@ -129,40 +130,43 @@ const Anamnese = () => {
   useEffect(() => { }, [page]);
 
   return (
-    <View style={{ flexDirection: 'column', height: '100%' }}>
+    <View style={{ flexDirection: 'column', height: '100%', paddingTop: 20 }}>
       <View style={{ flexDirection: 'row', maxHeight: 150, minWidth: 'auto', justifyContent: 'center' }}>
         <View style={{ borderWidth: 1, borderBlockColor: "black", borderRadius: 5 }}><AntDesign name="adduser" size={150} color="black" /></View>
       </View>
-      <View style={{ flexDirection: 'column', alignItems: 'center', borderWidth: 1, borderBlockColor: "black", rowGap: 25, height: '100%' }}>
-        <Carousel
-          style={{ borderWidth: 1, borderColor: "red" }}
-          enabled
-          ref={ref}
-          testID='yeas'
-          pagingEnabled={true}
-          data={fields}
-          snapEnabled={true}
-          width={300}
-          height={400}
-          defaultIndex={0}
-          onProgressChange={(offsetProgress, absoluteProgress) => { setPage(Math.ceil(absoluteProgress)); console.log(Math.ceil(absoluteProgress)) }}
-          renderItem={({ item, index }) => <View key={index} style={{ padding: 10, flexDirection: 'column', gap: 20 }}>{item.map((field, index) =>
-            <Controller
-              control={control}
-              name={field.name}
-              rules={field.rules}
-              render={({ field: { onChange, onBlur, value } }) => <TextInput key={index} mode="outlined" label={field.label} outlineStyle={field.style} value={value} onChangeText={onChange} onBlur={onBlur} />
-              }
-            />)}</View>}
-        />
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          {(new Array(fields.length)).fill(0).map((element, index) => <View key={index} style={{ width: 30, height: 10, borderWidth:1, borderColor:'black', borderRadius:3, backgroundColor: page == index ? "#376fe8" : undefined}}></View>)}
+      <View style={{ flexDirection: 'column', alignItems: 'center', borderWidth: 0, justifyContent:'space-between', height:450}}>
+        <View style={{flexDirection: 'column', alignItems: 'center', borderWidth: 0,}}>
+          <Carousel
+            // style={{ borderWidth: 1, borderColor: "red" }}
+            enabled
+            ref={ref}
+            testID='yeas'
+            data={fields}
+            width={300}
+            height={300}
+            defaultIndex={0}
+            onProgressChange={(offsetProgress, absoluteProgress) => { setPage(Math.ceil(absoluteProgress)); console.log(Math.ceil(absoluteProgress)) }}
+            renderItem={({ item, index }) => <View key={index} style={{ padding: 10, flexDirection: 'column', gap: 20 }}>{item.map((field, index2) =>
+              <Controller
+                control={control}
+                name={field.name}
+                rules={field.rules}
+                render={({ field: { onChange, onBlur, value } }) => <TextInput key={index2} mode="outlined" label={field.label} outlineStyle={field.style} value={value} onChangeText={onChange} onBlur={onBlur} />
+                }
+              />)}</View>}
+          />
+          <View style={{ flexDirection: 'row', gap: 10 }}>
+            {(new Array(fields.length)).fill(0).map((element, index) => <View key={index * 100} style={{ width: 30, height: 10, borderWidth: 1, borderColor: 'black', borderRadius: 3, backgroundColor: page == index ? "#376fe8" : undefined }}></View>)}
+          </View>
+          <View>
+            {errors.cpf && <Text style={{ color: 'red' }}>{errors.cpf.message}</Text>}
+            {errors.name && <Text style={{ color: 'red' }}>{errors.name.message}</Text>}
+            {errors.birthday && <Text style={{ color: 'red' }}>{errors.birthday.message}</Text>}
+          </View>
         </View>
-        <View>
-          {errors.cpf && <Text style={{ color: 'red' }}>CPF é {errors.cpf.message}</Text>}
-          {errors.name && <Text style={{ color: 'red' }}>Nome é {errors.name.message}</Text>}
-          {errors.birthday && <Text style={{ color: 'red' }}>Data de Nascimento é {errors.birthday.message}</Text>}
-        </View>
+        <XStack style={{ marginTop: 10, paddingRight: 10, borderWidth: 0, width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+          <Button onTouchEnd={() => { alert('passou') }} backgroundColor={'$green7Light'}>Hello</Button>
+        </XStack>
       </View>
     </View>
   );
