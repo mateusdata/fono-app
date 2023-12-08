@@ -12,7 +12,9 @@ interface ContextProps {
     setLoading: Dispatch<SetStateAction<boolean>>;
     login: (email: string, senha: string) => void;
     logOut: () => any;
-    logado: any
+    logado: any,
+    email: string | null,
+    setEmail: Dispatch<SetStateAction<string | null>>
 }
 
 
@@ -21,6 +23,7 @@ export const Context = createContext<ContextProps>({} as ContextProps);
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<any>([false]);
     const [loading, setLoading] = useState<boolean>(false);
+    const [email, setEmail]  =  useState<string|null>(null);
 
     useEffect(() => {
         AsyncStorage.getItem("usuario").then((response) => {
@@ -66,7 +69,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoading(false)
         }, 500);
     };
-    if (false) {
+    if (loading) {
         return (
           <LoadingComponent/>
         );
@@ -76,14 +79,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <Context.Provider
             value={{
-                user,
-                loading,
-                setUser,
-                logado: !!user,
-                setLoading,
-                login,
-                logOut
-            }}
+                user, loading, setUser, logado: !!user, setLoading, login, logOut, email,setEmail }}
         >
          
          

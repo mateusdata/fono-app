@@ -1,37 +1,58 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Image, Text, Pressable, View } from 'react-native';
 import PrimaryButton from '../components/primaryButton';
-import FazerLogin from '../components/spanLogin';
 import { TextInput } from 'react-native-paper';
-import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 import { Context } from '../context/AuthProvider';
+import CustomText from '../components/customText';
+import axiosInstance from '../config/axiosInstance';
 
 const ChangePassword = ({ navigation }: any) => {
     const { setUser } = useContext(Context);
+    const { email, setEmail } = useContext(Context);
+    const [newPassword, setNewPassword] = useState<any>("");
+    const [confirPassword, setConfirPassword] = useState<any>("");
 
-    let [fontsLoaded] = useFonts({
-        Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
-    });
+    const [showError, setShowError] = useState<boolean>(false);
+    const [mensageError, setMensageErro] = useState<string>("As senhas não são identicas")
+    const [colorText, setColorText] = useState<any>("red");
 
-    if (!fontsLoaded) {
-        return null;
+    const verificarSenha = (newPassword: any) => /[0-9]/.test(newPassword) && /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);;
+
+    function changePassword() {
+      if (newPassword && newPassword === confirPassword) {
+        axiosInstance.post('/reset-password', { email: email, newPassword }).then((response) => {
+            setTimeout(() => {
+                setUser(true);
+            }, 500);
+        }).catch((error) => {
+            console.log(error);
+            alert("error no servidor")
+
+        })
     }
+    else{
+        alert("Ocorreu um erro")
+        setShowError(true);
+    }
+
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ gap: 10, marginTop: 10 }}>
-                <Text style={{
+                <CustomText style={{
                     fontFamily: "Poppins_800ExtraBold",
                     fontSize: 25,
                     marginBottom: 0,
                     marginTop: 0,
                     color: "#4d4d4f",
-                    textAlign:"center"
+                    textAlign: "center"
                 }}>
                     Vamos alterar sua senha
-                </Text>
-                <Text style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
+                </CustomText>
+                <CustomText style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
                     Insira sua nova senha de 6 digitos com letras caractere especiais?
-                </Text>
+                </CustomText>
             </View>
             <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", marginTop: 100 }}>
 
@@ -42,7 +63,10 @@ const ChangePassword = ({ navigation }: any) => {
                         placeholder="Senha"
                         secureTextEntry
                         style={{ height: 52, width: "90%", marginBottom: 10 }}
-
+                        onChangeText={(e) => {
+                            setNewPassword(e)
+                            setShowError(false);
+                        }}
                         activeOutlineColor='#376fe8'
                     />
                     <TextInput
@@ -51,17 +75,20 @@ const ChangePassword = ({ navigation }: any) => {
                         placeholder="Confirmar senha"
                         secureTextEntry
                         style={{ height: 52, width: "90%" }}
-
+                        onChangeText={(e) => setConfirPassword(e)}
                         activeOutlineColor='#376fe8'
 
                     />
+                    <View style={{ alignItems: "flex-start", justifyContent: "flex-start", width: "100%", marginLeft: 40 }}>
+                        <Text style={{ color: colorText, textAlign: "left" }} >{showError && mensageError} </Text>
+                    </View>
                 </View>
                 <View style={{ padding: 20 }}>
-                    <PrimaryButton handleButton={() => { setUser(true) }} name="Alterar senha" />
+                    <PrimaryButton handleButton={changePassword} name="Alterar senha" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
+                        <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</CustomText>
                         <Pressable onPress={() => { navigation.navigate("Login") }}>
-                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
+                            <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</CustomText>
                         </Pressable>
                     </View>
                 </View>

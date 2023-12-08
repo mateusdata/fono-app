@@ -1,17 +1,39 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, Pressable, View } from 'react-native';
 import PrimaryButton from '../components/primaryButton';
 import { TextInput } from 'react-native-paper';
-import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
+import { Context } from '../context/AuthProvider';
+import axiosInstance from '../config/axiosInstance';
 
 const CheckCode = ({ navigation }: any) => {
-    let [fontsLoaded] = useFonts({
-        Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
-    });
-
-    if (!fontsLoaded) {
+    const { email, setEmail } = useContext(Context);
+    const [codigo, setcodigo] = useState<any>("732488");
+    const [showError, setShowError] = useState<boolean>(false);
+    const [mensageError, setMensageErro] = useState<string>("Email invalido")
+    const [colorText, setColorText] = useState<any>("red");
+    useEffect(() => {
+        if (!email) { navigation.navigate("Login"); };
+    }, []);
+    if (!email) {
         return null;
     }
+
+    function checkCode() {
+        if (true) {
+            axiosInstance.post('/verify-reset-code', { email: email, verification_code: codigo }).then((response) => {
+                console.log(response)
+                if (response.status === 200) {
+                    navigation.navigate("ChangePassword");
+                }
+            }).catch((error) => {
+                console.log(error?.response.status);
+                setShowError(true);
+                error?.response.status ? setMensageErro("Código invalido") : alert("Ocorreu um erro no servidor")
+                    ;
+            })
+        }
+    }
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ gap: 10, marginTop: 10 }}>
@@ -35,16 +57,23 @@ const CheckCode = ({ navigation }: any) => {
                     <TextInput
                         mode="outlined"
                         label="Código de verificação"
-                        placeholder="Email"
-                        secureTextEntry
+                        placeholder="Código de verificação"
+                        value={codigo}
                         style={{ height: 52, width: "90%" }}
-
+                        onChangeText={(e) => {
+                            setMensageErro("")
+                            setcodigo(e)
+                            setShowError(false)
+                        }}
                         activeOutlineColor='#376fe8'
 
                     />
+                    <View style={{ alignItems: "flex-start", justifyContent: "flex-start", width: "100%", marginLeft: 40 }}>
+                        <Text style={{ color: colorText, textAlign: "left" }} >{showError && mensageError} </Text>
+                    </View>
                 </View>
                 <View style={{ padding: 20 }}>
-                    <PrimaryButton handleButton={() => navigation.navigate("ChangePassword")} name="Verificar código" />
+                    <PrimaryButton handleButton={checkCode} name="Verificar código" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                         <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
                         <Pressable onPress={() => navigation.navigate("Login")}>

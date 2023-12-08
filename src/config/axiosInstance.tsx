@@ -2,7 +2,7 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const axiosInstance = axios.create({
-  baseURL: 'https://fono-api.vercel.app',
+  baseURL: 'https://39a9-179-54-100-101.ngrok-free.app',
 });
 axiosInstance.interceptors.request.use(async (config) => {
   try {
