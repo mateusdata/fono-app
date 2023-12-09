@@ -11,7 +11,7 @@ const ChangePassword = ({ navigation }: any) => {
     const { email, setEmail } = useContext(Context);
     const [newPassword, setNewPassword] = useState<any>("");
     const [confirPassword, setConfirPassword] = useState<any>("");
-
+    const { login, setLoading, loading } = useContext(Context);
     const [showError, setShowError] = useState<boolean>(false);
     const [mensageError, setMensageErro] = useState<string>("As senhas não são identicas")
     const [colorText, setColorText] = useState<any>("red");
@@ -20,18 +20,19 @@ const ChangePassword = ({ navigation }: any) => {
 
     function changePassword() {
       if (newPassword && newPassword === confirPassword) {
+        setLoading(true);
         axiosInstance.post('/reset-password', { email: email, newPassword }).then((response) => {
             setTimeout(() => {
-                setUser(true);
+                setLoading(false);
+                login(email,newPassword);
             }, 500);
         }).catch((error) => {
             console.log(error);
             alert("error no servidor")
-
+            setLoading(false);
         })
     }
     else{
-        alert("Ocorreu um erro")
         setShowError(true);
     }
 

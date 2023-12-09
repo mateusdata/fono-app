@@ -5,16 +5,21 @@ import { TextInput } from 'react-native-paper';
 import axiosInstance from '../config/axiosInstance';
 import { Context } from '../context/AuthProvider';
 
-const CreateAccount = ({ navigation }:any) => {
-    const {login} = useContext(Context);
+const CreateAccount = ({ navigation }: any) => {
+    const { login, setLoading, loading } = useContext(Context);
+    
     const [userDetails, setUserDetails] = useState({
-        name: '',
+        first_name: '',
+        sur_name: '',
+        last_name: '',
+        cpf: '',
+        birthday: '',
         email: '',
-        crfa: '',
         password: ''
-    });
+      });
+      
 
-    const handleInputChange = (field:any, value:any) => {
+    const handleInputChange = (field: any, value: any) => {
         setUserDetails({
             ...userDetails,
             [field]: value
@@ -22,23 +27,33 @@ const CreateAccount = ({ navigation }:any) => {
     };
 
     const handleCreateAccount = () => {
-       axiosInstance.post("/create-user",{
-        first_name: "eeee tocador",
-        sur_name: "silva",
-        last_name: "oreia seca",
-        cpf: "sasassssas",
-        birthday: "1912-10-08",
-        email: "alexempre2ss@gmail.com",
-        password: "123456"
-      }).then((response)=>{
-        console.log(response);
-        login("alexempre2ss@gmail.com", "123456");
-       })
-        console.log(userDetails);
+       if(userDetails.first_name && userDetails.cpf && userDetails.sur_name && userDetails.last_name && userDetails.birthday && userDetails.password){
+        setLoading(true);
+
+        return axiosInstance.post("/create-user",userDetails).then((response) => {
+            console.log(response.status);
+            if(response.status===200){
+                setLoading(false);
+                setTimeout(() => {
+                    return login(userDetails.email, userDetails.cpf);
+                }, 5000);
+            }
+            alert("Ocorreu um erro")  
+            setLoading(false);
+            
+        }).catch((error)=>{
+            console.log(error);
+            alert("Ocorreu um erro")  
+            setLoading(false);                
+        })
+       }
+        alert("Preencha todos sos campos")
+        setLoading(false);
     };
 
     return (
         <ScrollView>
+
             <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
                 <Text style={{
                     fontFamily: "Poppins_800ExtraBold",
@@ -52,46 +67,62 @@ const CreateAccount = ({ navigation }:any) => {
                 <View style={{ width: "90%", gap: 8 }}>
                     <TextInput
                         mode="outlined"
-                        label="nome"
-                        placeholder="nome"
-                        style={{
-                            height: 52,
-                            fontFamily: "Poppins_300Light",
-                            borderRadius: 150
-                        }}
+                        label="Primeiro nome"
+                        placeholder="first_name"
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('name', value)}
+                        onChangeText={(value) => handleInputChange('first_name', value)}
+                    />
+                    <TextInput
+                        mode="outlined"
+                        label="Nome do meio"
+                        placeholder="sur_name"
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
+                        activeOutlineColor='#376fe8'
+                        onChangeText={(value) => handleInputChange('sur_name', value)}
+                    />
+                    <TextInput
+                        mode="outlined"
+                        label="Útimo nome"
+                        placeholder="last_name"
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
+                        activeOutlineColor='#376fe8'
+                        onChangeText={(value) => handleInputChange('last_name', value)}
+                    />
+                    <TextInput
+                        mode="outlined"
+                        label="cpf"
+                        placeholder="cpf"
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
+                        activeOutlineColor='#376fe8'
+                        onChangeText={(value) => handleInputChange('cpf', value)}
+                    />
+                    <TextInput
+                        mode="outlined"
+                        label="Data de nascimento"
+                        placeholder="birthday"
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
+                        activeOutlineColor='#376fe8'
+                        onChangeText={(value) => handleInputChange('birthday', value)}
                     />
                     <TextInput
                         mode="outlined"
                         label="email"
                         placeholder="email"
-                        secureTextEntry
-                        style={{ height: 52 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('email', value)}
                     />
                     <TextInput
                         mode="outlined"
-                        label="CRFA"
-                        placeholder="CRFA"
-                        style={{
-                            height: 52,
-                            fontFamily: "Poppins_300Light",
-                            borderRadius: 150
-                        }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('crfa', value)}
-                    />
-                    <TextInput
-                        mode="outlined"
                         label="Senha"
-                        placeholder="Senha"
+                        placeholder="password"
                         secureTextEntry
-                        style={{ height: 52 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('password', value)}
                     />
+
                     <PrimaryButton name="Criar conta" handleButton={handleCreateAccount} />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                         <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>

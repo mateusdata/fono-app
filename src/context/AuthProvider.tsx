@@ -13,7 +13,7 @@ interface ContextProps {
     login: (email: string, senha: string) => void;
     logOut: () => any;
     logado: any,
-    email: string | null,
+    email: string | any,
     setEmail: Dispatch<SetStateAction<string | null>>
 }
 
@@ -21,9 +21,9 @@ interface ContextProps {
 export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-    const [user, setUser] = useState<any>([false]);
+    const [user, setUser] = useState<any>(false);
     const [loading, setLoading] = useState<boolean>(false);
-    const [email, setEmail]  =  useState<string|null>(null);
+    const [email, setEmail]  =  useState<string|any>(null);
 
     useEffect(() => {
         AsyncStorage.getItem("usuario").then((response) => {
@@ -44,8 +44,6 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             password:senha
         }).then((response) => {
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
-                setLoading(true);
-                
                 setTimeout(() => {
                     setLoading(false);
                     setUser(response?.data);
@@ -69,10 +67,12 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoading(false)
         }, 500);
     };
-    if (loading) {
-        return (
-          <LoadingComponent/>
-        );
+    if (false) {
+        return  null/*(
+            <>
+            {false&& <LoadingComponent/>}
+            </>
+           );*/
       }
 
     

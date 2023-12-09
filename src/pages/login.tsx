@@ -9,11 +9,12 @@ import { ActivityIndicator } from "react-native";
 const Login = ({ navigation }: any) => {
     const [email, setEmail] = useState('mateuspele2015@gmail.com');
     const [senha, setSenha] = useState('123456');
-    const { login, setLoading } = useContext(Context);
+    const { login, setLoading, loading } = useContext(Context);
     
     const handleLogin = async () => {
         
         if(email && senha){
+         setLoading(true);
          login(email, senha);
         }
     };

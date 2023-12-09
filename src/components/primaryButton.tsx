@@ -15,7 +15,7 @@ const PrimaryButton = ({ handleButton, name }: any) => {
     return (
         <AuthProvider>
             <Pressable
-                android_ripple={{ color: "#9dcee0", foreground: false }}
+                android_ripple={{ color: "#1d52a3", foreground: false }}
                 style={[styles.button,{backgroundColor:loading?"#82a4a5":"#36B3B9"}]}
                 onPress={handleButton}
                 disabled={loading}

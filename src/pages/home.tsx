@@ -16,7 +16,7 @@ const HomePage = ({ navigation }: { navigation: any }) => {
      <View style={styles.container}>
       <View style={styles.header}>
         <Ionicons name="logo-google-playstore" size={100} color="#38CB89" />
-        <Text style={styles.headerText}>FONO APP </Text>
+        <Text style={styles.headerText}>FONO APP: usuario bolleano é = {user.name}  </Text>
       </View>
       <View style={{ flexDirection: 'row', minWidth: '100%' }}>
         <View style={{ flex: 0.5 }}>

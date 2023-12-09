@@ -11,6 +11,8 @@ const CheckCode = ({ navigation }: any) => {
     const [showError, setShowError] = useState<boolean>(false);
     const [mensageError, setMensageErro] = useState<string>("Email invalido")
     const [colorText, setColorText] = useState<any>("red");
+    const { login, setLoading, loading } = useContext(Context);
+    
     useEffect(() => {
         if (!email) { navigation.navigate("Login"); };
     }, []);
@@ -19,10 +21,12 @@ const CheckCode = ({ navigation }: any) => {
     }
 
     function checkCode() {
-        if (true) {
+        if (codigo.length>4) {
+            setLoading(true);
             axiosInstance.post('/verify-reset-code', { email: email, verification_code: codigo }).then((response) => {
                 console.log(response)
                 if (response.status === 200) {
+                    setLoading(false);
                     navigation.navigate("ChangePassword");
                 }
             }).catch((error) => {
@@ -30,6 +34,7 @@ const CheckCode = ({ navigation }: any) => {
                 setShowError(true);
                 error?.response.status ? setMensageErro("Código invalido") : alert("Ocorreu um erro no servidor")
                     ;
+                    setLoading(false);
             })
         }
     }
@@ -44,6 +49,7 @@ const CheckCode = ({ navigation }: any) => {
                     marginTop: 0,
                     color: "#4d4d4f",
                     textAlign: "center"
+                    
                 }}>
                     Verificar código
                 </Text>
@@ -66,7 +72,7 @@ const CheckCode = ({ navigation }: any) => {
                             setShowError(false)
                         }}
                         activeOutlineColor='#376fe8'
-
+                        keyboardType='numeric'
                     />
                     <View style={{ alignItems: "flex-start", justifyContent: "flex-start", width: "100%", marginLeft: 40 }}>
                         <Text style={{ color: colorText, textAlign: "left" }} >{showError && mensageError} </Text>

@@ -11,27 +11,34 @@ const SendEmail = ({ navigation }: any) => {
     const [showError, setShowError] = useState<boolean>(false);
     const [mensageError, setMensageErro] = useState<string>("Email invalido")
     const [colorText, setColorText] = useState<any>("red");
-
+    const { login, setLoading, loading } = useContext(Context);
+    
     const confirmationEmail = () =>{
         
         if(email?.includes(".")&& email.includes("@") && email.length > 5){
             setShowError(false)
+            setLoading(true);
             return  axiosInstance.post('/send-reset-code', {email: email}).then((response)=>{
                 console.log(response)
+               
                 if(response.status === 200){
                     console.log(response.status);
                     setColorText("green")
-                    setMensageErro("Um email foi enviado para" + response?.data?.email)
+                    setMensageErro("Um email foi enviado para " + response?.data?.email)
                     setShowError(true);
                     
                     setTimeout(() => {
+                        setLoading(false);
                         navigation.navigate("CheckCode");
-                    }, 500);
+                        
+                    }, 800 );
                 }
             }).catch((error)=>{
                 console.log(error?.response.status);
                 setShowError(true);
                 error?.response.status && setMensageErro("Não existe essa conta de email");
+                setLoading(false);
+
             })
         }
         else{
