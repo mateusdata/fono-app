@@ -15,16 +15,7 @@ const TabsNavigation = () => {
     return (
 
         <Tabs.Navigator screenOptions={{
-            header: () => (
-                <View style={{ flexDirection: 'row', backgroundColor:"#36B3B9", height:100, alignItems: 'center', gap: 10, paddingLeft:10 }}>
-                  <View >
-                    <Image source={{uri:"https://www.cnnbrasil.com.br/wp-content/uploads/sites/12/2021/06/24630_7E9A5B3C65889D88.jpg?w=1024"}} style={{width:50, height:50, resizeMode:"contain", borderRadius:50}} />
-                  </View>
-                  <Text style={{fontSize:18, color:"white"}}>
-                    {user.name}
-                  </Text>
-                </View>
-              ),
+            tabBarShowLabel:false
         }}>
             <Tabs.Screen name='Início' component={HomePage} options={{
                 tabBarIcon: ({ color,size }) => (
@@ -42,7 +33,7 @@ const TabsNavigation = () => {
                 },
                 
                 headerTitle: "",
-                
+              
             }} />
 
             <Tabs.Screen name='Pacientes' component={HomePage} options={{

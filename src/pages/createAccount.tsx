@@ -31,7 +31,6 @@ const CreateAccount = ({ navigation }: any) => {
         setLoading(true);
 
         return axiosInstance.post("/create-user",userDetails).then((response) => {
-            console.log(response.status);
             if(response.status===200){
                 setLoading(false);
                 setTimeout(() => {
@@ -42,7 +41,6 @@ const CreateAccount = ({ navigation }: any) => {
             setLoading(false);
             
         }).catch((error)=>{
-            console.log(error);
             alert("Ocorreu um erro")  
             setLoading(false);                
         })

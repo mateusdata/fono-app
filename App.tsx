@@ -27,7 +27,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <StatusBar translucent={false} backgroundColor='#36B3B9' style='light' />
+        <StatusBar translucent={true}  style='light' />
         <AuthProvider>
           <TamaguiProvider config={config}>
             <Routes />

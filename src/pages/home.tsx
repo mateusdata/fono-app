@@ -11,12 +11,12 @@ import { AntDesign } from '@expo/vector-icons';
 const HomePage = ({ navigation }: { navigation: any }) => {
   const { logOut, user } = useContext(Context);
   return (
-   <ScrollView>
+   <>
 
-     <View style={styles.container}>
+     <ScrollView style={styles.container}>
       <View style={styles.header}>
         <Ionicons name="logo-google-playstore" size={100} color="#38CB89" />
-        <Text style={styles.headerText}>FONO APP: usuario bolleano é = {user.name}  </Text>
+        <Text style={styles.headerText}>FONO APP</Text>
       </View>
       <View style={{ flexDirection: 'row', minWidth: '100%' }}>
         <View style={{ flex: 0.5 }}>
@@ -59,22 +59,21 @@ const HomePage = ({ navigation }: { navigation: any }) => {
           </View>
         </XStack>
         <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="orange" /></View>
-      </YStack>
-      
-      <Pressable style={styles.logoutButton} onPress={logOut}>
+        <Pressable style={styles.logoutButton} onPress={logOut}>
         <Text style={styles.logoutButtonText}>Sair da Conta</Text>
       </Pressable>
+      </YStack>
       
-    </View>
+    </ScrollView>
     
-   </ScrollView>
+   </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F5F7FF',
+    backgroundColor: 'white',
     padding: 20,
   },
   header: {

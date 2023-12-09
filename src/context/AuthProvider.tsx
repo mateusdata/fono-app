@@ -23,18 +23,25 @@ export const Context = createContext<ContextProps>({} as ContextProps);
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<any>(false);
     const [loading, setLoading] = useState<boolean>(false);
+    const [loadingPage, setLoadingPage] = useState<boolean>(false);
+
     const [email, setEmail]  =  useState<string|any>(null);
 
     useEffect(() => {
+        
         AsyncStorage.getItem("usuario").then((response) => {
+            setLoadingPage(true)
            if(response !=null){
             setUser(JSON.parse(response));
             setTimeout(() => {
-                setLoading(false);
+                setLoadingPage(false);
             }, 100);
             return
            }
+           setLoadingPage(false)
            
+        }).catch((erro)=>{
+            setLoadingPage(false);
         });
     }, []);
 
@@ -47,7 +54,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
                 setTimeout(() => {
                     setLoading(false);
                     setUser(response?.data);
-                }, 2000);
+                }, 1000);
             }).catch((erro) => {
                 setLoading(false);
             });
@@ -67,12 +74,10 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoading(false)
         }, 500);
     };
-    if (false) {
-        return  null/*(
-            <>
-            {false&& <LoadingComponent/>}
-            </>
-           );*/
+    if (loadingPage) {
+        return <LoadingComponent/>
+        
+        
       }
 
     

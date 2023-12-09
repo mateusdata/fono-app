@@ -1,5 +1,5 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import PreLogin from '../../pages/preLogin';
 import Login from '../../pages/login';
 import CreateAccount from '../../pages/createAccount';
@@ -13,10 +13,12 @@ const AppStack = createStackNavigator();
 const PublicRoutes = () => {
   return (
     <AppStack.Navigator screenOptions={{
-      headerPressColor:"red",
+      headerPressColor:"blue",
       headerStyle:{
         backgroundColor:"#36B3B9"
-      }
+      },
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+
     }}>
     <AppStack.Screen name="PreLogin" component={PreLogin} options={{
        headerShown:false,
@@ -41,6 +43,7 @@ const PublicRoutes = () => {
     <AppStack.Screen name="CheckCode" component={CheckCode} options={{
        headerShown:true,
        headerTitle: () => null,
+       headerTintColor:"white"
     }}/>
      <AppStack.Screen name="CreateAccount" component={CreateAccount} options={{
       headerShown:true,

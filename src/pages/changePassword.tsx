@@ -27,7 +27,6 @@ const ChangePassword = ({ navigation }: any) => {
                 login(email,newPassword);
             }, 500);
         }).catch((error) => {
-            console.log(error);
             alert("error no servidor")
             setLoading(false);
         })

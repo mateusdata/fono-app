@@ -19,10 +19,9 @@ const SendEmail = ({ navigation }: any) => {
             setShowError(false)
             setLoading(true);
             return  axiosInstance.post('/send-reset-code', {email: email}).then((response)=>{
-                console.log(response)
                
                 if(response.status === 200){
-                    console.log(response.status);
+
                     setColorText("green")
                     setMensageErro("Um email foi enviado para " + response?.data?.email)
                     setShowError(true);
@@ -34,7 +33,6 @@ const SendEmail = ({ navigation }: any) => {
                     }, 800 );
                 }
             }).catch((error)=>{
-                console.log(error?.response.status);
                 setShowError(true);
                 error?.response.status && setMensageErro("Não existe essa conta de email");
                 setLoading(false);

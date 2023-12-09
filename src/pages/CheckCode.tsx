@@ -24,13 +24,11 @@ const CheckCode = ({ navigation }: any) => {
         if (codigo.length>4) {
             setLoading(true);
             axiosInstance.post('/verify-reset-code', { email: email, verification_code: codigo }).then((response) => {
-                console.log(response)
                 if (response.status === 200) {
                     setLoading(false);
                     navigation.navigate("ChangePassword");
                 }
             }).catch((error) => {
-                console.log(error?.response.status);
                 setShowError(true);
                 error?.response.status ? setMensageErro("Código invalido") : alert("Ocorreu um erro no servidor")
                     ;
