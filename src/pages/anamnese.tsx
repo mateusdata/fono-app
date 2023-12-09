@@ -164,7 +164,7 @@ const Anamnese = () => {
             {errors.birthday && <Text style={{ color: 'red' }}>{errors.birthday.message}</Text>}
           </View>
         </View>
-        <XStack style={{ marginTop: 10, paddingRight: 10, borderWidth: 0, width: '100%', flexDirection: 'row', justifyContent: 'flex-end' }}>
+        <XStack style={{ marginTop: 10, paddingRight: 10, borderWidth: 0, width: '100%', justifyContent: 'flex-end' }}>
           <Button onTouchEnd={() => { alert('passou') }} backgroundColor={'$green7Light'}>Hello</Button>
         </XStack>
       </View>

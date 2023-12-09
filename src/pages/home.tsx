@@ -2,7 +2,7 @@
 import React, { useContext } from 'react';
 import { View, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import { Button, Text } from 'tamagui';
+import { Button, Text, XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
@@ -28,8 +28,8 @@ const HomePage = ({ navigation }: { navigation: any }) => {
         </View>
 
       </View>
-      <View style={styles.welcomeContainer}>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
+      <YStack space='$2.5' style={{width:'100%', height:'100%', marginTop: 10}}>
+        <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
           
           <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
             <AntDesign name="pluscircleo" size={20} color="orange" />
@@ -39,13 +39,12 @@ const HomePage = ({ navigation }: { navigation: any }) => {
             <SimpleLineIcons name='eye' size={20} color='orange' />
             <Text>Acompanhar</Text>
           </Pressable >
-          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
             <SimpleLineIcons name='action-redo' size={20} color='orange' />
             <Text>Exercícios</Text>
           </Pressable >
-        </View>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          
+        </XStack>
+        <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
           <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
             <AntDesign name="aliwangwang" size={20} color="orange" />
             <Text>Recibos</Text>
@@ -58,11 +57,10 @@ const HomePage = ({ navigation }: { navigation: any }) => {
             <SimpleLineIcons name='feed' size={20} color='orange' />
             <Text>Menu</Text>
           </View>
-        </View>
+        </XStack>
         <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="orange" /></View>
-      </View>
+      </YStack>
       
-
       <Pressable style={styles.logoutButton} onPress={logOut}>
         <Text style={styles.logoutButtonText}>Sair da Conta</Text>
       </Pressable>

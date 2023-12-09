@@ -26,9 +26,9 @@ const TabsNavigation = () => {
                 </View>
               ),
         }}>
-            <Tabs.Screen name='ficha' component={HomePage} options={{
+            <Tabs.Screen name='Início' component={HomePage} options={{
                 tabBarIcon: ({ color,size }) => (
-                    <AntDesign name="creditcard" size={size} color={color} />
+                    <AntDesign name="home" size={size} color={color} />
                 ),
                 headerStyle: {
                     backgroundColor: "#36B3B9"
@@ -47,7 +47,7 @@ const TabsNavigation = () => {
 
             <Tabs.Screen name='Pacientes' component={HomePage} options={{
                 tabBarIcon: ({ color, size }) => (
-                    <AntDesign name="folder1" size={size} color={color}  />
+                    <AntDesign name="profile" size={size} color={color}  />
                 ),
                 headerStyle: {
                     backgroundColor: "#36B3B9"
@@ -65,7 +65,7 @@ const TabsNavigation = () => {
             }} />
 
 
-            <Tabs.Screen name='.' component={HomePage} options={{
+            <Tabs.Screen name=' ' component={HomePage} options={{
                 tabBarIcon: ({ color,size }) => (
                     <MaterialIcons name="add-circle" size={32} color={color}/>
                 ),
@@ -83,10 +83,10 @@ const TabsNavigation = () => {
                 headerTitle: ""
             }} />
 
-            <Tabs.Screen name='Relatorios' component={HomePage} options={{
+            <Tabs.Screen name='Relatórios' component={HomePage} options={{
                 tabBarIcon: ({ color,size }) => (
                  
-                    <AntDesign name="save" size={size} color={color} />
+                    <AntDesign name="folder1" size={size} color={color} />
 
                 ),
                 headerStyle: {
@@ -103,7 +103,7 @@ const TabsNavigation = () => {
                 headerTitle: ""
             }} />
 
-            <Tabs.Screen name='config' component={MyAccount} options={{
+            <Tabs.Screen name='Perfil' component={MyAccount} options={{
                 tabBarIcon: ({ color,size }) => (
                     <AntDesign name="user"  size={size} color={color} />
                 ),
