@@ -16,11 +16,11 @@ const PrimaryButton = ({ handleButton, name }: any) => {
         <AuthProvider>
             <Pressable
                 android_ripple={{ color: "#1d52a3", foreground: false }}
-                style={[styles.button,{backgroundColor:loading?"#82a4a5":"#36B3B9"}]}
+                style={[styles.button,{backgroundColor:loading?"#36B3B1":"#36B3B9"}]}
                 onPress={handleButton}
                 disabled={loading}
             >
-                <Text style={[styles.buttonText,{color:loading?"#e5e3e3":"white"}]}>{name}</Text>
+                <Text style={[styles.buttonText,{color:loading?"#e5e3e3":"white"}]}>{!loading && name}</Text>
                 {loading ? <ActivityIndicator color={"white"} size={25} /> : null}
             </Pressable>
 
