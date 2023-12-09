@@ -1,23 +1,48 @@
-import React from 'react';
-import { Image, Text, Pressable, View } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { Text, Pressable, View } from 'react-native';
 import PrimaryButton from '../components/primaryButton';
-import FazerLogin from '../components/spanLogin';
 import { TextInput } from 'react-native-paper';
-import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
+import CustomText from '../components/customText';
+import axiosInstance from '../config/axiosInstance';
+import { Context } from '../context/AuthProvider';
 
 const SendEmail = ({ navigation }: any) => {
-    let [fontsLoaded] = useFonts({
-        Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
-    });
+    const {email, setEmail} = useContext(Context);
+    const [showError, setShowError] = useState<boolean>(false);
+    const [mensageError, setMensageErro] = useState<string>("Email invalido")
+    const [colorText, setColorText] = useState<any>("red");
 
-    if (!fontsLoaded) {
-        return null;
+    const confirmationEmail = () =>{
+        
+        if(email?.includes(".")&& email.includes("@") && email.length > 5){
+            setShowError(false)
+            return  axiosInstance.post('/send-reset-code', {email: email}).then((response)=>{
+                console.log(response)
+                if(response.status === 200){
+                    console.log(response.status);
+                    setColorText("green")
+                    setMensageErro("Um email foi enviado para" + response?.data?.email)
+                    setShowError(true);
+                    
+                    setTimeout(() => {
+                        navigation.navigate("CheckCode");
+                    }, 500);
+                }
+            }).catch((error)=>{
+                console.log(error?.response.status);
+                setShowError(true);
+                error?.response.status && setMensageErro("Não existe essa conta de email");
+            })
+        }
+        else{
+            setShowError(true)
+        }
     }
+   
     return (
         <View style={{ flex: 1 }}>
             <View style={{ gap: 10, marginTop: 10 }}>
-                <Text style={{
-                    fontFamily: "Poppins_800ExtraBold",
+                <CustomText fontFamily='Poppins_300Light' style={{
                     fontSize: 25,
                     marginBottom: 0,
                     marginTop: 0,
@@ -25,10 +50,10 @@ const SendEmail = ({ navigation }: any) => {
                     textAlign:"center"
                 }}>
                     Esqueceu sua senha ?
-                </Text>
-                <Text style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
+                </CustomText>
+                <CustomText fontFamily='Poppins_300Light' style={{ fontSize: 18, textAlign: "center" }}>
                     Insira seu email pra obter um código de segurança
-                </Text>
+                </CustomText>
             </View>
             <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", marginTop: 100 }}>
 
@@ -38,17 +63,25 @@ const SendEmail = ({ navigation }: any) => {
                         label="Email"
                         placeholder="Email"
                         style={{ height: 52, width: "90%" }}
-
+                        onChangeText={(e)=> {
+                            setMensageErro("Email invalido")
+                            setEmail(e)
+                            setShowError(false)
+                        }}
                         activeOutlineColor='#376fe8'
 
                     />
+               <View style={{alignItems:"flex-start", justifyContent:"flex-start", width:"100%", marginLeft:40}}>
+               <Text style={{color:colorText, textAlign:"left"}} >{showError && mensageError} </Text>
+               </View>
+
                 </View>
                 <View style={{ padding: 20 }}>
-                    <PrimaryButton handleButton={() => navigation.navigate("CheckCode")} name="Enviar email" />
+                    <PrimaryButton handleButton={confirmationEmail} name="Enviar email" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
+                        <CustomText fontFamily='Poppins_300Light' style={{ color: "gray" }}>Lembrou sua senha</CustomText>
                         <Pressable onPress={() => navigation.navigate("Login")}>
-                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
+                            <CustomText fontFamily='Poppins_300Light' style={{ color: "#407AFF" }}>Fazer login</CustomText>
                         </Pressable>
                     </View>
                 </View>
@@ -59,3 +92,4 @@ const SendEmail = ({ navigation }: any) => {
 }
 
 export default SendEmail
+//Poppins_300Light
