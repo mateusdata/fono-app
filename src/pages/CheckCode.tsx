@@ -36,6 +36,19 @@ const CheckCode = ({ navigation }: any) => {
             })
         }
     }
+    const sendCode = () => {
+        axiosInstance.post('/send-reset-code', {email: email}).then((response)=>{
+               
+            if(response.status === 200){            
+              return  alert("um novo codigo foi enviado para " + email)
+            }
+            return ("ops! ocorreu um erro ")
+        }).catch((error)=>{
+            setShowError(true);
+            error?.response.status && alert(" ocorreu um erro");
+
+        })
+    }
 
     return (
         <View style={{ flex: 1 }}>
@@ -79,9 +92,9 @@ const CheckCode = ({ navigation }: any) => {
                 <View style={{ padding: 20 }}>
                     <PrimaryButton handleButton={checkCode} name="Verificar código" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
-                        <Pressable onPress={() => navigation.navigate("Login")}>
-                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
+                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Não recebeu o código?</Text>
+                        <Pressable onPress={sendCode}>
+                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Reivinhar código</Text>
                         </Pressable>
                     </View>
                 </View>
