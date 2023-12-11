@@ -7,6 +7,7 @@ import { SimpleLineIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
+import CustomText from '../components/customText';
 
 const HomePage = ({ navigation }: { navigation: any }) => {
   const { logOut, user } = useContext(Context);
@@ -15,53 +16,66 @@ const HomePage = ({ navigation }: { navigation: any }) => {
 
      <ScrollView style={styles.container}>
       <View style={styles.header}>
-        <Ionicons name="logo-google-playstore" size={100} color="#38CB89" />
-        <Text style={styles.headerText}>FONO APP</Text>
+        <Ionicons name="medkit-sharp" size={60} color="#38CB89" />
+        <CustomText style={styles.headerText}>FONOTHERAPP</CustomText>
       </View>
       <View style={{ flexDirection: 'row', minWidth: '100%' }}>
         <View style={{ flex: 0.5 }}>
-          <Text style={{ fontWeight: '100' }}>Total de pacientes</Text>
-          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}><Text style={{ fontWeight: 'bold' }}>150.000.000</Text><SimpleLineIcons name='eye' size={20} color='#36B3B9' /></View>
+          <CustomText style={{ fontWeight: '100' }}>Total de pacientes</CustomText>
+          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}><CustomText style={{ fontWeight: 'bold' }}>150.000.000</CustomText><SimpleLineIcons name='eye' size={20} color='#36B3B9' /></View>
         </View>
         <View style={{ flex: 0.5, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-          <Text style={{ color: '#36B3B9' }}>Ver todos</Text>
+          <CustomText style={{ color: '#36B3B9' }}>Ver todos</CustomText>
         </View>
 
       </View>
-      <YStack space='$2.5' style={{width:'100%', height:'100%', marginTop: 10}}>
+      <YStack space='$2.5' style={{width:'100%', height:'100%', marginTop: 40}}>
         <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
           
           <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <AntDesign name="pluscircleo" size={20} color="orange" />
-            <Text>Paciente</Text>
+            <AntDesign name="pluscircleo" size={20} color="green" />
+            <CustomText>Paciente</CustomText>
           </Pressable >
           <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='eye' size={20} color='orange' />
-            <Text>Acompanhar</Text>
+            <SimpleLineIcons name='eye' size={20} color='green' />
+            <CustomText>Acompanhar</CustomText>
           </Pressable >
           <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='action-redo' size={20} color='orange' />
-            <Text>Exercícios</Text>
+            <SimpleLineIcons name='action-redo' size={20} color='green' />
+            <CustomText>Exercícios</CustomText>
+          </Pressable >
+        </XStack>
+        <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
+          
+          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+            <AntDesign name="pluscircleo" size={20} color="green" />
+            <CustomText>Paciente</CustomText>
+          </Pressable >
+          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+            <SimpleLineIcons name='eye' size={20} color='green' />
+            <CustomText>Acompanhar</CustomText>
+          </Pressable >
+          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+            <SimpleLineIcons name='action-redo' size={20} color='green' />
+            <CustomText>Exercícios</CustomText>
           </Pressable >
         </XStack>
         <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
           <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <AntDesign name="aliwangwang" size={20} color="orange" />
-            <Text>Recibos</Text>
+            <AntDesign name="aliwangwang" size={20} color="green" />
+            <CustomText>Recibos</CustomText>
           </View>
           <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='calendar' size={20} color='orange' />
-            <Text>Ficha</Text>
+            <SimpleLineIcons name='calendar' size={20} color='green' />
+            <CustomText>Ficha</CustomText>
           </View>
           <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='feed' size={20} color='orange' />
-            <Text>Menu</Text>
+            <SimpleLineIcons name='feed' size={20} color='green' />
+            <CustomText>Menu</CustomText>
           </View>
         </XStack>
-        <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="orange" /></View>
-        <Pressable style={styles.logoutButton} onPress={logOut}>
-        <Text style={styles.logoutButtonText}>Sair da Conta</Text>
-      </Pressable>
+        <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="green" /></View>
+        
       </YStack>
       
     </ScrollView>

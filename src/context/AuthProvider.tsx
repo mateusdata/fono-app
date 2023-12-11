@@ -67,12 +67,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     };
 
     const logOut = async () => {
-        setLoading(true)
+        setLoadingPage(true)
         await AsyncStorage.removeItem("usuario");
         setTimeout(() => {
             setUser(false);
-            setLoading(false)
-        }, 500);
+            setLoadingPage(false)
+
+        }, 1000);
     };
     if (loadingPage) {
         return <LoadingComponent/>

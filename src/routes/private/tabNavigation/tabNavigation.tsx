@@ -56,7 +56,7 @@ const TabsNavigation = () => {
             }} />
 
 
-            <Tabs.Screen name=' ' component={HomePage} options={{
+            {false &&  <Tabs.Screen name=' ' component={HomePage} options={{
                 tabBarIcon: ({ color,size }) => (
                     <MaterialIcons name="add-circle" size={32} color={color}/>
                 ),
@@ -72,7 +72,7 @@ const TabsNavigation = () => {
                 },
                 
                 headerTitle: ""
-            }} />
+            }} />}
 
             <Tabs.Screen name='Relatórios' component={HomePage} options={{
                 tabBarIcon: ({ color,size }) => (
@@ -95,6 +95,8 @@ const TabsNavigation = () => {
             }} />
 
             <Tabs.Screen name='Perfil' component={MyAccount} options={{
+                tabBarInactiveTintColor:"gray",
+                tabBarActiveTintColor:"#36B3B9",
                 tabBarIcon: ({ color,size }) => (
                     <AntDesign name="user"  size={size} color={color} />
                 ),
