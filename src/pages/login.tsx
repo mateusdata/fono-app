@@ -5,10 +5,10 @@ import { TextInput } from 'react-native-paper';
 import PrimaryButton from '../components/primaryButton';
 import CustomText from '../components/customText';
 import { ActivityIndicator } from "react-native";
-
+import img from "../../assets/favicon.png";
 const Login = ({ navigation }: any) => {
-    const [email, setEmail] = useState('mateuspele2015@gmail.com');
-    const [senha, setSenha] = useState('123456');
+    const [email, setEmail] = useState('');
+    const [senha, setSenha] = useState('');
     const { login, setLoading, loading } = useContext(Context);
     
     const handleLogin = async () => {
@@ -23,7 +23,7 @@ const Login = ({ navigation }: any) => {
         <View style={styles.container}>
             <View style={styles.titleContainer}>
                 <CustomText style={styles.titleText}>Bem-vindo de volta</CustomText>
-                <Image source={{uri:"https://institutoacorde.org.br/wp-content/uploads/2021/02/fono.jpg"}} resizeMode='cover' style={{height:150, width:150}}  /> 
+                <Image source={img} resizeMode='cover' style={{height:200, width:200}}  /> 
                 </View>
 
             <View style={styles.formContainer}>

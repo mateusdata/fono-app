@@ -54,7 +54,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
                 setTimeout(() => {
                     setLoading(false);
                     setUser(response?.data);
-                }, 1000);
+                }, 500);
             }).catch((erro) => {
                 setLoading(false);
             });

@@ -55,7 +55,7 @@ const CreateAccount = ({ navigation }: any) => {
             setLoading(false);
             
         }).catch((error)=>{
-            alert("Ocorreu um erro no servidor")  
+            alert("Ops! ocorreu um erro, tente novamente")  
             setLoading(false);                
         });
         return;
