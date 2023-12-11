@@ -13,7 +13,7 @@ const CreateAccount = ({ navigation }: any) => {
         sur_name: '',
         last_name: '',
         cpf: '',
-        birthday: '',
+        birthday: new Date(),
         email: '',
         password: ''
       });
@@ -27,32 +27,47 @@ const CreateAccount = ({ navigation }: any) => {
     };
 
     const handleCreateAccount = () => {
-       if(userDetails.first_name && userDetails.cpf && userDetails.sur_name && userDetails.last_name && userDetails.birthday && userDetails.password){
+       if(userDetails.first_name && userDetails.cpf && userDetails.last_name && userDetails.password){
+       
+        if(!userDetails.email.includes("@") &&  !userDetails.email.includes(".") ){
+            alert("informe um email valido ")
+            return
+        }
+        else if (userDetails.cpf.length < 11 || userDetails.cpf.length >11){
+            alert("informe um cpf valido")
+            return
+        }
+        else if (userDetails.password.length < 5 ){
+            alert("A senha deve ser maior que 6 digitos ")
+            return
+        }
         setLoading(true);
-
-        return axiosInstance.post("/create-user",userDetails).then((response) => {
+;         axiosInstance.post("/create-user",userDetails).then((response) => {
             if(response.status===200){
                 setLoading(false);
+                alert("usuario cadastrado com sucesso");
                 setTimeout(() => {
-                    return login(userDetails.email, userDetails.cpf);
-                }, 5000);
+                    return login(userDetails.email, userDetails.password);
+                }, 500);
+                return
             }
-            alert("Ocorreu um erro")  
+            alert("Ocorreu um erro no front end")  
             setLoading(false);
             
         }).catch((error)=>{
-            alert("Ocorreu um erro")  
+            alert("Ocorreu um erro no servidor")  
             setLoading(false);                
-        })
+        });
+        return;
        }
         alert("Preencha todos sos campos")
         setLoading(false);
     };
 
     return (
-        <ScrollView>
+        <ScrollView style={{flex:1, backgroundColor:"#FFFFFF"}} >
 
-            <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
+            <View style={{ backgroundColor: "#FFFFFF", flex: 1, height:"100%", justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
                 <Text style={{
                     fontFamily: "Poppins_800ExtraBold",
                     fontSize: 25,
@@ -65,48 +80,48 @@ const CreateAccount = ({ navigation }: any) => {
                 <View style={{ width: "90%", gap: 8 }}>
                     <TextInput
                         mode="outlined"
-                        label="Primeiro nome"
-                        placeholder="first_name"
+                        label="Nome"
+                        placeholder="Primeio nome"
                         style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('first_name', value)}
                     />
-                    <TextInput
+                    { false && <TextInput
                         mode="outlined"
                         label="Nome do meio"
                         placeholder="sur_name"
                         style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('sur_name', value)}
-                    />
+                    />}
                     <TextInput
                         mode="outlined"
-                        label="Útimo nome"
-                        placeholder="last_name"
+                        label="Sobrenome"
+                        placeholder="Sobrenome"
                         style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('last_name', value)}
                     />
                     <TextInput
                         mode="outlined"
-                        label="cpf"
-                        placeholder="cpf"
+                        label="CPF"
+                        placeholder="CPF"
                         style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('cpf', value)}
                     />
-                    <TextInput
+                   { false && <TextInput
                         mode="outlined"
                         label="Data de nascimento"
                         placeholder="birthday"
                         style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('birthday', value)}
-                    />
+                    />}
                     <TextInput
                         mode="outlined"
-                        label="email"
-                        placeholder="email"
+                        label="E-mail"
+                        placeholder="E-mail"
                         style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('email', value)}
@@ -114,7 +129,7 @@ const CreateAccount = ({ navigation }: any) => {
                     <TextInput
                         mode="outlined"
                         label="Senha"
-                        placeholder="password"
+                        placeholder="Senha"
                         secureTextEntry
                         style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
@@ -130,7 +145,7 @@ const CreateAccount = ({ navigation }: any) => {
                     </View>
                 </View>
             </View>
-        </ScrollView>
+        </ScrollView >
     )
 }
 
