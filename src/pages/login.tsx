@@ -22,8 +22,8 @@ const Login = ({ navigation }: any) => {
         <View style={styles.container}>
             <View style={styles.titleContainer}>
                 <CustomText style={styles.titleText}>Bem-vindo de volta</CustomText>
-                <Image source={require("../../assets/favicon.png")} resizeMode='cover' style={{height:200, width:200}}  /> 
-                </View>
+                <Image source={{uri:"https://institutoacorde.org.br/wp-content/uploads/2021/02/fono.jpg"}} resizeMode='cover' style={{height:200, width:200}}  /> 
+            </View>
 
             <View style={styles.formContainer}>
                 <TextInput

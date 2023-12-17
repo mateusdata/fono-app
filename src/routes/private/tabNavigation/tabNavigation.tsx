@@ -1,6 +1,5 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import React, { useContext } from 'react';
-import HomePage from '../../../pages/home';
 import { Ionicons } from '@expo/vector-icons';
 import { View, Image, Text } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
@@ -8,6 +7,8 @@ import { Octicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import MyAccount from '../../../pages/myAccount';
 import { Context } from '../../../context/AuthProvider';
+import Videos from '../../../pages/videos';
+import Home from '../../../pages/home';
 const Tabs = createBottomTabNavigator();
 
 const TabsNavigation = () => {
@@ -17,7 +18,7 @@ const TabsNavigation = () => {
         <Tabs.Navigator screenOptions={{
             tabBarShowLabel:false
         }}>
-            <Tabs.Screen name='Início' component={HomePage} options={{
+            <Tabs.Screen name='Início' component={Home} options={{
                 tabBarIcon: ({ color,size }) => (
                     <AntDesign name="home" size={size} color={color} />
                 ),
@@ -36,7 +37,7 @@ const TabsNavigation = () => {
               
             }} />
 
-            <Tabs.Screen name='Pacientes' component={HomePage} options={{
+            <Tabs.Screen name='Videos' component={Videos} options={{
                 tabBarIcon: ({ color, size }) => (
                     <AntDesign name="profile" size={size} color={color}  />
                 ),
@@ -56,7 +57,7 @@ const TabsNavigation = () => {
             }} />
 
 
-            {false &&  <Tabs.Screen name=' ' component={HomePage} options={{
+            {false &&  <Tabs.Screen name='Videos' component={Videos} options={{
                 tabBarIcon: ({ color,size }) => (
                     <MaterialIcons name="add-circle" size={32} color={color}/>
                 ),
@@ -74,7 +75,7 @@ const TabsNavigation = () => {
                 headerTitle: ""
             }} />}
 
-            <Tabs.Screen name='Relatórios' component={HomePage} options={{
+            <Tabs.Screen name='Relatórios' component={Home} options={{
                 tabBarIcon: ({ color,size }) => (
                  
                     <AntDesign name="folder1" size={size} color={color} />

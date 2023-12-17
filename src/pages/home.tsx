@@ -1,4 +1,4 @@
-// HomePage.js
+// Home.js
 import React, { useContext } from 'react';
 import { View, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
 import { Context } from '../context/AuthProvider';
@@ -9,7 +9,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomText from '../components/customText';
 
-const HomePage = ({ navigation }: { navigation: any }) => {
+const Home = ({ navigation }: { navigation: any }) => {
   const { logOut, user } = useContext(Context);
   return (
    <>
@@ -137,4 +137,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomePage;
+export default Home;
