@@ -17,30 +17,26 @@ interface ContextProps {
     setEmail: Dispatch<SetStateAction<string | null>>
 }
 
-
 export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<any>(false);
     const [loading, setLoading] = useState<boolean>(false);
     const [loadingPage, setLoadingPage] = useState<boolean>(false);
-
-    const [email, setEmail]  =  useState<string|any>(null);
+    const [email, setEmail] = useState<string | any>(null);
 
     useEffect(() => {
-        
+
         AsyncStorage.getItem("usuario").then((response) => {
             setLoadingPage(true)
-           if(response !=null){
-            setUser(JSON.parse(response));
-            setTimeout(() => {
+            if (response != null) {
+                setUser(JSON.parse(response));
                 setLoadingPage(false);
-            }, 100);
-            return
-           }
-           setLoadingPage(false)
-           
-        }).catch((erro)=>{
+                return
+            }
+            setLoadingPage(false)
+
+        }).catch((erro) => {
             setLoadingPage(false);
         });
     }, []);
@@ -48,22 +44,18 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const login = async (email: string, senha: string) => {
         axiosInstance.post("/login", {
             email,
-            password:senha
+            password: senha
         }).then((response) => {
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
-                setTimeout(() => {
-                    setLoading(false);
-                    setUser(response?.data);
-                }, 500);
+                setLoading(false);
+                setUser(response?.data);
             }).catch((erro) => {
                 setLoading(false);
             });
-
-        })
-        .catch((erro) => {
+        }).catch((erro) => {
             setLoading(false);
             alert("Usuarios ou senha incorretos")
-        })
+        });
     };
 
     const logOut = async () => {
@@ -72,23 +64,18 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         setTimeout(() => {
             setUser(false);
             setLoadingPage(false)
-
-        }, 1000);
+        }, 400);
     };
     if (loadingPage) {
-        return <LoadingComponent/>
-        
-        
-      }
+        return <LoadingComponent />
+    }
 
-    
     return (
         <Context.Provider
             value={{
-                user, loading, setUser, logado: !!user, setLoading, login, logOut, email,setEmail }}
+                user, loading, setUser, logado: !!user, setLoading, login, logOut, email, setEmail
+            }}
         >
-         
-         
             {children}
         </Context.Provider>
     );
@@ -100,4 +87,3 @@ export default AuthProvider;
 
 
 
- 

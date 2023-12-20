@@ -11,10 +11,9 @@ const Login = ({ navigation }: any) => {
     const { login, setLoading, loading } = useContext(Context);
     
     const handleLogin = async () => {
-        
         if(email && senha){
          setLoading(true);
-         login(email, senha);
+         login(email.toLowerCase(), senha);
         }
     };
 

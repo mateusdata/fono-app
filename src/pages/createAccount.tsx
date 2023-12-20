@@ -4,10 +4,12 @@ import PrimaryButton from '../components/primaryButton';
 import { TextInput } from 'react-native-paper';
 import axiosInstance from '../config/axiosInstance';
 import { Context } from '../context/AuthProvider';
+import { cpf } from 'cpf-cnpj-validator';
+import validator from 'validator';
 
 const CreateAccount = ({ navigation }: any) => {
     const { login, setLoading, loading } = useContext(Context);
-    
+
     const [userDetails, setUserDetails] = useState({
         first_name: '',
         sur_name: '',
@@ -16,58 +18,59 @@ const CreateAccount = ({ navigation }: any) => {
         birthday: new Date(),
         email: '',
         password: ''
-      });
-      
+    });
 
     const handleInputChange = (field: any, value: any) => {
         setUserDetails({
             ...userDetails,
-            [field]: value
+            [field]: value.toLowerCase()
         });
     };
-
+    const validateUserDetails = () => {
+        if (!validator.isEmail(userDetails.email)) {
+            alert("Informe um e-mail válido.");
+            return false;
+        } else if (
+            !/^[a-zA-ZáéíóúàâêôãõüçÁÉÍÓÚÀÂÊÔÃÕÜÇ ]+$/.test(userDetails.first_name) &&
+            !/^[a-zA-ZáéíóúàâêôãõüçÁÉÍÓÚÀÂÊÔÃÕÜÇ ]+$/.test(userDetails.last_name)
+        ) {
+            alert("Nome inválido.");
+            return false;
+        } else if (userDetails.password.length < 6) {
+            alert("A senha deve ter pelo menos 6 caracteres.");
+            return false;
+        } else if (!cpf.isValid(userDetails.cpf)) {
+            alert('CPF inválido.');
+            return false;
+        }
+        return true;
+    };
     const handleCreateAccount = () => {
-       if(userDetails.first_name && userDetails.cpf && userDetails.last_name && userDetails.password){
-       
-        if(!userDetails.email.includes("@") &&  !userDetails.email.includes(".") ){
-            alert("informe um email valido ")
-            return
-        }
-        else if (userDetails.cpf.length < 11 || userDetails.cpf.length >11){
-            alert("informe um cpf valido")
-            return
-        }
-        else if (userDetails.password.length < 5 ){
-            alert("A senha deve ser maior que 6 digitos ")
-            return
-        }
-        setLoading(true);
-;         axiosInstance.post("/create-user",userDetails).then((response) => {
-            if(response.status===200){
+        validateUserDetails() && setLoading(true);
+        validateUserDetails() && axiosInstance.post("/create-user", userDetails).then((response) => {
+            if (response.status === 200) {
                 setLoading(false);
-                alert("usuario cadastrado com sucesso");
-                setTimeout(() => {
-                    return login(userDetails.email, userDetails.password);
-                }, 500);
-                return
+                return login(userDetails.email, userDetails.password);
             }
-            alert("Ocorreu um erro no front end")  
+            alert("Ocorreu um erro no front end")
             setLoading(false);
-            
-        }).catch((error)=>{
-            alert("Ops! ocorreu um erro, tente novamente")  
-            setLoading(false);                
+
+        }).catch((error) => {
+            setLoading(false);
+            if (error.response.status == 409) {
+                alert("Já existe esse usuario");
+                return;
+            }
+            return alert("ops! ocorreu um erro 500")
+
         });
-        return;
-       }
-        alert("Preencha todos sos campos")
-        setLoading(false);
-    };
+    }
+
+
 
     return (
-        <ScrollView style={{flex:1, backgroundColor:"#FFFFFF"}} >
-
-            <View style={{ backgroundColor: "#FFFFFF", flex: 1, height:"100%", justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
+        <ScrollView style={{ flex: 1, backgroundColor: "#FFFFFF" }} >
+            <View style={{ backgroundColor: "#FFFFFF", flex: 1, height: "100%", justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
                 <Text style={{
                     fontFamily: "Poppins_800ExtraBold",
                     fontSize: 25,
@@ -75,7 +78,7 @@ const CreateAccount = ({ navigation }: any) => {
                     marginTop: 0,
                     color: "#4d4d4f"
                 }}>
-                    Criar conta
+                    Criar conta 
                 </Text>
                 <View style={{ width: "90%", gap: 8 }}>
                     <TextInput
@@ -86,7 +89,7 @@ const CreateAccount = ({ navigation }: any) => {
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('first_name', value)}
                     />
-                    { false && <TextInput
+                    {false && <TextInput
                         mode="outlined"
                         label="Nome do meio"
                         placeholder="sur_name"
@@ -110,7 +113,7 @@ const CreateAccount = ({ navigation }: any) => {
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('cpf', value)}
                     />
-                   { false && <TextInput
+                    {false && <TextInput
                         mode="outlined"
                         label="Data de nascimento"
                         placeholder="birthday"

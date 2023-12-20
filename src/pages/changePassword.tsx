@@ -19,21 +19,19 @@ const ChangePassword = ({ navigation }: any) => {
     const verificarSenha = (newPassword: any) => /[0-9]/.test(newPassword) && /[!@#$%^&*(),.?":{}|<>]/.test(newPassword);;
 
     function changePassword() {
-      if (newPassword && newPassword === confirPassword) {
-        setLoading(true);
-        axiosInstance.post('/reset-password', { email: email, newPassword }).then((response) => {
-            setTimeout(() => {
+        if (newPassword && newPassword === confirPassword) {
+            setLoading(true);
+            axiosInstance.post('/reset-password', { email: email, newPassword }).then((response) => {
                 setLoading(false);
-                login(email,newPassword);
-            }, 500);
-        }).catch((error) => {
-            alert("error no servidor")
-            setLoading(false);
-        })
-    }
-    else{
-        setShowError(true);
-    }
+                login(email, newPassword);
+            }).catch((error) => {
+                alert("error no servidor")
+                setLoading(false);
+            })
+        }
+        else {
+            setShowError(true);
+        }
 
     }
 

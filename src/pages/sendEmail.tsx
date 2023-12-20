@@ -7,43 +7,39 @@ import axiosInstance from '../config/axiosInstance';
 import { Context } from '../context/AuthProvider';
 
 const SendEmail = ({ navigation }: any) => {
-    const {email, setEmail} = useContext(Context);
+    const { email, setEmail } = useContext(Context);
     const [showError, setShowError] = useState<boolean>(false);
     const [mensageError, setMensageErro] = useState<string>("Email invalido")
     const [colorText, setColorText] = useState<any>("red");
     const { login, setLoading, loading } = useContext(Context);
-    
-    const confirmationEmail = () =>{
-        
-        if(email?.includes(".")&& email.includes("@") && email.length > 5){
+
+    const confirmationEmail = () => {
+
+        if (email?.includes(".") && email.includes("@") && email.length > 5) {
             setShowError(false)
             setLoading(true);
-            return  axiosInstance.post('/send-reset-code', {email: email}).then((response)=>{
-               
-                if(response.status === 200){
+            return axiosInstance.post('/send-reset-code', { email: email }).then((response) => {
+
+                if (response.status === 200) {
 
                     setColorText("green")
                     setMensageErro("Um email foi enviado para " + response?.data?.email)
                     setShowError(true);
-                    
-                    setTimeout(() => {
-                        setLoading(false);
-                        navigation.navigate("CheckCode");
-                        
-                    }, 800 );
+                    setLoading(false);
+                    navigation.navigate("CheckCode");
                 }
-            }).catch((error)=>{
+            }).catch((error) => {
                 setShowError(true);
                 error?.response.status && setMensageErro("Não existe essa conta de email");
                 setLoading(false);
 
             })
         }
-        else{
+        else {
             setShowError(true)
         }
     }
-   
+
     return (
         <View style={{ flex: 1 }}>
             <View style={{ gap: 10, marginTop: 10 }}>
@@ -52,7 +48,7 @@ const SendEmail = ({ navigation }: any) => {
                     marginBottom: 0,
                     marginTop: 0,
                     color: "#4d4d4f",
-                    textAlign:"center"
+                    textAlign: "center"
                 }}>
                     Esqueceu sua senha ?
                 </CustomText>
@@ -68,7 +64,7 @@ const SendEmail = ({ navigation }: any) => {
                         label="Email"
                         placeholder="Email"
                         style={{ height: 52, width: "90%" }}
-                        onChangeText={(e)=> {
+                        onChangeText={(e) => {
                             setMensageErro("Email invalido")
                             setEmail(e)
                             setShowError(false)
@@ -76,9 +72,9 @@ const SendEmail = ({ navigation }: any) => {
                         activeOutlineColor='#376fe8'
 
                     />
-               <View style={{alignItems:"flex-start", justifyContent:"flex-start", width:"100%", marginLeft:40}}>
-               <Text style={{color:colorText, textAlign:"left"}} >{showError && mensageError} </Text>
-               </View>
+                    <View style={{ alignItems: "flex-start", justifyContent: "flex-start", width: "100%", marginLeft: 40 }}>
+                        <Text style={{ color: colorText, textAlign: "left" }} >{showError && mensageError} </Text>
+                    </View>
 
                 </View>
                 <View style={{ padding: 20 }}>
