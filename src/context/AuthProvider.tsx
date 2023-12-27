@@ -26,9 +26,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [email, setEmail] = useState<string | any>(null);
 
     useEffect(() => {
-
+        setLoadingPage(true)
         AsyncStorage.getItem("usuario").then((response) => {
-            setLoadingPage(true)
             if (response != null) {
                 setUser(JSON.parse(response));
                 setLoadingPage(false);
