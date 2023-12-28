@@ -10,15 +10,15 @@ const LeadingPage = () => {
     Vibration.vibrate();
   },[]);
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={{ flex: 1, alignItems: "center", justifyContent: "center", borderWidth:2 }}>
       <View style={{ width: "100%" }}>
-        <ScrollView>
+        <ScrollView style={{flex:0.7}}>
           <View>
 
           </View>
         </ScrollView>
 
-        <View style={{  width: "100%", alignItems:"center" }}>
+        <View style={{  width: "100%", alignItems:"flex-end", justifyContent:"flex-end", flex:0.3, borderWidth:1 }}>
           <Pressable android_disableSound={false} onPress={() => {  }} android_ripple={{color:"white", foreground:false}} style={{
             backgroundColor: "blue", borderRadius: 12,
             padding: 5, alignItems: "center", justifyContent: "center",
