@@ -6,12 +6,15 @@ import CreateAccount from '../../pages/createAccount';
 import ChangePassword from '../../pages/changePassword';
 import SendEmail from '../../pages/sendEmail';
 import CheckCode from '../../pages/CheckCode';
+import LeadingPage from '../../pages/leadingPage';
 
 
 
 const AppStack = createStackNavigator();
 const PublicRoutes = () => {
   return (
+
+    
     <AppStack.Navigator screenOptions={{
       headerPressColor:"blue",
       headerStyle:{
@@ -20,6 +23,12 @@ const PublicRoutes = () => {
       cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 
     }}>
+
+  <AppStack.Screen name="LeadingPage" component={PreLogin} options={{
+       headerShown:false,
+       headerTitle: () => null,
+       headerTintColor:"white"
+    }}/>
     <AppStack.Screen name="PreLogin" component={PreLogin} options={{
        headerShown:false,
        headerTitle: () => null,
