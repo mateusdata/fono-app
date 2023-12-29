@@ -26,7 +26,7 @@ const PublicRoutes = () => {
 
     }}>
 
-  <AppStack.Screen name="LeadingPage" component={LeadingPage} options={{
+  <AppStack.Screen name="LeadingPage" component={PreLogin} options={{
        headerShown:true,
        headerTitle: () => null,
        headerTintColor:"white",
