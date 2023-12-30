@@ -114,7 +114,7 @@ const LeadingPage = () => {
           width: "90%", height: 48,
         }}>
           <CustomText fontFamily='Poppins_400Regular' style={{ color: "white", fontSize: 22 }}>
-            Assine
+            Assines
           </CustomText>
         </Pressable>
       </View>
