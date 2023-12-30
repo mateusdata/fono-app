@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ScrollView, Pressable, Vibration } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
-
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import CustomText from '../components/customText';
 import { AntDesign } from '@expo/vector-icons';
@@ -10,7 +10,7 @@ const LeadingPage = () => {
   const [currentPlan, setCurrentPlan] = useState<number>(1);
   useEffect(() => {
     setS(!s)
-    Vibration.vibrate();
+   // Vibration.vibrate();
   }, []);
   const linesTitle = [
     "Acesso ilimitado a plataforma",
@@ -34,19 +34,21 @@ const LeadingPage = () => {
   ]
 
   const subscribePlan = () => {
+     Vibration.vibrate();
+    if (currentPlan == 1) {
+      alert("o plano escolhido é o anual com o valor de R$ 84,90")
+      return
+    };
+    alert("o plano escolhido é o mensal com o valor de R$ 66,90");
+  }
 
-  }
-  const selectedPlan = (value: number) => {
-    alert(value)
-    setCurrentPlan(value)
-  }
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "white" }}>
       <StatusBar translucent={true} style={'dark'} />
       <ScrollView>
-        <View style={{ paddingHorizontal: 15, marginTop: 15 }}>
-          <CustomText fontFamily='Poppins_600SemiBold' style={{ fontSize: 18 }}>
+        <View style={{ paddingHorizontal: 15, marginTop: 15, }}>
+          <CustomText fontFamily='Poppins_600SemiBold' style={{ fontSize: 19 }}>
             Assine o Fonotheapp plus. Cancele a qualquer momento.
           </CustomText>
 
@@ -63,55 +65,64 @@ const LeadingPage = () => {
           <CustomText fontFamily='Poppins_600SemiBold' style={{ fontSize: 18, textAlign: "center", marginVertical: 25 }}>
             Escolha um plano
           </CustomText>
+          <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-end", top: 8, gap: 2, paddingRight: 20 }}>
+            <MaterialCommunityIcons name="arrow-down-left" size={37} color="orange" />
+            <Text style={{ textAlign: "right" }} >
+              Mais em conta
+
+            </Text>
+          </View>
         </View>
 
 
-        <View style={{ flex: 0.7, justifyContent: "center", alignItems: "center", gap: 15 }}>
+        <View style={{ flex: 0.7, justifyContent: "center", alignItems: "center", gap: 7 }}>
           <Pressable onPress={() => setCurrentPlan(1)} style={
             {
-              backgroundColor: currentPlan === 1 ? "#eaf9f2" : "white", borderWidth: 1.5, borderColor:
+              backgroundColor: currentPlan === 1 ? "#eaf9f2" : "#f4fcf8", borderWidth: 1.5, borderColor:
                 currentPlan === 1 ? "#38CB89" : "gray", borderRadius: 8, padding: 14, width: "95%"
             }}>
             {linesPlanAnual.map((item, index) => (
-              <CustomText key={index} fontFamily='Poppins_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
-                {item}
+              <View key={index}>
 
-              </CustomText>
+                <CustomText key={index} fontFamily='Poppins_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
+                  {item}
+                </CustomText>
+              </View>
             ))}
           </Pressable>
 
           <Pressable onPress={() => setCurrentPlan(2)} style={
             {
-              backgroundColor: currentPlan === 2 ? "#eaf9f2" : "white", borderWidth: 1.5, borderColor:
+              backgroundColor: currentPlan === 2 ? "#eaf9f2" : "#f4fcf8", borderWidth: 1.5, borderColor:
                 currentPlan === 2 ? "#38CB89" : "gray", borderRadius: 8, padding: 14, width: "95%"
             }}>
-            {linesPlanAnual.map((item, index) => (
+            {linesPlanMonth.map((item, index) => (
               <CustomText key={index} fontFamily='Poppins_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
                 {item}
               </CustomText>
             ))}
           </Pressable>
           <CustomText style={{ textAlign: "center", marginBottom: 20, paddingHorizontal: 30 }}>
-            {`Nós te cobraremos R$ ${currentPlan === 1 ? "84,90" : "66,90"}. Fatura a cada ${currentPlan === 1 ? "12" : "6"} meses. Cancele qualquer momento.`}
+            {` oi Nós te cobraremos R$ ${currentPlan === 1 ? "84,90" : "66,90"}. Fatura a cada ${currentPlan === 1 ? "12" : "6"} meses. Cancele qualquer momento.`}
           </CustomText>
         </View>
 
       </ScrollView>
       <View style={{ justifyContent: "center", alignItems: "center", width: "100%", backgroundColor: "white" }}>
-        <Pressable android_disableSound={false} onPress={() => { }} android_ripple={{ color: "white", foreground: false }} style={{
+        <Pressable android_disableSound={false} onPress={subscribePlan} android_ripple={{ color: "white", foreground: false }} style={{
           backgroundColor: "#407aff", borderRadius: 23,
           padding: 5, alignItems: "center", justifyContent: "center",
           width: "90%", height: 48,
         }}>
           <CustomText fontFamily='Poppins_400Regular' style={{ color: "white", fontSize: 22 }}>
-            Assines
+            Assine
           </CustomText>
         </Pressable>
         <View style={{ flexDirection: "row", marginVertical: 8, }}>
-          <CustomText fontFamily='Poppins_400Regular' style={{ color: "black", fontSize: 14 }}>
+          <CustomText fontFamily='Poppins_400Regular' style={{ color: "blue", fontSize: 14 }}>
             Termos e Serviços  - {" "}
           </CustomText>
-          <CustomText fontFamily='Poppins_400Regular' style={{ color: "black", fontSize: 14 }}>
+          <CustomText fontFamily='Poppins_400Regular' style={{ color: "blue", fontSize: 14 }}>
             Política de Privacidade
           </CustomText>
         </View>
