@@ -70,21 +70,21 @@ const LeadingPage = () => {
           <Pressable onPress={() => setCurrentPlan(1)} style={
             {
               backgroundColor: currentPlan === 1 ? "#eaf9f2" : "white", borderWidth: 1.5, borderColor:
-              currentPlan === 1 ? "#38CB89": "gray", borderRadius: 8, padding: 14, width: "95%"
+                currentPlan === 1 ? "#38CB89" : "gray", borderRadius: 8, padding: 14, width: "95%"
             }}>
             {linesPlanAnual.map((item, index) => (
-              <CustomText key={index} fontFamily='Poppins_500Medium' style={
-                {
-                  backgroundColor: currentPlan === 1 ? "#eaf9f2" : "white", borderWidth: 1.5, borderColor:
-                  currentPlan === 1 ? "#38CB89": "gray", borderRadius: 8, padding: 14, width: "95%"
-                }}>
+              <CustomText key={index} fontFamily='Poppins_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
                 {item}
 
               </CustomText>
             ))}
           </Pressable>
 
-          <Pressable onPress={() => setCurrentPlan(2)} style={{ backgroundColor: currentPlan === 2 ? "#eaf9f2" : "white", borderWidth: 1.5, borderColor: "#808080", borderRadius: 8, padding: 14, width: "95%" }}>
+          <Pressable onPress={() => setCurrentPlan(2)} style={
+            {
+              backgroundColor: currentPlan === 1 ? "#eaf9f2" : "white", borderWidth: 1.5, borderColor:
+                currentPlan === 1 ? "#38CB89" : "gray", borderRadius: 8, padding: 14, width: "95%"
+            }}>
             {linesPlanAnual.map((item, index) => (
               <CustomText key={index} fontFamily='Poppins_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
                 {item}
