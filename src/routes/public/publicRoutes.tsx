@@ -26,14 +26,17 @@ const PublicRoutes = () => {
 
     }}>
 
-  <AppStack.Screen name="LeadingPage" component={PreLogin} options={{
+  <AppStack.Screen name="LeadingPage" component={LeadingPage} options={{
        headerShown:true,
        headerTitle: () => null,
        headerTintColor:"white",
+       headerStyle:{
+        backgroundColor:"white"
+       },
        headerLeftLabelVisible:true,
       headerRight:({navigation}:any)=>(
     <Pressable onPress={()=> navigation.navigate("Login")} style={{padding:10}} android_ripple={{color:"white"}}>
-        <CustomText style={{color:"white"}}>
+        <CustomText style={{color:"black"}}>
             Não, obrigado
         </CustomText>
     </Pressable>
