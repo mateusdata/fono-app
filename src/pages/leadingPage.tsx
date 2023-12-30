@@ -102,7 +102,7 @@ const LeadingPage = () => {
             ))}
           </Pressable>
           <CustomText style={{ textAlign: "center", marginBottom: 20, paddingHorizontal: 30 }}>
-            {` Nós te cobraremos R$ ${currentPlan === 1 ? "84,90" : "66,90"}. Fatura a cada ${currentPlan === 1 ? "12" : "6"} meses. Cancele qualquer momento.`}
+            {` oi Nós te cobraremos R$ ${currentPlan === 1 ? "84,90" : "66,90"}. Fatura a cada ${currentPlan === 1 ? "12" : "6"} meses. Cancele qualquer momento.`}
           </CustomText>
         </View>
 
