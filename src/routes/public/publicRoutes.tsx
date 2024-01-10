@@ -28,6 +28,8 @@ const PublicRoutes = () => {
        headerTitle: () => null,
        headerTintColor:"white"
     }}/>
+{/*
+
 <AppStack.Screen 
   name="LeadingPage" 
   component={LeadingPage} 
@@ -50,6 +52,7 @@ const PublicRoutes = () => {
     )
   })}
 />
+*/}
 
    
     <AppStack.Screen name="Login" component={Login} options={{

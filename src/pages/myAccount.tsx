@@ -8,6 +8,7 @@ import {
 import { Button, YStack } from 'tamagui';
 import CustomText from '../components/customText';
 import { Context } from '../context/AuthProvider';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const MyAccount = () => {
   const { logOut, user } = useContext(Context);
@@ -18,7 +19,7 @@ const MyAccount = () => {
         <YStack style={{width:'100%', alignItems:'center', marginTop:5}}>
           <Image source={{ uri: "https://obsessaocompulsiva.files.wordpress.com/2012/08/ian-somerhalder.jpg" }} style={{ width: 100, height: 100, resizeMode: "contain", borderRadius: 50 }} />
           <CustomText fontFamily='Poppins_700Bold'> {user?.name}</CustomText>
-          <CustomText fontFamily='Poppins_300Light'> {user?.email.replace(/\s/g, "")}</CustomText>
+          <CustomText fontFamily='Poppins_300Light'> {user?.email?.replace(/\s/g, "")}</CustomText>
         </YStack>
         <Button backgroundColor={'$green7Light'}>
             <CustomText fontFamily='Poppins_400Regular'> Indique  e ganhe 10% de bonus </CustomText>
@@ -65,6 +66,17 @@ const MyAccount = () => {
             </View>
             <MaterialIcons name="arrow-forward-ios" size={12} color="black" />
         </Button>
+       
+        <Button   onPress={()=>{
+          AsyncStorage.removeItem("plan");
+          logOut();
+        }} backgroundColor={'#d1dfff'} style={{ width: 340, borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+            <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
+              <Foundation name="shield" size={20} color="black" />
+              <Text style={{ fontSize: 12, }} >Cancelar conta</Text>
+            </View>
+            <MaterialIcons name="arrow-forward-ios" size={12} color="black" />
+        </Button>
         <Button  onPress={logOut} backgroundColor={'#f46961'} style={{ width: 340, borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'red', borderWidth: 0, width: 130 }}>
               <Foundation name="eject" size={20} color="white" />
@@ -72,7 +84,6 @@ const MyAccount = () => {
             </View>
             <MaterialIcons name="arrow-forward-ios" size={12} color="white" />
         </Button>
-      
       </View>
     </YStack>
   )

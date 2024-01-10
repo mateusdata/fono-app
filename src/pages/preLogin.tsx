@@ -21,7 +21,7 @@ const PreLogin = ({ navigation }: any) => {
             </View>
             <View style={{ width: "90%", marginTop: 10 }} >
                 <View style={{ padding: 0 }}>
-                    <PrimaryButton name="Criar conta" handleButton={() => navigation.navigate("LeadingPage")} />
+                    <PrimaryButton name="Criar conta" handleButton={() => navigation.navigate("CreateAccount")} />
                 </View>
                 <Pressable android_ripple={{color:"#9dcee0", foreground:true}} onPress={() => navigation.navigate("Login")} style={{borderWidth:0.5, borderColor:"#daebf2",backgroundColor:"#ECF2FF", padding:15, borderRadius:5, marginTop:6}}>
                     <CustomText style={{ color: "#36B3B9", textAlign: "center" }}>Login</CustomText>

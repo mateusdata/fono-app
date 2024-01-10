@@ -139,7 +139,7 @@ const CreateAccount = ({ navigation }: any) => {
                         onChangeText={(value) => handleInputChange('password', value)}
                     />
 
-                    <PrimaryButton name="Criar conta" handleButton={handleCreateAccount} />
+                    <PrimaryButton name="Criar conta"  handleButton={handleCreateAccount} />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
                         <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
                         <Pressable onPress={() => navigation.navigate("Login")}>

@@ -1,17 +1,44 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, Text, ScrollView, Pressable, Vibration } from 'react-native';
 import { StatusBar } from 'expo-status-bar';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import CustomText from '../components/customText';
 import { AntDesign } from '@expo/vector-icons';
-const LeadingPage = () => {
-  const [s, setS] = useState(true);
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Context } from '../context/AuthProvider';
+import LoadingComponent from '../components/LoadingComponent';
+const LeadingPage = ({navigation}:any) => {
   const [currentPlan, setCurrentPlan] = useState<number>(1);
+  const [loading, setLoading] = useState<boolean>(false);
   useEffect(() => {
-    setS(!s)
-   // Vibration.vibrate();
-  }, []);
+    setLoading(true);
+    const fetchPlan = async () => {
+      try {
+        const response = await AsyncStorage.getItem("plan");
+        if (response != null) {
+          console.log("è  assinante " + JSON.stringify(response));
+          setTimeout(() => {
+            navigation.navigate("Root");
+            setLoading(false);
+          }, 1000);
+        } else {
+          console.log("erro");
+          setLoading(false);
+
+        }
+      } catch (error) {
+        console.log(error);
+        setLoading(false);
+      }
+    };
+    fetchPlan();
+  }, []); 
+  
+  if(loading){
+    return <LoadingComponent/>
+  }
+ 
   const linesTitle = [
     "Acesso ilimitado a plataforma",
     "Cadastro personalizados de alunos",
@@ -34,11 +61,16 @@ const LeadingPage = () => {
   ]
 
   const subscribePlan = () => {
-     Vibration.vibrate();
+    Vibration.vibrate();
     if (currentPlan == 1) {
+      navigation.navigate("Root")
+      AsyncStorage.setItem("plan", JSON.stringify({isSubscriber:true, plan:1, price:" R$ 84,90", duration:"12 meses", type:"Anual"}))
       alert("o plano escolhido é o anual com o valor de R$ 84,90")
+
       return
     };
+    AsyncStorage.setItem("plan", JSON.stringify({isSubscriber:true, plan:2,  price:" R$ 66,90", duration:"6 meses", type:"Anual"}))
+    navigation.navigate("Root")
     alert("o plano escolhido é o mensal com o valor de R$ 66,90");
   }
 
@@ -119,12 +151,18 @@ const LeadingPage = () => {
           </CustomText>
         </Pressable>
         <View style={{ flexDirection: "row", marginVertical: 8, }}>
+        
+          <Pressable onPress={()=> navigation.navigate("TermsAndServices")} android_ripple={{color:"gray"}} >
           <CustomText fontFamily='Poppins_400Regular' style={{ color: "blue", fontSize: 14 }}>
             Termos e Serviços  - {" "}
           </CustomText>
-          <CustomText fontFamily='Poppins_400Regular' style={{ color: "blue", fontSize: 14 }}>
-            Política de Privacidade
-          </CustomText>
+          </Pressable>
+          <Pressable onPress={()=> navigation.navigate("PolicyAndPrivacy")} android_ripple={{color:"gray"}}>
+            <CustomText fontFamily='Poppins_400Regular' style={{ color: "blue", fontSize: 14 }}>
+              Política de Privacidade
+            </CustomText>
+          </Pressable>
+          
         </View>
       </View>
     </View>

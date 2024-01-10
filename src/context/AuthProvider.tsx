@@ -14,7 +14,10 @@ interface ContextProps {
     logOut: () => any;
     logado: any,
     email: string | any,
-    setEmail: Dispatch<SetStateAction<string | null>>
+    setEmail: Dispatch<SetStateAction<string | null>>,
+    loadingPage: boolean;
+    setLoadingPage: Dispatch<SetStateAction<boolean>>;
+    
 }
 
 export const Context = createContext<ContextProps>({} as ContextProps);
@@ -41,15 +44,21 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }, []);
 
     const login = async (email: string, senha: string) => {
+        setLoading(true);
         axiosInstance.post("/login", {
             email,
             password: senha
         }).then((response) => {
+            setLoadingPage(true)
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
                 setLoading(false);
+                setTimeout(() => {
+                    setLoadingPage(false)
+                }, 1000);
                 setUser(response?.data);
             }).catch((erro) => {
                 setLoading(false);
+                setLoadingPage(false)
             });
         }).catch((erro) => {
             setLoading(false);
@@ -72,7 +81,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <Context.Provider
             value={{
-                user, loading, setUser, logado: !!user, setLoading, login, logOut, email, setEmail
+                user, loading, setUser, logado: !!user, setLoading, login, logOut, email, setEmail, loadingPage, setLoadingPage
             }}
         >
             {children}
