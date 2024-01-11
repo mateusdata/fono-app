@@ -16,17 +16,11 @@ const LeadingPage = ({navigation}:any) => {
     const fetchPlan = async () => {
       try {
         const response = await AsyncStorage.getItem("plan");
+        setLoading(true);
         if (response != null) {
-          console.log("è  assinante " + JSON.stringify(response));
-          setTimeout(() => {
-            navigation.navigate("Root");
-            setLoading(false);
-          }, 1000);
-        } else {
-          console.log("erro");
-          setLoading(false);
-
+            return navigation.navigate("Root");
         }
+        setLoading(false);
       } catch (error) {
         console.log(error);
         setLoading(false);

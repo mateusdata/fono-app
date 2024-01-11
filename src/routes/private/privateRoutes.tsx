@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
+import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 import Anamnese from '../../pages/anamnese';
 import Exercise from '../../pages/exercise';
 import TabsNavigation from './tabNavigation/tabNavigation';
@@ -19,12 +19,14 @@ const PrivateRoutes = () => {
   const {setUser} = useContext(Context)
 
   return (
-    <AppStack.Navigator>
+    <AppStack.Navigator   screenOptions={{
+      //cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+    }}>
      <AppStack.Screen 
   name="LeadingPage" 
   component={LeadingPage} 
   options={({ navigation }) => ({
-    headerShown: true,
+    headerShown: false,
     headerTitle: () => null,
     headerTintColor: "black",
     headerStyle: {
