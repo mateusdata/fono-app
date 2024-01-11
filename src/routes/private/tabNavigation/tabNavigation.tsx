@@ -95,9 +95,11 @@ const TabsNavigation = () => {
                 headerTitle: ""
             }} />
 
-            <Tabs.Screen name='Perfil' component={MyAccount} options={{
+            <Tabs.Screen name='MyAccount' component={MyAccount} options={{
                 tabBarInactiveTintColor:"gray",
                 tabBarActiveTintColor:"#36B3B9",
+                headerTitle:"",
+                headerTitleAlign:"center",
                 tabBarIcon: ({ color,size }) => (
                     <AntDesign name="user"  size={size} color={color} />
                 ),

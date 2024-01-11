@@ -18,7 +18,7 @@ const LeadingPage = ({navigation}:any) => {
         const response = await AsyncStorage.getItem("plan");
         setLoading(true);
         if (response != null) {
-            return navigation.navigate("Root");
+           // return navigation.navigate("Root");
         }
         setLoading(false);
       } catch (error) {
