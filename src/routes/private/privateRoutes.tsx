@@ -20,13 +20,13 @@ const PrivateRoutes = () => {
 
   return (
     <AppStack.Navigator   screenOptions={{
-      //cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
     }}>
      <AppStack.Screen 
   name="LeadingPage" 
   component={LeadingPage} 
   options={({ navigation }) => ({
-    headerShown: false,
+    headerShown: true,
     headerTitle: () => null,
     headerTintColor: "black",
     headerStyle: {
