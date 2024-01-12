@@ -11,7 +11,7 @@ import { Context } from '../context/AuthProvider';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StatusBar } from 'expo-status-bar';
 
-const MyAccount = () => {
+const MyAccount = ({navigation}) => {
   const { logOut, user } = useContext(Context);
 
   return (
@@ -27,62 +27,52 @@ const MyAccount = () => {
       </YStack>
 
       <View style={{ borderColor: 'red', borderWidth: 0, alignItems: "center", width: "100%", flex: 1 }}>
-        <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button onPress={()=>navigation.navigate("MyInformation")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
-              <MaterialIcons name="info-outline" size={23} color="#4e4e54" />
-              <Text style={{ fontSize: 16,  }} >Suas informações</Text>
+              <MaterialIcons name="info-outline" size={23} color="#474747" />
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Suas informações</Text>
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={15} color="black" />
+            <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
 
-        <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button onPress={()=>navigation.navigate("MyPlanDetails")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
-              <Ionicons name="ios-card-outline" size={23} color="#4e4e54" />
-              <Text style={{ fontSize: 16,  }} >Minha assinatura</Text>
+              <Ionicons name="ios-card-outline" size={23} color="#474747" />
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Minha assinatura</Text>
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={15} color="black" />
+            <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
 
-        <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
-              <SimpleLineIcons name="user-female" size={23} color="#4e4e54" />
-              <Text style={{ fontSize: 16,  }} >Indique e ganhe</Text>
+              <SimpleLineIcons name="user-female" size={23} color="#474747" />
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Indique e ganhe</Text>
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={15} color="black" />
+            <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
 
-        <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button   onPress={()=>navigation.navigate("Help")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
-              <MaterialCommunityIcons name="help-rhombus-outline" size={23} color="#4e4e54" />
-              <Text style={{ fontSize: 16,  }} >Ajuda</Text>
+              <MaterialCommunityIcons name="help-rhombus-outline" size={23} color="#474747" />
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Ajuda</Text>
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={15} color="black" />
+            <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
 
-        <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
-            <SimpleLineIcons name="directions" size={23} color="#4e4e54" />
-              <Text style={{ fontSize: 16,  }} >Sugestão</Text>
+            <SimpleLineIcons name="directions" size={23} color="#474747" />
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Sugestão</Text>
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={15} color="black" />
+            <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
        
-        <Button   onPress={()=>{
-          AsyncStorage.removeItem("plan");
-          logOut();
-        }} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
-            <SimpleLineIcons name="trash" size={23} color="#4e4e54" />
-              <Text style={{ fontSize : 16, }} >Cancelar conta</Text>
-            </View>
-            <MaterialIcons name="arrow-forward-ios" size={15} color="black" />
-        </Button>
-        <Button  onPress={logOut} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 10, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+        <Button  onPress={logOut} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'red', borderWidth: 0, width: 130 }}>
-            <SimpleLineIcons name="logout" size={23} color="#4e4e54" />
-              <Text style={{ fontSize: 16, color:"black" }} >Sair da conta</Text>
+            <SimpleLineIcons name="logout" size={23} color="#474747" />
+              <Text style={{ minWidth:850 ,fontSize: 19, color:"black" }} >Sair da conta</Text>
             </View>
-            <MaterialIcons name="arrow-forward-ios" size={15} color="#4e4e54" />
+            <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
       </View>
     </YStack>

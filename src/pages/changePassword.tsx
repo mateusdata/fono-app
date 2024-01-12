@@ -83,12 +83,7 @@ const ChangePassword = ({ navigation }: any) => {
                 </View>
                 <View style={{ padding: 20 }}>
                     <PrimaryButton handleButton={changePassword} name="Alterar senha" />
-                    <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</CustomText>
-                        <Pressable onPress={() => { navigation.navigate("Login") }}>
-                            <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</CustomText>
-                        </Pressable>
-                    </View>
+                    
                 </View>
             </View>
 
