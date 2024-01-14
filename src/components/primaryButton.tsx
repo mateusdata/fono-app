@@ -1,17 +1,11 @@
 import React, { useContext } from 'react';
 import { StyleSheet, Text, Pressable, ActivityIndicator } from 'react-native';
-import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
 import AuthProvider, { Context } from '../context/AuthProvider';
+import CustomText from './customText';
 
 const PrimaryButton = ({ handleButton, name }: any) => {
-    let [fontsLoaded] = useFonts({
-        Poppins_600SemiBold, Poppins_800ExtraBold
-    });
+  
     const { loading } = useContext(Context);
-
-    if (!fontsLoaded) {
-        return null;
-    }
     return (
         <AuthProvider>
             <Pressable
@@ -20,19 +14,16 @@ const PrimaryButton = ({ handleButton, name }: any) => {
                 onPress={handleButton}
                 disabled={loading}
             >
-                <Text style={[styles.buttonText,{color:loading?"#e5e3e3":"white"}]}>{!loading && name}</Text>
+                <CustomText  fontFamily='Inter_500Medium' style={[styles.buttonText,{color:loading?"#e5e3e3":"white"}]}>{!loading && name}</CustomText>
                 {loading ? <ActivityIndicator color={"white"} size={25} /> : null}
             </Pressable>
-
         </AuthProvider>
     )
 
 }
 
 const styles = StyleSheet.create({
-
     button: {
-        fontFamily: "Inter600SemiBold",
         borderRadius: 5,
         padding: 16,
         alignItems: 'center',
