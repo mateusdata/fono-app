@@ -53,7 +53,6 @@ const LeadingPage = ({navigation}:any) => {
     "Cobrado a cada 6 meses",
     "Economize 54%",
   ]
-
   const subscribePlan = () => {
     Vibration.vibrate();
     if (currentPlan == 1) {

@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.projetofono.Fonotherapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,7 +33,7 @@
     },
     "extra": {
       "eas": {
-        "projectId": "931c00d8-5625-4e4d-b991-a2eba734f6a6"
+        "projectId": "ab663411-2017-4bb3-a81c-8d6e4d903793"
       }
     },
     "updates": {

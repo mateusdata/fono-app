@@ -30,7 +30,7 @@ const MyAccount = ({navigation}) => {
         <Button onPress={()=>navigation.navigate("MyInformation")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <MaterialIcons name="info-outline" size={23} color="#474747" />
-              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Suas informações</Text>
+              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Suas informações</CustomText>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -38,7 +38,8 @@ const MyAccount = ({navigation}) => {
         <Button onPress={()=>navigation.navigate("MyPlanDetails")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <Ionicons name="ios-card-outline" size={23} color="#474747" />
-              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Minha assinatura</Text>
+              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Indique e ganhe</CustomText>
+
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -46,7 +47,7 @@ const MyAccount = ({navigation}) => {
         <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <SimpleLineIcons name="user-female" size={23} color="#474747" />
-              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Indique e ganhe</Text>
+              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Indique e ganhe</CustomText>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -54,7 +55,7 @@ const MyAccount = ({navigation}) => {
         <Button   onPress={()=>navigation.navigate("Help")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <MaterialCommunityIcons name="help-rhombus-outline" size={23} color="#474747" />
-              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Ajuda</Text>
+              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Ajuda</CustomText>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -62,7 +63,7 @@ const MyAccount = ({navigation}) => {
         <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
             <SimpleLineIcons name="directions" size={23} color="#474747" />
-              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Sugestão</Text>
+              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Sugestão</CustomText>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -70,7 +71,7 @@ const MyAccount = ({navigation}) => {
         <Button  onPress={logOut} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'red', borderWidth: 0, width: 130 }}>
             <SimpleLineIcons name="logout" size={23} color="#474747" />
-              <Text style={{ minWidth:850 ,fontSize: 19, color:"black" }} >Sair da conta</Text>
+              <CustomText style={{ minWidth:850 ,fontSize: 19, color:"black" }} >Sair da conta</CustomText>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
