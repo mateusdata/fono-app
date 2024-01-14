@@ -21,7 +21,7 @@ const MyAccount = ({navigation}) => {
       <YStack space="$3" style={{ borderColor: 'yellow', borderWidth: 0, alignItems: "center", marginTop: 40, marginBottom: 40 }}>
         <YStack style={{width:'100%', alignItems:'center', marginTop:5}}>
           <Image source={{ uri: "https://obsessaocompulsiva.files.wordpress.com/2012/08/ian-somerhalder.jpg" }} style={{ width: 100, height: 100, resizeMode: "contain", borderRadius: 50 }} />
-          <CustomText style={{fontSize:22}} fontFamily='Inter_400Regular'> {user?.name}</CustomText>
+          <CustomText style={{fontSize:22}} fontFamily='Poppins_400Regular'> {user?.name}</CustomText>
         </YStack>
        
       </YStack>
@@ -30,7 +30,7 @@ const MyAccount = ({navigation}) => {
         <Button onPress={()=>navigation.navigate("MyInformation")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <MaterialIcons name="info-outline" size={23} color="#474747" />
-              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Suas informações</CustomText>
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Suas informações</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -38,8 +38,7 @@ const MyAccount = ({navigation}) => {
         <Button onPress={()=>navigation.navigate("MyPlanDetails")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <Ionicons name="ios-card-outline" size={23} color="#474747" />
-              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Indique e ganhe</CustomText>
-
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Minha assinatura</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -47,7 +46,7 @@ const MyAccount = ({navigation}) => {
         <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <SimpleLineIcons name="user-female" size={23} color="#474747" />
-              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Indique e ganhe</CustomText>
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Indique e ganhe</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -55,7 +54,7 @@ const MyAccount = ({navigation}) => {
         <Button   onPress={()=>navigation.navigate("Help")} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
               <MaterialCommunityIcons name="help-rhombus-outline" size={23} color="#474747" />
-              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Ajuda</CustomText>
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Ajuda</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -63,7 +62,7 @@ const MyAccount = ({navigation}) => {
         <Button backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'blue', borderWidth: 0, width: 130 }}>
             <SimpleLineIcons name="directions" size={23} color="#474747" />
-              <CustomText style={{ minWidth:850 ,fontSize: 19,  }} >Sugestão</CustomText>
+              <Text style={{ minWidth:850 ,fontSize: 19,  }} >Sugestão</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>
@@ -71,7 +70,7 @@ const MyAccount = ({navigation}) => {
         <Button  onPress={logOut} backgroundColor={'white'} style={{ width: "95%", borderRadius: 6, marginTop: 0, borderWidth: 1, flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
             <View style={{ flexDirection: 'row', gap: 10, borderColor: 'red', borderWidth: 0, width: 130 }}>
             <SimpleLineIcons name="logout" size={23} color="#474747" />
-              <CustomText style={{ minWidth:850 ,fontSize: 19, color:"black" }} >Sair da conta</CustomText>
+              <Text style={{ minWidth:850 ,fontSize: 19, color:"black" }} >Sair da conta</Text>
             </View>
             <MaterialIcons name="arrow-forward-ios" size={15} color="#474747" />
         </Button>

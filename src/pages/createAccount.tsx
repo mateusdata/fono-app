@@ -72,7 +72,7 @@ const CreateAccount = ({ navigation }: any) => {
         <ScrollView style={{ flex: 1, backgroundColor: "#FFFFFF" }} >
             <View style={{ backgroundColor: "#FFFFFF", flex: 1, height: "100%", justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
                 <Text style={{
-                    fontFamily: "Inter800ExtraBold",
+                    fontFamily: "Poppins_800ExtraBold",
                     fontSize: 25,
                     marginBottom: 0,
                     marginTop: 0,
@@ -85,7 +85,7 @@ const CreateAccount = ({ navigation }: any) => {
                         mode="outlined"
                         label="Nome"
                         placeholder="Primeio nome"
-                        style={{ height: 52, fontFamily: "Inter300Light", borderRadius: 150 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('first_name', value)}
                     />
@@ -93,7 +93,7 @@ const CreateAccount = ({ navigation }: any) => {
                         mode="outlined"
                         label="Nome do meio"
                         placeholder="sur_name"
-                        style={{ height: 52, fontFamily: "Inter300Light", borderRadius: 150 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('sur_name', value)}
                     />}
@@ -101,7 +101,7 @@ const CreateAccount = ({ navigation }: any) => {
                         mode="outlined"
                         label="Sobrenome"
                         placeholder="Sobrenome"
-                        style={{ height: 52, fontFamily: "Inter300Light", borderRadius: 150 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('last_name', value)}
                     />
@@ -109,7 +109,7 @@ const CreateAccount = ({ navigation }: any) => {
                         mode="outlined"
                         label="CPF"
                         placeholder="CPF"
-                        style={{ height: 52, fontFamily: "Inter300Light", borderRadius: 150 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('cpf', value)}
                     />
@@ -117,7 +117,7 @@ const CreateAccount = ({ navigation }: any) => {
                         mode="outlined"
                         label="Data de nascimento"
                         placeholder="birthday"
-                        style={{ height: 52, fontFamily: "Inter300Light", borderRadius: 150 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('birthday', value)}
                     />}
@@ -125,7 +125,7 @@ const CreateAccount = ({ navigation }: any) => {
                         mode="outlined"
                         label="E-mail"
                         placeholder="E-mail"
-                        style={{ height: 52, fontFamily: "Inter300Light", borderRadius: 150 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('email', value)}
                     />
@@ -134,16 +134,16 @@ const CreateAccount = ({ navigation }: any) => {
                         label="Senha"
                         placeholder="Senha"
                         secureTextEntry
-                        style={{ height: 52, fontFamily: "Inter300Light", borderRadius: 150 }}
+                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
                         activeOutlineColor='#376fe8'
                         onChangeText={(value) => handleInputChange('password', value)}
                     />
 
                     <PrimaryButton name="Criar conta"  handleButton={handleCreateAccount} />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Inter600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
+                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
                         <Pressable onPress={() => navigation.navigate("Login")}>
-                            <Text style={{ fontFamily: "Inter600SemiBold", color: "#407AFF" }}>Fazer login</Text>
+                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
                         </Pressable>
                     </View>
                 </View>

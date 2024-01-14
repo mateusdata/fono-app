@@ -43,7 +43,7 @@ const SendEmail = ({ navigation }: any) => {
     return (
         <View style={{ flex: 1 }}>
             <View style={{ gap: 10, marginTop: 10 }}>
-                <CustomText fontFamily='Inter_300Light' style={{
+                <CustomText fontFamily='Poppins_300Light' style={{
                     fontSize: 25,
                     marginBottom: 0,
                     marginTop: 0,
@@ -52,7 +52,7 @@ const SendEmail = ({ navigation }: any) => {
                 }}>
                     Esqueceu sua senha ?
                 </CustomText>
-                <CustomText fontFamily='Inter_300Light' style={{ fontSize: 18, textAlign: "center" }}>
+                <CustomText fontFamily='Poppins_300Light' style={{ fontSize: 18, textAlign: "center" }}>
                     Insira seu email pra obter um código de segurança
                 </CustomText>
             </View>
@@ -80,9 +80,9 @@ const SendEmail = ({ navigation }: any) => {
                 <View style={{ padding: 20 }}>
                     <PrimaryButton handleButton={confirmationEmail} name="Enviar email" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <CustomText fontFamily='Inter_300Light' style={{ color: "gray" }}>Lembrou sua senha</CustomText>
+                        <CustomText fontFamily='Poppins_300Light' style={{ color: "gray" }}>Lembrou sua senha</CustomText>
                         <Pressable onPress={() => navigation.navigate("Login")}>
-                            <CustomText fontFamily='Inter_300Light' style={{ color: "#407AFF" }}>Fazer login</CustomText>
+                            <CustomText fontFamily='Poppins_300Light' style={{ color: "#407AFF" }}>Fazer login</CustomText>
                         </Pressable>
                     </View>
                 </View>

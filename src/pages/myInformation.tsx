@@ -39,7 +39,7 @@ const MyInformation = ({navigation}) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="create-outline" size={28} color="#474747" />
-          <CustomText fontFamily='Inter_400Regular' style={{ fontSize: 17 }}>Nome de exibição</CustomText>
+          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Nome de exibição</CustomText>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color="#474747" />
       </Pressable>
@@ -51,7 +51,7 @@ const MyInformation = ({navigation}) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="at" size={28} color="#474747" />
-          <CustomText fontFamily='Inter_400Regular' style={{ fontSize: 17 }}>Email</CustomText>
+          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Email</CustomText>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color="#474747" />
       </Pressable>
@@ -63,7 +63,7 @@ const MyInformation = ({navigation}) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="settings-outline" size={28} color="#474747" />
-          <CustomText fontFamily='Inter_400Regular' style={{ fontSize: 17 }}>Senha</CustomText>
+          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Senha</CustomText>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color="#474747" />
       </Pressable>
@@ -74,7 +74,7 @@ const MyInformation = ({navigation}) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="md-trash-outline" size={28} color="#f46e6e" />
-          <CustomText fontFamily='Inter_400Regular' style={{ fontSize: 17 }}>Excluir conta</CustomText>
+          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Excluir conta</CustomText>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color="#474747" />
       </Pressable>

@@ -5,7 +5,7 @@ import CustomText from '../components/customText';
 const PolicyAndPrivacy = () => {
     return (
         <ScrollView style={styles.container}>
-            <CustomText  fontFamily='Inter_600SemiBold' style={styles.title}>Política de Privacidade do Fonotherapp</CustomText>
+            <CustomText  fontFamily='Poppins_600SemiBold' style={styles.title}>Política de Privacidade do Fonotherapp</CustomText>
             <CustomText style={styles.text}>
                 Política de Privacidade Suplementar dos Canais do Fonotheapp Data de Vigência: 2 de agosto de 2023 Esta Política de Privacidade
                 Suplementar dos Canais do Fonotheapp ajuda a explicar nossas práticas relacionadas a informações quando você usa os Canais do

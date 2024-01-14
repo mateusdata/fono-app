@@ -5,7 +5,7 @@ import CustomText from '../components/customText';
 const TermsAndServices = () => {
     return (
         <ScrollView style={styles.container}>
-            <CustomText fontFamily='Inter_600SemiBold' style={styles.title}>Termos e Serviços do Fonotherapp</CustomText>
+            <CustomText fontFamily='Poppins_600SemiBold' style={styles.title}>Termos e Serviços do Fonotherapp</CustomText>
             <CustomText style={styles.text}>
                 Sobre os nossos Serviços Princípios de segurança e privacidade. Desde que fundamos o Fonotheapp, nós desenvolvemos nossos
                 Serviços com base em sólidos princípios de segurança e privacidade.

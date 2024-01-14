@@ -15,8 +15,7 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.projetofono.Fonotherapp"
+      "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {

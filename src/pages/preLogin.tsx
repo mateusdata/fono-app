@@ -11,7 +11,7 @@ const PreLogin = ({ navigation }: any) => {
         
         <View style={{flex: 0.6,  justifyContent: "flex-start", width: "100%", alignItems: "center" }}>
             <View style={{ width: "80%", gap: 5, marginTop: 0 }}>
-                <CustomText fontFamily="Inter_500Medium" style={{ color: "black", fontSize: 25, textAlign: "center", paddingTop:15 }}>
+                <CustomText fontFamily="Poppins_600SemiBold" style={{ color: "#3b3d3d", fontSize: 25, textAlign: "center", paddingTop:15 }}>
                     Descubra o seu melhor com o Fono App
                 </CustomText>
                 <CustomText style={{ fontSize: 16, textAlign: "center" }}>
