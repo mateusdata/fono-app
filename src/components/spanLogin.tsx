@@ -12,8 +12,8 @@ const FazerLogin = () => {
       }
     return (
         <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Não tem uma conta</Text>
-            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Criar uma conta</Text>
+            <Text style={{ fontFamily: "Inter600SemiBold", color: "gray" }}>Não tem uma conta</Text>
+            <Text style={{ fontFamily: "Inter600SemiBold", color: "#407AFF" }}>Criar uma conta</Text>
         </View>
     )
 }

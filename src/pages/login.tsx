@@ -53,9 +53,9 @@ const Login = ({ navigation }: any) => {
                  <PrimaryButton name="Login" handleButton={handleLogin} />
                </View>
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                    <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua senha ?</CustomText>
+                    <CustomText style={{ fontFamily: "Inter600SemiBold", color: "gray" }}>Esqueceu sua senha ?</CustomText>
                     <Pressable onPress={() => navigation.navigate("SendEmail")}>
-                        <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recuperar senha</CustomText>
+                        <CustomText style={{ fontFamily: "Inter600SemiBold", color: "#407AFF" }}>Recuperar senha</CustomText>
                     </Pressable>
                 </View>
             </View>
@@ -65,19 +65,19 @@ const Login = ({ navigation }: any) => {
 
 const styles = StyleSheet.create({
     container: {
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Inter600SemiBold",
         flex: 1,
         backgroundColor: '#FFFFFF',
         justifyContent: 'flex-start',
         padding: 2,
     },
     titleContainer: {
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Inter600SemiBold",
         justifyContent: 'center',
         alignItems: 'center',
     },
     titleText: {
-        fontFamily: "Poppins_800ExtraBold",
+        fontFamily: "Inter800ExtraBold",
         fontSize: 25,
         marginBottom: 0,
         marginTop: 0,
@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
 
     },
     formContainer: {
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Inter600SemiBold",
         flex: 1,
         backgroundColor: '#ffffff',
         padding: 20,
@@ -95,12 +95,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     label: {
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Inter600SemiBold",
         color: '#000000',
         marginBottom: 5,
     },
     input: {
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Inter600SemiBold",
         backgroundColor: '#FFFFFF',
         borderRadius: 5,
         borderWidth: 1,
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
     },
     button: {
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Inter600SemiBold",
         backgroundColor: '#407AFF',
         borderRadius: 5,
         padding: 18,
@@ -118,7 +118,7 @@ const styles = StyleSheet.create({
         marginTop: 15
     },
     buttonText: {
-        fontFamily: "Poppins_800ExtraBold",
+        fontFamily: "Inter800ExtraBold",
         color: '#f4f4f4',
         fontWeight: 'bold',
         fontSize: 17

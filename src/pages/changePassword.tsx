@@ -39,7 +39,7 @@ const ChangePassword = ({ navigation }: any) => {
         <View style={{ flex: 1 }}>
             <View style={{ gap: 10, marginTop: 10 }}>
                 <CustomText style={{
-                    fontFamily: "Poppins_800ExtraBold",
+                    fontFamily: "Inter800ExtraBold",
                     fontSize: 25,
                     marginBottom: 0,
                     marginTop: 0,
@@ -48,7 +48,7 @@ const ChangePassword = ({ navigation }: any) => {
                 }}>
                     Vamos alterar sua senha
                 </CustomText>
-                <CustomText style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
+                <CustomText style={{ fontSize: 18, fontFamily: "Inter300Light", textAlign: "center" }}>
                     Insira sua nova senha de 6 digitos com letras caractere especiais?
                 </CustomText>
             </View>

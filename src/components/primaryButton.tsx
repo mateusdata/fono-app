@@ -32,7 +32,7 @@ const PrimaryButton = ({ handleButton, name }: any) => {
 const styles = StyleSheet.create({
 
     button: {
-        fontFamily: "Poppins_600SemiBold",
+        fontFamily: "Inter600SemiBold",
         borderRadius: 5,
         padding: 16,
         alignItems: 'center',
@@ -42,7 +42,7 @@ const styles = StyleSheet.create({
         gap: 10
     },
     buttonText: {
-        fontFamily: "Poppins_800ExtraBold",
+        fontFamily: "Inter800ExtraBold",
         color: '#f4f4f4',
         fontWeight: 'bold',
         fontSize: 17

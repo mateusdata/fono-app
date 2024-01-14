@@ -73,7 +73,7 @@ const LeadingPage = ({navigation}:any) => {
       <StatusBar translucent={true} style={'dark'} />
       <ScrollView>
         <View style={{ paddingHorizontal: 15, marginTop: 15, }}>
-          <CustomText fontFamily='Poppins_600SemiBold' style={{ fontSize: 19 }}>
+          <CustomText fontFamily='Inter_600SemiBold' style={{ fontSize: 19 }}>
             Assine o Fonotheapp plus. Cancele a qualquer momento.
           </CustomText>
 
@@ -81,13 +81,13 @@ const LeadingPage = ({navigation}:any) => {
             {linesTitle.map((item, index) => (
               <View key={index} style={{ flexDirection: 'row', gap: 2, top: 5 }}>
                 <AntDesign style={{ top: 2 }} name="check" size={19} color="#38CB89" />
-                <CustomText key={index} fontFamily='Poppins_300Light' style={{ fontSize: 13, top: 2 }}>
+                <CustomText key={index} fontFamily='Inter_300Light' style={{ fontSize: 13, top: 2 }}>
                   {item}
                 </CustomText>
               </View>
             ))}
           </View>
-          <CustomText fontFamily='Poppins_600SemiBold' style={{ fontSize: 18, textAlign: "center", marginVertical: 25 }}>
+          <CustomText fontFamily='Inter_600SemiBold' style={{ fontSize: 18, textAlign: "center", marginVertical: 25 }}>
             Escolha um plano
           </CustomText>
           <View style={{ flexDirection: "row", alignItems: "flex-start", justifyContent: "flex-end", top: 8, gap: 2, paddingRight: 20 }}>
@@ -109,7 +109,7 @@ const LeadingPage = ({navigation}:any) => {
             {linesPlanAnual.map((item, index) => (
               <View key={index}>
 
-                <CustomText key={index} fontFamily='Poppins_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
+                <CustomText key={index} fontFamily='Inter_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
                   {item}
                 </CustomText>
               </View>
@@ -122,7 +122,7 @@ const LeadingPage = ({navigation}:any) => {
                 currentPlan === 2 ? "#38CB89" : "gray", borderRadius: 8, padding: 14, width: "95%"
             }}>
             {linesPlanMonth.map((item, index) => (
-              <CustomText key={index} fontFamily='Poppins_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
+              <CustomText key={index} fontFamily='Inter_500Medium' style={{ color: index === 3 ? "#F04438" : "black", fontSize: 17, textAlign: "center" }}>
                 {item}
               </CustomText>
             ))}
@@ -139,19 +139,19 @@ const LeadingPage = ({navigation}:any) => {
           padding: 5, alignItems: "center", justifyContent: "center",
           width: "90%", height: 48,
         }}>
-          <CustomText fontFamily='Poppins_400Regular' style={{ color: "white", fontSize: 22 }}>
+          <CustomText fontFamily='Inter_400Regular' style={{ color: "white", fontSize: 22 }}>
             Assine
           </CustomText>
         </Pressable>
         <View style={{ flexDirection: "row", marginVertical: 8, }}>
         
           <Pressable onPress={()=> navigation.navigate("TermsAndServices")} android_ripple={{color:"gray"}} >
-          <CustomText fontFamily='Poppins_400Regular' style={{ color: "blue", fontSize: 14 }}>
+          <CustomText fontFamily='Inter_400Regular' style={{ color: "blue", fontSize: 14 }}>
             Termos e Serviços  - {" "}
           </CustomText>
           </Pressable>
           <Pressable onPress={()=> navigation.navigate("PolicyAndPrivacy")} android_ripple={{color:"gray"}}>
-            <CustomText fontFamily='Poppins_400Regular' style={{ color: "blue", fontSize: 14 }}>
+            <CustomText fontFamily='Inter_400Regular' style={{ color: "blue", fontSize: 14 }}>
               Política de Privacidade
             </CustomText>
           </Pressable>

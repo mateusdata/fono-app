@@ -54,7 +54,7 @@ const CheckCode = ({ navigation }: any) => {
         <View style={{ flex: 1 }}>
             <View style={{ gap: 10, marginTop: 10 }}>
                 <Text style={{
-                    fontFamily: "Poppins_800ExtraBold",
+                    fontFamily: "Inter800ExtraBold",
                     fontSize: 25,
                     marginBottom: 0,
                     marginTop: 0,
@@ -64,7 +64,7 @@ const CheckCode = ({ navigation }: any) => {
                 }}>
                     Verificar código
                 </Text>
-                <Text style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
+                <Text style={{ fontSize: 18, fontFamily: "Inter300Light", textAlign: "center" }}>
                     Insira o código de segurança que enviamos para seu email.
                 </Text>
             </View>
@@ -92,9 +92,9 @@ const CheckCode = ({ navigation }: any) => {
                 <View style={{ padding: 20 }}>
                     <PrimaryButton handleButton={checkCode} name="Verificar código" />
                     <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Não recebeu o código?</Text>
+                        <Text style={{ fontFamily: "Inter600SemiBold", color: "gray" }}>Não recebeu o código?</Text>
                         <Pressable onPress={sendCode}>
-                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Reivinhar código</Text>
+                            <Text style={{ fontFamily: "Inter600SemiBold", color: "#407AFF" }}>Reivinhar código</Text>
                         </Pressable>
                     </View>
                 </View>

@@ -21,7 +21,7 @@ const MyAccount = ({navigation}) => {
       <YStack space="$3" style={{ borderColor: 'yellow', borderWidth: 0, alignItems: "center", marginTop: 40, marginBottom: 40 }}>
         <YStack style={{width:'100%', alignItems:'center', marginTop:5}}>
           <Image source={{ uri: "https://obsessaocompulsiva.files.wordpress.com/2012/08/ian-somerhalder.jpg" }} style={{ width: 100, height: 100, resizeMode: "contain", borderRadius: 50 }} />
-          <CustomText style={{fontSize:22}} fontFamily='Poppins_400Regular'> {user?.name}</CustomText>
+          <CustomText style={{fontSize:22}} fontFamily='Inter_400Regular'> {user?.name}</CustomText>
         </YStack>
        
       </YStack>

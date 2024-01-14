@@ -20,6 +20,7 @@ const App = () => {
       justifyContent: 'center',
       alignItems: 'center',
       padding: 20,
+      backgroundColor:"white"
     }}>
       <CustomText style={{
         fontSize: 24,
@@ -39,7 +40,7 @@ const App = () => {
         padding: 10,
         borderRadius: 5,
       }} onPress={handlePressWhatsAppMessage}>
-        <Ionicons name="logo-whatsapp" size={24} color="white" />
+        <Ionicons name="logo-whatsapp" size={25} color="white" />
         <CustomText style={{
           color: 'white',
           marginLeft: 10,
