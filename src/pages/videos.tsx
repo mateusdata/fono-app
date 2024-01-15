@@ -10,7 +10,7 @@ export default function Videos() {
   const [status, setStatus] = useState<any>({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<any>(null);
-
+  const [currentMenssage, setCurrentMensage] = useState("");
   const handleVideoPress = (uri: any) => {
     setSelectedVideo(uri);
     setModalVisible(true);
@@ -19,8 +19,8 @@ export default function Videos() {
   return (
     <View style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
-      <CustomText> Esse exercicio faz isso e aquilo</CustomText>
-        {[0, 0, 0, 0].map((item, index) => (
+      <CustomText fontFamily='Poppins_400Regular' style={{textAlign:"center", fontSize:22}}> Esse exercicio faz isso e aquilo</CustomText>
+        {(new Array(8).fill(0)).map((item, index) => (
           <Pressable style={{flexDirection:"row", alignItems:"center", backgroundColor:"#d2d4db", marginVertical:5}} key={index} onPress={() => handleVideoPress(`https://fono-api-solitary-surf-9909.fly.dev/public/v${index + 1}.mp4`)}>
             <Video
               ref={video}
@@ -34,9 +34,9 @@ export default function Videos() {
               usePoster={true}
             />
             <View style={{flexDirection:"row", alignItems:"center", gap:35}}> 
-              <View>
-              <CustomText>Acachamento com barra</CustomText>
-              <CustomText>Esse exercicio faz isso e aquilo</CustomText>
+              <View onTouchStart={()=>setCurrentMensage(`Exercicio ${index+1}°`)}>
+              <CustomText>{`Execicio ${index + 1}°`}</CustomText>
+              <CustomText>{`Essa é sucinta a descrição do ${index+1}°`}</CustomText>
               </View>
               <Entypo name="flag" size={24} color="blue" />
 
@@ -57,11 +57,13 @@ export default function Videos() {
 
           <Dialog.Content key="content" style={{ backgroundColor: "white" }} >
 
-            {false &&
+            {true &&
               <>
-                <Dialog.Title key="title" />
+                <Dialog.Title key="title" textAlign='center' color={"$blue10"} >
+                {currentMenssage}
+                </Dialog.Title>
 
-                <Dialog.Description />
+               
 
                 <Dialog.Close />
               </>
@@ -75,16 +77,20 @@ export default function Videos() {
                 source={{
                   uri: selectedVideo,
                 }}
-                useNativeControls
+                useNativeControls={false}
                 resizeMode={ResizeMode.COVER}
                 isLooping={true}
                 onPlaybackStatusUpdate={status => setStatus(() => status)}
                 usePoster={true}
-                shouldPlay={false}
+                shouldPlay={true}
+                
               />
 
 
             </View>
+            <Dialog.Description>
+                  
+            </Dialog.Description>
           </Dialog.Content>
 
         </Dialog.Portal>
@@ -103,7 +109,7 @@ const styles = StyleSheet.create({
   video: {
     lignSelf: 'flex-start',
     width: 275,
-    height: 300,
+    height: 350,
     borderRadius: 15,
     padding: 15,
     marginVertical: 5,
