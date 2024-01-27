@@ -21,8 +21,9 @@ useEffect(() => {
             console.log(tempVideosFono + "\n\n");
             
     }
+    setVideosFono(tempVideosFono);
    
-}, [])c
+}, [])
 
 
   const handleVideoPress = (uri: any) => {
@@ -75,10 +76,7 @@ useEffect(() => {
               <>
                 <Dialog.Title key="title" textAlign='center' color={"$blue10"} >
                 {currentMenssage}
-                </Dialog.Title>
-
-               
-
+                </Dialog.Title>               
                 <Dialog.Close />
               </>
             }
