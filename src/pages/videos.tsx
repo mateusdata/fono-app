@@ -1,9 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, StyleSheet, Button, ScrollView, Modal, TouchableWithoutFeedback, Pressable } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { Dialog } from 'tamagui';
 import { Entypo } from '@expo/vector-icons';
 import CustomText from '../components/customText';
+import axios from 'axios';
 
 export default function Videos() {
   const video = useRef(null);
@@ -11,6 +12,19 @@ export default function Videos() {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<any>(null);
   const [currentMenssage, setCurrentMensage] = useState("");
+  const [videosFono, setVideosFono] = useState<any>([]);
+useEffect(() => {
+    let tempVideosFono = [];
+    console.log("entrou aqui")
+    for(let i = 1; i <= 10; i++){
+            tempVideosFono.push(`https://fono-api-solitary-surf-9909.fly.dev/public/v${1}.mp4`);
+            console.log(tempVideosFono + "\n\n");
+            
+    }
+   
+}, [])c
+
+
   const handleVideoPress = (uri: any) => {
     setSelectedVideo(uri);
     setModalVisible(true);
@@ -19,17 +33,17 @@ export default function Videos() {
   return (
     <View style={styles.container}>
       <ScrollView style={{ flex: 1 }}>
-      <CustomText fontFamily='Poppins_400Regular' style={{textAlign:"center", fontSize:22}}> Esse exercicio faz isso e aquilo</CustomText>
-        {(new Array(8).fill(0)).map((item, index) => (
+      <CustomText fontFamily='Poppins_400Regular' style={{textAlign:"center", fontSize:22}}> Reprodução de execicios</CustomText>
+        {videosFono?.map((item, index) => (
           <Pressable style={{flexDirection:"row", alignItems:"center", backgroundColor:"#d2d4db", marginVertical:5}} key={index} onPress={() => handleVideoPress(`https://fono-api-solitary-surf-9909.fly.dev/public/v${index + 1}.mp4`)}>
             <Video
               ref={video}
               style={styles.video1}
               source={{
-                uri: `https://fono-api-solitary-surf-9909.fly.dev/public/v${index + 1}.mp4`,
+                uri: item,
               }}
               resizeMode={ResizeMode.COVER}
-              isLooping={true}
+              isLooping={false}
               onPlaybackStatusUpdate={status => setStatus(() => status)}
               usePoster={true}
             />

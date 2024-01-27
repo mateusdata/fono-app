@@ -1,5 +1,5 @@
-import React, { useContext } from 'react'
-import { Alert, Pressable, View } from 'react-native'
+import React, { useContext, useState } from 'react'
+import { Alert, Pressable, TouchableOpacity, View } from 'react-native'
 import {
   MaterialIcons, Ionicons,
   SimpleLineIcons, MaterialCommunityIcons,
@@ -8,26 +8,16 @@ import {
 import CustomText from '../components/customText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Context } from '../context/AuthProvider';
+import { Sheet, setupNativeSheet } from '@tamagui/sheet';
+import { Button, Text } from 'react-native';
+
 const MyInformation = ({navigation}) => {
   const { logOut, user } = useContext(Context);
+  const [open, setOpen] = useState(false);
+
   const deletePlan = () =>
-    Alert.alert(
-      "⚠️ Confirmação",
-      "🥺Você tem certeza  que quer cancelar seu plano?",
-      [
-        {
-          text: "Cancelar",
-          onPress: () => console.log("Cancel Pressed"),
-          style: "cancel"
-        },
-        {
-          text: "exclui plano", onPress: () => {
-            AsyncStorage.removeItem("plan");
-            logOut();
-          }
-        }
-      ]
-    );
+  setOpen(true)
+    
 
 
   return (
@@ -74,11 +64,32 @@ const MyInformation = ({navigation}) => {
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
           <Ionicons name="md-trash-outline" size={28} color="#f46e6e" />
-          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Excluir conta</CustomText>
+          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Cancelar plano</CustomText>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color="#474747" />
       </Pressable>
-
+      <Sheet  snapPoints={[30 , 50]}  open={open}>
+      <Sheet.Overlay  onPress={()=> setOpen(false)}/>
+      <Sheet.Handle style={{top:5, height:6, backgroundColor:"cyan"}}/>
+      <Sheet.Frame >
+      <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 10 }}>
+      <CustomText style={{ color: 'black', fontSize: 20, textAlign:"center" }}>Tem certeza de que deseja cancelar o plano?</CustomText>
+      {open && (
+        <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: 20 }}>
+          <TouchableOpacity onPress={() => {
+             AsyncStorage.removeItem("plan");
+             logOut();
+          }} style={{ backgroundColor: '#ff7f7f', padding: 10, width: '45%', alignItems: 'center' }}>
+            <CustomText style={{ color: '#fff', fontSize: 18 }}>Sim</CustomText>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => setOpen(false)} style={{ backgroundColor: '#808080', padding: 10, width: '45%', alignItems: 'center' }}>
+            <CustomText style={{ color: '#fff', fontSize: 18 }}>Não</CustomText>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
+      </Sheet.Frame>
+    </Sheet>
     </View>
   )
 }
