@@ -68,9 +68,9 @@ const MyInformation = ({navigation}) => {
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color="#474747" />
       </Pressable>
-      <Sheet  snapPoints={[30 , 50]}  open={open}>
+      <Sheet  snapPoints={[35 , 50]}  open={open}>
       <Sheet.Overlay  onPress={()=> setOpen(false)}/>
-      <Sheet.Handle style={{top:5, height:6, backgroundColor:"cyan"}}/>
+      <Sheet.Handle style={{top:5, height:6, backgroundColor:"white"}}/>
       <Sheet.Frame >
       <View style={{ flex: 1, justifyContent: 'center', paddingHorizontal: 10 }}>
       <CustomText style={{ color: 'black', fontSize: 20, textAlign:"center" }}>Tem certeza de que deseja cancelar o plano?</CustomText>

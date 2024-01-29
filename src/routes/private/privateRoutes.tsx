@@ -16,6 +16,8 @@ import ChangeEmail from '../../pages/changeEmail';
 import ChangeCredential from '../../pages/changeCredential';
 import MyPlanDetails from '../../pages/myPlanDetails';
 import Help from '../../pages/help';
+import Suggestion from '../../pages/suggestion';
+
 
 // dentro do seu componente
 
@@ -67,11 +69,7 @@ const PrivateRoutes = () => {
       <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{headerTitleAlign:"center", headerTitle:"Alterar senha"}}/>
       <AppStack.Screen name='MyPlanDetails' component={MyPlanDetails} options={{headerTitleAlign:"center", headerTitle:"Meu plano"}}/>
       <AppStack.Screen name='Help' component={Help} options={{headerTitleAlign:"center", headerTitle:"Contato"}}/>
-
-
-      
-
-
+      <AppStack.Screen name='Suggestion' component={Suggestion} options={{headerTitleAlign:"center", headerTitle:"Sugestão"}}/>
 
 
     </AppStack.Navigator>

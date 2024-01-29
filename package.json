@@ -21,7 +21,7 @@
     "@stripe/stripe-react-native": "0.28.0",
     "@tamagui/config": "^1.76.0",
     "@tamagui/lucide-icons": "^1.79.9",
-    "@tamagui/toast": "^1.86.6",
+    "@tamagui/toast": "^1.88.14",
     "@types/react-native-snap-carousel": "^3.8.9",
     "@types/validator": "^13.11.7",
     "axios": "^1.6.2",
