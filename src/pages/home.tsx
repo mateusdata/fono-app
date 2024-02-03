@@ -16,8 +16,12 @@ const Home = ({ navigation }: { navigation: any }) => {
 
      <ScrollView style={styles.container}>
       <View style={styles.header}>
+       {false && 
+       <>
         <Ionicons name="medkit-sharp" size={60} color="#38CB89" />
         <CustomText style={styles.headerText}>FONOTHERAPP</CustomText>
+       </>
+       }
       </View>
       <View style={{ flexDirection: 'row', minWidth: '100%' }}>
         <View style={{ flex: 0.5 }}>

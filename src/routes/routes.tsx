@@ -6,7 +6,7 @@ import PrivateRoutes from "./private/privateRoutes";
 
 const Routes = () => {
   const { user } = useContext(Context);
-  return !user ? <PrivateRoutes /> :< PublicRoutes/> ;
+  return user ? <PrivateRoutes /> :< PublicRoutes/> ;
 };
 
 export default Routes;

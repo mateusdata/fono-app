@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     button: {
         fontFamily: "Poppins_600SemiBold",
         borderRadius: 5,
-        padding: 16,
+        padding: 15,
         alignItems: 'center',
         marginTop: 15,
         flexDirection: "row",

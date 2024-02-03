@@ -43,13 +43,14 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         });
     }, []);
 
-    const login = async (email: string, senha: string) => {
+    const login = async (email: string, password: string) => {
         setLoading(true);
         axiosInstance.post("/login", {
             email,
-            password: senha
+            password
         }).then((response) => {
             setLoadingPage(true)
+            
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
                 setLoading(false);
                 setTimeout(() => {
@@ -59,6 +60,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             }).catch((erro) => {
                 setLoading(false);
                 setLoadingPage(false)
+                alert("Ocorreu um erro ao salvar os dados do usuarios")
             });
         }).catch((erro) => {
             setLoading(false);
@@ -66,13 +68,17 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         });
     };
 
-    const logOut = async () => {
+    const logOut =  () => {
         setLoadingPage(true)
-        await AsyncStorage.removeItem("usuario");
-        setTimeout(() => {
-            setUser(false);
-            setLoadingPage(false)
-        }, 400);
+         AsyncStorage.removeItem("usuario").then((response)=>{
+            setTimeout(() => {
+                setUser(false);
+                setLoadingPage(false)
+            }, 400);
+         }).catch((e)=>{
+            alert("erro" + JSON.stringify(e))
+         });
+       
     };
     if (loadingPage) {
         return <LoadingComponent />

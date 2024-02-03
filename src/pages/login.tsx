@@ -4,17 +4,20 @@ import { Context } from '../context/AuthProvider';
 import { TextInput } from 'react-native-paper';
 import PrimaryButton from '../components/primaryButton';
 import CustomText from '../components/customText';
-import { ActivityIndicator } from "react-native";
+import { Controller, useForm } from 'react-hook-form';
+import ErrorMessage from '../components/errorMessage';
 const Login = ({ navigation }: any) => {
-    const [email, setEmail] = useState('mateuspele2015@gmail.com');
-    const [senha, setSenha] = useState('123456');
     const { login, setLoading, loading } = useContext(Context);
-    
-    const handleLogin = async () => {
-        if(email && senha){
+    const { register, handleSubmit, watch, trigger, control,  formState: { errors }, setValue } = useForm({
+        defaultValues:{
+            email: "livia@gmail.com",
+            password: "123456"
+          },
+        mode:"onChange"
+      });
+    const onSubmit = async () => {
          setLoading(true);
-         login(email.toLowerCase(), senha);
-        }
+         login(watch().email.toLowerCase(), watch().password); 
     };
 
     return (
@@ -24,38 +27,41 @@ const Login = ({ navigation }: any) => {
             </View>
 
             <View style={styles.formContainer}>
+            <Controller control={control} rules={
+                {required: 'Obrigatório', maxLength: { value: 40,  message: "o tamanho maximo do texto é 40 caracteres"},
+                pattern: { value: /^\S+@\S+\.\S+$/, message: 'Email inválido'}}}         
+                render={({ field: { onChange, onBlur, value, } }) => (
                 <TextInput
-                    mode="outlined"
-                    label="Email"
-                    placeholder="Digite seu email"
-                    style={{
-                        height: 52,
-                        borderRadius: 150,
-                        marginBottom:10
-                    }}
-                    value={email}
-                    activeOutlineColor='#376fe8'
-
-                    onChangeText={(text) => setEmail(text)}
+                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.email}  label="Email"
+                    placeholder="Email"  onBlur={onBlur}    onChangeText={onChange} value={value}
                 />
+                )}
+                name="email"
+            />
+            
+            <ErrorMessage name={"email"} errors={errors} />
+            
+            <Controller control={control} rules={
+                {required: 'Obrigatório', maxLength: { value: 40,  message: "o tamanho maximo do texto é 40 caracteres"},
+                minLength: { value: 5, message: "Informe uma senha maior"},
+                }}
+                render={({ field: { onChange, onBlur, value, } }) => (
                 <TextInput
-                    mode="outlined"
-                    label="Senha"
-                    placeholder="Digite sua senha"
-                    secureTextEntry
-                    value={senha}
-                    style={{ height: 52 }}
-
-                    activeOutlineColor='#376fe8'
-                    onChangeText={(text) => setSenha(text)}
+                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.password}  label="Senha"
+                    placeholder="Senha"  onBlur={onBlur}    onChangeText={onChange} value={value} secureTextEntry
                 />
+                )}
+                name="password"
+            />
+            
+            <ErrorMessage name={"password"} errors={errors} />
                <View>
-                 <PrimaryButton name="Login" handleButton={handleLogin} />
+                 <PrimaryButton name="Login" handleButton={handleSubmit(onSubmit)} />
                </View>
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                    <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua senha ?</CustomText>
+                    <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua password ?</CustomText>
                     <Pressable onPress={() => navigation.navigate("SendEmail")}>
-                        <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recuperar senha</CustomText>
+                        <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recuperar password</CustomText>
                     </Pressable>
                 </View>
             </View>

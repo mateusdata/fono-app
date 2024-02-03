@@ -1,155 +1,155 @@
 import React, { useContext, useState } from 'react';
-import { ScrollView, Text, View, Pressable } from 'react-native';
+import { ScrollView, Text, View, Pressable, StyleSheet } from 'react-native';
 import PrimaryButton from '../components/primaryButton';
 import { TextInput } from 'react-native-paper';
-import axiosInstance from '../config/axiosInstance';
 import { Context } from '../context/AuthProvider';
-import { cpf } from 'cpf-cnpj-validator';
-import validator from 'validator';
+import { Controller, useForm } from 'react-hook-form';
+import ErrorMessage from '../components/errorMessage';
+import axios from 'axios';
+import axiosInstance from '../config/axiosInstance';
 
 const CreateAccount = ({ navigation }: any) => {
-    const { login, setLoading, loading } = useContext(Context);
+  const { login, setLoading, loading } = useContext(Context);
 
-    const [userDetails, setUserDetails] = useState({
-        first_name: '',
-        sur_name: '',
-        last_name: '',
-        cpf: '',
-        birthday: new Date(),
-        email: '',
-        password: ''
-    });
+  const { register, handleSubmit, watch, trigger, control,  formState: { errors }, setValue } = useForm({
+    defaultValues:{
+        first_name: "",
+        password: "",
+        email: ""
+      },
+    mode:"onChange"
+  });
 
-    const handleInputChange = (field: any, value: any) => {
-        setUserDetails({
-            ...userDetails,
-            [field]: value.toLowerCase()
-        });
-    };
-    const validateUserDetails = () => {
-        if (!validator.isEmail(userDetails.email)) {
-            alert("Informe um e-mail válido.");
-            return false;
-        } else if (
-            !/^[a-zA-ZáéíóúàâêôãõüçÁÉÍÓÚÀÂÊÔÃÕÜÇ ]+$/.test(userDetails.first_name) &&
-            !/^[a-zA-ZáéíóúàâêôãõüçÁÉÍÓÚÀÂÊÔÃÕÜÇ ]+$/.test(userDetails.last_name)
-        ) {
-            alert("Nome inválido.");
-            return false;
-        } else if (userDetails.password.length < 6) {
-            alert("A senha deve ter pelo menos 6 caracteres.");
-            return false;
-        } else if (!cpf.isValid(userDetails.cpf)) {
-            alert('CPF inválido.');
-            return false;
+  const onSubmit = (data) => {
+    setLoading(true);
+    console.log(data)
+    axiosInstance.post("/create-user", data).then((response) => {
+
+
+        console.log(response.data)
+        if (response.status === 200) {
+            console.log(response.data)
+            setLoading(false);
+            return login(watch().email, watch().password);
         }
-        return true;
-    };
-    const handleCreateAccount = () => {
-        validateUserDetails() && setLoading(true);
-        validateUserDetails() && axiosInstance.post("/create-user", userDetails).then((response) => {
-            if (response.status === 200) {
-                setLoading(false);
-                return login(userDetails.email, userDetails.password);
-            }
-            alert("Ocorreu um erro no front end")
-            setLoading(false);
+        alert("Ocorreu um erro")
+        setLoading(false);
 
-        }).catch((error) => {
-            setLoading(false);
-            if (error.response.status == 409) {
-                alert("Já existe esse usuario");
-                return;
-            }
-            return alert("ops! ocorreu um erro 500")
+    }).catch((error) => {
+        setLoading(false);
+        console.log(error)
+        if (error.response.status == 409) {
+            
+            alert("Já existe esse usuario");
+            return;
+        }
+        return alert("ops! ocorreu um erro 500")
 
-        });
-    }
+    });
+  };
 
+  return (
+    <ScrollView style={styles.container}>
+      <View style={styles.contentContainer}>
+        <Text style={styles.titleText}>Criar conta</Text>
+        <View style={styles.inputContainer}>
+            <Controller control={control} rules={
+                  {required: 'Obrigatório', maxLength: { value: 40,  message: "o tamanho maximo do texto é 40 caracteres"},
+                    minLength: { value: 3, message: "Informe um texto maior"},
+                    pattern: { value: /^(?!^\d+$).+$/, message: 'Não são permitidas  entradas numéricas'}}}
+                render={({ field: { onChange, onBlur, value, } }) => (
+                <TextInput
+                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.first_name}  label="Nome"
+                    placeholder="Nome"  onBlur={onBlur}    onChangeText={onChange} value={value}
+                />
+                )}
+                name="first_name"
+            />
+            
+            <ErrorMessage name={"first_name"} errors={errors} />
 
+            <Controller control={control}
+             rules={{
+                required: 'Obrigatório', maxLength: { value: 40,  message: "o tamanho maximo do texto é 40 caracteres"},
+                minLength: { value: 3, message: "Informe um texto maior"},
+                pattern: { value: /^\S+@\S+\.\S+$/, message: 'Email inválido'}}}                
+                render={({ field: { onChange, onBlur, value, } }) => (
+                <TextInput
+                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.email}  label="email"
+                    placeholder="Email"  onBlur={onBlur}    onChangeText={onChange} value={value}
+                />
+                )}
+                name="email"
+            />
+            
+            <ErrorMessage name={"email"} errors={errors} />
 
-    return (
-        <ScrollView style={{ flex: 1, backgroundColor: "#FFFFFF" }} >
-            <View style={{ backgroundColor: "#FFFFFF", flex: 1, height: "100%", justifyContent: "flex-start", gap: 15, alignItems: "center" }}>
-                <Text style={{
-                    fontFamily: "Poppins_800ExtraBold",
-                    fontSize: 25,
-                    marginBottom: 0,
-                    marginTop: 0,
-                    color: "#4d4d4f"
-                }}>
-                    Criar conta 
-                </Text>
-                <View style={{ width: "90%", gap: 8 }}>
-                    <TextInput
-                        mode="outlined"
-                        label="Nome"
-                        placeholder="Primeio nome"
-                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('first_name', value)}
-                    />
-                    {false && <TextInput
-                        mode="outlined"
-                        label="Nome do meio"
-                        placeholder="sur_name"
-                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('sur_name', value)}
-                    />}
-                    <TextInput
-                        mode="outlined"
-                        label="Sobrenome"
-                        placeholder="Sobrenome"
-                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('last_name', value)}
-                    />
-                    <TextInput
-                        mode="outlined"
-                        label="CPF"
-                        placeholder="CPF"
-                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('cpf', value)}
-                    />
-                    {false && <TextInput
-                        mode="outlined"
-                        label="Data de nascimento"
-                        placeholder="birthday"
-                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('birthday', value)}
-                    />}
-                    <TextInput
-                        mode="outlined"
-                        label="E-mail"
-                        placeholder="E-mail"
-                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('email', value)}
-                    />
-                    <TextInput
-                        mode="outlined"
-                        label="Senha"
-                        placeholder="Senha"
-                        secureTextEntry
-                        style={{ height: 52, fontFamily: "Poppins_300Light", borderRadius: 150 }}
-                        activeOutlineColor='#376fe8'
-                        onChangeText={(value) => handleInputChange('password', value)}
-                    />
+            <Controller control={control} rules={
+                  {required: 'Obrigatório', maxLength: { value: 40,  message: "Nome muito grande"},
+                    minLength: { value: 5, message: "Informe uma senha maior"},
+                    }}
+                render={({ field: { onChange, onBlur, value, } }) => (
+                <TextInput
+                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.password}  label="Senha"
+                    placeholder="Senha"  onBlur={onBlur}    onChangeText={onChange} value={value} secureTextEntry 
+                />
+                )}
+                name="password"
+            />
+            
+            <ErrorMessage name={"password"} errors={errors} />
 
-                    <PrimaryButton name="Criar conta"  handleButton={handleCreateAccount} />
-                    <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Lembrou sua senha</Text>
-                        <Pressable onPress={() => navigation.navigate("Login")}>
-                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Fazer login</Text>
-                        </Pressable>
-                    </View>
-                </View>
-            </View>
-        </ScrollView >
-    )
-}
+          < PrimaryButton name="Criar conta" handleButton={handleSubmit(onSubmit)} />
+        </View>
+        <View style={styles.footerContainer}>
+          <Text style={styles.footerText}>Lembrou sua senha?</Text>
+          <Pressable onPress={() => navigation.navigate("Login")}>
+            <Text style={styles.linkText}>Fazer login</Text>
+          </Pressable>
+        </View>
+      </View>
+    </ScrollView>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+  },
+  contentContainer: {
+    backgroundColor: "#FFFFFF",
+    flex: 1,
+    height: "100%",
+    justifyContent: "flex-start",
+    gap: 15,
+    alignItems: "center",
+  },
+  titleText: {
+    fontFamily: "Poppins_800ExtraBold",
+    fontSize: 25,
+    marginBottom: 0,
+    marginTop: 0,
+    color: "#4d4d4f",
+  },
+  inputContainer: {
+    width: "90%",
+    gap: 0,
+  },
+  footerContainer: {
+    width: "auto",
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 15,
+  },
+  footerText: {
+    fontFamily: "Poppins_600SemiBold",
+    color: "gray",
+  },
+  linkText: {
+    fontFamily: "Poppins_600SemiBold",
+    color: "#407AFF",
+  },
+});
 
 export default CreateAccount;
