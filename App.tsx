@@ -33,4 +33,5 @@ export default function App() {
     </GestureHandlerRootView>
   );
 }
+//#36B3B9
 

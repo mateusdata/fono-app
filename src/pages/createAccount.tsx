@@ -24,10 +24,8 @@ const CreateAccount = ({ navigation }: any) => {
     setLoading(true);
     console.log(data)
     axiosInstance.post("/create-user", data).then((response) => {
-
-
         console.log(response.data)
-        if (response.status === 200) {
+        if (response?.status === 200) {
             console.log(response.data)
             setLoading(false);
             return login(watch().email, watch().password);
@@ -38,13 +36,7 @@ const CreateAccount = ({ navigation }: any) => {
     }).catch((error) => {
         setLoading(false);
         console.log(error)
-        if (error.response.status == 409) {
-            
-            alert("Já existe esse usuario");
-            return;
-        }
-        return alert("ops! ocorreu um erro 500")
-
+        alert("ops! ocorreu um erro 500")
     });
   };
 

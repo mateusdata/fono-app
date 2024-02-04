@@ -1,31 +1,99 @@
 import * as React from 'react';
 import { TextInput } from 'react-native-paper';
-import { View, StyleSheet, Button } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import { Button } from 'react-native-paper';
+
 import PrimaryButton from '../components/primaryButton';
+import { Controller, useForm } from 'react-hook-form';
+import ErrorMessage from '../components/errorMessage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup"
+import { Context } from '../context/AuthProvider';
+import axiosInstance from '../config/axiosInstance';
 
 export default function ChangeCredential() {
   const [text, setText] = React.useState('');
+  const { user } = React.useContext(Context);
+  const [loading, setLoading] = React.useState(false);
+  const schema = yup.object({
+    newPassword: yup.string().min(6, "a senha tem que ter pelo menos 6 digitos").required("Senha obrigatoria"),
+    confirmPassword: yup.string().oneOf([yup.ref('newPassword')], "AS senhas nao confere").required("AS senhas nao confere"),
+    email: yup.mixed(),
+  });
+
+  const { control, reset, watch, formState: { errors }, handleSubmit } = useForm({
+    defaultValues: {
+      email: user.email,
+      newPassword: "",
+      confirmPassword: ""
+    },
+    resolver: yupResolver(schema),
+    mode: "onChange"
+  })
+ const err = (e)=>{
+  console.log(e);
+  
+ }
+  const onSubtmit = (data) => {
+    setLoading(true);
+    axiosInstance.post("/reset-password", {
+      newPassword: watch().newPassword,
+      email:user.email
+    }).then((response) => {
+      console.log(response.data);
+      alert("senha alterada")
+      reset({ email: user.email, newPassword: "", confirmPassword: "" });
+     
+      setLoading(false);
+    }).catch((erro) => {
+      setLoading(false);
+      console.log("Erro " , erro);
+      alert("Ocorreu um erro")
+    })
+    console.log(data);
+  }
 
   return (
     <View style={styles.container}>
-      <TextInput
-        mode="outlined"
-        label="Aterar senha"
-        placeholder="Senha"
-        secureTextEntry
-        style={{ height: 52, width: "100%", marginBottom: 10 }}
-        activeOutlineColor='#376fe8'
-      />
-       <TextInput
-        mode="outlined"
-        label="Confirmar senha"
-        placeholder="Senha"
-        secureTextEntry
-        style={{ height: 52, width: "100%", marginBottom: 10 }}
-        activeOutlineColor='#376fe8'
-      />
-      
-      <PrimaryButton handleButton={()=>{}}  name="Alterar" />
+      <View style={styles.contentContainer}>
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              value={value}
+              onChangeText={onChange}
+              mode="outlined"
+              label="Nova senha"
+              placeholder="Senha"
+              secureTextEntry
+              activeOutlineColor='#376fe8'
+            />
+          )}
+          name='newPassword'
+        />
+        <ErrorMessage name="newPassword" errors={errors} />
+
+
+        <Controller
+          control={control}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <TextInput
+              value={value}
+              onChangeText={onChange}
+              mode="outlined"
+              label="Confirmar nova senha"
+              placeholder="Senha"
+              secureTextEntry
+              activeOutlineColor='#376fe8'
+            />
+          )}
+          name="confirmPassword"
+        />
+        <ErrorMessage name="confirmPassword" errors={errors} />
+
+      </View>
+
+      <Button mode='contained' loading={loading} onPress={handleSubmit(onSubtmit, err)} buttonColor='#36b3b9' contentStyle={{ height: 45 }} >Alterar</Button>
     </View>
   );
 }
@@ -34,9 +102,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    padding: 8,
+    padding: 20,
   },
-  input: {
-    marginBottom: 10,
+  contentContainer: {
+    gap: 1,
+    flex: 0.9
   },
 });

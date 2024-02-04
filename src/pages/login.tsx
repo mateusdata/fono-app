@@ -10,7 +10,7 @@ const Login = ({ navigation }: any) => {
     const { login, setLoading, loading } = useContext(Context);
     const { register, handleSubmit, watch, trigger, control,  formState: { errors }, setValue } = useForm({
         defaultValues:{
-            email: "livia@gmail.com",
+            email: "mateuspele2015@gmail.com",
             password: "123456"
           },
         mode:"onChange"
@@ -88,9 +88,6 @@ const styles = StyleSheet.create({
         marginBottom: 0,
         marginTop: 0,
         color: "#4d4d4f"
-
-
-
     },
     formContainer: {
         fontFamily: "Poppins_600SemiBold",
