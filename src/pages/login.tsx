@@ -17,7 +17,7 @@ const Login = ({ navigation }: any) => {
       });
     const onSubmit = async () => {
          setLoading(true);
-         login(watch().email.toLowerCase(), watch().password); 
+         login(watch().email, watch().password); 
     };
 
     return (

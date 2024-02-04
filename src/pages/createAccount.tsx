@@ -13,7 +13,7 @@ const CreateAccount = ({ navigation }: any) => {
 
   const { register, handleSubmit, watch, trigger, control,  formState: { errors }, setValue } = useForm({
     defaultValues:{
-        first_name: "",
+        nick_name: "",
         password: "",
         email: ""
       },
@@ -51,14 +51,14 @@ const CreateAccount = ({ navigation }: any) => {
                     pattern: { value: /^(?!^\d+$).+$/, message: 'Não são permitidas  entradas numéricas'}}}
                 render={({ field: { onChange, onBlur, value, } }) => (
                 <TextInput
-                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.first_name}  label="Nome"
+                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.nick_name}  label="Nome"
                     placeholder="Nome"  onBlur={onBlur}    onChangeText={onChange} value={value}
                 />
                 )}
-                name="first_name"
+                name="nick_name"
             />
             
-            <ErrorMessage name={"first_name"} errors={errors} />
+            <ErrorMessage name={"nick_name"} errors={errors} />
 
             <Controller control={control}
              rules={{

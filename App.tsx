@@ -6,12 +6,33 @@ import { TamaguiProvider } from 'tamagui';
 import config from './tamagui.config';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-
+import { BackHandler } from 'react-native';
+import React, { useEffect } from 'react';
+import NetInfo from "@react-native-community/netinfo";
 export default function App() {
+
+  
   const [tamaguiLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
   });
+
+
+  useEffect(() => {
+   
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
+        alert("Você esta sem conexão com a internet")
+        console.log("Você esta sem conexão com a internet")
+
+        BackHandler.exitApp();
+      }
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
 
   const [fontsLoaded] = useFonts({
     Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light
