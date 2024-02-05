@@ -17,6 +17,8 @@ import ChangeCredential from '../../pages/changeCredential';
 import MyPlanDetails from '../../pages/myPlanDetails';
 import Help from '../../pages/help';
 import Suggestion from '../../pages/suggestion';
+import StructuralAnalysis from '../../pages/StructuralAnalysis';
+import FunctionalAnalysis from '../../pages/FunctionalAnalysis';
 
 
 // dentro do seu componente
@@ -70,7 +72,8 @@ const PrivateRoutes = () => {
       <AppStack.Screen name='MyPlanDetails' component={MyPlanDetails} options={{headerTitleAlign:"center", headerTitle:"Meu plano"}}/>
       <AppStack.Screen name='Help' component={Help} options={{headerTitleAlign:"center", headerTitle:"Contato"}}/>
       <AppStack.Screen name='Suggestion' component={Suggestion} options={{headerTitleAlign:"center", headerTitle:"Sugestão"}}/>
-
+      <AppStack.Screen name='StructuralAnalysis' component={StructuralAnalysis} options={{headerTitleAlign:"center", headerTitle:"Análise Estrutural"}}/>
+      <AppStack.Screen name='FunctionalAnalysis' component={FunctionalAnalysis} options={{headerTitleAlign:"center", headerTitle:"Análise Funcional"}}/>
 
     </AppStack.Navigator>
   )

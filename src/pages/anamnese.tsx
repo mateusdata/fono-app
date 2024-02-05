@@ -10,19 +10,22 @@ import * as yup from "yup"
 import axiosInstance from '../config/axiosInstance';
 
 
-const Anamnese = () => {
+const Anamnese = ({navigation}) => {
+  const [loading, setLoading] = useState<boolean>(false)
   const schema = yup.object({
     first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
       { message: 'Não são permitidas  entradas numéricas' }),
     cpf: yup.string().matches(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/,
       { message: "Cpf invalido", excludeEmptyString: false }).required("Cpf inválido"),
     birthday: yup.date().required("Data inválida"),
+    last_name: yup.string().optional()
   }).required()
   const { reset, handleSubmit, watch, formState: { errors }, control } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
       first_name: "",
+      last_name:"",
       cpf: "",
       birthday: null
     }
@@ -30,13 +33,18 @@ const Anamnese = () => {
 
 
   const onSubmit = (data) => {
-
+    setLoading(true)
     axiosInstance.post("/create-pacient", data).then((response) => {
-      console.log(response.status)
-      reset({ first_name: "", cpf: "", birthday: null });
+      console.log(response);
+      //reset({ first_name: "", cpf: "", birthday: null });
+      navigation.navigate("StructuralAnalysis")
+      setLoading(false)
+    }).catch((e)=>{
+      setLoading(false)
+      console.log("deu erro")
+      console.log(e);
     })
-    console.log('Dados enviados! \n', data);
-    reset({ first_name: "", cpf: "", birthday: null });
+   
   };
 
 
@@ -77,7 +85,7 @@ const Anamnese = () => {
                 <DatePickerInput
                   locale='pt-BR'
                   label="Data de nascimento "
-                  value={watch().birthday}
+                  value={(watch().birthday)}
                   onChange={onChange}
                   inputMode="start"
                   mode='outlined'
@@ -92,7 +100,7 @@ const Anamnese = () => {
 
       </View>
 
-      <Button style={styles.button} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+      <Button disabled={loading} loading={loading} style={styles.button} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
         Enviar
       </Button>
     </View>
