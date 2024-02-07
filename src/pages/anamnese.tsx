@@ -10,7 +10,7 @@ import * as yup from "yup"
 import axiosInstance from '../config/axiosInstance';
 
 
-const Anamnese = ({navigation}) => {
+const Anamnese = ({ navigation }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const schema = yup.object({
     first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
@@ -25,7 +25,7 @@ const Anamnese = ({navigation}) => {
     mode: 'onChange',
     defaultValues: {
       first_name: "",
-      last_name:"",
+      last_name: "",
       cpf: "",
       birthday: null
     }
@@ -39,12 +39,12 @@ const Anamnese = ({navigation}) => {
       //reset({ first_name: "", cpf: "", birthday: null });
       navigation.navigate("StructuralAnalysis")
       setLoading(false)
-    }).catch((e)=>{
+    }).catch((e) => {
       setLoading(false)
       console.log("deu erro")
       console.log(e);
     })
-   
+
   };
 
 
@@ -72,6 +72,7 @@ const Anamnese = ({navigation}) => {
               onChangeText={onChange}
               mode='outlined'
               label="CPF"
+             
               activeOutlineColor="#376fe8" />
           )}
           name='cpf'
@@ -81,15 +82,17 @@ const Anamnese = ({navigation}) => {
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <SafeAreaProvider>
-              <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
+              <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 0 }}>
                 <DatePickerInput
+                
                   locale='pt-BR'
                   label="Data de nascimento "
                   value={(watch().birthday)}
                   onChange={onChange}
                   inputMode="start"
                   mode='outlined'
-                  activeOutlineColor="#376fe8"
+                  outlineColor={`${errors.birthday ? "red":"gray"}`}
+                  activeOutlineColor={`${errors.birthday? "red":"#376fe8"}`}
                   iconStyle={{ display: 'none' }}
                 />
               </View>

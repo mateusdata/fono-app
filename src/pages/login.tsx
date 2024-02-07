@@ -10,7 +10,7 @@ const Login = ({ navigation }: any) => {
     const { login, setLoading, loading } = useContext(Context);
     const { register, handleSubmit, watch, trigger, control,  formState: { errors }, setValue } = useForm({
         defaultValues:{
-            email: "mateuspele2015@gmail.com",
+            email: "pedro@gmail.com",
             password: "123456"
           },
         mode:"onChange"

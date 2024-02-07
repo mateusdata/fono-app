@@ -46,9 +46,7 @@ const Anamnese = () => {
         <ErrorMessage name={"cpf"} errors={errors} />
 
 
-        <Controller control={control} rules={{
-           required: "obrigatorio" 
-          }}
+        <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
               onChangeText={onChange}
@@ -59,10 +57,6 @@ const Anamnese = () => {
           name='paciente'
         />
         <ErrorMessage name={"paciente"} errors={errors} />
-
-      
-    
-        
 
       </View>
 

@@ -25,7 +25,7 @@ export default function App() {
         alert("Você esta sem conexão com a internet")
         console.log("Você esta sem conexão com a internet")
 
-        BackHandler.exitApp();
+       // BackHandler.exitApp();
       }
     });
 
@@ -44,7 +44,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <StatusBar translucent={true}  style='light' />
+        <StatusBar translucent={true}  style='light' hideTransitionAnimation='slide' networkActivityIndicatorVisible/>
         <AuthProvider>
           <TamaguiProvider config={config}>
             <Routes />

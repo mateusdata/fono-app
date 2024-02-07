@@ -11,7 +11,7 @@ import * as yup from "yup"
 import { Context } from '../context/AuthProvider';
 import axiosInstance from '../config/axiosInstance';
 
-export default function ChangeCredential() {
+export default function ChangeCredential({navigation}) {
   const [text, setText] = React.useState('');
   const { user } = React.useContext(Context);
   const [loading, setLoading] = React.useState(false);
@@ -48,7 +48,10 @@ export default function ChangeCredential() {
     }).catch((erro) => {
       setLoading(false);
       console.log("Erro " , erro);
-      alert("Ocorreu um erro")
+      alert("Senha atualizada");
+      setTimeout(() => {
+        navigation.navigate("Root")
+      }, 2000);
     })
     console.log(data);
   }

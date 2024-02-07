@@ -9,7 +9,7 @@ import { Context } from '../context/AuthProvider';
 import Toast from '../components/toast';
 
 const Suggestion = () => {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
     const { register, trigger, setValue, handleSubmit, watch, formState: { errors }, reset } = useForm({
         defaultValues: {
             suggestion: ""
