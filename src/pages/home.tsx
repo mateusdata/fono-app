@@ -26,10 +26,10 @@ const Home = ({ navigation }: { navigation: any }) => {
       <View style={{ flexDirection: 'row', minWidth: '100%' }}>
         <View style={{ flex: 0.5 }}>
           <CustomText style={{ fontWeight: '100' }}>Total de pacientes</CustomText>
-          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}><CustomText style={{ fontWeight: 'bold' }}>150.000.000</CustomText><SimpleLineIcons name='eye' size={20} color='#36B3B9' /></View>
+          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}><CustomText style={{ fontWeight: 'bold' }}>150.000.000</CustomText><SimpleLineIcons name='eye' size={20} color='white' /></View>
         </View>
         <View style={{ flex: 0.5, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-          <CustomText style={{ color: '#36B3B9' }}>Ver todos</CustomText>
+          <CustomText style={{ color: 'white' }}>Ver todos</CustomText>
         </View>
 
       </View>

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Button, RadioButton } from 'react-native-paper';
 import CustomText from '../components/customText';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, StatusBar, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
 
 const FunctionalAnalysis = ({navigation}) => {
@@ -13,6 +13,8 @@ const FunctionalAnalysis = ({navigation}) => {
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
+            <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
+
       <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
         <Controller rules={{required:"true"}}
           control={control}
@@ -134,7 +136,7 @@ const FunctionalAnalysis = ({navigation}) => {
         {/* ... */}
       </ScrollView>
       <View style={{ borderWidth: 0, justifyContent: "flex-end", alignItems: "flex-end", }}>
-        <Button style={{ width: "100%" }} buttonColor='#36B3B9' mode='contained' onPress={handleSubmit(onSubmit)}>Proximo</Button>
+        <Button style={{ width: "100%" }}buttonColor='#36B3B9' mode='contained' onPress={handleSubmit(onSubmit)}>Proximo</Button>
       </View>
     </View>
   );

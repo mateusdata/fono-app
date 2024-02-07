@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, Text, Pressable, ActivityIndicator } from 'react-native';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold } from '@expo-google-fonts/poppins';
 import AuthProvider, { Context } from '../context/AuthProvider';
+import { Button } from 'react-native-paper';
 
 const PrimaryButton = ({ handleButton, name }: any) => {
     let [fontsLoaded] = useFonts({
@@ -14,15 +15,16 @@ const PrimaryButton = ({ handleButton, name }: any) => {
     }
     return (
         <AuthProvider>
-            <Pressable
-                android_ripple={{ color: "#1d52a3", foreground: false }}
-                style={[styles.button,{backgroundColor:loading?"#36B3B1":"#36B3B9"}]}
+            <Button
+            style={{padding:5}}
+               buttonColor='#36B3B1'
                 onPress={handleButton}
+                loading={loading}
                 disabled={loading}
+                textColor={"white"}
             >
-                <Text style={[styles.buttonText,{color:loading?"#e5e3e3":"white"}]}>{!loading && name}</Text>
-                {loading ? <ActivityIndicator color={"white"} size={25} /> : null}
-            </Pressable>
+            {name}
+            </Button>
 
         </AuthProvider>
     )
@@ -33,13 +35,12 @@ const styles = StyleSheet.create({
 
     button: {
         fontFamily: "Poppins_600SemiBold",
-        borderRadius: 5,
-        padding: 15,
+        padding: 5,
         alignItems: 'center',
         marginTop: 15,
         flexDirection: "row",
         justifyContent: "center",
-        gap: 10
+        gap: 0
     },
     buttonText: {
         fontFamily: "Poppins_800ExtraBold",

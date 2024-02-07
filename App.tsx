@@ -1,4 +1,3 @@
-import { StatusBar } from 'expo-status-bar';
 import { NavigationContainer } from '@react-navigation/native';
 import AuthProvider from './src/context/AuthProvider';
 import Routes from './src/routes/routes';
@@ -6,12 +5,12 @@ import { TamaguiProvider } from 'tamagui';
 import config from './tamagui.config';
 import { useFonts, Poppins_600SemiBold, Poppins_800ExtraBold, Poppins_300Light } from '@expo-google-fonts/poppins';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
-import { BackHandler } from 'react-native';
+import { BackHandler, StatusBar } from 'react-native';
 import React, { useEffect } from 'react';
 import NetInfo from "@react-native-community/netinfo";
 export default function App() {
 
-  
+
   const [tamaguiLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
@@ -19,13 +18,13 @@ export default function App() {
 
 
   useEffect(() => {
-   
+
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
         alert("Você esta sem conexão com a internet")
         console.log("Você esta sem conexão com a internet")
 
-       // BackHandler.exitApp();
+        // BackHandler.exitApp();
       }
     });
 
@@ -44,7 +43,7 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <StatusBar translucent={true}  style='light' hideTransitionAnimation='slide' networkActivityIndicatorVisible/>
+        <StatusBar translucent={false} backgroundColor='#36B3B9' barStyle='dark-content' />
         <AuthProvider>
           <TamaguiProvider config={config}>
             <Routes />

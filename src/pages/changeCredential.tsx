@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { TextInput } from 'react-native-paper';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, StatusBar } from 'react-native';
 import { Button } from 'react-native-paper';
 
 import PrimaryButton from '../components/primaryButton';
@@ -58,6 +58,8 @@ export default function ChangeCredential({navigation}) {
 
   return (
     <View style={styles.container}>
+            <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
+
       <View style={styles.contentContainer}>
         <Controller
           control={control}
@@ -96,7 +98,7 @@ export default function ChangeCredential({navigation}) {
 
       </View>
 
-      <Button mode='contained' loading={loading} onPress={handleSubmit(onSubtmit, err)} buttonColor='#36b3b9' contentStyle={{ height: 45 }} >Alterar</Button>
+      <Button mode='contained' loading={loading} onPress={handleSubmit(onSubtmit, err)}buttonColor='#36B3B9' contentStyle={{ height: 45 }} >Alterar</Button>
     </View>
   );
 }

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, StatusBar } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import ErrorMessage from '../components/errorMessage';
 import { DatePickerInput } from 'react-native-paper-dates';
@@ -51,6 +51,8 @@ const Anamnese = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
+
       <View style={styles.containerChildren}>
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
@@ -72,7 +74,7 @@ const Anamnese = ({ navigation }) => {
               onChangeText={onChange}
               mode='outlined'
               label="CPF"
-             
+
               activeOutlineColor="#376fe8" />
           )}
           name='cpf'
@@ -84,15 +86,15 @@ const Anamnese = ({ navigation }) => {
             <SafeAreaProvider>
               <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 0 }}>
                 <DatePickerInput
-                
+
                   locale='pt-BR'
                   label="Data de nascimento "
                   value={(watch().birthday)}
                   onChange={onChange}
                   inputMode="start"
                   mode='outlined'
-                  outlineColor={`${errors.birthday ? "red":"gray"}`}
-                  activeOutlineColor={`${errors.birthday? "red":"#376fe8"}`}
+                  outlineColor={`${errors.birthday ? "red" : "gray"}`}
+                  activeOutlineColor={`${errors.birthday ? "red" : "#376fe8"}`}
                   iconStyle={{ display: 'none' }}
                 />
               </View>

@@ -3,6 +3,7 @@ import { Button, RadioButton } from 'react-native-paper';
 import CustomText from '../components/customText';
 import { ScrollView, View } from 'react-native';
 import { useForm, Controller } from 'react-hook-form';
+import { StatusBar } from 'expo-status-bar';
 
 const StructuralAnalysis = ({navigation}) => {
   const { control, watch, handleSubmit } = useForm();
@@ -13,6 +14,8 @@ const StructuralAnalysis = ({navigation}) => {
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
+            <StatusBar translucent={true} backgroundColor='white' style='dark' />
+
       <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
         <Controller rules={{required:"Obrigatorio"}}
           control={control}
@@ -134,7 +137,7 @@ const StructuralAnalysis = ({navigation}) => {
         {/* ... */}
       </ScrollView>
       <View style={{ borderWidth: 0, justifyContent: "flex-end", alignItems: "flex-end", }}>
-        <Button style={{ width: "100%" }} buttonColor='#36B3B9' mode='contained' onPress={handleSubmit(onSubmit)}>Proximo</Button>
+        <Button style={{ width: "100%" }}buttonColor='#36B3B9' mode='contained' onPress={handleSubmit(onSubmit)}>Proximo</Button>
       </View>
     </View>
   );

@@ -1,10 +1,13 @@
 import React from 'react';
-import { View } from 'react-native';
+import { StatusBar, View } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, IconButton, Text } from 'react-native-paper';
 
 const Protokol = ({navigation}) => {
     return (
-        <View style={{ padding: 15 }}>
+        <View style={{ padding: 15 }}
+        >
+                  <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
+
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
                 <Avatar.Text size={64} label="M" labelStyle={{color:"white"}} style={{ marginBottom: 10, backgroundColor:"#36B3B9", }} />
                 <Title style={{ marginBottom: 10,}}>Mateus Santos</Title>

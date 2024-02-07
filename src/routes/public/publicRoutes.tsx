@@ -18,7 +18,7 @@ const PublicRoutes = () => {
     <AppStack.Navigator screenOptions={{
       headerPressColor:"blue",
       headerStyle:{
-        backgroundColor:"red"
+        backgroundColor:"#36B3B9"
       },
       cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
 
