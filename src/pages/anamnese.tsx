@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { StyleSheet, View, Text, StatusBar } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
 import ErrorMessage from '../components/errorMessage';
 import { DatePickerInput } from 'react-native-paper-dates';
@@ -10,7 +10,7 @@ import * as yup from "yup"
 import axiosInstance from '../config/axiosInstance';
 
 
-const Anamnese = ({ navigation }) => {
+const Anamnese = ({navigation}) => {
   const [loading, setLoading] = useState<boolean>(false)
   const schema = yup.object({
     first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
@@ -25,7 +25,7 @@ const Anamnese = ({ navigation }) => {
     mode: 'onChange',
     defaultValues: {
       first_name: "",
-      last_name: "",
+      last_name:"",
       cpf: "",
       birthday: null
     }
@@ -39,20 +39,18 @@ const Anamnese = ({ navigation }) => {
       //reset({ first_name: "", cpf: "", birthday: null });
       navigation.navigate("StructuralAnalysis")
       setLoading(false)
-    }).catch((e) => {
+    }).catch((e)=>{
       setLoading(false)
       console.log("deu erro")
       console.log(e);
     })
-
+   
   };
 
 
 
   return (
     <View style={styles.container}>
-      <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
-
       <View style={styles.containerChildren}>
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
@@ -74,7 +72,6 @@ const Anamnese = ({ navigation }) => {
               onChangeText={onChange}
               mode='outlined'
               label="CPF"
-
               activeOutlineColor="#376fe8" />
           )}
           name='cpf'
@@ -84,17 +81,15 @@ const Anamnese = ({ navigation }) => {
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <SafeAreaProvider>
-              <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 0 }}>
+              <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
                 <DatePickerInput
-
                   locale='pt-BR'
                   label="Data de nascimento "
                   value={(watch().birthday)}
                   onChange={onChange}
                   inputMode="start"
                   mode='outlined'
-                  outlineColor={`${errors.birthday ? "red" : "gray"}`}
-                  activeOutlineColor={`${errors.birthday ? "red" : "#376fe8"}`}
+                  activeOutlineColor="#376fe8"
                   iconStyle={{ display: 'none' }}
                 />
               </View>
@@ -143,4 +138,3 @@ const styles = StyleSheet.create({
     fontSize: 12,
   },
 });
-

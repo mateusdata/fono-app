@@ -16,8 +16,8 @@ export default function ChangeCredential({navigation}) {
   const { user } = React.useContext(Context);
   const [loading, setLoading] = React.useState(false);
   const schema = yup.object({
-    newPassword: yup.string().min(6, "a senha tem que ter pelo menos 6 digitos").required("Senha obrigatoria"),
-    confirmPassword: yup.string().oneOf([yup.ref('newPassword')], "AS senhas nao confere").required("AS senhas nao confere"),
+    newPassword: yup.string().min(6, "A senha tem que ter pelo menos 6 digitos"),
+    confirmPassword: yup.string().oneOf([yup.ref('newPassword')], "senhas não conferem").required("Nova senha é obrigatoria"),
     email: yup.mixed(),
   });
 

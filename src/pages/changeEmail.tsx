@@ -1,25 +1,89 @@
 import * as React from 'react';
-import { TextInput } from 'react-native-paper';
-import { View, StyleSheet, Button } from 'react-native';
-import PrimaryButton from '../components/primaryButton';
+import { Button, Snackbar, TextInput } from 'react-native-paper';
+import { View, StyleSheet, Keyboard, Text } from 'react-native';
 import { Context } from '../context/AuthProvider';
+import axiosInstance from '../config/axiosInstance';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from "yup"
+import ErrorMessage from '../components/errorMessage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+export default function ChangeName() {
+  const { user, setUser } = React.useContext(Context);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [showToast, setShowToast] = React.useState<boolean>(false)
+  Keyboard.isVisible()
+  const schema = yup.object({
+    email: yup.string().min(3, "email muito pequeno").required("Obrigatorio").matches(/^(?!^\d+$).+$/, { message: "Números não sãoo permitidos" })
+  })
+  const { control, handleSubmit, setError, formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+    mode: "onChange",
+    defaultValues: {
+      email: user?.email
+    }
+  })
+  const onSubmit = (data: string) => {
+    setLoading(true);
+    axiosInstance.post(`/update-user/${user?.usu_id}`, data).then(async (response) => {
+      setShowToast(true);
+      try {
+        const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
+        const updatedUser = { ...recoveryUser, ...response.data };
+        setUser(updatedUser);
+        await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
+      } catch (error) {
+        console.log("erro")
+      }
+      console.log(response.data);
+      setLoading(false);
 
-export default function ChangeEmail() {
-  const [text, setText] = React.useState('');
-  const { logOut, user } = React.useContext(Context);
+    }).catch((e) => {
+      console.log(e);
+      setLoading(false);
+      setError("email", { message: "Ocorreu um erro" })
+    });
+  }
 
   return (
     <View style={styles.container}>
-      <TextInput
-        mode="outlined"
-        label="Aterar email"
-        placeholder="email"
-        defaultValue={user?.email.trim()}
-        style={{ height: 52, width: "100%", marginBottom: 10 }}
-        activeOutlineColor='#376fe8'
-      />
-      <PrimaryButton handleButton={()=>{}}  name="Alterar" />
-      
+      <View style={{ flex: 0.9 }}>
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              autoFocus
+              onChangeText={onChange}
+              mode="outlined"
+              label="Aterar email"
+              placeholder="email"
+              style={styles.input}
+              activeOutlineColor='#376fe8'
+              value={value}
+            />
+          )}
+          name='email'
+        />
+        <ErrorMessage name={"email"} errors={errors} />
+        <Snackbar onDismiss={() => { setShowToast(!showToast) }}
+          duration={2000}
+          style={{ backgroundColor: "#38CB89" }} visible={showToast}
+          action={{ label: "☑️" }}
+        >
+            Email Atualizado
+        </Snackbar>
+      </View>
+s
+      <Button
+
+        loading={loading}
+        buttonColor='#36B3B1'
+        textColor='white'
+        style={styles.button}
+        onPress={handleSubmit(onSubmit)}>
+        Alterar email
+      </Button>
+
     </View>
   );
 }
@@ -33,4 +97,7 @@ const styles = StyleSheet.create({
   input: {
     marginBottom: 10,
   },
+  button: {
+    padding: 5
+  }
 });

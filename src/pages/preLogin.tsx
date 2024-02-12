@@ -16,8 +16,7 @@ const PreLogin = ({ navigation }: any) => {
                         Descubra o seu melhor com o Fono App
                     </CustomText>
                     <CustomText style={{ fontSize: 16, textAlign: "center" }}>
-                        Explore um mundo de saúde e equilísdsdsdbrio com o nosso app
-                        de Fonoaudiologia.
+                        Explore um mundo de saúde e Tenha controle dos seus pacientes com o nosso app de 
                     </CustomText>
                 </View>
                 <View style={{ width: "90%", marginTop: 10 }} >

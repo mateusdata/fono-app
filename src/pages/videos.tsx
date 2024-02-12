@@ -30,7 +30,7 @@ export default function Videos() {
     let tempVideosFono = [];
 
     console.log("entrou aqui")
-    for (let i = 1; i <= 9; i++) {
+    for (let i = 1; i <= 4; i++) {
       tempVideosFono.push(`https://fono-api-solitary-surf-9909.fly.dev/videos/${newArrayVideos[i]}`);
       console.log(tempVideosFono + "\n\n");
 
@@ -111,7 +111,7 @@ export default function Videos() {
                 source={{
                   uri: selectedVideo,
                 }}
-                useNativeControls={true}
+                useNativeControls={false}
                 resizeMode={ResizeMode.COVER}
                 isLooping={true}
                 onPlaybackStatusUpdate={status => setStatus(() => status)}

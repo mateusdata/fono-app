@@ -21,8 +21,8 @@ const MyAccount = ({ navigation }) => {
       <YStack space="$3" style={{ borderColor: 'yellow', borderWidth: 0, alignItems: "center", marginTop: 60, marginBottom: 40 }}>
         <YStack style={{ width: '100%', alignItems: 'center', marginTop: 5 }}>
          {true  && <>
-          <Avatar.Text size={80} label={user?.name[0]?.toUpperCase()} />
-          <CustomText style={{ fontSize: 22, marginTop: 10 }} fontFamily='Poppins_400Regular'> {user?.name.charAt(0).toUpperCase() + user?.name.slice(1)}</CustomText>
+          <Avatar.Text size={80} label={user?.nick_name[0]?.toUpperCase()} />
+          <CustomText style={{ fontSize: 22, marginTop: 10 }} fontFamily='Poppins_400Regular'> {user?.nick_name.charAt(0).toUpperCase() + user?.nick_name.slice(1)}</CustomText>
          </>}
         </YStack>
 
