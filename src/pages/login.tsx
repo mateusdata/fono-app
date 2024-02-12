@@ -11,18 +11,21 @@ const Login = ({ navigation }: any) => {
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, watch, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            email: "pedro@gmail.com",
+            email: "mae@gmail.com",
             password: "123456"
         },
         mode: "onChange"
     });
     const onSubmit = async () => {
         setLoading(true);
-        login(watch().email, watch().password);
-        setTimeout(() => {
-            setLoading(false)
-            alert("Ocorreu um erro")
-        }, 4000);
+        try {
+            login(watch().email, watch().password);
+            alert("edu certo")
+        } catch (error) {
+            alert("deu errado")
+            
+        }
+
     };
 
     return (
@@ -130,7 +133,7 @@ const styles = StyleSheet.create({
     },
     button: {
         fontFamily: "Poppins_600SemiBold",
-        backgroundColor: '#407AFF',
+       //git backgroundColor: '#407AFF',
         borderRadius: 5,
         padding: 5,
         marginTop: 15,        

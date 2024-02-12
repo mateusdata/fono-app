@@ -7,9 +7,7 @@ import LoadingComponent from "../components/LoadingComponent";
 
 interface ContextProps {
     user: any;
-    loading: boolean;
     setUser: Dispatch<SetStateAction<boolean | any>>;
-    setLoading: Dispatch<SetStateAction<boolean>>;
     login: (email: string, senha: string) => void;
     logOut: () => any;
     logado: any,
@@ -24,7 +22,6 @@ export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<any>(false);
-    const [loading, setLoading] = useState<boolean>(false);
     const [loadingPage, setLoadingPage] = useState<boolean>(false);
     const [email, setEmail] = useState<string | any>(null);
 
@@ -44,7 +41,6 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }, []);
 
     const login = async (email: string, password: string) => {
-        setLoading(true);
         axiosInstance.post("/login", {
             email,
             password
@@ -52,18 +48,15 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             setLoadingPage(true)
             
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
-                setLoading(false);
                 setTimeout(() => {
                     setLoadingPage(false)
                 }, 1000);
                 setUser(response?.data);
             }).catch((erro) => {
-                setLoading(false);
                 setLoadingPage(false)
                 alert("Ocorreu um erro ao salvar os dados do usuarios")
             });
         }).catch((erro) => {
-            setLoading(false);
             alert("Usuarios ou senha incorretos")
         });
     };
@@ -87,7 +80,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <Context.Provider
             value={{
-                user, loading, setUser, logado: !!user, setLoading, login, logOut, email, setEmail, loadingPage, setLoadingPage
+                user, setUser, logado: !!user, login, logOut, email, setEmail, loadingPage, setLoadingPage
             }}
         >
             {children}

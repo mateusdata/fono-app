@@ -1,104 +1,114 @@
 import * as React from 'react';
-import { TextInput } from 'react-native-paper';
-import { View, StyleSheet, StatusBar } from 'react-native';
-import { Button } from 'react-native-paper';
-
-import PrimaryButton from '../components/primaryButton';
-import { Controller, useForm } from 'react-hook-form';
-import ErrorMessage from '../components/errorMessage';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup"
+import { Button, Snackbar, TextInput } from 'react-native-paper';
+import { View, StyleSheet, Keyboard } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import axiosInstance from '../config/axiosInstance';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from "yup"
+import ErrorMessage from '../components/errorMessage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ChangeCredential({navigation}) {
-  const [text, setText] = React.useState('');
-  const { user } = React.useContext(Context);
-  const [loading, setLoading] = React.useState(false);
+export default function ChangeCredential() {
+  const { user, setUser } = React.useContext(Context);
+  const [loading, setLoading] = React.useState<boolean>(false);
+  const [showToast, setShowToast] = React.useState<boolean>(false)
+  Keyboard.isVisible()
   const schema = yup.object({
-    newPassword: yup.string().min(6, "A senha tem que ter pelo menos 6 digitos"),
-    confirmPassword: yup.string().oneOf([yup.ref('newPassword')], "senhas não conferem").required("Nova senha é obrigatoria"),
-    email: yup.mixed(),
-  });
-
-  const { control, reset, watch, formState: { errors }, handleSubmit } = useForm({
-    defaultValues: {
-      email: user.email,
-      newPassword: "",
-      confirmPassword: ""
-    },
-    resolver: yupResolver(schema),
-    mode: "onChange"
+    new_password: yup.string().min(3, "Nova senha é muito pequena"),
+    current_password: yup.string().min(6,"Senha atual é muito pequena")
   })
- const err = (e)=>{
-  console.log(e);
-  
- }
-  const onSubtmit = (data) => {
+  const { control, handleSubmit, setError,watch,  formState: { errors } } = useForm({
+    resolver: yupResolver(schema),
+    mode: "onChange",
+    defaultValues: {
+      new_password: "",
+      current_password:''
+    }
+  })
+  const onSubmit = (data: string) => {
     setLoading(true);
-    axiosInstance.post("/reset-password", {
-      newPassword: watch().newPassword,
-      email:user.email
-    }).then((response) => {
+    axiosInstance.post(`/update-password/${user?.usu_id}`, data).then(async (response) => {
+      setShowToast(true);
+      try {
+        const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
+        const updatedUser = { ...recoveryUser, ...response.data };
+        setUser(updatedUser);
+        await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
+      } catch (error) {
+        console.log("erro")
+      }
       console.log(response.data);
-      alert("senha alterada")
-      reset({ email: user.email, newPassword: "", confirmPassword: "" });
-     
       setLoading(false);
-    }).catch((erro) => {
+
+    }).catch((e) => {
       setLoading(false);
-      console.log("Erro " , erro);
-      alert("Senha atualizada");
-      setTimeout(() => {
-        navigation.navigate("Root")
-      }, 2000);
-    })
-    console.log(data);
+      if(true){
+        setError("current_password", { message: "Senha incorreta" })
+      }
+    });
   }
 
   return (
     <View style={styles.container}>
-            <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
-
-      <View style={styles.contentContainer}>
+      <View style={{ flex: 0.9 }}>
         <Controller
           control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
+          render={({ field: { onChange, value } }) => (
             <TextInput
+              autoFocus
+              error={!!errors.current_password}
+              onChangeText={onChange}
+              mode="outlined"
+              label="Senha atual"
+              placeholder=""
+              style={styles.input}
+              activeOutlineColor='#376fe8'
               value={value}
+            />
+          )}
+          name='current_password'
+        />
+        <ErrorMessage name={"current_password"} errors={errors} />
+
+        <Controller
+          control={control}
+          render={({ field: { onChange, value } }) => (
+            <TextInput
+              autoFocus
+              error={!!errors.new_password}
               onChangeText={onChange}
               mode="outlined"
               label="Nova senha"
-              placeholder="Senha"
-              secureTextEntry
+              placeholder=""
+              style={styles.input}
               activeOutlineColor='#376fe8'
-            />
-          )}
-          name='newPassword'
-        />
-        <ErrorMessage name="newPassword" errors={errors} />
-
-
-        <Controller
-          control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
               value={value}
-              onChangeText={onChange}
-              mode="outlined"
-              label="Confirmar nova senha"
-              placeholder="Senha"
-              secureTextEntry
-              activeOutlineColor='#376fe8'
             />
           )}
-          name="confirmPassword"
+          name='new_password'
         />
-        <ErrorMessage name="confirmPassword" errors={errors} />
-
+        <ErrorMessage name={"new_password"} errors={errors} />
+        
+        <Snackbar onDismiss={() => { setShowToast(!showToast) }}
+          duration={2000}
+          style={{ backgroundColor: "#38CB89" }} visible={showToast}
+          action={{ label: "☑️" }}
+        >
+            Senha Atualizado
+        </Snackbar>
       </View>
 
-      <Button mode='contained' loading={loading} onPress={handleSubmit(onSubtmit, err)}buttonColor='#36B3B9' contentStyle={{ height: 45 }} >Alterar</Button>
+      <Button
+
+        loading={loading}
+        buttonColor='#36B3B1'
+        textColor='white'
+        style={styles.button}
+        onPress={handleSubmit(onSubmit)}>
+        Alterar senha
+      </Button>
+
     </View>
   );
 }
@@ -107,10 +117,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'flex-start',
-    padding: 20,
+    padding: 8,
   },
-  contentContainer: {
-    gap: 1,
-    flex: 0.9
+  input: {
+    marginBottom: 10,
   },
+  button: {
+    padding: 5
+  }
 });

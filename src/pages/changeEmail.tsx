@@ -14,7 +14,7 @@ export default function ChangeName() {
   const [showToast, setShowToast] = React.useState<boolean>(false)
   Keyboard.isVisible()
   const schema = yup.object({
-    email: yup.string().min(3, "email muito pequeno").required("Obrigatorio").matches(/^(?!^\d+$).+$/, { message: "Números não sãoo permitidos" })
+    email: yup.string().email("Email inválido").min(3, "Email muito pequeno").required("Obrigatorio").matches(/^(?!^\d+$).+$/, { message: "Números não sãoo permitidos" })
   })
   const { control, handleSubmit, setError, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
@@ -52,6 +52,7 @@ export default function ChangeName() {
           control={control}
           render={({ field: { onChange, value } }) => (
             <TextInput
+              error={!!errors.email}
               autoFocus
               onChangeText={onChange}
               mode="outlined"
