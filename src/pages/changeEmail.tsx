@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
-import { View, StyleSheet, Keyboard, Text } from 'react-native';
+import { View, StyleSheet, Keyboard } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import axiosInstance from '../config/axiosInstance';
 import { Controller, useForm } from 'react-hook-form';
@@ -73,7 +73,7 @@ export default function ChangeName() {
             Email Atualizado
         </Snackbar>
       </View>
-s
+
       <Button
 
         loading={loading}
