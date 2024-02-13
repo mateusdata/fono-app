@@ -14,7 +14,7 @@ interface ContextProps {
     email: string | any,
     setEmail: Dispatch<SetStateAction<string | null>>,
     loadingPage: boolean;
-    setLoadingPage: Dispatch<SetStateAction<boolean>>;
+    setLoading: Dispatch<SetStateAction<boolean>>;
     
 }
 
@@ -22,21 +22,21 @@ export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     const [user, setUser] = useState<any>(false);
-    const [loadingPage, setLoadingPage] = useState<boolean>(false);
+    const [loadingPage, setLoading] = useState<boolean>(false);
     const [email, setEmail] = useState<string | any>(null);
 
     useEffect(() => {
-        setLoadingPage(true)
+        setLoading(true)
         AsyncStorage.getItem("usuario").then((response) => {
             if (response != null) {
                 setUser(JSON.parse(response));
-                setLoadingPage(false);
+                setLoading(false);
                 return
             }
-            setLoadingPage(false)
+            setLoading(false)
 
         }).catch((erro) => {
-            setLoadingPage(false);
+            setLoading(false);
         });
     }, []);
 
@@ -45,15 +45,15 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
             email,
             password
         }).then((response) => {
-            setLoadingPage(true)
+            setLoading(true)
             
             AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
                 setTimeout(() => {
-                    setLoadingPage(false)
+                    setLoading(false)
                 }, 1000);
                 setUser(response?.data);
             }).catch((erro) => {
-                setLoadingPage(false)
+                setLoading(false)
                 alert("Ocorreu um erro ao salvar os dados do usuarios")
             });
         }).catch((erro) => {
@@ -62,11 +62,11 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     };
 
     const logOut =  () => {
-        setLoadingPage(true)
+        setLoading(true)
          AsyncStorage.removeItem("usuario").then((response)=>{
             setTimeout(() => {
                 setUser(false);
-                setLoadingPage(false)
+                setLoading(false)
             }, 400);
          }).catch((e)=>{
             alert("erro" + JSON.stringify(e))
@@ -80,7 +80,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     return (
         <Context.Provider
             value={{
-                user, setUser, logado: !!user, login, logOut, email, setEmail, loadingPage, setLoadingPage
+                user, setUser, logado: !!user, login, logOut, email, setEmail, loadingPage, setLoading
             }}
         >
             {children}

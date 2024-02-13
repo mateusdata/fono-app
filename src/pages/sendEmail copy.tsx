@@ -10,7 +10,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
 
 export default function ChangeCredential({ navigation }) {
-    const { email, setEmail } = React.useContext(Context);
+    const { user, setUser } = React.useContext(Context);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [showToast, setShowToast] = React.useState<boolean>(false)
     Keyboard.isVisible()
@@ -24,17 +24,16 @@ export default function ChangeCredential({ navigation }) {
             email: "",
         }
     })
-    const onSubmit = (data: any) => {
+    const onSubmit = (data: string) => {
         setLoading(true);
-        axiosInstance.post("/send-reset-code", {email:"mateuspele2015@gmail.com"}).then((response) => {
+        axiosInstance.post("/send-reset-code", data).then(async (response) => {
             console.log(response.data);
-            setEmail("mateuspele2015@gmail.com");
             navigation.navigate("CheckCode");
             setLoading(false);
         }).catch((e) => {
             setLoading(false);
-            if(e?.status!==40){
-                setError("email",{message:"Não existe esse email em nosso sistema"})
+            if(e?.status!==401){
+                setError("email",{message:"Não existe esse email no nosso sistema"})
             }
         });
     }
@@ -101,7 +100,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'flex-start',
-        padding: 18,
+        padding: 8,
     },
     input: {
         marginBottom: 10,

@@ -1,107 +1,129 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, Pressable, View } from 'react-native';
-import PrimaryButton from '../components/primaryButton';
-import { TextInput } from 'react-native-paper';
+import * as React from 'react';
+import { Button, Snackbar, TextInput } from 'react-native-paper';
+import { View, StyleSheet, Keyboard, Pressable, Text } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import axiosInstance from '../config/axiosInstance';
+import { Controller, useForm } from 'react-hook-form';
+import * as yup from "yup"
+import ErrorMessage from '../components/errorMessage';
+import { yupResolver } from '@hookform/resolvers/yup';
+import CustomText from '../components/customText';
 
-const CheckCode = ({ navigation }: any) => {
-    const { email, setEmail } = useContext(Context);
-    const [codigo, setcodigo] = useState<any>("");
-    const [showError, setShowError] = useState<boolean>(false);
-    const [mensageError, setMensageErro] = useState<string>("Email invalido")
-    const [colorText, setColorText] = useState<any>("red");
-    const { login, setLoading, loading } = useContext(Context);
-    
-    useEffect(() => {
+export default function ChangeCredential({ navigation }) {
+    const { email, setEmail } = React.useContext(Context);
+    const [loading, setLoading] = React.useState<boolean>(false);
+    React.useEffect(() => {
         if (!email) { navigation.navigate("Login"); };
     }, []);
     if (!email) {
         return null;
     }
-
-    function checkCode() {
-        if (codigo.length>4) {
-            setLoading(true);
-            axiosInstance.post('/verify-reset-code', { email: email, verification_code: codigo }).then((response) => {
-                if (response.status === 200) {
-                    setLoading(false);
-                    navigation.navigate("ChangePassword");
-                }
-            }).catch((error) => {
-                setShowError(true);
-                error?.response.status ? setMensageErro("Código invalido") : alert("Ocorreu um erro no servidor")
-                    ;
-                    setLoading(false);
-            })
+    const schema = yup.object({
+        codigo: yup.string().min(6, "codigo  muito pequeno").max(6, "codigo  muito grande")
+    })
+    const { control, handleSubmit, setError, watch, formState: { errors } } = useForm({
+        resolver: yupResolver(schema),
+        mode: "onChange",
+        defaultValues: {
+            codigo: "",
         }
-    }
+    })
+
     const sendCode = () => {
-        axiosInstance.post('/send-reset-code', {email: email}).then((response)=>{
-               
-            if(response.status === 200){            
-              return  alert("um novo codigo foi enviado para " + email)
+        axiosInstance.post('/send-reset-code', { email: email }).then((response) => {
+            if (response.status === 200) {
+                return alert("um novo codigo foi enviado para " + email)
             }
             return ("ops! ocorreu um erro ")
-        }).catch((error)=>{
-            setShowError(true);
+        }).catch((error) => {
             error?.response.status && alert(" ocorreu um erro");
-
         })
+    }
+    const onSubmit = (data: any) => {
+        setLoading(true);
+        axiosInstance.post("/verify-reset-code", {
+            codigo:541131
+        }).then(async (response) => {
+            console.log(response.data);
+            setEmail(data?.codigo)
+            navigation.navigate("ChangePassword");
+            setLoading(false);
+        }).catch((e) => {
+            setLoading(false);
+            if (e?.status !== 40) {
+                setError("codigo", { message: "Código inválido" })
+            }
+        });
     }
 
     return (
-        <View style={{ flex: 1 }}>
-            <View style={{ gap: 10, marginTop: 10 }}>
-                <Text style={{
-                    fontFamily: "Poppins_800ExtraBold",
-                    fontSize: 25,
-                    marginBottom: 0,
-                    marginTop: 0,
-                    color: "#4d4d4f",
-                    textAlign: "center"
-                    
-                }}>
-                    Verificar código
-                </Text>
-                <Text style={{ fontSize: 18, fontFamily: "Poppins_300Light", textAlign: "center" }}>
-                    Insira o código de segurança que enviamos para seu email.
-                </Text>
-            </View>
-            <View style={{ backgroundColor: "#F5F7FF", flex: 1, justifyContent: "flex-start", marginTop: 100 }}>
+        <View style={styles.container}>
+            <View style={{ flex: 0.9 }}>
 
-                <View style={{ justifyContent: "center", alignItems: "center" }}>
-                    <TextInput
-                        mode="outlined"
-                        label="Código de verificação"
-                        placeholder="Código de verificação"
-                        value={codigo}
-                        style={{ height: 52, width: "90%" }}
-                        onChangeText={(e) => {
-                            setMensageErro("")
-                            setcodigo(e)
-                            setShowError(false)
-                        }}
-                        activeOutlineColor='#376fe8'
-                        keyboardType='numeric'
-                    />
-                    <View style={{ alignItems: "flex-start", justifyContent: "flex-start", width: "100%", marginLeft: 40 }}>
-                        <Text style={{ color: colorText, textAlign: "left" }} >{showError && mensageError} </Text>
-                    </View>
+                <View style={{ gap: 10, marginTop: 10 }}>
+                    <CustomText fontFamily='Poppins_300Light' style={{
+                        fontSize: 25,
+                        marginBottom: 0,
+                        marginTop: 0,
+                        color: "#4d4d4f",
+                        textAlign: "center"
+                    }}>
+                        Esqueceu sua senha ?
+                    </CustomText>
+                    <CustomText fontFamily='Poppins_300Light' style={{ fontSize: 18, textAlign: "center" }}>
+                        Insira seu codigo pra obter um código de segurança
+                    </CustomText>
                 </View>
-                <View style={{ padding: 20 }}>
-                    <PrimaryButton handleButton={checkCode} name="Verificar código" />
-                    <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                        <Text style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Não recebeu o código?</Text>
-                        <Pressable onPress={sendCode}>
-                            <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Reivinhar código</Text>
-                        </Pressable>
-                    </View>
-                </View>
+                <Controller
+                    control={control}
+                    render={({ field: { onChange, value } }) => (
+                        <TextInput
+                            autoFocus
+                            error={!!errors.codigo}
+                            onChangeText={onChange}
+                            mode="outlined"
+                            label="codigo"
+                            placeholder=""
+                            style={styles.input}
+                            activeOutlineColor='#376fe8'
+                            value={value}
+                        />
+                    )}
+                    name='codigo'
+                />
+                <ErrorMessage name={"codigo"} errors={errors} />
+            </View>
+
+            <Button
+                loading={loading}
+                buttonColor='#36B3B1'
+                textColor='white'
+                style={styles.button}
+                onPress={handleSubmit(onSubmit)}>
+                Proximo
+            </Button>
+
+            <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
+                <CustomText fontFamily='Poppins_300Light' style={{ color: "gray" }}>Lembrou sua senha</CustomText>
+                <Pressable onPress={sendCode}>
+                    <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Reivinhar código</Text>
+                </Pressable>
             </View>
 
         </View>
-    )
+    );
 }
 
-export default CheckCode
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'flex-start',
+        padding: 18,
+    },
+    input: {
+        marginBottom: 10,
+    },
+    button: {
+        padding: 5
+    }
+});

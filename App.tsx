@@ -22,9 +22,9 @@ export default function App() {
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
         alert("Você esta sem conexão com a internet")
-        console.log("Você esta sem conexão com a internet")
-
-        // BackHandler.exitApp();
+         setTimeout(() => {
+          //BackHandler.exitApp();
+         }, 2000);
       }
     });
 

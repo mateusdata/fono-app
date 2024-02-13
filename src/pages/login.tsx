@@ -20,9 +20,7 @@ const Login = ({ navigation }: any) => {
         setLoading(true);
         try {
             login(watch().email, watch().password);
-            alert("edu certo")
         } catch (error) {
-            alert("deu errado")
             
         }
 
@@ -78,9 +76,9 @@ const Login = ({ navigation }: any) => {
                     </Button>
                 </View>
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                    <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua password ?</CustomText>
+                    <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "gray" }}>Esqueceu sua senha ?</CustomText>
                     <Pressable onPress={() => navigation.navigate("SendEmail")}>
-                        <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recuperar password</CustomText>
+                        <CustomText style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Recuperar senha</CustomText>
                     </Pressable>
                 </View>
             </View>

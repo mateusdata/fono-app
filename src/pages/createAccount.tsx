@@ -9,7 +9,7 @@ import axios from 'axios';
 import axiosInstance from '../config/axiosInstance';
 
 const CreateAccount = ({ navigation }: any) => {
-  const { login, setLoading, loading } = useContext(Context);
+  const { login, setLoading } = useContext(Context);
 
   const { register, handleSubmit, watch, trigger, control,  formState: { errors }, setValue } = useForm({
     defaultValues:{
