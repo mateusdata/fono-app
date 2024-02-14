@@ -7,7 +7,6 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function ChangeCredential() {
   const { user, setUser } = React.useContext(Context);
@@ -29,23 +28,11 @@ export default function ChangeCredential() {
   const onSubmit = (data: string) => {
     setLoading(true);
     axiosInstance.post(`/update-password/${user?.usu_id}`, data).then(async (response) => {
-      setShowToast(true);
-      try {
-        const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
-        const updatedUser = { ...recoveryUser, ...response.data };
-        setUser(updatedUser);
-        await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
-      } catch (error) {
-        console.log("erro")
-      }
       console.log(response.data);
       setLoading(false);
-
     }).catch((e) => {
       setLoading(false);
-      if(true){
-        setError("current_password", { message: "Senha incorreta" })
-      }
+
     });
   }
 

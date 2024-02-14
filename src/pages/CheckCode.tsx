@@ -19,18 +19,18 @@ export default function ChangeCredential({ navigation }) {
         return null;
     }
     const schema = yup.object({
-        codigo: yup.string().min(6, "codigo  muito pequeno").max(6, "codigo  muito grande")
+        verification_code: yup.string().min(4, "codigo  muito pequeno").max(6, "codigo  muito grande")
     })
     const { control, handleSubmit, setError, watch, formState: { errors } } = useForm({
         resolver: yupResolver(schema),
         mode: "onChange",
         defaultValues: {
-            codigo: "",
+            verification_code: "",
         }
     })
 
     const sendCode = () => {
-        axiosInstance.post('/send-reset-code', { email: email }).then((response) => {
+        axiosInstance.post('/verify-reset-code', { email: email }).then((response) => {
             if (response.status === 200) {
                 return alert("um novo codigo foi enviado para " + email)
             }
@@ -40,18 +40,18 @@ export default function ChangeCredential({ navigation }) {
         })
     }
     const onSubmit = (data: any) => {
+       
         setLoading(true);
-        axiosInstance.post("/verify-reset-code", {
-            codigo:541131
-        }).then(async (response) => {
+        axiosInstance.post("/verify-reset-code",{...data, email}).then((response) => {
             console.log(response.data);
-            setEmail(data?.codigo)
-            navigation.navigate("ChangePassword");
+            //setEmail(data?.email)
             setLoading(false);
+            navigation.navigate("ChangePassword");
+
         }).catch((e) => {
             setLoading(false);
-            if (e?.status !== 40) {
-                setError("codigo", { message: "Código inválido" })
+            if (e?.status !== 401) {
+                setError("verification_code", { message: "Código inválido" })
             }
         });
     }
@@ -68,10 +68,10 @@ export default function ChangeCredential({ navigation }) {
                         color: "#4d4d4f",
                         textAlign: "center"
                     }}>
-                        Esqueceu sua senha ?
+                        Verificar código
                     </CustomText>
                     <CustomText fontFamily='Poppins_300Light' style={{ fontSize: 18, textAlign: "center" }}>
-                        Insira seu codigo pra obter um código de segurança
+                        Insira o código  que acabamos de enviar para seu email.
                     </CustomText>
                 </View>
                 <Controller
@@ -79,7 +79,7 @@ export default function ChangeCredential({ navigation }) {
                     render={({ field: { onChange, value } }) => (
                         <TextInput
                             autoFocus
-                            error={!!errors.codigo}
+                            error={!!errors.verification_code}
                             onChangeText={onChange}
                             mode="outlined"
                             label="codigo"
@@ -89,9 +89,9 @@ export default function ChangeCredential({ navigation }) {
                             value={value}
                         />
                     )}
-                    name='codigo'
+                    name='verification_code'
                 />
-                <ErrorMessage name={"codigo"} errors={errors} />
+                <ErrorMessage name={"verification_code"} errors={errors} />
             </View>
 
             <Button
@@ -104,7 +104,7 @@ export default function ChangeCredential({ navigation }) {
             </Button>
 
             <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
-                <CustomText fontFamily='Poppins_300Light' style={{ color: "gray" }}>Lembrou sua senha</CustomText>
+                <CustomText fontFamily='Poppins_300Light' style={{ color: "gray" }}>Não tem um código</CustomText>
                 <Pressable onPress={sendCode}>
                     <Text style={{ fontFamily: "Poppins_600SemiBold", color: "#407AFF" }}>Reivinhar código</Text>
                 </Pressable>

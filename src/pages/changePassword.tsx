@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
+import CustomText from '../components/customText';
 
 export default function ChangePassword() {
   const { user, login, email } = React.useContext(Context);
@@ -18,30 +19,43 @@ export default function ChangePassword() {
     confirmPassword: yup.string()
       .oneOf([yup.ref('newPassword'), null], 'As senhas devem corresponder')
   });
-  
-  const { control, handleSubmit, setError,watch,  formState: { errors } } = useForm({
+
+  const { control, handleSubmit, setError, watch, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
     defaultValues: {
       newPassword: "",
-      confirmPassword:''
+      confirmPassword: ''
     }
   })
   const onSubmit = (data: any) => {
+    
     setLoading(true);
-    axiosInstance.post('/reset-password', { email: email, newPassword: data.newPassword }).then(async (response) => {
+    axiosInstance.post('/reset-password', {newPassword:data.newPassword, email: email}).then( (response) => {
       console.log(response.data);
       login(email, data?.newPassword);
       setLoading(false);
     }).catch((e) => {
       setLoading(false);
-      alert("Ocorreu um erro")
+      setError("confirmPassword", {message:"Ocoreu um erro"})
     });
   }
 
   return (
     <View style={styles.container}>
       <View style={{ flex: 0.9 }}>
+        <View style={{ gap: 10, marginTop: 10 }}>
+          <CustomText fontFamily='Poppins_300Light' style={{
+            fontSize: 25,
+            marginBottom: 0,
+            marginTop: 0,
+            color: "#4d4d4f",
+            textAlign: "center"
+          }}>
+            Alterar senha
+          </CustomText>
+
+        </View>
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => (
@@ -79,13 +93,13 @@ export default function ChangePassword() {
           name='confirmPassword'
         />
         <ErrorMessage name={"confirmPassword"} errors={errors} />
-        
+
         <Snackbar onDismiss={() => { setShowToast(!showToast) }}
           duration={2000}
           style={{ backgroundColor: "#38CB89" }} visible={showToast}
           action={{ label: "☑️" }}
         >
-            Senha Atualizado
+          Senha Atualizado
         </Snackbar>
       </View>
 

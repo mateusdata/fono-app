@@ -26,14 +26,30 @@ export default function ChangeCredential({ navigation }) {
     })
     const onSubmit = (data: any) => {
         setLoading(true);
-        axiosInstance.post("/send-reset-code", {email:"mateuspele2015@gmail.com"}).then((response) => {
+        console.log(data)
+        axiosInstance.post("/send-reset-code",data).then((response) => {
+            console.log(response.data);
+            setEmail(data?.email);
+            navigation.navigate("CheckCode");
+            setLoading(false);
+        }).catch((e) => {
+            setLoading(false);
+            if(e?.status===401){
+                setError("email",{message:"Não existe esse email em nosso sistemssa"})
+            }
+        });
+    }
+
+    const onSubmit2 = (data: any) => {
+        setLoading(true);
+        axiosInstance.post("/send-reset-code", {email:"maria@gmail.com"}).then((response) => {
             console.log(response.data);
             setEmail("mateuspele2015@gmail.com");
             navigation.navigate("CheckCode");
             setLoading(false);
         }).catch((e) => {
             setLoading(false);
-            if(e?.status!==40){
+            if(e?.status!==401){
                 setError("email",{message:"Não existe esse email em nosso sistema"})
             }
         });

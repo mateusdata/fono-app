@@ -11,7 +11,7 @@ const Login = ({ navigation }: any) => {
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, watch, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            email: "mae@gmail.com",
+            email: "mateusprosaber@gmail.com",
             password: "123456"
         },
         mode: "onChange"

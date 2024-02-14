@@ -7,6 +7,7 @@ import { Controller, useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
 import axios from 'axios';
 import axiosInstance from '../config/axiosInstance';
+import CustomText from '../components/customText';
 
 const CreateAccount = ({ navigation }: any) => {
   const { login, setLoading } = useContext(Context);
@@ -43,7 +44,18 @@ const CreateAccount = ({ navigation }: any) => {
   return (
     <ScrollView style={styles.container}>
       <View style={styles.contentContainer}>
-        <Text style={styles.titleText}>Criar conta</Text>
+      <View style={{ gap: 10, marginTop: 10 }}>
+                    <CustomText fontFamily='Poppins_300Light' style={{
+                        fontSize: 25,
+                        marginBottom: 0,
+                        marginTop: 0,
+                        color: "#4d4d4f",
+                        textAlign: "center"
+                    }}>
+                       Criar conta
+                    </CustomText>
+                    
+                </View>
         <View style={styles.inputContainer}>
             <Controller control={control} rules={
                   {required: 'Obrigatório', maxLength: { value: 40,  message: "o tamanho maximo do texto é 40 caracteres"},
@@ -51,7 +63,7 @@ const CreateAccount = ({ navigation }: any) => {
                     pattern: { value: /^(?!^\d+$).+$/, message: 'Não são permitidas  entradas numéricas'}}}
                 render={({ field: { onChange, onBlur, value, } }) => (
                 <TextInput
-                    mode="outlined"  activeOutlineColor="#376fe8"  error={!!errors.nick_name}  label="Nome"
+                    mode="outlined" autoFocus  activeOutlineColor="#376fe8"  error={!!errors.nick_name}  label="Nome"
                     placeholder="Nome"  onBlur={onBlur}    onChangeText={onChange} value={value}
                 />
                 )}
@@ -127,6 +139,7 @@ const styles = StyleSheet.create({
   inputContainer: {
     width: "90%",
     gap: 0,
+    flex:1,
   },
   footerContainer: {
     width: "auto",
