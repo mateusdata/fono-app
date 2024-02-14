@@ -22,7 +22,6 @@ const LeadingPage = ({navigation}:any) => {
         }
         setLoading(false);
       } catch (error) {
-        console.log(error);
         setLoading(false);
       }
     };

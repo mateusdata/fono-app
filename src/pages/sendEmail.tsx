@@ -26,9 +26,7 @@ export default function ChangeCredential({ navigation }) {
     })
     const onSubmit = (data: any) => {
         setLoading(true);
-        console.log(data)
         axiosInstance.post("/send-reset-code",data).then((response) => {
-            console.log(response.data);
             setEmail(data?.email);
             navigation.navigate("CheckCode");
             setLoading(false);
@@ -43,7 +41,6 @@ export default function ChangeCredential({ navigation }) {
     const onSubmit2 = (data: any) => {
         setLoading(true);
         axiosInstance.post("/send-reset-code", {email:"maria@gmail.com"}).then((response) => {
-            console.log(response.data);
             setEmail("mateuspele2015@gmail.com");
             navigation.navigate("CheckCode");
             setLoading(false);

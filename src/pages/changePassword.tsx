@@ -32,7 +32,6 @@ export default function ChangePassword() {
     
     setLoading(true);
     axiosInstance.post('/reset-password', {newPassword:data.newPassword, email: email}).then( (response) => {
-      console.log(response.data);
       login(email, data?.newPassword);
       setLoading(false);
     }).catch((e) => {

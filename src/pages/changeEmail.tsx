@@ -33,13 +33,10 @@ export default function ChangeName() {
         setUser(updatedUser);
         await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
       } catch (error) {
-        console.log("erro")
       }
-      console.log(response.data);
       setLoading(false);
 
     }).catch((e) => {
-      console.log(e);
       setLoading(false);
       setError("email", { message: "Ocorreu um erro" })
     });

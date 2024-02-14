@@ -18,15 +18,11 @@ const MyPlanDetails = ({ navigation }) => {
         setLoading(true);
         const fetchPlan = async () => {
             setLoading(true);
-
             try {
                 const response = await AsyncStorage.getItem("plan");
                 setCurrentPlan(JSON.parse(response))
-                console.log(JSON.parse(response));
-
                 setLoading(false);
             } catch (error) {
-                console.log(error);
                 setLoading(false);
             }
         };
@@ -40,12 +36,12 @@ const MyPlanDetails = ({ navigation }) => {
             <Text style={styles.title}>Plano Atual</Text>
             <Text style={styles.info}>Nome: {currentPlan.type == 1 ? "Plano mensal" : "Plano anual"}</Text>
             <Text style={styles.info}>Status: <Text style={{ color: "green" }}>
-            {currentPlan?.isSubscriber? "Atvo": "Inativo"}
+                {currentPlan?.isSubscriber ? "Atvo" : "Inativo"}
             </Text>
             </Text>
             <Text style={styles.info}>Valor: {currentPlan.price}</Text>
             <Text style={styles.info}>Duração: {currentPlan.duration}</Text>
-       
+
         </View>
     );
 };

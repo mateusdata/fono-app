@@ -18,7 +18,7 @@ const Protokol = ({navigation}) => {
                     Info. Cadastral
                 </Button>
 
-                <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => console.log('Pressed')} style={{ marginBottom: 10 }}>
+                <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => {}} style={{ marginBottom: 10 }}>
                     Questionário
                 </Button>
             </View>

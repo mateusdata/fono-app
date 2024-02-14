@@ -19,14 +19,10 @@ const Suggestion = () => {
     const { user } = useContext(Context);
     const onSubmit = (data) => {
         setVisible(true);
-        console.log(data)
         //axiosInstance.post("/send-suggestion", { sugestion: data, nome: user.nome, suggestion: user.suggestion })
         reset({ suggestion: '' });
     };
-    const err = (err) => {
-        console.log("error");
-
-    }
+    const err = (err) => {}
     return (
         <View style={styles.container}>
             <Toast  mensage={"Sugestão enviada"} visible={visible} setVisible={setVisible} />

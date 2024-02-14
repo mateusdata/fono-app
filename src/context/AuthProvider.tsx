@@ -41,25 +41,25 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
     }, []);
 
     const login = async (email: string, password: string) => {
-        axiosInstance.post("/login", {
-            email,
-            password
-        }).then((response) => {
-            setLoading(true)
-            
-            AsyncStorage.setItem("usuario", JSON.stringify(response.data)).then((res) => {
-                setTimeout(() => {
-                    setLoading(false)
-                }, 1000);
-                setUser(response?.data);
-            }).catch((erro) => {
-                setLoading(false)
-                alert("Ocorreu um erro ao salvar os dados do usuarios")
+        try {
+            const response = await axiosInstance.post("/login", {
+                email,
+                password
             });
-        }).catch((erro) => {
-            alert("Usuarios ou senha incorretos")
-        });
+            setLoading(true);
+            try {
+                await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
+                setLoading(false);
+                setUser(response?.data);
+            } catch (erro) {
+                setLoading(false);
+                alert("Ocorreu um erro ao salvar os dados do usuarios");
+            }
+        } catch (erro) {
+            alert("Usuarios ou senha incorretos");
+        }
     };
+    
 
     const logOut =  () => {
         setLoading(true)

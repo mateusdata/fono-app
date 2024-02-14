@@ -35,14 +35,10 @@ const Anamnese = ({navigation}) => {
   const onSubmit = (data) => {
     setLoading(true)
     axiosInstance.post("/create-pacient", data).then((response) => {
-      console.log(response);
-      //reset({ first_name: "", cpf: "", birthday: null });
       navigation.navigate("StructuralAnalysis")
       setLoading(false)
     }).catch((e)=>{
       setLoading(false)
-      console.log("deu erro")
-      console.log(e);
     })
    
   };

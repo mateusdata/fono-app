@@ -27,7 +27,6 @@ export default function ChangeCredential({ navigation }) {
     const onSubmit = (data: string) => {
         setLoading(true);
         axiosInstance.post("/send-reset-code", data).then(async (response) => {
-            console.log(response.data);
             navigation.navigate("CheckCode");
             setLoading(false);
         }).catch((e) => {

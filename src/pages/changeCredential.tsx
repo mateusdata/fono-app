@@ -28,7 +28,6 @@ export default function ChangeCredential() {
   const onSubmit = (data: string) => {
     setLoading(true);
     axiosInstance.post(`/update-password/${user?.usu_id}`, data).then(async (response) => {
-      console.log(response.data);
       setLoading(false);
     }).catch((e) => {
       setLoading(false);

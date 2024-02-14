@@ -28,12 +28,8 @@ export default function Videos() {
   ]
   useEffect(() => {
     let tempVideosFono = [];
-
-    console.log("entrou aqui")
     for (let i = 1; i <= 4; i++) {
       tempVideosFono.push(`https://fono-api-solitary-surf-9909.fly.dev/videos/${newArrayVideos[i]}`);
-      console.log(tempVideosFono + "\n\n");
-
     }
     setVideosFono(tempVideosFono);
 

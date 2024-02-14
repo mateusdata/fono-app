@@ -11,7 +11,6 @@ const App = () => {
     if (canOpen) {
       Linking.openURL(url);
     } else {
-      console.log(`Dnão suportado: ${url}`);
     }
   };
   return (

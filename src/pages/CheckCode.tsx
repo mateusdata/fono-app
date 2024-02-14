@@ -43,8 +43,6 @@ export default function ChangeCredential({ navigation }) {
        
         setLoading(true);
         axiosInstance.post("/verify-reset-code",{...data, email}).then((response) => {
-            console.log(response.data);
-            //setEmail(data?.email)
             setLoading(false);
             navigation.navigate("ChangePassword");
 

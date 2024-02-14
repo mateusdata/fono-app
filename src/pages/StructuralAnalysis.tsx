@@ -9,7 +9,6 @@ const StructuralAnalysis = ({navigation}) => {
   const { control, watch, handleSubmit } = useForm();
   const onSubmit = (data) => {
     navigation.navigate("FunctionalAnalysis")
-    console.log(data)
   };
 
   return (

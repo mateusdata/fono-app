@@ -8,7 +8,6 @@ const FunctionalAnalysis = ({navigation}) => {
   const { control, handleSubmit } = useForm();
   const onSubmit = (data) => {
     navigation.navigate("Protokol")
-    console.log(data)
   };
 
   return (
