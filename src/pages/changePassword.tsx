@@ -8,9 +8,11 @@ import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ChangePassword() {
-  const { user, login, email } = React.useContext(Context);
+export default function ChangePassword({navigation}) {
+
+  const { setUser, setLoadingAuth, email } = React.useContext(Context);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showToast, setShowToast] = React.useState<boolean>(false)
 
@@ -28,20 +30,31 @@ export default function ChangePassword() {
       confirmPassword: ''
     }
   })
-  const onSubmit = (data: any) => {
-    
-    setLoading(true);
-    axiosInstance.post('/reset-password', {newPassword:data.newPassword, email: email}).then( (response) => {
-      login(email, data?.newPassword);
+  const onSubmit = async (data: any) => {
+
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post('/reset-password', { newPassword: data.newPassword, email: email });
+      setShowToast(true)
+      try {
+        await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
+        setTimeout(() => {
+       navigation.navigate("Login")
+        }, 1800);
+      } catch (error) {
+        alert("erro")
+      }
+
+    } catch (error) {
+      setError("confirmPassword", { message: "senha atual incorreta!" })
       setLoading(false);
-    }).catch((e) => {
-      setLoading(false);
-      setError("confirmPassword", {message:"Ocoreu um erro"})
-    });
+    }
+
   }
 
   return (
     <View style={styles.container}>
+     
       <View style={{ flex: 0.9 }}>
         <View style={{ gap: 10, marginTop: 10 }}>
           <CustomText fontFamily='Poppins_300Light' style={{
@@ -98,12 +111,12 @@ export default function ChangePassword() {
           style={{ backgroundColor: "#38CB89" }} visible={showToast}
           action={{ label: "☑️" }}
         >
-          Senha Atualizado
+          Senha Atualizada
         </Snackbar>
       </View>
 
       <Button
-
+        disabled={loading}
         loading={loading}
         buttonColor='#36B3B1'
         textColor='white'

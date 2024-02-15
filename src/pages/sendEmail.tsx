@@ -32,26 +32,11 @@ export default function SendEmail({ navigation }) {
             setLoading(false);
         }).catch((e) => {
             setLoading(false);
-            if(e?.status===401){
-                setError("email",{message:"Não existe esse email em nosso sistemssa"})
-            }
-        });
-    }
-
-    const onSubmit2 = (data: any) => {
-        setLoading(true);
-        axiosInstance.post("/send-reset-code", {email:"maria@gmail.com"}).then((response) => {
-            setEmail("mateuspele2015@gmail.com");
-            navigation.navigate("CheckCode");
-            setLoading(false);
-        }).catch((e) => {
-            setLoading(false);
             if(e?.status!==401){
-                setError("email",{message:"Não existe esse email em nosso sistema"})
+                setError("email",{message:"Ocorreu um erro"})
             }
         });
     }
-
     return (
         <View style={styles.container}>
             <View style={{ flex: 0.9 }}>

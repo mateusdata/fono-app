@@ -3,12 +3,13 @@ import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/
 
 import { Button, Pressable, View } from 'react-native';
 import CustomText from '../../components/customText';
-import PreLogin from '../../pages/preLogin';
+import PreLogin from '../../pages/PreLogin';
 import Login from '../../pages/login';
 import ChangePassword from '../../pages/changePassword';
-import CreateAccount from '../../pages/createAccount';
 import SendEmail from '../../pages/sendEmail';
 import CheckCode from '../../pages/CheckCode';
+import CreateAccount from '../../pages/createAccount';
+
 
 
 

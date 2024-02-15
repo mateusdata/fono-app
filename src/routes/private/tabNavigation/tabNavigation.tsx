@@ -6,9 +6,10 @@ import { AntDesign } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context } from '../../../context/AuthProvider';
-import Home from '../../../pages/home';
-import Videos from '../../../pages/videos';
-import MyAccount from '../../../pages/myAccount';
+import Home from '../../../pages/Home';
+import Videos from '../../../pages/Videos';
+import MyAccount from '../../../pages/MyAccount';
+
 
 const Tabs = createBottomTabNavigator();
 

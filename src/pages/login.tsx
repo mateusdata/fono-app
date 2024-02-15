@@ -7,24 +7,35 @@ import CustomText from '../components/customText';
 import { Controller, useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
 import { StatusBar } from 'expo-status-bar';
+import axiosInstance from '../config/axiosInstance';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Login = ({ navigation }: any) => {
-    const { login } = useContext(Context);
+    const { setLoadingAuth, setUser } = useContext(Context);
     const [loading, setLoading] = useState(false);
-    const { register, handleSubmit, watch, trigger, control, formState: { errors }, setValue } = useForm({
+    const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            email: "m@m.com",
-            password: "123456"
+            email: "mateuspele2015@gmail.com",
+            password: "888888"
         },
         mode: "onChange"
     });
-    const onSubmit = async (data:object) => {
-        setLoading(true);
+    const onSubmit = async (data: object) => {
         try {
-            login(watch().email, watch().password);
-        } catch (error) {
-            
-        }
+            setLoading(true);
+            const response = await axiosInstance.post("/login", data);
+            setLoadingAuth(true);
+            try {
+                await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
+                setUser(response.data);
+            } catch (error) {
+                alert("erro")
+            }
+            setLoadingAuth(false);
 
+        } catch (error) {
+            setError("password", { message: "Usuario ou senha incorreta!" })
+            setLoading(false);
+        }
     };
 
     return (
@@ -67,13 +78,13 @@ const Login = ({ navigation }: any) => {
                 <ErrorMessage name={"password"} errors={errors} />
                 <View>
                     <Button
-                    mode='contained-tonal'
+                        mode='contained-tonal'
                         loading={loading}
                         buttonColor='#36B3B1'
                         textColor='white'
                         style={styles.button}
                         onPress={handleSubmit(onSubmit)}>
-                       Entrar
+                        Entrar
                     </Button>
                 </View>
                 <View style={{ width: "auto", alignItems: "center", justifyContent: "center", marginTop: 15 }}>
@@ -132,10 +143,10 @@ const styles = StyleSheet.create({
     },
     button: {
         fontFamily: "Poppins_600SemiBold",
-       //git backgroundColor: '#407AFF',
+        //git backgroundColor: '#407AFF',
         borderRadius: 5,
         padding: 5,
-        marginTop: 15,        
+        marginTop: 15,
     },
     buttonText: {
         fontFamily: "Poppins_800ExtraBold",

@@ -81,7 +81,7 @@ export default function ChangeCredential() {
           style={{ backgroundColor: "#38CB89" }} visible={showToast}
           action={{ label: "☑️" }}
         >
-            Senha Atualizado
+            Senha Atualizada
         </Snackbar>
       </View>
 

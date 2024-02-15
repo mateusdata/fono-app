@@ -17,8 +17,8 @@ const MyPlanDetails = ({ navigation }) => {
     useEffect(() => {
         setLoading(true);
         const fetchPlan = async () => {
-            setLoading(true);
             try {
+                setLoading(true);
                 const response = await AsyncStorage.getItem("plan");
                 setCurrentPlan(JSON.parse(response))
                 setLoading(false);
@@ -29,7 +29,9 @@ const MyPlanDetails = ({ navigation }) => {
         fetchPlan();
     }, []);
 
-
+    if (loading) {
+        return <LoadingComponent />
+    }
 
     return (
         <View style={styles.container}>
