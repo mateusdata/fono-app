@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
-import { View, StyleSheet, Keyboard } from 'react-native';
+import { View, StyleSheet, Keyboard, Text } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import axiosInstance from '../config/axiosInstance';
 import { Controller, useForm } from 'react-hook-form';
@@ -25,15 +25,18 @@ export default function ChangeCredential() {
       current_password:''
     }
   })
-  const onSubmit = (data: string) => {
-    setLoading(true);
-    axiosInstance.post(`/update-password/${user?.usu_id}`, data).then(async (response) => {
+  const onSubmit = async (data: string) => {
+    try {
+      setLoading(true);
+      const response = await axiosInstance.post(`/update-password/${user?.usu_id}`, data);
       setLoading(false);
-    }).catch((e) => {
+      setShowToast(true);
+    } catch (e) {
       setLoading(false);
-
-    });
-  }
+      alert("Nao inplementado ainda")
+    }
+  };
+  
 
   return (
     <View style={styles.container}>
@@ -56,7 +59,6 @@ export default function ChangeCredential() {
           name='current_password'
         />
         <ErrorMessage name={"current_password"} errors={errors} />
-
         <Controller
           control={control}
           render={({ field: { onChange, value } }) => (

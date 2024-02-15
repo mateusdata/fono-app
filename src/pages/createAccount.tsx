@@ -24,7 +24,6 @@ const CreateAccount = ({ navigation }: any) => {
   });
 
 
-
   const login = async (data: object) => {
     try {
       setLoading(true);
@@ -44,12 +43,11 @@ const CreateAccount = ({ navigation }: any) => {
     }
   };
 
-
   const onSubmit = async (data) => {
 
     try {
       setLoading(true)
-      const response = axiosInstance.post("/create-user", data)
+      const response = await axiosInstance.post("/create-user", data)
       login({ email: data.email, password: data.password })
     } catch (error) {
       alert("error")

@@ -18,7 +18,7 @@ const Home = ({ navigation }: { navigation: any }) => {
       <View style={styles.header}>
        {false && 
        <>
-        <Ionicons name="medkit-sharp" size={60} color="#38CB89" />
+        <Ionicons name="medkit-sharp" size={60} color="gray" />
         <CustomText style={styles.headerText}>FONOTHERAPP</CustomText>
        </>
        }
@@ -36,49 +36,49 @@ const Home = ({ navigation }: { navigation: any }) => {
       <YStack space='$2.5' style={{width:'100%', height:'100%', marginTop: 40}}>
         <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
           
-          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <AntDesign name="pluscircleo" size={20} color="green" />
+          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <AntDesign name="pluscircleo" size={20} color="red" />
             <CustomText>Paciente</CustomText>
           </Pressable >
-          <Pressable   onPress={()=>navigation.navigate("AccompanyPatient")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='eye' size={20} color='green' />
+          <Pressable   onPress={()=>navigation.navigate("AccompanyPatient")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <SimpleLineIcons name='eye' size={20} color='red' />
             <CustomText>Acompanhar</CustomText>
           </Pressable >
-          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='action-redo' size={20} color='green' />
+          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <SimpleLineIcons name='action-redo' size={20} color='red' />
             <CustomText>Exercícios</CustomText>
           </Pressable >
         </XStack>
         <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
           
-          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <AntDesign name="pluscircleo" size={20} color="green" />
+          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <AntDesign name="pluscircleo" size={20} color="red" />
             <CustomText>Paciente</CustomText>
           </Pressable >
-          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='eye' size={20} color='green' />
+          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <SimpleLineIcons name='eye' size={20} color='red' />
             <CustomText>Acompanhar</CustomText>
           </Pressable >
-          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='action-redo' size={20} color='green' />
+          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <SimpleLineIcons name='action-redo' size={20} color='red' />
             <CustomText>Exercícios</CustomText>
           </Pressable >
         </XStack>
         <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
-          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <AntDesign name="aliwangwang" size={20} color="green" />
+          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <AntDesign name="aliwangwang" size={20} color="red" />
             <CustomText>Recibos</CustomText>
           </View>
-          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='calendar' size={20} color='green' />
+          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <SimpleLineIcons name='calendar' size={20} color='red' />
             <CustomText>Ficha</CustomText>
           </View>
-          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
-            <SimpleLineIcons name='feed' size={20} color='green' />
+          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
+            <SimpleLineIcons name='feed' size={20} color='red' />
             <CustomText>Menu</CustomText>
           </View>
         </XStack>
-        <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="green" /></View>
+        <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="red" /></View>
         
       </YStack>
       
