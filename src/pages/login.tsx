@@ -6,12 +6,13 @@ import PrimaryButton from '../components/primaryButton';
 import CustomText from '../components/customText';
 import { Controller, useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
+import { StatusBar } from 'expo-status-bar';
 const Login = ({ navigation }: any) => {
     const { login } = useContext(Context);
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, watch, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            email: "mateusprosaber@gmail.com",
+            email: "m@m.com",
             password: "123456"
         },
         mode: "onChange"

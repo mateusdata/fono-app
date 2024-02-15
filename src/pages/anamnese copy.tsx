@@ -42,7 +42,9 @@ const Anamnese = ({ navigation }) => {
 
   const onSubmit = async (data) => {
     setLoading(true);
-    const { education, base_diseases, food_profile, chewing_complaint, reason_consultation, ...filteredData } = data;
+
+    // Remova as propriedades que você não deseja enviar
+    const { last_name, education, base_diseases, food_profile, chewing_complaint, reason_consultation, ...filteredData } = data;
     console.log({...filteredData, doc_id:user.doc_id });
     try {
       const response = await axiosInstance.post("/create-pacient", {...filteredData, doc_id:user.doc_id });
@@ -53,6 +55,9 @@ const Anamnese = ({ navigation }) => {
       setLoading(false);
     }
   };
+
+
+
 
   return (
     <View style={styles.container}>

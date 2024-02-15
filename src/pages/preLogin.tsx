@@ -3,6 +3,7 @@ import { Image, Text, Pressable, View } from 'react-native';
 import PrimaryButton from '../components/primaryButton';
 import CustomText from '../components/customText';
 import { Button } from 'react-native-paper';
+import { StatusBar } from 'expo-status-bar';
 const PreLogin = ({ navigation }: any) => {
 
     return (

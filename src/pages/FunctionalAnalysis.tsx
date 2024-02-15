@@ -12,7 +12,6 @@ const FunctionalAnalysis = ({navigation}) => {
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
-            <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
 
       <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
         <Controller rules={{required:"true"}}

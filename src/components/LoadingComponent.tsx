@@ -10,7 +10,7 @@ const LoadingComponent= () => {
         backgroundColor: "white",
       }}
     >
-     <StatusBar translucent={true} backgroundColor='#36B3B9'  />
+    
       <ActivityIndicator animating={true} color={"#36B3B9"} size={50} />
     </View>
   );

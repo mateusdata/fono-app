@@ -13,7 +13,6 @@ const StructuralAnalysis = ({navigation}) => {
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
-            <StatusBar translucent={true} backgroundColor='white' style='dark' />
 
       <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
         <Controller rules={{required:"Obrigatorio"}}

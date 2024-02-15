@@ -70,7 +70,6 @@ const LeadingPage = ({navigation}:any) => {
 
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "white" }}>
-      <StatusBar translucent={true} style={'dark'} />
       <ScrollView>
         <View style={{ paddingHorizontal: 15, marginTop: 15, }}>
           <CustomText fontFamily='Poppins_600SemiBold' style={{ fontSize: 19 }}>

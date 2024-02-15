@@ -6,7 +6,6 @@ const Protokol = ({navigation}) => {
     return (
         <View style={{ padding: 15 }}
         >
-                  <StatusBar translucent={false} backgroundColor='white' barStyle='dark-content' />
 
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
                 <Avatar.Text size={64} label="M" labelStyle={{color:"white"}} style={{ marginBottom: 10, backgroundColor:"#36B3B9", }} />

@@ -8,12 +8,12 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomText from '../components/customText';
+import { StatusBar } from 'expo-status-bar';
 
 const Home = ({ navigation }: { navigation: any }) => {
   const { logOut, user } = useContext(Context);
   return (
    <>
-
      <ScrollView style={styles.container}>
       <View style={styles.header}>
        {false && 
@@ -40,7 +40,7 @@ const Home = ({ navigation }: { navigation: any }) => {
             <AntDesign name="pluscircleo" size={20} color="green" />
             <CustomText>Paciente</CustomText>
           </Pressable >
-          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
+          <Pressable   onPress={()=>navigation.navigate("AccompanyPatient")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: '#38CB89' }}>
             <SimpleLineIcons name='eye' size={20} color='green' />
             <CustomText>Acompanhar</CustomText>
           </Pressable >

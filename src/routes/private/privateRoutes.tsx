@@ -21,6 +21,7 @@ import StructuralAnalysis from '../../pages/StructuralAnalysis';
 import FunctionalAnalysis from '../../pages/FunctionalAnalysis';
 import Protokol from '../../pages/Protokol';
 import PatientInfo from '../../pages/PacientInfo';
+import AccompanyPatient from '../../pages/AccompanyPatient';
 
 
 // dentro do seu componente
@@ -32,7 +33,6 @@ const PrivateRoutes = () => {
 
   return (
     <>
-      <StatusBar translucent={false} backgroundColor='red' barStyle='dark-content' />
 
       <AppStack.Navigator screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
@@ -81,11 +81,11 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Suggestion' component={Suggestion} options={{ headerTitleAlign: "center", headerTitle: "Sugestão" }} />
         <AppStack.Screen name='StructuralAnalysis' component={StructuralAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Estrutural" }} />
         <AppStack.Screen name='FunctionalAnalysis' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
-
         <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Protocolo" }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
-        <AppStack.Screen name='ssad' component={StructuralAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Estrutural" }} />
+        <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='assd' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
+        
 
       </AppStack.Navigator>
     </>
