@@ -5,10 +5,11 @@ import { View, Image, Text } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import { Octicons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
-import MyAccount from '../../../pages/myAccount';
 import { Context } from '../../../context/AuthProvider';
-import Videos from '../../../pages/videos';
 import Home from '../../../pages/home';
+import Videos from '../../../pages/videos';
+import MyAccount from '../../../pages/myAccount';
+
 const Tabs = createBottomTabNavigator();
 
 const TabsNavigation = () => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, Pressable, Linking } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import CustomText from '../components/customText';
-const App = () => {
+const Help = () => {
 
   const handlePressWhatsAppMessage = () => {
     const message = 'Olá Doutora Flavia Neves, tudo bem? Estou usando o app fonotheapp e quero tirar algumas dúvidas.';
@@ -49,4 +49,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Help;

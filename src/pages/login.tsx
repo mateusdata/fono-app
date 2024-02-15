@@ -17,7 +17,7 @@ const Login = ({ navigation }: any) => {
         },
         mode: "onChange"
     });
-    const onSubmit = async () => {
+    const onSubmit = async (data:object) => {
         setLoading(true);
         try {
             login(watch().email, watch().password);

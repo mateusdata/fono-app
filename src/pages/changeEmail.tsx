@@ -8,7 +8,7 @@ import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-export default function ChangeName() {
+export default function ChangeEmail() {
   const { user, setUser } = React.useContext(Context);
   const [loading, setLoading] = React.useState<boolean>(false);
   const [showToast, setShowToast] = React.useState<boolean>(false)

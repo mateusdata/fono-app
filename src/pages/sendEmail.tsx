@@ -9,7 +9,7 @@ import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
 
-export default function ChangeCredential({ navigation }) {
+export default function SendEmail({ navigation }) {
     const { email, setEmail } = React.useContext(Context);
     const [loading, setLoading] = React.useState<boolean>(false);
     const [showToast, setShowToast] = React.useState<boolean>(false)

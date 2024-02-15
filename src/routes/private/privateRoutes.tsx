@@ -1,30 +1,28 @@
 import React, { useContext } from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
-import Anamnese from '../../pages/anamnese';
-import Exercise from '../../pages/exercise';
-import TabsNavigation from './tabNavigation/tabNavigation';
-import LeadingPage from '../../pages/leadingPage';
 import { Button, Pressable, StatusBar, View } from 'react-native';
 import CustomText from '../../components/customText';
 import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../context/AuthProvider';
-import PolicyAndPrivacy from '../../pages/policyAndPrivacy';
-import TermsAndServices from '../../pages/termsAndServices';
-import MyInformation from '../../pages/myInformation';
-import ChangeName from '../../pages/changeName';
-import ChangeEmail from '../../pages/changeEmail';
-import ChangeCredential from '../../pages/changeCredential';
-import MyPlanDetails from '../../pages/myPlanDetails';
-import Help from '../../pages/help';
-import Suggestion from '../../pages/suggestion';
 import StructuralAnalysis from '../../pages/StructuralAnalysis';
 import FunctionalAnalysis from '../../pages/FunctionalAnalysis';
 import Protokol from '../../pages/Protokol';
 import PatientInfo from '../../pages/PacientInfo';
 import AccompanyPatient from '../../pages/AccompanyPatient';
+import LeadingPage from '../../pages/leadingPage';
+import TabsNavigation from './tabNavigation/tabNavigation';
+import Anamnese from '../../pages/anamnese';
+import Exercise from '../../pages/exercise';
+import PolicyAndPrivacy from '../../pages/policyAndPrivacy';
+import TermsAndServices from '../../pages/termsAndServices';
+import MyInformation from '../../pages/myInformation';
+import ChangeName from '../../pages/changeEmail';
+import ChangeCredential from '../../pages/changeCredential';
+import MyPlanDetails from '../../pages/myPlanDetails';
+import Suggestion from '../../pages/suggestion';
+import ChangeEmail from '../../pages/changeEmail';
+import Help from '../../pages/help';
 
-
-// dentro do seu componente
 
 const AppStack = createStackNavigator();
 const PrivateRoutes = () => {
