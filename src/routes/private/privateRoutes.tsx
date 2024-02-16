@@ -62,7 +62,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Root' component={TabsNavigation} options={{
           headerShown: false,
         }} />
-        <AppStack.Screen name='Anamnese' component={Anamnese} />
+        <AppStack.Screen name='Anamnese' component={StructuralAnalysis} />
         <AppStack.Screen name='Exercise' component={Exercise} />
         <AppStack.Screen name='PolicyAndPrivacy' component={PolicyAndPrivacy} options={{
           headerTitle: ""
@@ -78,7 +78,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='MyPlanDetails' component={MyPlanDetails} options={{ headerTitleAlign: "center", headerTitle: "Meu plano" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Suggestion' component={Suggestion} options={{ headerTitleAlign: "center", headerTitle: "Sugestão" }} />
-        <AppStack.Screen name='StructuralAnalysis' component={StructuralAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Estrutural" }} />
+        <AppStack.Screen name='StructuralAnalysis1' component={StructuralAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Estrutural" }} />
         <AppStack.Screen name='FunctionalAnalysis' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
         <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Protocolo" }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />

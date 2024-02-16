@@ -33,6 +33,7 @@ const CreateAccount = ({ navigation }: any) => {
         await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
         setUser(response.data);
       } catch (error) {
+        console.log(error)
         alert("erro")
       }
       setLoadingAuth(false);
