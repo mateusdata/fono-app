@@ -10,11 +10,16 @@ import * as yup from "yup"
 import axiosInstance from '../config/axiosInstance';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Context } from '../context/AuthProvider';
+import { ContextPacient } from '../context/PacientContext';
 
 
 const Anamnese = ({ navigation }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const {user} = useContext(Context);
+  const {setPac_id } = useContext(ContextPacient);
+
+
+  
   const schema = yup.object({
     first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
       { message: 'Não são permitidas  entradas numéricas' }),
@@ -45,6 +50,7 @@ const Anamnese = ({ navigation }) => {
     const { education, base_diseases, food_profile, chewing_complaint, reason_consultation, ...filteredData } = data;
     try {
       const response = await axiosInstance.post("/create-pacient", {...filteredData, doc_id:user.doc_id });
+      setPac_id(response.data.pac_id);
       navigation.navigate("StructuralAnalysis");
       setLoading(false);
     } catch (e) {

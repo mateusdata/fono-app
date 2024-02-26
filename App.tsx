@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import React, { useEffect } from 'react';
 import NetInfo from "@react-native-community/netinfo";
 import { StatusBar } from 'expo-status-bar';
+import PacientContext from './src/context/PacientContext';
 export default function App() {
 
 
@@ -22,9 +23,9 @@ export default function App() {
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
         alert("Você esta sem conexão com a internet")
-         setTimeout(() => {
+        setTimeout(() => {
           //BackHandler.exitApp();
-         }, 2000);
+        }, 2000);
       }
     });
 
@@ -43,11 +44,15 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <StatusBar animated hideTransitionAnimation='slide' style='auto'/>
+        <StatusBar animated hideTransitionAnimation='slide' style='auto' />
 
         <AuthProvider>
           <TamaguiProvider config={config}>
-            <Routes />
+            
+            <PacientContext>
+              <Routes />
+            </PacientContext>
+
           </TamaguiProvider>
         </AuthProvider>
       </NavigationContainer>
