@@ -5,7 +5,7 @@ const axiosInstance = axios.create({
   baseURL: 'https://fono-api-solitary-surf-9909.fly.dev',
   //baseURL: 'https://fono-api.vercel.app',
 
-  timeout:5000
+  timeout:6000
 });
 axiosInstance.interceptors.request.use(async (config) => {
   try {

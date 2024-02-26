@@ -29,7 +29,7 @@ const Anamnese = ({ navigation }) => {
     reason_consultation: yup.string().optional().nullable(),
   }).required();
 
-  const { reset, handleSubmit, watch, formState: { errors }, control } = useForm({
+  const { reset, handleSubmit, watch, formState: { errors }, control, setError } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
@@ -49,6 +49,10 @@ const Anamnese = ({ navigation }) => {
       setLoading(false);
     } catch (e) {
       setLoading(false);
+      if(e?.response){
+        return setError("cpf", {message:"Paciente já existe."})
+      }
+      return setError("cpf", {message:"Sem conceão com a internet, tente novamanete"})
     }
   };
 

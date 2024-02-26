@@ -99,7 +99,6 @@ export default function Videos() {
               </>
             }
 
-            {/* ... */}
             <View style={{ backgroundColor: "white", width: "100%" }}>
               <Video
                 ref={video}
@@ -116,8 +115,6 @@ export default function Videos() {
                 isMuted={false}
 
               />
-
-
             </View>
             <Dialog.Description>
 
@@ -135,7 +132,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#ecf0f1',
+    backgroundColor: 'white',
   },
   video: {
     alignSelf: 'center',

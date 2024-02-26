@@ -1,90 +1,102 @@
 // Home.js
-import React, { useContext } from 'react';
-import { View, StyleSheet, Pressable, Image, ScrollView } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, StyleSheet, Pressable, Image, ScrollView, Animated } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import { Button, Text, XStack, YStack } from 'tamagui';
+import { Square, Text, XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomText from '../components/customText';
 import { StatusBar } from 'expo-status-bar';
+import { Button, Card, Title, Paragraph } from 'react-native-paper';
 
 const Home = ({ navigation }: { navigation: any }) => {
+  const [showAllCards, setShowAllCards] = useState<boolean>(false);
   const { logOut, user } = useContext(Context);
   return (
-   <>
-     <ScrollView style={styles.container}>
-      <View style={styles.header}>
-       {false && 
-       <>
-        <Ionicons name="medkit-sharp" size={60} color="gray" />
-        <CustomText style={styles.headerText}>FONOTHERAPP</CustomText>
-       </>
-       }
-      </View>
-      <View style={{ flexDirection: 'row', minWidth: '100%' }}>
-        <View style={{ flex: 0.5 }}>
-          <CustomText style={{ fontWeight: '100' }}>Total de pacientes</CustomText>
-          <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center' }}><CustomText style={{ fontWeight: 'bold' }}>150.000.000</CustomText><SimpleLineIcons name='eye' size={20} color='white' /></View>
-        </View>
-        <View style={{ flex: 0.5, justifyContent: 'flex-end', alignItems: 'flex-end' }}>
-          <CustomText style={{ color: 'white' }}>Ver todos</CustomText>
+    <>
+      <ScrollView style={styles.container}>
+        <View style={styles.header}>
+          <Card style={styles.card}>
+            <Card.Content>
+              <Title>Total de pacientes</Title>
+              <View style={styles.pacientsInfo}>
+                <AntDesign name="user" size={20} color="#38CB89" />
+                <Paragraph>10</Paragraph>
+              </View>
+            </Card.Content>
+            <Card.Actions>
+              <Button textColor='#36B3B9' onPress={() => navigation.navigate("DetalhesPacientes")}>Ver todos</Button>
+            </Card.Actions>
+          </Card>
         </View>
 
-      </View>
-      <YStack space='$2.5' style={{width:'100%', height:'100%', marginTop: 40}}>
-        <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
-          
-          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <AntDesign name="pluscircleo" size={20} color="red" />
-            <CustomText>Paciente</CustomText>
-          </Pressable >
-          <Pressable   onPress={()=>navigation.navigate("AccompanyPatient")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <SimpleLineIcons name='eye' size={20} color='red' />
-            <CustomText>Acompanhar</CustomText>
-          </Pressable >
-          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <SimpleLineIcons name='action-redo' size={20} color='red' />
-            <CustomText>Exercícios</CustomText>
-          </Pressable >
-        </XStack>
-        <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
-          
-          <Pressable onPress={()=>navigation.navigate("Anamnese")}  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <AntDesign name="pluscircleo" size={20} color="red" />
-            <CustomText>Paciente</CustomText>
-          </Pressable >
-          <Pressable  style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <SimpleLineIcons name='eye' size={20} color='red' />
-            <CustomText>Acompanhar</CustomText>
-          </Pressable >
-          <Pressable onPress={()=>navigation.navigate("Exercise")} style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <SimpleLineIcons name='action-redo' size={20} color='red' />
-            <CustomText>Exercícios</CustomText>
-          </Pressable >
-        </XStack>
-        <XStack space='$2.5' style={{ justifyContent:'center', borderWidth:0}}>
-          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <AntDesign name="aliwangwang" size={20} color="red" />
-            <CustomText>Recibos</CustomText>
+        <YStack space='$2.5' style={{ width: '100%', height: '100%', marginTop: 40 }}>
+          <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
+
+            <Pressable android_ripple={{color:"#36B3B9"}} onPress={() => navigation.navigate("Anamnese")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <AntDesign name="pluscircleo" size={20} color="#36B3B9" />
+              <CustomText>Paciente</CustomText>
+            </Pressable >
+            <Pressable android_ripple={{color:"#36B3B9"}} onPress={() => navigation.navigate("AccompanyPatient")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='eye' size={20} color='#36B3B9' />
+              <CustomText>Acompanhar</CustomText>
+            </Pressable >
+            <Pressable android_ripple={{color:"#36B3B9"}} onPress={() => navigation.navigate("Exercise")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='action-redo' size={20} color='#36B3B9' />
+              <CustomText>Exercícios</CustomText>
+            </Pressable >
+          </XStack>
+          <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
+
+            <Pressable android_ripple={{color:"#36B3B9"}} onPress={() => navigation.navigate("Anamnese")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <AntDesign name="pluscircleo" size={20} color="#36B3B9" />
+              <CustomText>Protocolo</CustomText>
+            </Pressable >
+            <Pressable android_ripple={{color:"#36B3B9"}} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='eye' size={20} color='#36B3B9' />
+              <CustomText>Acompanhar</CustomText>
+            </Pressable >
+            <Pressable android_ripple={{color:"#36B3B9"}} onPress={() => navigation.navigate("Exercise")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='action-redo' size={20} color='#36B3B9' />
+              <CustomText>Exercícios</CustomText>
+            </Pressable >
+          </XStack>
+          {showAllCards &&
+
+            <Animated.View style={{ opacity: 1, direction:"rtl" }}>
+              <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
+                <Pressable android_ripple={{color:"#36B3B9"}} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+                  <AntDesign name="aliwangwang" size={20} color="#36B3B9" />
+                  <CustomText>Recibos</CustomText>
+                </Pressable>
+                <Pressable android_ripple={{color:"#36B3B9"}} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+                  <SimpleLineIcons name='calendar' size={20} color='#36B3B9' />
+                  <CustomText>Ficha</CustomText>
+                </Pressable>
+                <Pressable android_ripple={{color:"#36B3B9"}} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+                  <SimpleLineIcons name='feed' size={20} color='#36B3B9' />
+                  <CustomText>Menu</CustomText>
+                </Pressable>
+              </XStack>
+            </Animated.View>
+          }
+          <View
+            onTouchStart={() => setShowAllCards(!showAllCards)} style={{ minWidth: "auto", alignItems: 'center' }}>
+           
+              <Square animation="quick" rotate={showAllCards ? '180deg' : '0deg'}>
+              <MaterialIcons
+              name={`${showAllCards ? "keyboard-arrow-down" : "keyboard-arrow-up"}`}
+              size={35} color="#36B3B9" />
+              </Square>
           </View>
-          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <SimpleLineIcons name='calendar' size={20} color='red' />
-            <CustomText>Ficha</CustomText>
-          </View>
-          <View style={{backgroundColor:"white",  width: 100, gap:12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 1, borderColor: 'gray' }}>
-            <SimpleLineIcons name='feed' size={20} color='red' />
-            <CustomText>Menu</CustomText>
-          </View>
-        </XStack>
-        <View style={{ minWidth: "auto", alignItems: 'center' }}><MaterialIcons name="keyboard-arrow-down" size={20} color="red" /></View>
-        
-      </YStack>
-      
-    </ScrollView>
-    
-   </>
+
+        </YStack>
+
+      </ScrollView>
+
+    </>
   );
 };
 
@@ -92,11 +104,18 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: 'white',
-    padding: 20,
+    paddingHorizontal: 10,
   },
   header: {
-    padding: 10,
-    alignItems: 'center',
+    padding: 0,
+  },
+  pacientsInfo: {
+    flexDirection: "row", top: 5, alignItems: "center"
+  },
+  card: {
+    marginVertical: 5,
+    backgroundColor:"#ECF2FF"
+
   },
   headerText: {
     color: '#000000',

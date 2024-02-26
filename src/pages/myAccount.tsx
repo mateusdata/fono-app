@@ -16,6 +16,7 @@ const MyAccount = ({ navigation }) => {
 
   return (
     <YStack backgroundColor='$color1' style={{ flex: 1 }}>
+      <StatusBar animated hideTransitionAnimation='slide' style='dark' />
 
       <YStack space="$3" style={{ borderColor: 'yellow', borderWidth: 0, alignItems: "center", marginTop: 60, marginBottom: 40 }}>
         <YStack style={{ width: '100%', alignItems: 'center', marginTop: 5 }}>
