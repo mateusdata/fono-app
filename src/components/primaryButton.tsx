@@ -8,7 +8,6 @@ const PrimaryButton = ({ handleButton, name }: any) => {
     let [fontsLoaded] = useFonts({
         Poppins_600SemiBold, Poppins_800ExtraBold
     });
-    const { loading } = useContext(Context);
 
     if (!fontsLoaded) {
         return null;
@@ -19,8 +18,7 @@ const PrimaryButton = ({ handleButton, name }: any) => {
             style={{padding:5}}
                buttonColor='#36B3B1'
                 onPress={handleButton}
-                loading={loading}
-                disabled={loading}
+                
                 textColor={"white"}
             >
             {name}

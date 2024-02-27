@@ -13,7 +13,7 @@ const Tab = createBottomTabNavigator();
 export default function MyComponent() {
   return (
     <>
-      <StatusBar animated hideTransitionAnimation='slide' style='light' />
+      <StatusBar animated hideTransitionAnimation='slide' style='auto' />
       <Tab.Navigator
         screenOptions={{
           headerShown: false,

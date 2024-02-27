@@ -23,6 +23,7 @@ import ChangeEmail from '../../pages/changeEmail';
 import ChangeCredential from '../../pages/changeCredential';
 import MyPlanDetails from '../../pages/myPlanDetails';
 import Help from '../../pages/help';
+import AnsweredQuestions from '../../pages/AnsweredQuestions';
 
 
 const AppStack = createStackNavigator();
@@ -83,7 +84,10 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Protocolo" }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
-        <AppStack.Screen name='assd' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
+        <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
+        
+        <AppStack.Screen name='outra_rota' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
+
         
 
       </AppStack.Navigator>

@@ -6,14 +6,10 @@ import { Button, RadioButton } from "react-native-paper";
 import CustomText from "../components/customText";
 import { ContextPacient } from "../context/PacientContext";
 import { z } from "zod";
+import Skelecton from "../components/Skelecton";
+import SkelectonView from "../components/SkelectonView";
 
-const answerSchema = z.object({
-  pac_id: z.number().int().positive(),
-  answers: z.array(z.object({
-    que_id: z.number().int().positive(),
-    alternative: z.string().max(150)
-  }))
-});
+
 
 
 const StructuralAnalysis = ({ navigation }) => {
@@ -21,6 +17,34 @@ const StructuralAnalysis = ({ navigation }) => {
   const [analysis, setAnalysis] = useState<any>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<any[]>([]);
   const { pac_id } = useContext(ContextPacient);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axiosInstance.get("/info-questionnaire/5");
+        setAnalysis(response.data);
+        setIsLoading(false);
+      } catch (error) {
+        alert("Erro")
+        setIsLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+
+  const answerSchema = z.object({
+    pac_id: z.number().int().positive(),
+    answers: z.array(z.object({
+      que_id: z.number().int().positive(),
+      alternative: z.string().max(150)
+    })).min(1)
+  });
+
+  if (isLoading) {
+    return <SkelectonView />
+  }
 
   const onSubmit = async () => {
     const formattedAnswers = selectedAnswers.map((answer) => ({
@@ -29,39 +53,24 @@ const StructuralAnalysis = ({ navigation }) => {
     }));
 
     const data = {
-      pac_id: 13,
+      pac_id: pac_id,
       answers: formattedAnswers
     };
-   // console.log("Data before validation:", data);
     try {
       answerSchema.parse(data); // Validate data against schema
-      console.log("Funcounou \n\n\n\n\n ", data)
       const response = await axiosInstance.post("/answer-questionnaire", data);
       console.log(response.data)
-      //navigation.navigate("FunctionalAnalysis");
+      navigation.navigate("FunctionalAnalysis");
     } catch (error) {
-      //console.log(data)
+      alert("Ocorreu um erro")
       console.log("error", error);
     }
-    
-  };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axiosInstance.get("/info-questionnaire/4");
-        setAnalysis(response.data);
-      } catch (error) {
-        console.log("error");
-      }
-    };
-    fetchData();
-  }, []);
+  };
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
       <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
-        <Text>ID do paciente: {pac_id}</Text>
         {analysis?.sections?.map((section, sectionIndex) => (
           <View key={sectionIndex} style={{ borderBottomWidth: 1 }}>
             <Text style={{ paddingBottom: 15 }}>{section.name}</Text>
