@@ -4,15 +4,28 @@ import { View } from 'react-native'
 interface FormatPacinet {
     pac_id:number,
     setPac_id:  Dispatch<SetStateAction<number>>
-
+    pacient: Pacient | null;
+    setPacient: Dispatch<SetStateAction<Pacient | null>>
+}
+interface Pacient {
+    birthday: string;
+    cpf: string;
+    created_at: string;
+    first_name: string;
+    last_name: string;
+    per_id: number;
+    updated_at: string;
+    status: string;
+ 
 }
 
 export const ContextPacient = createContext<FormatPacinet>({} as FormatPacinet);
 
 const PacientContext:React.FC<PropsWithChildren> = ({children}) => {
     const [pac_id, setPac_id] = useState<number| null>(null);
+    const [pacient, setPacient] = useState<Pacient | null>(null);
   return (
-    <ContextPacient.Provider value={{pac_id, setPac_id}}>
+    <ContextPacient.Provider value={{pac_id, setPac_id, pacient, setPacient}}>
       {children}
     </ContextPacient.Provider>
   )

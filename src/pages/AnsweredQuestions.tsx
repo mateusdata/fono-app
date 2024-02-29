@@ -18,7 +18,6 @@ const AnsweredQuestions = () => {
                 console.log(response.data)
                 setAnswered(response.data);
             } catch (error) {
-                alert("Erro")
             }
         };
         fetchData();
@@ -28,11 +27,23 @@ const AnsweredQuestions = () => {
         <View style={styles.container}>
             <List.Section title='Perguntas respondidas' style={{gap:0}}>
                 <List.Accordion
-                    title="Analise estrutural"
+                    title="Anamnese"
                     style={{backgroundColor:"#E8E8E8"}}
-                    left={(props) => <List.Icon {...props} icon="printer" />}
+                    left={(props) => <List.Icon {...props} icon="all-inclusive" />}
                     expanded={expandedIndex === 1}
                     onPress={() => handlePress(1)}>
+                    <List.Item title="Item 1" />
+                    <List.Item title="Item 2" />
+                    <List.Item title="Item 3" />
+                </List.Accordion>
+                <Text></Text>
+          
+                <List.Accordion
+                    title="Analise estrutural"
+                    style={{backgroundColor:"#E8E8E8"}}
+                    left={(props) => <List.Icon {...props} icon="cloud" />}
+                    expanded={expandedIndex === 2}
+                    onPress={() => handlePress(2)}>
                     <List.Item title="Item 1" />
                     <List.Item title="Item 2" />
                     <List.Item title="Item 3" />
@@ -42,8 +53,8 @@ const AnsweredQuestions = () => {
                     title="Analise funcional"
                     style={{backgroundColor:"#E8E8E8"}}
                     left={(props) => <List.Icon   {...props} icon="filter" />}
-                    expanded={expandedIndex === 2}
-                    onPress={() => handlePress(2)}>
+                    expanded={expandedIndex === 3}
+                    onPress={() => handlePress(3)}>
                     <List.Item title="Item 1" />
                     <List.Item title="Item 2" />
                     <List.Item title="Item 3" />

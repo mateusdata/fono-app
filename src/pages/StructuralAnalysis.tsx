@@ -16,7 +16,7 @@ const StructuralAnalysis = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
   const [analysis, setAnalysis] = useState<any>([]);
   const [selectedAnswers, setSelectedAnswers] = useState<any[]>([]);
-  const { pac_id } = useContext(ContextPacient);
+  const { pac_id , pacient} = useContext(ContextPacient);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -105,7 +105,7 @@ const StructuralAnalysis = ({ navigation }) => {
       </ScrollView>
       <View style={{ borderWidth: 0, justifyContent: "flex-end", alignItems: "flex-end" }}>
         <Button style={{ width: "100%" }} buttonColor="#36B3B9" mode="contained" onPress={handleSubmit(onSubmit)}>
-          Próximo
+          Próximo  
         </Button>
       </View>
     </View>

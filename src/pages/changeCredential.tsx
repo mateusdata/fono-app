@@ -33,7 +33,9 @@ export default function ChangeCredential() {
       setShowToast(true);
     } catch (e) {
       setLoading(false);
-      alert("Nao inplementado ainda")
+      setError("new_password", {message:"Ocorreu um erro"});
+      setError("current_password", {message:""})
+
     }
   };
   

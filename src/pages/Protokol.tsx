@@ -1,15 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, IconButton, Text } from 'react-native-paper';
+import { ContextPacient } from '../context/PacientContext';
 
 const Protokol = ({navigation}) => {
+    const {pacient} = useContext(ContextPacient);
+
     return (
         <View style={{ padding: 15 }}
         >
 
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
                 <Avatar.Text size={64} label="M" labelStyle={{color:"white"}} style={{ marginBottom: 10, backgroundColor:"#36B3B9", }} />
-                <Title style={{ marginBottom: 10,}}>Mateus Santos</Title>
+                <Title style={{ marginBottom: 10,}}>{pacient?.first_name?.toUpperCase()}</Title>
             </View>
 
             <View style={{marginTop:15, marginBottom:40}}>
