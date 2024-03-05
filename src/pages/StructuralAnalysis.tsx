@@ -22,7 +22,7 @@ const StructuralAnalysis = ({ navigation }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/info-questionnaire/5");
+        const response = await axiosInstance.get(`/next-questionnaire/${pac_id}`);
         setAnalysis(response.data);
         setIsLoading(false);
       } catch (error) {
@@ -70,6 +70,7 @@ const StructuralAnalysis = ({ navigation }) => {
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
+      <Text>{JSON.stringify(selectedAnswers[0]?.qus_id)}</Text>
       <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
         {analysis?.sections?.map((section, sectionIndex) => (
           <View key={sectionIndex} style={{ borderBottomWidth: 1 }}>

@@ -22,7 +22,7 @@ const FunctionalAnalysis = ({ navigation }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axiosInstance.get("/info-questionnaire/4");
+        const response = await axiosInstance.get(`/next-questionnaire/${pac_id}`);
         setAnalysis(response.data);
         setIsLoading(false);
       } catch (error) {
