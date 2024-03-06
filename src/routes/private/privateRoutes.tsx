@@ -79,9 +79,11 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='MyPlanDetails' component={MyPlanDetails} options={{ headerTitleAlign: "center", headerTitle: "Meu plano" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Suggestion' component={Suggestion} options={{ headerTitleAlign: "center", headerTitle: "Sugestão" }} />
-        <AppStack.Screen name='StructuralAnalysis' component={StructuralAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Estrutural" }} />
+        <AppStack.Screen name='StructuralAnalysis' component={StructuralAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Questionario do paciente" }} />
         <AppStack.Screen name='FunctionalAnalysis' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
-        <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Protocolo" }} />
+        <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente", headerTintColor:"white", headerLeft: () => null, headerStyle:{
+          backgroundColor:"#36B3B9"
+        } }}  />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />

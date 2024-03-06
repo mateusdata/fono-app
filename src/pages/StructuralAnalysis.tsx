@@ -18,16 +18,19 @@ const StructuralAnalysis = ({ navigation }) => {
   const [nextQuestinnaire, setnextQuestinnaire] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
+      console.log(3)
       try {
+        setAnalysis({});
+        setSelectedAnswers({});
         const response = await axiosInstance.get(`/next-questionnaire/${pac_id}`);
         setAnalysis(response.data);
-        //asassassas
-        if(!Boolean(response.data)){
+        console.log(0)
+        if (!response?.data || Object.keys(response.data).length === 0) {
           return navigation.navigate("Protokol");
         }
+        
         setIsLoading(false);
       } catch (error) {
-        alert("Erro");
         setIsLoading(false);
       }
     };
@@ -47,27 +50,25 @@ const StructuralAnalysis = ({ navigation }) => {
   }
 
   const onSubmit = async () => {
-    const formattedAnswers = Object.values(selectedAnswers).map((answer:any) => ({
+    let formattedAnswers: any = Object.values(selectedAnswers).map((answer: any) => ({
       que_id: answer.qus_id,
       alternative: answer.value
     }));
 
-    const data = {
+    let data: any = {
       pac_id: pac_id,
       answers: formattedAnswers
     };
     try {
       answerSchema.parse(data); // Validate data against schema
       const response = await axiosInstance.post("/answer-questionnaire", data);
-      console.log(response.data);
       setIsLoading(true)
-      setTimeout(() => {
-        setIsLoading(false)
-        setnextQuestinnaire(true);
-
-      }, 2500);
+      setAnalysis({});
+      setSelectedAnswers({});
+      console.log(4)
+      setnextQuestinnaire(!nextQuestinnaire);
+      setIsLoading(false)
     } catch (error) {
-      alert("Ocorreu um erro");
       console.log("error", error);
     }
   };

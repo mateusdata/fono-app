@@ -1,10 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { StatusBar, View } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, IconButton, Text } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
+import { BackHandler } from 'react-native';
 
 const Protokol = ({navigation}) => {
     const {pacient} = useContext(ContextPacient);
+    useEffect(() => {
+        const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+          return true; 
+        });
+        return () => backHandler.remove();
+      }, []);
+    
 
     return (
         <View style={{ padding: 15 }}
