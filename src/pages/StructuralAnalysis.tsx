@@ -9,30 +9,30 @@ import { z } from "zod";
 import Skelecton from "../components/Skelecton";
 import SkelectonView from "../components/SkelectonView";
 
-
-
-
 const StructuralAnalysis = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
-  const [analysis, setAnalysis] = useState<any>([]);
-  const [selectedAnswers, setSelectedAnswers] = useState<any[]>([]);
-  const { pac_id , pacient} = useContext(ContextPacient);
+  const [analysis, setAnalysis] = useState<any>({});
+  const { pac_id, pacient } = useContext(ContextPacient);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [selectedAnswers, setSelectedAnswers] = useState<any>({});
+  const [nextQuestinnaire, setnextQuestinnaire] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await axiosInstance.get(`/next-questionnaire/${pac_id}`);
         setAnalysis(response.data);
+        //asassassas
+        if(!Boolean(response.data)){
+          return navigation.navigate("Protokol");
+        }
         setIsLoading(false);
       } catch (error) {
-        alert("Erro")
+        alert("Erro");
         setIsLoading(false);
       }
     };
     fetchData();
-  }, []);
-
+  }, [nextQuestinnaire]);
 
   const answerSchema = z.object({
     pac_id: z.number().int().positive(),
@@ -43,11 +43,11 @@ const StructuralAnalysis = ({ navigation }) => {
   });
 
   if (isLoading) {
-    return <SkelectonView />
+    return <SkelectonView />;
   }
 
   const onSubmit = async () => {
-    const formattedAnswers = selectedAnswers.map((answer) => ({
+    const formattedAnswers = Object.values(selectedAnswers).map((answer:any) => ({
       que_id: answer.qus_id,
       alternative: answer.value
     }));
@@ -59,18 +59,21 @@ const StructuralAnalysis = ({ navigation }) => {
     try {
       answerSchema.parse(data); // Validate data against schema
       const response = await axiosInstance.post("/answer-questionnaire", data);
-      console.log(response.data)
-      navigation.navigate("FunctionalAnalysis");
+      console.log(response.data);
+      setIsLoading(true)
+      setTimeout(() => {
+        setIsLoading(false)
+        setnextQuestinnaire(true);
+
+      }, 2500);
     } catch (error) {
-      alert("Ocorreu um erro")
+      alert("Ocorreu um erro");
       console.log("error", error);
     }
-
   };
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
-      <Text>{JSON.stringify(selectedAnswers[0]?.qus_id)}</Text>
       <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
         {analysis?.sections?.map((section, sectionIndex) => (
           <View key={sectionIndex} style={{ borderBottomWidth: 1 }}>
@@ -78,16 +81,15 @@ const StructuralAnalysis = ({ navigation }) => {
             {section?.questions?.map((question, questionIndex) => (
               <View key={questionIndex}>
                 <RadioButton.Group
-                  onValueChange={(selectedValue) => setSelectedAnswers((prevAnswers) => {
-                    const updatedAnswers = [...prevAnswers];
-                    updatedAnswers[sectionIndex * 10 + questionIndex] = {
+                  onValueChange={(selectedValue) => setSelectedAnswers((prevAnswers) => ({
+                    ...prevAnswers,
+                    [question.que_id]: {
                       qus_id: question.que_id,
                       name: question.name,
                       value: selectedValue,
-                    };
-                    return updatedAnswers;
-                  })}
-                  value={selectedAnswers[sectionIndex * 10 + questionIndex]?.value}
+                    }
+                  }))}
+                  value={selectedAnswers[question.que_id]?.value ?? null}
                 >
                   <CustomText fontFamily="Poppins_500Medium">{question.name}</CustomText>
                   {question?.alternatives?.map((alternative, alternativeIndex) => (
@@ -104,9 +106,10 @@ const StructuralAnalysis = ({ navigation }) => {
           </View>
         ))}
       </ScrollView>
+
       <View style={{ borderWidth: 0, justifyContent: "flex-end", alignItems: "flex-end" }}>
         <Button style={{ width: "100%" }} buttonColor="#36B3B9" mode="contained" onPress={handleSubmit(onSubmit)}>
-          Próximo  
+          Proximo
         </Button>
       </View>
     </View>

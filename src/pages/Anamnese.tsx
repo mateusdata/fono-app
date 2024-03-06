@@ -38,10 +38,16 @@ const Anamnese = ({ navigation }) => {
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      first_name: "",
+      first_name: "Aluno teste",
       last_name: "",
-      cpf: "",
-      birthday: null,
+      cpf:  (() => {
+        let cpf = "";
+        while (cpf.length < 11) {
+          cpf += Math.floor(Math.random() * 10);
+        }
+        return cpf;
+      })(),
+      birthday: new Date(),
     }
   });
 
