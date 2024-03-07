@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import axiosInstance from "../config/axiosInstance";
 import { View, ScrollView, Text } from "react-native";
@@ -6,33 +6,38 @@ import { Button, RadioButton } from "react-native-paper";
 import CustomText from "../components/customText";
 import { ContextPacient } from "../context/PacientContext";
 import { z } from "zod";
-import Skelecton from "../components/Skelecton";
 import SkelectonView from "../components/SkelectonView";
 
-
-
-
-const FunctionalAnalysis = ({ navigation }) => {
+const PatientQuestionnaire = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
-  const [analysis, setAnalysis] = useState<any>([]);
-  const [selectedAnswers, setSelectedAnswers] = useState<any[]>([]);
-  const { pac_id } = useContext(ContextPacient);
+  const [analysis, setAnalysis] = useState<any>({});
+  const { pac_id, pacient } = useContext(ContextPacient);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [selectedAnswers, setSelectedAnswers] = useState<any>({});
+  const [nextQuestinnaire, setnextQuestinnaire] = useState(false);
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true)
         const response = await axiosInstance.get(`/next-questionnaire/${pac_id}`);
         setAnalysis(response.data);
+
+        if (!response?.data || Object.keys(response.data).length === 0) {
+          return navigation.navigate("Protokol");
+
+        }
+        
         setIsLoading(false);
       } catch (error) {
-        alert("Erro")
         setIsLoading(false);
       }
     };
     fetchData();
-  }, []);
+  }, [nextQuestinnaire]);
 
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerTitle: analysis?.name ? analysis?.name  : "" });
+  }, [analysis?.name]);
 
   const answerSchema = z.object({
     pac_id: z.number().int().positive(),
@@ -43,29 +48,28 @@ const FunctionalAnalysis = ({ navigation }) => {
   });
 
   if (isLoading) {
-    return <SkelectonView />
+    return <SkelectonView />;
   }
 
   const onSubmit = async () => {
-    const formattedAnswers = selectedAnswers.map((answer) => ({
+    let formattedAnswers: any = Object.values(selectedAnswers).map((answer: any) => ({
       que_id: answer.qus_id,
       alternative: answer.value
     }));
 
-    const data = {
+    let data: any = {
       pac_id: pac_id,
       answers: formattedAnswers
     };
     try {
       answerSchema.parse(data); // Validate data against schema
       const response = await axiosInstance.post("/answer-questionnaire", data);
-      console.log(response.data)
-      navigation.navigate("Protokol")
+      setAnalysis({});
+      setSelectedAnswers({});
+      setnextQuestinnaire(!nextQuestinnaire);
     } catch (error) {
-      //console.log(data)
       console.log("error", error);
     }
-
   };
 
   return (
@@ -77,16 +81,15 @@ const FunctionalAnalysis = ({ navigation }) => {
             {section?.questions?.map((question, questionIndex) => (
               <View key={questionIndex}>
                 <RadioButton.Group
-                  onValueChange={(selectedValue) => setSelectedAnswers((prevAnswers) => {
-                    const updatedAnswers = [...prevAnswers];
-                    updatedAnswers[sectionIndex * 10 + questionIndex] = {
+                  onValueChange={(selectedValue) => setSelectedAnswers((prevAnswers) => ({
+                    ...prevAnswers,
+                    [question.que_id]: {
                       qus_id: question.que_id,
                       name: question.name,
                       value: selectedValue,
-                    };
-                    return updatedAnswers;
-                  })}
-                  value={selectedAnswers[sectionIndex * 10 + questionIndex]?.value}
+                    }
+                  }))}
+                  value={selectedAnswers[question.que_id]?.value ?? null}
                 >
                   <CustomText fontFamily="Poppins_500Medium">{question.name}</CustomText>
                   {question?.alternatives?.map((alternative, alternativeIndex) => (
@@ -103,13 +106,14 @@ const FunctionalAnalysis = ({ navigation }) => {
           </View>
         ))}
       </ScrollView>
+
       <View style={{ borderWidth: 0, justifyContent: "flex-end", alignItems: "flex-end" }}>
         <Button style={{ width: "100%" }} buttonColor="#36B3B9" mode="contained" onPress={handleSubmit(onSubmit)}>
-          Próximo
+          Proximo
         </Button>
       </View>
     </View>
   );
 };
 
-export default FunctionalAnalysis;
+export default PatientQuestionnaire;

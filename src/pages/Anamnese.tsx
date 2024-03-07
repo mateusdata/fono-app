@@ -17,7 +17,7 @@ const Anamnese = ({ navigation }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { user } = useContext(Context);
   const { setPac_id, setPacient} = useContext(ContextPacient);
-
+  const [questionTitle, setQuestionTitle] = useState<string>("")
 
 
   const schema = yup.object({
@@ -58,7 +58,7 @@ const Anamnese = ({ navigation }) => {
       const response = await axiosInstance.post("/create-pacient", { ...filteredData, doc_id: user.doc_id });
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
-      navigation.navigate("StructuralAnalysis");
+      navigation.navigate("PatientQuestionnaire");
       setLoading(false);
     } catch (e) {
       setLoading(false);

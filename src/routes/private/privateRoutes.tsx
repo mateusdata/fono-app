@@ -14,8 +14,6 @@ import MyInformation from '../../pages/MyInformation';
 import ChangeName from '../../pages/ChangeName';
 
 import Suggestion from '../../pages/Suggestion';
-import StructuralAnalysis from '../../pages/StructuralAnalysis';
-import FunctionalAnalysis from '../../pages/FunctionalAnalysis';
 import Protokol from '../../pages/Protokol';
 import PatientInfo from '../../pages/PacientInfo';
 import AccompanyPatient from '../../pages/AccompanyPatient';
@@ -24,6 +22,7 @@ import ChangeCredential from '../../pages/changeCredential';
 import MyPlanDetails from '../../pages/myPlanDetails';
 import Help from '../../pages/help';
 import AnsweredQuestions from '../../pages/AnsweredQuestions';
+import PatientQuestionnaire from '../../pages/PatientQuestionnaire';
 
 
 const AppStack = createStackNavigator();
@@ -79,8 +78,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='MyPlanDetails' component={MyPlanDetails} options={{ headerTitleAlign: "center", headerTitle: "Meu plano" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Suggestion' component={Suggestion} options={{ headerTitleAlign: "center", headerTitle: "Sugestão" }} />
-        <AppStack.Screen name='StructuralAnalysis' component={StructuralAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Questionario do paciente" }} />
-        <AppStack.Screen name='FunctionalAnalysis' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
+        <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{ headerTitleAlign: "center", headerTitle: "" }} />
         <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente", headerTintColor:"white", headerLeft: () => null, headerStyle:{
           backgroundColor:"#36B3B9"
         } }}  />
@@ -88,7 +86,6 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
         
-        <AppStack.Screen name='outra_rota' component={FunctionalAnalysis} options={{ headerTitleAlign: "center", headerTitle: "Análise Funcional" }} />
 
         
 
