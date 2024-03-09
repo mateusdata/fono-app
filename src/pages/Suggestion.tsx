@@ -26,7 +26,7 @@ const Suggestion = () => {
     return (
         <View style={styles.container}>
             <Toast  mensage={"Sugestão enviada"} visible={visible} setVisible={setVisible} />
-            <CustomText fontFamily='Poppins_300Light' style={styles.titulo}>Página de Sugestão do Aplicativo Fonotherapp</CustomText>
+            <CustomText fontFamily='Poppins_300Light' style={styles.titulo}> Aplicativo Fonotherapp</CustomText>
             <CustomText style={styles.texto}>Por favor, dê sua sugestão:</CustomText>
             <TextArea
                 multiline
@@ -35,7 +35,7 @@ const Suggestion = () => {
                 onChangeText={text => {setValue('suggestion', text); trigger()}}
                 borderWidth={2}
                 {...register('suggestion',
-                   { required: 'Este campo é obrigatório', maxLength: { value: 40,  message: "o tamanho maximo do texto é 15 caracteres"},
+                   { required: 'Este campo é obrigatório', maxLength: { value: 150,  message: "o tamanho maximo do texto é 200 caracteres"},
                     minLength: { value: 3, message: "informe um texto maior"},
                     pattern: { value: /^(?!^\d+$).+$/, message: 'Não são permitidas  entradas numéricas'}
                    }
@@ -58,8 +58,8 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
     },
     titulo: {
-        fontSize: 22,
-        fontWeight: 'bold',
+        fontSize: 18,
+        fontWeight: '600',
     },
     texto: {
         fontSize: 18,

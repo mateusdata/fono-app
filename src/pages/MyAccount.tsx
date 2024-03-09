@@ -15,10 +15,10 @@ const MyAccount = ({ navigation }) => {
   const { logOut, user } = useContext(Context);
 
   return (
-    <YStack backgroundColor='$color1' style={{ flex: 1 }}>
+    <YStack backgroundColor='$color1' style={{ flex: 1,borderWidth:0 }}>
       <StatusBar animated hideTransitionAnimation='slide' style='dark' />
 
-      <YStack space="$3" style={{ borderColor: 'yellow', borderWidth: 0, alignItems: "center", marginTop: 60, marginBottom: 40 }}>
+      <YStack space="$3" style={{ borderColor: 'yellow', borderWidth: 0, alignItems: "center", marginTop: 0, marginBottom: 40 }}>
         <YStack style={{ width: '100%', alignItems: 'center', marginTop: 5 }}>
          {true  && <>
           <Avatar.Text size={80} label={user?.nick_name[0]?.toUpperCase()} />

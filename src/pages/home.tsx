@@ -18,10 +18,10 @@ const Home = ({ navigation }: { navigation: any }) => {
         <View style={styles.header}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title>Total de pacientes</Title>
+              <Title>{user?.nick_name}</Title>
               <View style={styles.pacientsInfo}>
-                <AntDesign name="user" size={20} color="#38CB89" />
-                <Paragraph>10</Paragraph>
+              <AntDesign name="medicinebox" size={20} color="#36B3B9" />
+                <Paragraph> 10 Pacietes</Paragraph>
               </View>
             </Card.Content>
             <Card.Actions>
