@@ -10,17 +10,23 @@ import { StatusBar } from 'expo-status-bar';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import axiosInstance from '../config/axiosInstance';
 import { useFocusEffect } from '@react-navigation/native';
+import PacientContext, { ContextPacient } from '../context/PacientContext';
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [showAllCards, setShowAllCards] = useState<boolean>(false);
   const [totalPacient, setTotalPacient] = useState<number>(0);
   const { logOut, user } = useContext(Context);
+  const { pac_id } = useContext(ContextPacient);
+
 
   useFocusEffect(() => {
     const fectData = async () => {
-      const response = await axiosInstance.get(`/search-pacients/${user.doc_id}`);
-      console.log(response?.data?.pacients?.length);
-      setTotalPacient(response?.data?.pacients?.length);
+     try {
+      const response = await axiosInstance.get(`/count-pacients/${user.doc_id}`);
+      setTotalPacient(response?.data.num_pacients);
+      console.log(response?.data)
+     } catch (error) {
+     }
     };
     fectData();
   });
@@ -62,7 +68,12 @@ const Home = ({ navigation }: { navigation: any }) => {
           </XStack>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Protokol")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() =>{
+              if(pac_id){
+                return navigation.navigate("Protokol")
+              }
+              alert("Nenhum paciente em atendimento")
+            }} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
               <AntDesign name="Safety" size={20} color="#36B3B9" />
               <CustomText>Protocolo</CustomText>
             </Pressable >

@@ -11,6 +11,7 @@ import axiosInstance from '../config/axiosInstance';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
+import { cpf } from 'cpf-cnpj-validator';
 
 
 const Anamnese = ({ navigation }) => {
@@ -18,6 +19,7 @@ const Anamnese = ({ navigation }) => {
   const { user } = useContext(Context);
   const { setPac_id, setPacient} = useContext(ContextPacient);
   const [questionTitle, setQuestionTitle] = useState<string>("")
+  const formatCpf = cpf;
 
 
   const schema = yup.object({
@@ -45,7 +47,7 @@ const Anamnese = ({ navigation }) => {
         while (cpf.length < 11) {
           cpf += Math.floor(Math.random() * 10);
         }
-        return cpf;
+        return formatCpf.format(cpf);
       })(),
       birthday: new Date(),
     }
@@ -88,7 +90,7 @@ const Anamnese = ({ navigation }) => {
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              value={value}
+              value={formatCpf.format(value)}
               onChangeText={onChange}
               mode='outlined'
               label="Cpf"

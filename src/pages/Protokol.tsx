@@ -4,11 +4,12 @@ import { Avatar, Button, Card, Title, Paragraph, IconButton } from 'react-native
 import { ContextPacient } from '../context/PacientContext';
 import { BackHandler } from 'react-native';
 import axiosInstance from '../config/axiosInstance';
-import { useFocusEffect } from '@react-navigation/native';
+import { FormatPacient } from '../interfaces/globalInterface';
+import SkelectonView from '../components/SkelectonView';
 
 const Protokol = ({ navigation }) => {
     const { setPac_id, pac_id } = useContext(ContextPacient);
-    const [pacient, setPacient] = useState<any>([]);
+    const [pacient, setPacient] = useState<FormatPacient>();
 
     useEffect(() => {
         const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
@@ -21,11 +22,13 @@ const Protokol = ({ navigation }) => {
         const fetchData = async () => {
             const response = await axiosInstance.get(`/info-pacient/${pac_id}`)
             setPacient(response.data);
-            console.log(JSON.stringify(response.data));
         }
         fetchData()
     },[]);
 
+    if(!pacient){
+        return <SkelectonView/>
+    }
     return (
         <View style={{ padding: 15 }}
         >
@@ -36,7 +39,7 @@ const Protokol = ({ navigation }) => {
 
             <View style={{ marginTop: 15, marginBottom: 40 }}>
                 <Button buttonColor='#36B3B9' icon="information" mode="contained" onPress={() => navigation.navigate("PatientInfo")} style={{ marginBottom: 10 }}>
-                    Info. Cadastral{JSON.stringify(pacient?.first_name)}
+                    Info. Cadastral
                 </Button>
 
                 <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
@@ -56,20 +59,19 @@ const Protokol = ({ navigation }) => {
 
             {/* Adicione mais Cards para mais sessões */}
 
-            <Button buttonColor='#36B3B9' icon="content-save" mode="contained" onPress={() => {
-                alert("Protocolo salvo")
+            <Button buttonColor='#38CB89' icon="content-save" mode="contained" onPress={() => {
                 setTimeout(() => {
-                    navigation.navigate("Root");
+                    navigation.navigate("Section");
                 }, 2000);
             }} style={{ marginTop: 10 }}>
-                Salvar Protocolo
+                 Iniciar sessão
             </Button>
 
             <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {
                 setPac_id(null)
                 navigation.navigate("Root");
             }} style={{ marginTop: 10 }}>
-                Encerar atendimento
+                Encerar sesão
             </Button>
         </View>
     );

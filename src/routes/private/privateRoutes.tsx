@@ -23,6 +23,7 @@ import MyPlanDetails from '../../pages/myPlanDetails';
 import Help from '../../pages/help';
 import AnsweredQuestions from '../../pages/AnsweredQuestions';
 import PatientQuestionnaire from '../../pages/PatientQuestionnaire';
+import Section from '../../pages/Section';
 
 
 const AppStack = createStackNavigator();
@@ -85,6 +86,8 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
+        <AppStack.Screen name='Section' component={Section} options={{ headerTitleAlign: "center", headerTitle: "Sessão" }} />
+
         
 
         

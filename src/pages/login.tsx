@@ -15,7 +15,7 @@ const Login = ({ navigation }: any) => {
     const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
             email: "mateuspele2015@gmail.com",
-            password: "888888"
+            password: "123456"
         },
         mode: "onChange"
     });
@@ -35,6 +35,7 @@ const Login = ({ navigation }: any) => {
         } catch (error) {
             setError("password", { message: "Usuario ou senha incorreta!" })
             setLoading(false);
+            alert(JSON.stringify(error))
         }
     };
 

@@ -24,14 +24,10 @@ const AccompanyPatient = ({navigation}) => {
        
     };
 
-    const filteredPatients = pacients.filter((patient) =>
-        patient.first_name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
     return (
         <View style={{padding:15}}>
 
-           
+           <Text></Text>
         
             <Searchbar
                 placeholder="Pesquisar pacientes"
@@ -49,7 +45,7 @@ const AccompanyPatient = ({navigation}) => {
             <View>
 
                 <FlatList
-                    data={filteredPatients}
+                    data={pacients}
                     style={{ top: 5, marginTop: 5, paddingLeft: 6 }}
                     keyExtractor={(item) => item?.pacient?.pac_id}
                     renderItem={({ item }) => (
@@ -70,6 +66,6 @@ const AccompanyPatient = ({navigation}) => {
             </View>
         </View>
     );
-};g 
+};
 
 export default AccompanyPatient;
