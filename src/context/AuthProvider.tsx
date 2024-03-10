@@ -3,8 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingComponent from "../components/LoadingComponent";
 
 interface ContextProps {
-    user: any;
-    setUser: Dispatch<SetStateAction<boolean | any>>;
+    user: FormatUser| null;
+    setUser: Dispatch<SetStateAction<FormatUser| null>>;
     logOut: () => any;
     logado: any,
     email: string | any,
@@ -14,10 +14,17 @@ interface ContextProps {
 
 }
 
+interface FormatUser {
+    token: string;
+    email: string;
+    usu_id: number;
+    doc_id: number;
+    nick_name: string;
+}
 export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-    const [user, setUser] = useState<any>(false);
+    const [user, setUser] = useState<FormatUser| null>(null);
     const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
     const [email, setEmail] = useState<string | any>('');
 
@@ -43,7 +50,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
         setLoadingAuth(true)
         AsyncStorage.removeItem("usuario").then((response) => {
             setTimeout(() => {
-                setUser(false);
+                setUser(null);
                 setLoadingAuth(false)
             }, 400);
         }).catch((e) => {

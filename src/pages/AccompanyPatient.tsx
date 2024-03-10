@@ -1,41 +1,38 @@
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { View, FlatList, Text, Pressable } from 'react-native';
 import { Searchbar, List } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
+import { Context } from '../context/AuthProvider';
+import axiosInstance from '../config/axiosInstance';
+import { ContextPacient } from '../context/PacientContext';
 
-const AccompanyPatient = () => {
+const AccompanyPatient = ({navigation}) => {
+
+    const { logOut, user } = useContext(Context);
+    const { setPac_id, pac_id } = useContext(ContextPacient);
+
     const [searchQuery, setSearchQuery] = useState('');
-    const patients = [
-        {
-            id: 1,
-            name: 'João Silva',
-            cpf: '123.456.789-00'
-        },
-        {
-            id: 2,
-            name: 'Maria Santos',
-            cpf: '987.654.321-00'
-        },
-        {
-            id: 3,
-            name: 'Carlos Pereira',
-            cpf: '456.789.123-00'
-        },
-        {
-            id: 4,
-            name: 'Ana Costa',
-            cpf: '789.123.456-00'
+    const [pacients, setPacients] = useState([]);
+    const onChangeSearch = async (search) => {
+        setSearchQuery(search)
+        try {
+            const response = await axiosInstance.post(`/search-pacient`,{doc_id:user.doc_id, search:search})
+            setPacients(response?.data);
+        } catch (error) {
+        
         }
-    ];
+       
+    };
 
-    const onChangeSearch = (query) => setSearchQuery(query);
-
-    const filteredPatients = patients.filter((patient) =>
-        patient.name.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredPatients = pacients.filter((patient) =>
+        patient.first_name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
         <View style={{padding:15}}>
+
+           
+        
             <Searchbar
                 placeholder="Pesquisar pacientes"
                 onChangeText={onChangeSearch}
@@ -54,12 +51,15 @@ const AccompanyPatient = () => {
                 <FlatList
                     data={filteredPatients}
                     style={{ top: 5, marginTop: 5, paddingLeft: 6 }}
-                    keyExtractor={(item) => item.id.toString()}
+                    keyExtractor={(item) => item?.pacient?.pac_id}
                     renderItem={({ item }) => (
-                        <Pressable android_ripple={{ color: "#36B3B9" }}>
+                        <Pressable onPress={()=>{
+                            setPac_id(item?.pacient?.pac_id);
+                            navigation.navigate("Protokol")
+                        }} android_ripple={{ color: "#36B3B9" }}>
                             <List.Item
                                 style={{ borderBottomWidth: 0.3, borderColor: "gray", width: "96%" }}
-                                title={item.name}
+                                title={item.first_name}
                                 description={`CPF: ${item.cpf}`}
                                 left={() => <MaterialIcons name="person" size={24} color="#36B3B9" style={{ top: 9, left: 6 }} />}
                             />

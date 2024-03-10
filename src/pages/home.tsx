@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { View, Pressable, Image, ScrollView, Animated, StyleSheet } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { Square, Text, XStack, YStack } from 'tamagui';
@@ -8,24 +8,38 @@ import { AntDesign } from '@expo/vector-icons';
 import CustomText from '../components/customText';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
+import axiosInstance from '../config/axiosInstance';
+import { useFocusEffect } from '@react-navigation/native';
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [showAllCards, setShowAllCards] = useState<boolean>(false);
+  const [totalPacient, setTotalPacient] = useState<number>(0);
   const { logOut, user } = useContext(Context);
+
+  useFocusEffect(() => {
+    const fectData = async () => {
+      const response = await axiosInstance.get(`/search-pacients/${user.doc_id}`);
+      console.log(response?.data?.pacients?.length);
+      setTotalPacient(response?.data?.pacients?.length);
+    };
+    fectData();
+  });
+  
+  
   return (
     <>
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title>{user?.nick_name}</Title>
+              <Title >{user?.nick_name}</Title>
               <View style={styles.pacientsInfo}>
               <AntDesign name="medicinebox" size={20} color="#36B3B9" />
-                <Paragraph> 10 Pacietes</Paragraph>
+                <Paragraph>{` ${totalPacient} Pacientes`}</Paragraph>
               </View>
             </Card.Content>
             <Card.Actions>
-              <Button textColor='#36B3B9' onPress={() => navigation.navigate("DetalhesPacientes")}>Ver todos</Button>
+              <Button textColor='#36B3B9' onPress={() => navigation.navigate("AccompanyPatient")}>Ver todos</Button>
             </Card.Actions>
           </Card>
         </View>
@@ -35,7 +49,7 @@ const Home = ({ navigation }: { navigation: any }) => {
 
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Anamnese")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
               <AntDesign name="addfile" size={20} color="#36B3B9" />
-              <CustomText>Paciente</CustomText>
+              <CustomText >Paciente</CustomText>
             </Pressable >
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("AccompanyPatient")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
             <AntDesign name="adduser" size={20} color="#36B3B9" />
