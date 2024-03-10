@@ -70,6 +70,6 @@ const AccompanyPatient = ({navigation}) => {
             </View>
         </View>
     );
-};
+};g 
 
 export default AccompanyPatient;
