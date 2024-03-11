@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { List } from 'react-native-paper';
-import axiosInstance from '../config/axiosInstance';
 import PacientContext, { ContextPacient } from '../context/PacientContext';
 import { StyleSheet, Text, View } from 'react-native';
+import api from '../config/Api';
 
 const AnsweredQuestions = () => {
     const [expandedIndex, setExpandedIndex] = React.useState(null);
@@ -14,7 +14,7 @@ const AnsweredQuestions = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axiosInstance.get("answered-questionnaire/:pac_id");
+                const response = await api.get("answered-questionnaire/:pac_id");
                 console.log(response.data)
                 setAnswered(response.data);
             } catch (error) {

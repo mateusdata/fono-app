@@ -8,9 +8,9 @@ import { AntDesign } from '@expo/vector-icons';
 import CustomText from '../components/customText';
 import { StatusBar } from 'expo-status-bar';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
-import axiosInstance from '../config/axiosInstance';
 import { useFocusEffect } from '@react-navigation/native';
 import PacientContext, { ContextPacient } from '../context/PacientContext';
+import api from '../config/Api';
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [showAllCards, setShowAllCards] = useState<boolean>(false);
@@ -22,7 +22,7 @@ const Home = ({ navigation }: { navigation: any }) => {
   useFocusEffect(() => {
     const fectData = async () => {
      try {
-      const response = await axiosInstance.get(`/count-pacients/${user.doc_id}`);
+      const response = await api.get(`/count-pacients/${user.doc_id}`);
       setTotalPacient(response?.data.num_pacients);
       console.log(response?.data)
      } catch (error) {

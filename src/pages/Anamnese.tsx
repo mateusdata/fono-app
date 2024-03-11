@@ -7,11 +7,11 @@ import { DatePickerInput } from 'react-native-paper-dates';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
-import axiosInstance from '../config/axiosInstance';
 import { ScrollView } from 'react-native-gesture-handler';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
 import { cpf } from 'cpf-cnpj-validator';
+import api from '../config/Api';
 
 
 const Anamnese = ({ navigation }) => {
@@ -57,7 +57,7 @@ const Anamnese = ({ navigation }) => {
     setLoading(true);
     const { education, base_diseases, food_profile, chewing_complaint, reason_consultation, ...filteredData } = data;
     try {
-      const response = await axiosInstance.post("/create-pacient", { ...filteredData, doc_id: user.doc_id });
+      const response = await api.post("/create-pacient", { ...filteredData, doc_id: user.doc_id });
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
       navigation.navigate("PatientQuestionnaire");

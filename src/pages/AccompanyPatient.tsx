@@ -3,8 +3,8 @@ import { View, FlatList, Text, Pressable } from 'react-native';
 import { Searchbar, List } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context } from '../context/AuthProvider';
-import axiosInstance from '../config/axiosInstance';
 import { ContextPacient } from '../context/PacientContext';
+import api from '../config/Api';
 
 const AccompanyPatient = ({navigation}) => {
 
@@ -16,7 +16,7 @@ const AccompanyPatient = ({navigation}) => {
     const onChangeSearch = async (search) => {
         setSearchQuery(search)
         try {
-            const response = await axiosInstance.post(`/search-pacient`,{doc_id:user.doc_id, search:search})
+            const response = await api.post(`/search-pacient`,{doc_id:user.doc_id, search:search})
             setPacients(response?.data);
         } catch (error) {
         

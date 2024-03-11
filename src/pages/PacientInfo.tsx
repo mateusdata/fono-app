@@ -2,16 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Avatar, Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
-import axiosInstance from '../config/axiosInstance';
 import { FormatPacient } from '../interfaces/globalInterface';
 import { cpf } from 'cpf-cnpj-validator';
+import api from '../config/Api';
 
 const PatientInfo = () => {
   const {pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
   useEffect(() => {
     const fetchData = async () => {
-        const response = await axiosInstance.get(`/info-pacient/${pac_id}`)
+        const response = await api.get(`/info-pacient/${pac_id}`)
         setPacient(response.data);
     }
     fetchData()

@@ -3,9 +3,9 @@ import { StatusBar, Text, View } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { BackHandler } from 'react-native';
-import axiosInstance from '../config/axiosInstance';
 import { FormatPacient } from '../interfaces/globalInterface';
 import SkelectonView from '../components/SkelectonView';
+import api from '../config/Api';
 
 const Protokol = ({ navigation }) => {
     const { setPac_id, pac_id } = useContext(ContextPacient);
@@ -20,7 +20,7 @@ const Protokol = ({ navigation }) => {
 
     useEffect(() => {
         const fetchData = async () => {
-            const response = await axiosInstance.get(`/info-pacient/${pac_id}`)
+            const response = await api.get(`/info-pacient/${pac_id}`)
             setPacient(response.data);
         }
         fetchData()

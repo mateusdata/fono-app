@@ -7,8 +7,8 @@ import CustomText from '../components/customText';
 import { Controller, useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
 import { StatusBar } from 'expo-status-bar';
-import axiosInstance from '../config/axiosInstance';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../config/Api';
 const Login = ({ navigation }: any) => {
     const { setLoadingAuth, setUser } = useContext(Context);
     const [loading, setLoading] = useState(false);
@@ -22,7 +22,7 @@ const Login = ({ navigation }: any) => {
     const onSubmit = async (data: object) => {
         try {
             setLoading(true);
-            const response = await axiosInstance.post("/login", data);
+            const response = await api.post("/login", data);
             setLoadingAuth(true);
             try {
                 await AsyncStorage.setItem("usuario", JSON.stringify(response.data));

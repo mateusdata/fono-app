@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Keyboard, Text } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import axiosInstance from '../config/axiosInstance';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
+import api from '../config/Api';
 
 export default function ChangeCredential() {
   const { user, setUser } = React.useContext(Context);
@@ -28,7 +28,7 @@ export default function ChangeCredential() {
   const onSubmit = async (data: string) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.post(`/update-password/${user?.usu_id}`, data);
+      const response = await api.post(`/update-password/${user?.usu_id}`, data);
       setLoading(false);
       setShowToast(true);
     } catch (e) {

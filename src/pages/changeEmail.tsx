@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Keyboard } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import axiosInstance from '../config/axiosInstance';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../config/Api';
 export default function ChangeEmail() {
   const { user, setUser } = React.useContext(Context);
   const [loading, setLoading] = React.useState<boolean>(false);
@@ -25,7 +25,7 @@ export default function ChangeEmail() {
   })
   const onSubmit = (data: string) => {
     setLoading(true);
-    axiosInstance.post(`/update-user/${user?.usu_id}`, data).then(async (response) => {
+    api.post(`/update-user/${user?.usu_id}`, data).then(async (response) => {
       setShowToast(true);
       try {
         const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));

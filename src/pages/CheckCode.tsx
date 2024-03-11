@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Keyboard, Pressable, Text } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import axiosInstance from '../config/axiosInstance';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
+import api from '../config/Api';
 
 export default function CheckCode({ navigation }) {
     const { email, setEmail } = React.useContext(Context);
@@ -30,7 +30,7 @@ export default function CheckCode({ navigation }) {
     })
 
     const sendCode = () => {
-        axiosInstance.post('/verify-reset-code', { email: email }).then((response) => {
+        api.post('/verify-reset-code', { email: email }).then((response) => {
             if (response.status === 200) {
                 return alert("um novo codigo foi enviado para " + email)
             }
@@ -42,7 +42,7 @@ export default function CheckCode({ navigation }) {
     const onSubmit = (data: any) => {
        
         setLoading(true);
-        axiosInstance.post("/verify-reset-code",{...data, email}).then((response) => {
+        api.post("/verify-reset-code",{...data, email}).then((response) => {
             setLoading(false);
             navigation.navigate("ChangePassword");
 

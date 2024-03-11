@@ -2,13 +2,13 @@ import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Keyboard } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import axiosInstance from '../config/axiosInstance';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../config/Api';
 
 export default function ChangePassword({navigation}) {
 
@@ -34,7 +34,7 @@ export default function ChangePassword({navigation}) {
 
     try {
       setLoading(true);
-      const response = await axiosInstance.post('/reset-password', { newPassword: data.newPassword, email: email });
+      const response = await api.post('/reset-password', { newPassword: data.newPassword, email: email });
       setShowToast(true)
       try {
         await AsyncStorage.setItem("usuario", JSON.stringify(response.data));

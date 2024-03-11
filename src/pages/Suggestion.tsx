@@ -4,9 +4,9 @@ import CustomText from '../components/customText';
 import { Button, TextArea, XGroup, XStack, YStack } from 'tamagui'
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
-import axiosInstance from '../config/axiosInstance';
 import { Context } from '../context/AuthProvider';
 import Toast from '../components/toast';
+import api from '../config/Api';
 
 const Suggestion = () => {
     const [visible, setVisible] = useState(false);
@@ -19,7 +19,7 @@ const Suggestion = () => {
     const { user } = useContext(Context);
     const onSubmit = (data) => {
         setVisible(true);
-        //axiosInstance.post("/send-suggestion", { sugestion: data, nome: user.nome, suggestion: user.suggestion })
+        api.post("/send-suggestion", { sugestion: data, nome: user.nome, suggestion: user.suggestion })
         reset({ suggestion: '' });
     };
     const err = (err) => {}

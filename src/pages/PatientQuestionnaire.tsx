@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import axiosInstance from "../config/axiosInstance";
 import { View, ScrollView, Text } from "react-native";
 import { Button, RadioButton } from "react-native-paper";
 import CustomText from "../components/customText";
 import { ContextPacient } from "../context/PacientContext";
 import { z } from "zod";
 import SkelectonView from "../components/SkelectonView";
+import api from "../config/Api";
 
 const PatientQuestionnaire = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -19,7 +19,7 @@ const PatientQuestionnaire = ({ navigation }) => {
     const fetchData = async () => {
       try {
         setIsLoading(true)
-        const response = await axiosInstance.get(`/next-questionnaire/${pac_id}`);
+        const response = await api.get(`/next-questionnaire/${pac_id}`);
         setAnalysis(response.data);
 
         if (!response?.data || Object.keys(response.data).length === 0) {
@@ -63,7 +63,7 @@ const PatientQuestionnaire = ({ navigation }) => {
     };
     try {
       answerSchema.parse(data); // Validate data against schema
-      const response = await axiosInstance.post("/answer-questionnaire", data);
+      const response = await api.post("/answer-questionnaire", data);
       setAnalysis({});
       setSelectedAnswers({});
       setnextQuestinnaire(!nextQuestinnaire);

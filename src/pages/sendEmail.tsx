@@ -2,12 +2,12 @@ import * as React from 'react';
 import { Button, Snackbar, TextInput } from 'react-native-paper';
 import { View, StyleSheet, Keyboard, Pressable } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import axiosInstance from '../config/axiosInstance';
 import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
+import api from '../config/Api';
 
 export default function SendEmail({ navigation }) {
     const { email, setEmail } = React.useContext(Context);
@@ -26,7 +26,7 @@ export default function SendEmail({ navigation }) {
     })
     const onSubmit = (data: any) => {
         setLoading(true);
-        axiosInstance.post("/send-reset-code",data).then((response) => {
+        api.post("/send-reset-code",data).then((response) => {
             setEmail(data?.email);
             navigation.navigate("CheckCode");
             setLoading(false);

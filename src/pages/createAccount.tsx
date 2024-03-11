@@ -6,9 +6,9 @@ import { Context } from '../context/AuthProvider';
 import { Controller, useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
 import axios from 'axios';
-import axiosInstance from '../config/axiosInstance';
 import CustomText from '../components/customText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import api from '../config/Api';
 
 const CreateAccount = ({ navigation }: any) => {
   const { setUser, setLoadingAuth } = useContext(Context);
@@ -27,7 +27,7 @@ const CreateAccount = ({ navigation }: any) => {
   const login = async (data: object) => {
     try {
       setLoading(true);
-      const response = await axiosInstance.post("/login", data);
+      const response = await api.post("/login", data);
       setLoadingAuth(true);
       try {
         await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
@@ -48,7 +48,7 @@ const CreateAccount = ({ navigation }: any) => {
 
     try {
       setLoading(true)
-      const response = await axiosInstance.post("/create-user", data)
+      const response = await api.post("/create-user", data)
       login({ email: data.email, password: data.password })
     } catch (error) {
       alert("error")
