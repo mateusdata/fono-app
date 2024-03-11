@@ -11,7 +11,6 @@ const Skelecton = (props:any) => (
     foregroundColor="white"
     {...props}
     animate
-    interval={5000}
   />
 )
 
