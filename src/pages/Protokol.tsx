@@ -53,7 +53,7 @@ const Protokol = ({ navigation }) => {
                 <Card.Title title="Protocolo atual " left={(props) => <IconButton {...props} icon="folder" iconColor='#36B3B9' />} />
                 <Card.Content>
                     <Paragraph>ATM1</Paragraph>
-                    <Paragraph>06/02/2024</Paragraph>
+                    <Paragraph>12/03/2024</Paragraph>
                 </Card.Content>
             </Card>
 

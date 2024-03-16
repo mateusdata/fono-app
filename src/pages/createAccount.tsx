@@ -132,7 +132,7 @@ const CreateAccount = ({ navigation }: any) => {
           </Button>
         </View>
         <View style={styles.footerContainer}>
-          <Text style={styles.footerText}>Lembrou sua senha?</Text>
+          <Text style={styles.footerText}>Já tem uma conta?</Text>
           <Pressable onPress={() => navigation.navigate("Login")}>
             <Text style={styles.linkText}>Fazer login</Text>
           </Pressable>

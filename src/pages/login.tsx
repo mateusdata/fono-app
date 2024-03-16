@@ -35,7 +35,7 @@ const Login = ({ navigation }: any) => {
         } catch (error) {
             setError("password", { message: "Usuario ou senha incorreta!" })
             setLoading(false);
-            alert(JSON.stringify(error))
+           
         }
     };
 

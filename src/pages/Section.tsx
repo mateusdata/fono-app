@@ -1,69 +1,52 @@
 import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from 'react';
-import { View, StyleSheet, Button, ScrollView, Modal, TouchableWithoutFeedback, Pressable, Text, BackHandler } from 'react-native';
+import { View, StyleSheet, ScrollView, Pressable, Text } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import { Dialog } from 'tamagui';
-import CustomText from '../components/customText';
 import { Searchbar } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
 import api from '../config/Api';
 import SkelectonView from '../components/SkelectonView';
 
-export default function Videos({navigation}) {
+export default function Section({ navigation }) {
   const video = useRef(null);
   const [status, setStatus] = useState<any>({});
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState<any>(null);
-  const [currentMenssage, setCurrentMensage] = useState("");
+  const [currentMessage, setCurrentMessage] = useState("");
   const [videosFono, setVideosFono] = useState<any>([]);
-  const { setPac_id, pac_id } = useContext(ContextPacient);
-    const [pacient, setPacient] = useState<FormatPacient>();
+  const { pac_id } = useContext(ContextPacient);
+  const [pacient, setPacient] = useState<FormatPacient>();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            const response = await api.get(`/info-pacient/${pac_id}`)
-            setPacient(response.data);
-        }
-        fetchData()
-    },[]);
-  useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: pacient?.person?.first_name ? "Sessão - " + pacient?.person?.first_name  + "ferreia porrto almeira soares da " : "" });
-  }, [pacient?.person?.first_name]);
-
- api.get("/rota/",{params:{pageSize:10, page:500 }})
- 
-  let newArrayVideos = [
-    "bico_sustentado.mp4",
-    "bocejo.mp4",
-    "cara_de_assustada.mp4",
-    "cara_de_brava.mp4",
-    "cara_de_cheiro_ruim.mp4",
-    "degluticao_com_esforco.mp4",
-    "escala_de_hiperagudo.mp4",
-    "estalar_de_labios.mp4",
-    "estalo_de_lingua.mp4",
-    "exercicio_de_risorio.mp4",
-  ]
   useEffect(() => {
-    let tempVideosFono = [];
-    for (let i = 1; i <= 4; i++) {
-      tempVideosFono.push(`https://fono-api-solitary-surf-9909.fly.dev/videos/${newArrayVideos[i]}`);
-    }
-    setVideosFono(tempVideosFono);
+    const fetchData = async () => {
+      const response = await api.get(`/info-pacient/${pac_id}`);
+      setPacient(response.data);
+    };
+    fetchData();
+  }, [pac_id]);
 
-  }, [])
+  useLayoutEffect(() => {
+    navigation.setOptions({ headerTitle: pacient?.person?.first_name ? "Sessão - " + pacient?.person?.first_name : "" });
+  }, [navigation, pacient?.person?.first_name]);
 
+  useEffect(() => {
+    const fetchVideos = async () => {
+      alert("oi")
+
+      const response = await api.get("/videos/list-exercise?pageSize=10&page=1");
+      setVideosFono(response.data.rows.map((row: any) => row.video_urls.map((url: string) => `https://fono-api-solitary-surf-9909.fly.dev/videos/${url}`)).flat());
+    };
+    fetchVideos();
+  }, []);
 
   const handleVideoPress = (uri: any) => {
     setSelectedVideo(uri);
     setModalVisible(true);
-  }
+  };
 
-
-  if(!pacient?.person?.first_name){
-    return (
-        <SkelectonView/>
-    )
+  if (!pacient?.person?.first_name) {
+    return <SkelectonView />;
   }
 
   return (
@@ -73,14 +56,13 @@ export default function Videos({navigation}) {
         <View style={{ width: "100%", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
           <Searchbar
             style={{ width: "90%" }}
-            placeholder="Pesquisar videos"
+            placeholder="Pesquisar vídeos"
             value={""}
           />
         </View>
 
-
-        {videosFono?.map((item, index) => (
-          <Pressable style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#d2d4db", marginVertical: 5 }} key={index} onPress={() => handleVideoPress(`https://fono-api-solitary-surf-9909.fly.dev/videos/${newArrayVideos[index + 1]}`)}>
+        {videosFono?.map((item: string, index: number) => (
+          <Pressable style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#d2d4db", marginVertical: 5 }} key={index} onPress={() => handleVideoPress(item)}>
             <Video
               ref={video}
               style={styles.video1}
@@ -93,37 +75,28 @@ export default function Videos({navigation}) {
               usePoster={true}
             />
             <View style={{ flexDirection: "row", alignItems: "center", gap: 35 }}>
-              <View onTouchStart={() => setCurrentMensage(`${newArrayVideos[index + 1].replace(".mp4", "")}`)}>
-                <CustomText>{`Execicio ${index + 1}°`}</CustomText>
-                <CustomText>{`${newArrayVideos[index + 1].replace(".mp4", "")}`}</CustomText>
+              <View onTouchStart={() => setCurrentMessage(`Exercício ${index + 1}`)}>
+                <Text>{`Exercício ${index + 1}`}</Text>
+                <Text>{item.replace(".mp4", "")}</Text>
               </View>
-
             </View>
-
-
           </Pressable>
         ))}
       </ScrollView>
 
-      <Dialog open={modalVisible}  >
-
+      <Dialog open={modalVisible}>
         <Dialog.Trigger />
-
-        <Dialog.Portal  >
-
-          <Dialog.Overlay key="overlay" onPress={() => setModalVisible(!modalVisible)} />
-
-          <Dialog.Content key="content" style={{ backgroundColor: "white" }} >
-
-            {true &&
+        <Dialog.Portal>
+          <Dialog.Overlay onPress={() => setModalVisible(!modalVisible)} />
+          <Dialog.Content style={{ backgroundColor: "white" }}>
+            {true && (
               <>
-                <Dialog.Title key="title" textAlign='center' color={"$blue10"} >
-                  {currentMenssage}
+                <Dialog.Title textAlign='center' color={"$blue10"}>
+                  {currentMessage}
                 </Dialog.Title>
                 <Dialog.Close />
               </>
-            }
-
+            )}
             <View style={{ backgroundColor: "white", width: "100%" }}>
               <Video
                 ref={video}
@@ -138,16 +111,11 @@ export default function Videos({navigation}) {
                 usePoster={true}
                 shouldPlay={true}
                 isMuted={false}
-
               />
             </View>
-            <Dialog.Description>
-
-            </Dialog.Description>
+            <Dialog.Description></Dialog.Description>
           </Dialog.Content>
-
         </Dialog.Portal>
-
       </Dialog>
     </View>
   );
@@ -194,33 +162,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-  },
-
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 10,
-    backgroundColor: "white",
-    borderRadius: 5,
-    padding: 0,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
     elevation: 5
-  },
-  button: {
-    backgroundColor: 'rgba(255, 0, 0, 0.6)',
-    padding: 7,
-    borderRadius: 5,
-  },
+  }
 });
