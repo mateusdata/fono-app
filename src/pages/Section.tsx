@@ -1,122 +1,80 @@
-import React, { useState, useRef, useEffect, useLayoutEffect, useContext } from 'react';
-import { View, StyleSheet, ScrollView, Pressable, Text } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, FlatList, Text, Modal, Button, StyleSheet } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
-import { Dialog } from 'tamagui';
-import { Searchbar } from 'react-native-paper';
-import { ContextPacient } from '../context/PacientContext';
-import { FormatPacient } from '../interfaces/globalInterface';
 import api from '../config/Api';
-import SkelectonView from '../components/SkelectonView';
 
 export default function Section({ navigation }) {
-  const video = useRef(null);
-  const [status, setStatus] = useState<any>({});
+  const [page, setPage] = useState(1);
+  const [videosFono, setVideosFono] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<any>(null);
-  const [currentMessage, setCurrentMessage] = useState("");
-  const [videosFono, setVideosFono] = useState<any>([]);
-  const { pac_id } = useContext(ContextPacient);
-  const [pacient, setPacient] = useState<FormatPacient>();
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get(`/info-pacient/${pac_id}`);
-      setPacient(response.data);
-    };
-    fetchData();
-  }, [pac_id]);
-
-  useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: pacient?.person?.first_name ? "Sessão - " + pacient?.person?.first_name : "" });
-  }, [navigation, pacient?.person?.first_name]);
-
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [t, setT] = useState<any>(0)
   useEffect(() => {
     const fetchVideos = async () => {
-      alert("oi")
-
-      const response = await api.get("/videos/list-exercise?pageSize=10&page=1");
-      setVideosFono(response.data.rows.map((row: any) => row.video_urls.map((url: string) => `https://fono-api-solitary-surf-9909.fly.dev/videos/${url}`)).flat());
+      try {
+        const response = await api.get(`/list-exercise?pageSize=9&page=${page}`);
+        setT(response?.data)
+        alert("pegou os videos")
+        setVideosFono(prevVideos => [...prevVideos, ...response.data.rows.map((row: any) => row.video_urls.map((url: string) => `https://fono-api-solitary-surf-9909.fly.dev/videos/${url}`)).flat()]);
+      } catch (error) {
+        //alert("ocorreu um erro ao carregar mais vídeos");
+      }
     };
     fetchVideos();
-  }, []);
+  }, [page]);
 
-  const handleVideoPress = (uri: any) => {
+  const handleEndReached = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
+  const handleVideoPress = (uri) => {
     setSelectedVideo(uri);
     setModalVisible(true);
   };
 
-  if (!pacient?.person?.first_name) {
-    return <SkelectonView />;
-  }
+  const renderItem = ({ item }) => (
+    <View style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#d2d4db", marginVertical: 5 }}>
+      <Video
+        style={{ width: 60, height: 60 }}
+        source={{ uri: item }}
+        resizeMode={ResizeMode.COVER}
+        isLooping={false}
+        usePoster={true}
+      />
+      <Text>{item.replace(".mp4", "")}</Text>
+    </View>
+  );
 
   return (
-    <View style={styles.container}>
-      <ScrollView style={{ flex: 1 }}>
-        <Text style={{ textAlign: "center", fontSize: 5 }}></Text>
-        <View style={{ width: "100%", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
-          <Searchbar
-            style={{ width: "90%" }}
-            placeholder="Pesquisar vídeos"
-            value={""}
-          />
-        </View>
-
-        {videosFono?.map((item: string, index: number) => (
-          <Pressable style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#d2d4db", marginVertical: 5 }} key={index} onPress={() => handleVideoPress(item)}>
+    <View onTouchMove={()=>handleEndReached} style={{ flex: 1 }}>
+     <Text style={{fontSize:25, padding:25}}> tamanho do objeto de videos {JSON.stringify(t?.rows?.length)} </Text>
+      <FlatList
+        data={videosFono}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => renderItem({ item })}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+      />
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+          <View style={{ backgroundColor: 'white', padding: 20, borderRadius: 10 }}>
             <Video
-              ref={video}
-              style={styles.video1}
-              source={{
-                uri: item,
-              }}
-              resizeMode={ResizeMode.COVER}
+              style={{ width: 300, height: 300 }}
+              source={{ uri: selectedVideo }}
+              resizeMode={ResizeMode.CONTAIN}
               isLooping={false}
-              onPlaybackStatusUpdate={status => setStatus(() => status)}
               usePoster={true}
+              shouldPlay={true}
             />
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 35 }}>
-              <View onTouchStart={() => setCurrentMessage(`Exercício ${index + 1}`)}>
-                <Text>{`Exercício ${index + 1}`}</Text>
-                <Text>{item.replace(".mp4", "")}</Text>
-              </View>
-            </View>
-          </Pressable>
-        ))}
-      </ScrollView>
-
-      <Dialog open={modalVisible}>
-        <Dialog.Trigger />
-        <Dialog.Portal>
-          <Dialog.Overlay onPress={() => setModalVisible(!modalVisible)} />
-          <Dialog.Content style={{ backgroundColor: "white" }}>
-            {true && (
-              <>
-                <Dialog.Title textAlign='center' color={"$blue10"}>
-                  {currentMessage}
-                </Dialog.Title>
-                <Dialog.Close />
-              </>
-            )}
-            <View style={{ backgroundColor: "white", width: "100%" }}>
-              <Video
-                ref={video}
-                style={styles.video}
-                source={{
-                  uri: selectedVideo,
-                }}
-                useNativeControls={false}
-                resizeMode={ResizeMode.COVER}
-                isLooping={true}
-                onPlaybackStatusUpdate={status => setStatus(() => status)}
-                usePoster={true}
-                shouldPlay={true}
-                isMuted={false}
-              />
-            </View>
-            <Dialog.Description></Dialog.Description>
-          </Dialog.Content>
-        </Dialog.Portal>
-      </Dialog>
+            <Button title="Fechar" onPress={() => setModalVisible(false)} />
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }

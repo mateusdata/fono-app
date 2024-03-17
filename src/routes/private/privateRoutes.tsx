@@ -87,8 +87,9 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
-        <AppStack.Screen name='Section' component={Section} options={{ headerTitleAlign: "left", headerTitle: "Sessão" }} />
+        <AppStack.Screen name='Section' component={Section} options={{ headerTitleAlign: "center", headerTitleStyle: {color:"white"},  headerTitle: "Sessão" }} />
 
+        
         
 
         
