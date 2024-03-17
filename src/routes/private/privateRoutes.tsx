@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
-import { Button, Pressable, StatusBar, View } from 'react-native';
+import { Button, Pressable, View } from 'react-native';
 import CustomText from '../../components/customText';
 import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../context/AuthProvider';
@@ -24,6 +24,8 @@ import Help from '../../pages/help';
 import AnsweredQuestions from '../../pages/AnsweredQuestions';
 import PatientQuestionnaire from '../../pages/PatientQuestionnaire';
 import Section from '../../pages/Section';
+import { colorPrimary } from '../../style/ColorPalette';
+import { StatusBar } from 'expo-status-bar';
 
 
 const AppStack = createStackNavigator();
@@ -33,11 +35,13 @@ const PrivateRoutes = () => {
 
   return (
     <>
-
+        <StatusBar animated hideTransitionAnimation='fade' style='light' />
       <AppStack.Navigator screenOptions={{
         cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-
-
+        headerTintColor: "white",
+        headerStyle:{
+          backgroundColor: colorPrimary
+        }
       }}>
         <AppStack.Screen
           name="LeadingPage"
@@ -68,7 +72,6 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='PolicyAndPrivacy' component={PolicyAndPrivacy} options={{
           headerTitle: ""
         }} />
-
         <AppStack.Screen name='TermsAndServices' component={TermsAndServices} options={{
           headerTitle: ""
         }} />
@@ -80,9 +83,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Suggestion' component={Suggestion} options={{ headerTitleAlign: "center", headerTitle: "Sugestão" }} />
         <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{ headerTitleAlign: "center", headerTitle: "" }} />
-        <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente", headerTintColor:"white", headerLeft: () => null, headerStyle:{
-          backgroundColor:"#36B3B9"
-        } }}  />
+        <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente",  }}  />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />

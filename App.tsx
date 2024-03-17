@@ -44,8 +44,6 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <StatusBar animated hideTransitionAnimation='slide' style='dark' />
-
         <AuthProvider>
           <TamaguiProvider config={config}>
             

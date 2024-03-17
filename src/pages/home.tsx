@@ -1,15 +1,14 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { View, Pressable, Image, ScrollView, Animated, StyleSheet } from 'react-native';
+import React, { useContext, useState } from 'react';
+import { View, Pressable, ScrollView, Animated, StyleSheet } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import { Square, Text, XStack, YStack } from 'tamagui';
+import { Square,  XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
 import CustomText from '../components/customText';
-import { StatusBar } from 'expo-status-bar';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
-import PacientContext, { ContextPacient } from '../context/PacientContext';
+import { ContextPacient } from '../context/PacientContext';
 import api from '../config/Api';
 
 const Home = ({ navigation }: { navigation: any }) => {
@@ -118,7 +117,6 @@ const Home = ({ navigation }: { navigation: any }) => {
         </YStack>
 
       </ScrollView>
-      <StatusBar style="auto" />
     </>
   );
 };

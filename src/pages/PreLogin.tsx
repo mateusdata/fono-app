@@ -8,6 +8,8 @@ const PreLogin = ({ navigation }: any) => {
 
     return (
         <View style={{ flex: 1, alignItems: "center", backgroundColor: "#F5F7FF" }}>
+                  <StatusBar animated hideTransitionAnimation='fade' style='dark' />
+
             <Image style={{ flex: 0.4, width: "100%" }}
                 source={{ uri: 'https://clinicasepam.com.br/wp-content/uploads/2021/06/O-que-e-terapia-da-fala-fono.png' }} />
 

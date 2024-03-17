@@ -7,16 +7,19 @@ import Home from '../../../pages/home';
 import Videos from '../../../pages/Videos';
 import MyAccount from '../../../pages/MyAccount';
 import { StatusBar } from 'expo-status-bar';
+import { colorPrimary } from '../../../style/ColorPalette';
 
 const Tab = createBottomTabNavigator();
 
 export default function MyComponent() {
   return (
     <>
-      <StatusBar animated hideTransitionAnimation='slide' style='auto' />
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
+          headerStyle:{
+            backgroundColor: colorPrimary
+          }
         }}
         tabBar={({ navigation, state, descriptors, insets }) => (
           <BottomNavigation.Bar
@@ -75,10 +78,7 @@ export default function MyComponent() {
             tabBarActiveTintColor: "white",
             tabBarActiveBackgroundColor: "white",
             headerShown: true,
-            headerTitle: "Fonotheapp",
-            headerStyle: {
-              backgroundColor: "#36B3B9",
-            },
+            headerTitle: "Fonotheapp",            
             headerTintColor: "white"
           }}
         />
@@ -90,10 +90,7 @@ export default function MyComponent() {
             tabBarIcon: ({ color, size }) => {
               return <Icon name="video" size={size} color={color} />;
             },
-            headerShown: true,
-            headerStyle: {
-              backgroundColor: "#36B3B9",
-            },
+            headerShown: true,            
             headerTintColor: "white"
           }}
         />

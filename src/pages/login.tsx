@@ -35,12 +35,14 @@ const Login = ({ navigation }: any) => {
         } catch (error) {
             setError("password", { message: "Usuario ou senha incorreta!" })
             setLoading(false);
-           
+
         }
     };
 
     return (
         <View style={styles.container}>
+            <StatusBar animated hideTransitionAnimation='fade' style='light' />
+
             <View style={styles.titleContainer}>
                 <CustomText style={styles.titleText}>Bem-vindo de volta</CustomText>
             </View>
