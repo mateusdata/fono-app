@@ -24,17 +24,17 @@ const Protokol = ({ navigation }) => {
             setPacient(response.data);
         }
         fetchData()
-    },[]);
+    }, []);
 
-    if(!pacient){
-        return <SkelectonView/>
+    if (!pacient) {
+        return <SkelectonView />
     }
     return (
         <View style={{ padding: 15 }}
         >
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
                 <Avatar.Text size={64} label="M" labelStyle={{ color: "white" }} style={{ marginBottom: 10, backgroundColor: "#36B3B9", }} />
-                <Title style={{ marginBottom: 10, }}>{pacient?.person?.first_name && pacient?.person?.first_name}</Title>                
+                <Title style={{ marginBottom: 10, }}>{pacient?.person?.first_name && pacient?.person?.first_name}</Title>
             </View>
 
             <View style={{ marginTop: 15, marginBottom: 40 }}>
@@ -60,11 +60,9 @@ const Protokol = ({ navigation }) => {
             {/* Adicione mais Cards para mais sessões */}
 
             <Button buttonColor='#38CB89' icon="content-save" mode="contained" onPress={() => {
-                setTimeout(() => {
-                    navigation.navigate("Section");
-                }, 2000);
+                navigation.navigate("Section");
             }} style={{ marginTop: 10 }}>
-                 Iniciar sessão
+                Iniciar sessão
             </Button>
 
             <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {

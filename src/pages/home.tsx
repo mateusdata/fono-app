@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react';
 import { View, Pressable, ScrollView, Animated, StyleSheet } from 'react-native';
 import { Context } from '../context/AuthProvider';
-import { Square,  XStack, YStack } from 'tamagui';
+import { Square, XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
 import { MaterialIcons } from '@expo/vector-icons';
 import { AntDesign } from '@expo/vector-icons';
@@ -13,24 +13,24 @@ import api from '../config/Api';
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [showAllCards, setShowAllCards] = useState<boolean>(false);
-  const [totalPacient, setTotalPacient] = useState<number>(0);
+  const [totalPacient, setTotalPacient] = useState<any>("");
   const { logOut, user } = useContext(Context);
   const { pac_id } = useContext(ContextPacient);
 
 
   useFocusEffect(() => {
     const fectData = async () => {
-     try {
-      const response = await api.get(`/count-pacients/${user.doc_id}`);
-      setTotalPacient(response?.data.num_pacients);
-      console.log(response?.data)
-     } catch (error) {
-     }
+      try {
+        const response = await api.get(`/count-pacients/${user.doc_id}`);
+        setTotalPacient(response?.data.num_pacients);
+        console.log(response?.data)
+      } catch (error) {
+      }
     };
     fectData();
   });
-  
-  
+
+
   return (
     <>
       <ScrollView style={styles.container}>
@@ -39,8 +39,11 @@ const Home = ({ navigation }: { navigation: any }) => {
             <Card.Content>
               <Title >{user?.nick_name}</Title>
               <View style={styles.pacientsInfo}>
-              <AntDesign name="medicinebox" size={20} color="#36B3B9" />
-                <Paragraph>{` ${totalPacient} Pacientes`}</Paragraph>
+                <AntDesign name="medicinebox" size={20} color="#36B3B9" />
+                <Paragraph>
+                  {totalPacient ? (totalPacient === 1 ? " " + totalPacient + " Paciente" : "Pacientes") : " 0 Pacientes"}
+                </Paragraph>
+
               </View>
             </Card.Content>
             <Card.Actions>
@@ -57,7 +60,7 @@ const Home = ({ navigation }: { navigation: any }) => {
               <CustomText >Paciente</CustomText>
             </Pressable >
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("AccompanyPatient")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-            <AntDesign name="adduser" size={20} color="#36B3B9" />
+              <AntDesign name="adduser" size={20} color="#36B3B9" />
               <CustomText>Acompanhar</CustomText>
             </Pressable >
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Exercise")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
@@ -67,8 +70,8 @@ const Home = ({ navigation }: { navigation: any }) => {
           </XStack>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() =>{
-              if(pac_id){
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => {
+              if (pac_id) {
                 return navigation.navigate("Protokol")
               }
               alert("Nenhum paciente em atendimento")

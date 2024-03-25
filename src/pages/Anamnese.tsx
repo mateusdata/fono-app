@@ -64,6 +64,7 @@ const Anamnese = ({ navigation }) => {
       setLoading(false);
     } catch (e) {
       setLoading(false);
+      console.log(e)
       if (e?.response) {
         return setError("cpf", { message: "Paciente já existe." })
       }

@@ -115,6 +115,7 @@ export default function Videos() {
                 isMuted={false}
 
               />
+              <Text selectable >{selectedVideo}</Text>
             </View>
             <Dialog.Description>
 
