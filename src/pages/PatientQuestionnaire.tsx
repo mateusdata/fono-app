@@ -7,6 +7,7 @@ import { ContextPacient } from "../context/PacientContext";
 import { z } from "zod";
 import SkelectonView from "../components/SkelectonView";
 import api from "../config/Api";
+import { colorPrimary } from "../style/ColorPalette";
 
 const PatientQuestionnaire = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -95,7 +96,7 @@ const PatientQuestionnaire = ({ navigation }) => {
                   {question?.alternatives?.map((alternative, alternativeIndex) => (
                     <RadioButton.Item
                       key={alternativeIndex}
-                      color="green"
+                      color={colorPrimary}
                       label={alternative}
                       value={alternative}
                     />
