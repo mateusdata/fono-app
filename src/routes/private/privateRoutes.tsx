@@ -26,6 +26,7 @@ import PatientQuestionnaire from '../../pages/PatientQuestionnaire';
 import Section from '../../pages/Section';
 import { colorPrimary } from '../../style/ColorPalette';
 import { StatusBar } from 'expo-status-bar';
+import CurrentProtocol from '../../pages/CurrentProtocol';
 
 
 const AppStack = createStackNavigator();
@@ -88,6 +89,9 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
         <AppStack.Screen name='Section' component={Section} options={{ headerTitleAlign: "center", headerTitleStyle: {color:"white"},  headerTitle: "Sessão" }} />
+        <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{ headerTitleAlign: "center", headerTitleStyle: {color:"white"},  headerTitle: "Protocolo atual" }} />
+
+        
 
         
         

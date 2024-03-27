@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, Pressable, ScrollView, Animated, StyleSheet } from 'react-native';
+import { View, Pressable, ScrollView, Animated, StyleSheet, BackHandler } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { Square, XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -25,6 +25,10 @@ const Home = ({ navigation }: { navigation: any }) => {
         setTotalPacient(response?.data.num_pacients);
         console.log(response?.data)
       } catch (error) {
+        if(error.response){
+          alert("Você esta sem internet")
+          BackHandler.exitApp();
+        }
       }
     };
     fectData();

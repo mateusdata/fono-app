@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { StatusBar, Text, View } from 'react-native';
+import { ScrollView, StatusBar, Text, View } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { BackHandler } from 'react-native';
@@ -10,7 +10,7 @@ import api from '../config/Api';
 const Protokol = ({ navigation }) => {
     const { setPac_id, pac_id } = useContext(ContextPacient);
     const [pacient, setPacient] = useState<FormatPacient>();
-
+    const [protocols, setProtocols] = useState<any>([]);
     useEffect(() => {
         const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             return true;
@@ -21,6 +21,9 @@ const Protokol = ({ navigation }) => {
     useEffect(() => {
         const fetchData = async () => {
             const response = await api.get(`/info-pacient/${pac_id}`)
+            const protocol = await api.get(`/info-protocol/${pac_id}`)
+            setProtocols(protocol.data)
+            console.log(protocol.data)
             setPacient(response.data);
         }
         fetchData()
@@ -30,8 +33,7 @@ const Protokol = ({ navigation }) => {
         return <SkelectonView />
     }
     return (
-        <View style={{ padding: 15 }}
-        >
+        <ScrollView style={{ padding: 15 }}>
             <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
                 <Avatar.Text size={64} label="M" labelStyle={{ color: "white" }} style={{ marginBottom: 10, backgroundColor: "#36B3B9", }} />
                 <Title style={{ marginBottom: 10, }}>{pacient?.person?.first_name && pacient?.person?.first_name}</Title>
@@ -43,21 +45,18 @@ const Protokol = ({ navigation }) => {
                 </Button>
 
                 <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
-                    Questionário
+                    Questionário 
                 </Button>
             </View>
 
             <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário:</Text>
 
-            <Card style={{ marginBottom: 10 }}>
-                <Card.Title title="Protocolo atual " left={(props) => <IconButton {...props} icon="folder" iconColor='#36B3B9' />} />
-                <Card.Content>
-                    <Paragraph>ATM1</Paragraph>
-                    <Paragraph>12/03/2024</Paragraph>
-                </Card.Content>
-            </Card>
-
-            {/* Adicione mais Cards para mais sessões */}
+                <Card onPress={() => navigation.navigate("CurrentProtocol")}  style={{ marginBottom: 10 }}>
+                    <Card.Title title={protocols.name} left={(props) => <IconButton {...props} icon="folder" iconColor='#36B3B9' />} />
+                    <Card.Content>
+                        <Paragraph>{`  Status ${protocols.status}`  }</Paragraph>
+                    </Card.Content>
+                </Card>
 
             <Button buttonColor='#38CB89' icon="content-save" mode="contained" onPress={() => {
                 navigation.navigate("Section");
@@ -71,8 +70,10 @@ const Protokol = ({ navigation }) => {
             }} style={{ marginTop: 10 }}>
                 Encerar sesão
             </Button>
-        </View>
+            <Text>{JSON.stringify(protocols.exercise)}</Text>
+        </ScrollView>
     );
+
 };
 
 export default Protokol;
