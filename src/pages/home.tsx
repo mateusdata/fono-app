@@ -12,7 +12,7 @@ import { ContextPacient } from '../context/PacientContext';
 import api from '../config/Api';
 
 const Home = ({ navigation }: { navigation: any }) => {
-  const [showAllCards, setShowAllCards] = useState<boolean>(false);
+  const [showAllCards, setShowAllCards] = useState<boolean>(true);
   const [totalPacient, setTotalPacient] = useState<any>("");
   const { logOut, user } = useContext(Context);
   const { pac_id } = useContext(ContextPacient);

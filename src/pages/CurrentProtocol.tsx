@@ -11,8 +11,10 @@ const CurrentProtocol = ({navigation}) => {
 
     useEffect(() => {
         const fetchProtocol = async () => {
-            const response = await api.get(`/info-protocol/${pac_id}`);
-            setProtocol(response.data);
+            const response = await api.get(`/current-protocol/${pac_id}?page=10&pageSize=1`);
+            setProtocol(response.data.rows[0].sessions[0].protocol);
+           // const responses = await api.get(`/current-protocol/9?page=10&pageSize=1`);
+           // console.log(responses.data.rows[0].sessions[0].protocol.exercise_plans);
         };
         fetchProtocol();
     }, [pac_id]);
@@ -27,16 +29,16 @@ const CurrentProtocol = ({navigation}) => {
                 <Card.Content>
                     <Title>{protocol.name}</Title>
                     <Paragraph>{protocol.description}</Paragraph>
-                    <Paragraph>Status: {protocol.status}</Paragraph>
+                    <Paragraph style={{color:"green"}}>Status: {protocol.status}</Paragraph>
                 </Card.Content>
             </Card>
             {protocol?.exercise_plans.map((plan, index) => (
                 <Card key={index}>
                     <Card.Content>
-                        <Title>Plan {index + 1}</Title>
-                        <Paragraph>Repetitions: {plan.repetitions}</Paragraph>
-                        <Paragraph>Series: {plan.series}</Paragraph>
+                        <Title>Plano</Title>
                         <Paragraph>Exercise Name: {plan.exercise.name}</Paragraph>
+                        <Paragraph>Repetitions: {plan.repetitions}</Paragraph>
+                        <Paragraph>Series: {plan.series}</Paragraph>                       
                         <Paragraph>Objective: {plan.exercise.objective}</Paragraph>
                     </Card.Content>
                 </Card>

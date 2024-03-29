@@ -45,7 +45,7 @@ const Protokol = ({ navigation }) => {
                 </Button>
 
                 <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
-                    Questionário 
+                    Avaliação fonoaudiologica
                 </Button>
             </View>
 

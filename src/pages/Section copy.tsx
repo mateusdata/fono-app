@@ -56,22 +56,22 @@ export default function Section({ navigation }) {
 
   const [selectedVideo, setSelectedVideo] = useState(null);
   const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
+
+  const fetchVideos = async () => {
+    try {
+      const response = await api.get(`/list-exercise?pageSize=10&page=${page}`);
+      const session: any = await api.post("create-session", { pac_id });
+      setValue("ses_id", session.data.ses_id);
+      setVideosFono(response.data.rows);
+      console.log(response.data.rows)
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+    }
+  };
   useEffect(() => {
-    console.log("oiss")
-    const fetchVideos = async () => {
-      try {
-        const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
-        const session: any = await api.post("create-session", { pac_id });
-        setValue("ses_id", session.data.ses_id);
-        setVideosFono([...videosFono, ...response.data.rows]);
-        console.log(response.data.rows)
-        setLoading(false)
-      } catch (error) {
-        setLoading(false)
-      }
-    };
-    fetchVideos();
-  }, [page,changeList]);
+       fetchVideos();
+  }, []);
 
   const seachVideos  = async() =>{
     
@@ -89,6 +89,7 @@ export default function Section({ navigation }) {
 
   const handleEndReached = () => {
     setPage(prevPage => prevPage + 1);
+    fetchVideos();
   };
 
   const handleVideoPress = (uri) => {
@@ -139,7 +140,6 @@ export default function Section({ navigation }) {
   };
   
   const onError = (error) => {
-    alert("Atribua um exercicio")
     console.log(error);
     console.log( error)
   }
@@ -157,11 +157,12 @@ export default function Section({ navigation }) {
   }
   return (
     <View onTouchMove={() => { }} style={{ flex: 1 }}>
+      <Text>{videosFono?.length  + " " + page}</Text>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e)=> setSearch(e)}
         value={search}
-        placeholder="Pesquisar videos"
+        placeholder="Pesquisar pacientes"
         mode='bar'
         inputMode='search'
         iconColor='#407AFF'
@@ -175,8 +176,18 @@ export default function Section({ navigation }) {
         data={videosFono}
         keyExtractor={(item, index) => index.toString()}
         renderItem={({ item }) => renderItem({ item })}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
+        onEndReached={()=>{
+          setPage(prevPage => prevPage + 1);
+          fetchVideos();
+        }}
+        onStartReached={()=>{
+          setPage((prevPage) => prevPage > 1 ? prevPage -  1: prevPage);
+          fetchVideos();
+        }}
+
+
+      
+
       />
       <Dialog open={modalVisible}>
 
