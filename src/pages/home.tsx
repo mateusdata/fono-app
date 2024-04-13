@@ -45,7 +45,7 @@ const Home = ({ navigation }: { navigation: any }) => {
               <View style={styles.pacientsInfo}>
                 <AntDesign name="medicinebox" size={20} color="#36B3B9" />
                 <Paragraph>
-                {totalPacient !== undefined ? (totalPacient === 1 ? " "+ totalPacient + " Paciente" : " "+ totalPacient + " Pacientes") : " Carregando..."}
+                {totalPacient !== undefined ? (totalPacient === 1 ? " "+ totalPacient + " Paciente" : " "+ totalPacient + " Pacientes ") : " Carregando..."}
                 </Paragraph>
 
               </View>
