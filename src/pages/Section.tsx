@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import api from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
@@ -59,6 +59,21 @@ export default function Section({ navigation }) {
 
   const [selectedVideo, setSelectedVideo] = useState(null);
   const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
+
+  useEffect(() => {
+    
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      setIsVideoPlaying(false)
+      if(modalVisible){
+        setModalVisible(false)
+        return true
+      }
+        return false;
+    });
+
+    return () => backHandler.remove();
+}, [modalVisible]);
+
   useEffect(() => {
     if (search === "") {
       // Se a busca estiver vazia, recarrega os vídeos
@@ -176,6 +191,7 @@ export default function Section({ navigation }) {
   }
   return (
     <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal:8, paddingVertical:5 }}>
+
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}
@@ -229,7 +245,7 @@ export default function Section({ navigation }) {
                 onLoadStart={() => setIsVideoLoading(true)}
                 isLooping={true}
                 usePoster={true}
-                shouldPlay={true}
+                shouldPlay={isVideoPlaying}
                 onLoad={() => setIsVideoLoading(false)}
 
               />

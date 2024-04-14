@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import api from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
@@ -27,13 +27,20 @@ export default function Videos({ navigation }) {
   const [search, setSearch] = useState("");
   const [changeList, setChangeList] = useState(true);
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-
-
-
-
-
   const [selectedVideo, setSelectedVideo] = useState(null);
   const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
+  
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      if(modalVisible){
+        setModalVisible(false)
+        return true
+      }
+        return false;
+    });
+
+    return () => backHandler.remove();
+}, [modalVisible]);
 
   useEffect(() => {
     if (search === "") {
@@ -132,13 +139,17 @@ export default function Videos({ navigation }) {
         open={modalVisible}
         dismissOnSnapToBottom
         animation="medium"
+        defaultPosition={50}
         native
         onOpenChange={() => {
           setModalVisible(false);
           setIsVideoPlaying(false)
         }
         }
-        snapPoints={[75]}>
+        snapPoints={[60,30]}
+        
+        >
+        
 
         <Sheet.Overlay />
 

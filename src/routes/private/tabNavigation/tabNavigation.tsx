@@ -10,6 +10,8 @@ import { StatusBar } from 'expo-status-bar';
 import { colorPrimary } from '../../../style/ColorPalette';
 
 const Tab = createBottomTabNavigator();
+const arrayEmojis = ["🫂","🫂","😊","🥰", "🗣️",];
+
 
 export default function MyComponent() {
   return (
@@ -78,7 +80,7 @@ export default function MyComponent() {
             tabBarActiveTintColor: "white",
             tabBarActiveBackgroundColor: "white",
             headerShown: true,
-            headerTitle: "Fonotheapp",            
+            headerTitle: `Fonotheapp ${arrayEmojis[Math.floor(Math.random() * arrayEmojis.length  )]}`,
             headerTintColor: "white"
           }}
         />
