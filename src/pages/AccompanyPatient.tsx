@@ -37,21 +37,15 @@ const AccompanyPatient = ({navigation}) => {
     };
 
     return (
-        <View style={{padding:15}}>
-
-           <Text></Text>
-        
+        <View style={{paddingHorizontal:8, paddingVertical:5}}>        
             <Searchbar
                 placeholder="Pesquisar pacientes"
                 onChangeText={onChangeSearch}
                 value={searchQuery}
                 mode='bar'
                 inputMode='search'
-                iconColor='#407AFF'
-                rippleColor={"#E8E8E8"}
-                selectionColor={"#E8E8E8"}
+                selectionColor={"gray"}             
                 cursorColor={"gray"}
-                style={{ width: '100%', backgroundColor: 'white' , borderWidth:1, borderColor:"#407AFF" }}
             />
 
             <View>

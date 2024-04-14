@@ -1,130 +1,195 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { View, StyleSheet, Button, ScrollView, Modal, TouchableWithoutFeedback, Pressable, Text } from 'react-native';
+import React, { useState, useEffect, useContext } from 'react';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
-import { Dialog } from 'tamagui';
-import { Entypo } from '@expo/vector-icons';
+import api from '../config/Api';
+import { AntDesign } from '@expo/vector-icons';
+import SkelectonView from '../components/SkelectonView';
 import CustomText from '../components/customText';
-import axios from 'axios';
-import { Searchbar } from 'react-native-paper';
+import { ActivityIndicator, Button, FAB, Modal, Searchbar, TextInput } from 'react-native-paper';
+import { colorPrimary, colorSecundary } from '../style/ColorPalette';
+import { Dialog } from 'tamagui';
+import dayjs from 'dayjs';
+import * as yup from "yup"
+import { Controller, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Context } from '../context/AuthProvider';
+import { ContextPacient } from '../context/PacientContext';
+import { Sheet } from 'tamagui';
+import HeaderSheet from '../components/HeaderSheet';
 
-export default function Videos() {
-  const video = useRef(null);
-  const [status, setStatus] = useState<any>({});
+export default function Videos({ navigation }) {
+  const [page, setPage] = useState(1);
+  const [videosFono, setVideosFono] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
-  const [selectedVideo, setSelectedVideo] = useState<any>(null);
-  const [currentMenssage, setCurrentMensage] = useState("");
-  const [videosFono, setVideosFono] = useState<any>([]);
-  let newArrayVideos = [
-    "bico_sustentado.mp4",
-    "bocejo.mp4",
-    "cara_de_assustada.mp4",
-    "cara_de_brava.mp4",
-    "cara_de_cheiro_ruim.mp4",
-    "degluticao_com_esforco.mp4",
-    "escala_de_hiperagudo.mp4",
-    "estalar_de_labios.mp4",
-    "estalo_de_lingua.mp4",
-    "exercicio_de_risorio.mp4",
-  ]
+  const [loading, setLoading] = useState(true);
+  const [isVideoLoading, setIsVideoLoading] = useState(false);
+  const { user } = useContext(Context)
+  const [search, setSearch] = useState("");
+  const [changeList, setChangeList] = useState(true);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
+
+
+
+
+
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
+
   useEffect(() => {
-    let tempVideosFono = [];
-    for (let i = 1; i <= 4; i++) {
-      tempVideosFono.push(`https://fono-api-solitary-surf-9909.fly.dev/videos/${newArrayVideos[i]}`);
+    if (search === "") {
+      // Se a busca estiver vazia, recarrega os vídeos
+      setVideosFono([])
+      setChangeList(!changeList); // Ou qualquer método que você use para recarregar os vídeos
+      setPage(1)
     }
-    setVideosFono(tempVideosFono);
+  }, [search]);
 
-  }, [])
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
+
+        setVideosFono([...videosFono, ...response.data.rows]);
+        console.log(response.data.rows)
+        setLoading(false)
+      } catch (error) {
+        setLoading(false)
+      }
+    };
+    fetchVideos();
+  }, [page, changeList]);
 
 
-  const handleVideoPress = (uri: any) => {
-    setSelectedVideo(uri);
-    setModalVisible(true);
+
+
+  const seachVideos = async () => {
+
+    try {
+      const response = await api.post(`/search-exercise`, { search });
+      setVideosFono(response.data);
+      setLoading(false)
+    } catch (error) {
+      setLoading(false)
+      console.log(error)
+      setChangeList(!changeList)
+    }
   }
 
+
+  const handleEndReached = () => {
+    setPage(prevPage => prevPage + 1);
+  };
+
+  const handleVideoPress = (uri) => {
+    setSelectedVideo(uri);
+    setModalVisible(true);
+  };
+
+  const renderItem = ({ item }) => (
+    <Pressable onPress={() => {
+      handleVideoPress(item);
+      setIsVideoPlaying(true)
+    }}
+
+      style={{
+        flexDirection: "row", alignItems: "center", backgroundColor: "#d2d4db", marginVertical: 5
+      }}>
+      <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8, }}>
+        <AntDesign name="play" size={30} color={"#36B3B9"} />
+        <Text>{item?.name}</Text>
+      </View>
+    </Pressable>
+  );
+
+  if (loading) {
+    return <SkelectonView />
+  }
   return (
-    <View style={styles.container}>
-      <ScrollView style={{ flex: 1 }}>
-        <Text style={{ textAlign: "center", fontSize: 5 }}></Text>
-        <View style={{ width: "100%", alignItems: "center", justifyContent: "center", marginBottom: 5 }}>
-          <Searchbar
-            style={{ width: "90%" }}
-            placeholder="Pesquisar videos"
-            value={""}
-          />
-        </View>
+    <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 8, paddingVertical: 5 }}>
+      <Searchbar
+        onChange={seachVideos}
+        onChangeText={(e) => setSearch(e)}
+        value={search}
+        placeholder="Pesquisar videos"
+        mode='bar'
+        inputMode='search'
+        selectionColor={"gray"}
+        cursorColor={"gray"}
+        style={{ marginBottom: 10 }}
+
+      />
+
+      <FlatList
+        data={videosFono}
+        keyExtractor={(item, index) => index.toString()}
+        renderItem={({ item }) => renderItem({ item })}
+        onEndReached={handleEndReached}
+        onEndReachedThreshold={0.5}
+      />
+
+      <Sheet
+        modal
+        open={modalVisible}
+        dismissOnSnapToBottom
+        animation="medium"
+        native
+        onOpenChange={() => {
+          setModalVisible(false);
+          setIsVideoPlaying(false)
+        }
+        }
+        snapPoints={[75]}>
+
+        <Sheet.Overlay />
+
+        <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+
+          <HeaderSheet />
 
 
-        {videosFono?.map((item, index) => (
-          <Pressable style={{ flexDirection: "row", alignItems: "center", backgroundColor: "#d2d4db", marginVertical: 5 }} key={index} onPress={() => handleVideoPress(`https://fono-api-solitary-surf-9909.fly.dev/videos/${newArrayVideos[index + 1]}`)}>
-            <Video
-              ref={video}
-              style={styles.video1}
-              source={{
-                uri: item,
-              }}
-              resizeMode={ResizeMode.COVER}
-              isLooping={false}
-              onPlaybackStatusUpdate={status => setStatus(() => status)}
-              usePoster={true}
-            />
-            <View style={{ flexDirection: "row", alignItems: "center", gap: 35 }}>
-              <View onTouchStart={() => setCurrentMensage(`${newArrayVideos[index + 1].replace(".mp4", "")}`)}>
-                <CustomText>{`Execicio ${index + 1}°`}</CustomText>
-                <CustomText>{`${newArrayVideos[index + 1].replace(".mp4", "")}`}</CustomText>
-              </View>
+          <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
+            <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
+            <View style={{ justifyContent: "center", alignItems: "center" }}>
+              {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
-            </View>
-
-
-          </Pressable>
-        ))}
-      </ScrollView>
-
-      <Dialog open={modalVisible}  >
-
-        <Dialog.Trigger />
-
-        <Dialog.Portal  >
-
-          <Dialog.Overlay key="overlay" onPress={() => setModalVisible(!modalVisible)} />
-
-          <Dialog.Content key="content" style={{ backgroundColor: "white" }} >
-
-            {true &&
-              <>
-                <Dialog.Title key="title" textAlign='center' color={"$blue10"} >
-                  {currentMenssage}
-                </Dialog.Title>
-                <Dialog.Close />
-              </>
-            }
-
-            <View style={{ backgroundColor: "white", width: "100%" }}>
               <Video
-                ref={video}
-                style={styles.video}
-                source={{
-                  uri: selectedVideo,
-                }}
-                useNativeControls={false}
-                resizeMode={ResizeMode.COVER}
+                style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: "transparent" }}
+                source={{ uri: url + selectedVideo?.video_urls[0] }}
+                resizeMode={ResizeMode.STRETCH}
+                onLoadStart={() => setIsVideoLoading(true)}
                 isLooping={true}
-                onPlaybackStatusUpdate={status => setStatus(() => status)}
-                usePoster={true}
-                shouldPlay={true}
-                isMuted={false}
+                usePoster={false}
+                shouldPlay={isVideoPlaying}
+                onLoad={() => {
+                  setIsVideoLoading(false)
+                }}
 
               />
-              <Text selectable >{selectedVideo}</Text>
+
             </View>
-            <Dialog.Description>
 
-            </Dialog.Description>
-          </Dialog.Content>
+            {!isVideoLoading &&
 
-        </Dialog.Portal>
+              <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
+                {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
+                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
 
-      </Dialog>
+                {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
+                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
+
+                {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
+                <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
+              </View>
+
+            }
+
+          </ScrollView>
+
+        </Sheet.Frame>
+      </Sheet>
+
+
+
     </View>
   );
 }
@@ -170,33 +235,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    elevation: 5,
-  },
-
-  centeredView: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 22
-  },
-  modalView: {
-    margin: 10,
-    backgroundColor: "white",
-    borderRadius: 5,
-    padding: 0,
-    alignItems: "center",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 4,
     elevation: 5
-  },
-  button: {
-    backgroundColor: 'rgba(255, 0, 0, 0.6)',
-    padding: 7,
-    borderRadius: 5,
   },
 });

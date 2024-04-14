@@ -13,7 +13,7 @@ import api from '../config/Api';
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [showAllCards, setShowAllCards] = useState<boolean>(true);
-  const [totalPacient, setTotalPacient] = useState<any>("");
+  const [totalPacient, setTotalPacient] = useState<any>('');
   const { logOut, user } = useContext(Context);
   const { pac_id } = useContext(ContextPacient);
 
@@ -45,7 +45,7 @@ const Home = ({ navigation }: { navigation: any }) => {
               <View style={styles.pacientsInfo}>
                 <AntDesign name="medicinebox" size={20} color="#36B3B9" />
                 <Paragraph>
-                {totalPacient !== undefined ? (totalPacient === 1 ? " "+ totalPacient + " Paciente" : " "+ totalPacient + " Pacientes ") : " Carregando..."}
+                {totalPacient !== '' ? (totalPacient === 1 ? " "+ totalPacient + " Paciente" : " "+ totalPacient + " Pacientes ") : " Carregando..."}
                 </Paragraph>
 
               </View>

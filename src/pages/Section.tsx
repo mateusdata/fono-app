@@ -28,6 +28,7 @@ export default function Section({ navigation }) {
   const { pac_id } = useContext(ContextPacient)
   const [search, setSearch] = useState("");
   const [changeList, setChangeList] = useState(true);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
   const [series, setSeries] = useState<any>("");
   const [repetitions, setRepetitions] = useState<any>("");
@@ -59,12 +60,19 @@ export default function Section({ navigation }) {
   const [selectedVideo, setSelectedVideo] = useState(null);
   const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
   useEffect(() => {
-    console.log("oiss")
+    if (search === "") {
+      // Se a busca estiver vazia, recarrega os vídeos
+      setVideosFono([])
+      setChangeList(!changeList); // Ou qualquer método que você use para recarregar os vídeos
+      setPage(1)
+    }
+  }, [search]);
+
+  useEffect(() => {
     const fetchVideos = async () => {
       try {
         const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
-        const session: any = await api.post("create-session", { pac_id });
-        setValue("ses_id", session.data.ses_id);
+
         setVideosFono([...videosFono, ...response.data.rows]);
         console.log(response.data.rows)
         setLoading(false)
@@ -74,6 +82,7 @@ export default function Section({ navigation }) {
     };
     fetchVideos();
   }, [page, changeList]);
+
 
   const seachVideos = async () => {
 
@@ -146,19 +155,27 @@ export default function Section({ navigation }) {
     console.log(error)
   }
   const renderItem = ({ item }) => (
-    <Pressable onPress={() => handleVideoPress(item)} style={{ flexDirection: "row", alignItems: "center", backgroundColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "#38CB89" : "#d2d4db", marginVertical: 5 }}>
+    <Pressable onPress={() => {
+      handleVideoPress(item);
+      setIsVideoPlaying(true)
+    }}
+
+      style={{
+        flexDirection: "row", alignItems: "center", backgroundColor:
+          watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id)
+            ? "#38CB89" : "#d2d4db", marginVertical: 5
+      }}>
       <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8, }}>
         <AntDesign name="play" size={30} color={watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "white" : "#36B3B9"} />
         <Text style={{ color: watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "white" : "black" }}>{item?.name}</Text>
       </View>
     </Pressable>
   );
-
   if (loading) {
     return <SkelectonView />
   }
   return (
-    <View onTouchMove={() => { }} style={{ flex: 1 }}>
+    <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal:8, paddingVertical:5 }}>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}
@@ -166,11 +183,10 @@ export default function Section({ navigation }) {
         placeholder="Pesquisar videos"
         mode='bar'
         inputMode='search'
-        iconColor='#407AFF'
-        rippleColor={"#E8E8E8"}
-        selectionColor={"#E8E8E8"}
+        selectionColor={"gray"}             
         cursorColor={"gray"}
-        style={{ borderBottomWidth: 1, borderColor: colorSecundary, marginBottom: 12 }}
+        style={{marginBottom:10}}
+       
       />
 
       <FlatList
@@ -187,7 +203,11 @@ export default function Section({ navigation }) {
         dismissOnSnapToBottom
         animation="medium"
         native
-        onOpenChange={() => setModalVisible(false)}
+        onOpenChange={() => {
+          setModalVisible(false);
+          setIsVideoPlaying(false)
+        }
+        }
         snapPoints={[75]}>
 
         <Sheet.Overlay />
@@ -198,7 +218,7 @@ export default function Section({ navigation }) {
 
 
           <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
-            <CustomText style={{ textAlign: "center", fontSize: 18, marginTop:12, color: colorSecundary }}>{selectedVideo?.name}</CustomText>
+          <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
               {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
@@ -211,6 +231,7 @@ export default function Section({ navigation }) {
                 usePoster={true}
                 shouldPlay={true}
                 onLoad={() => setIsVideoLoading(false)}
+
               />
 
               <View style={{ flexDirection: "row", gap: 2, marginTop: 5 }}>
