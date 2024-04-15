@@ -28,12 +28,12 @@ const Anamnese = ({ navigation }) => {
     cpf: yup.string().matches(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/,
       { message: "Cpf invalido", excludeEmptyString: false }).required("Cpf inválido"),
     birthday: yup.date().required("Data inválida"),
-    last_name: yup.string().nullable(),
-    education: yup.string().nullable(),
-    base_diseases: yup.string().nullable(),
-    food_profile: yup.string().nullable(),
-    chewing_complaint: yup.string().optional().nullable(),
-    reason_consultation: yup.string().optional().nullable(),
+    last_name: yup.string(),
+    education: yup.string(),
+    base_diseases: yup.string(),
+    food_profile: yup.string(),
+    chewing_complaint: yup.string(),
+    consultation_reason: yup.string(),
   }).required();
 
   const { reset, handleSubmit, watch, formState: { errors }, control, setError } = useForm({
@@ -86,6 +86,8 @@ const Anamnese = ({ navigation }) => {
           )}
           name='first_name'
         />
+              <Text>{JSON.stringify(watch())}</Text>
+
         <ErrorMessage name={"first_name"} errors={errors} />
 
         <Controller control={control}

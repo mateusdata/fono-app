@@ -50,7 +50,7 @@ export default function Section({ navigation }) {
     defaultValues: {
       doc_id: user.doc_id,
       ses_id: null,
-      name: dayjs(new Date).format("Protocolo DD/DD/YYYY - HH:mm:ss"),
+      name:  dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS"),
       description: "sem descrição",
     },
     resolver: yupResolver(schema)

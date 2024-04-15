@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
 //baseURL: 'https://fono-api-solitary-surf-9909.fly.dev',
- baseURL: 'https://fono-api.vercel.app',
+ baseURL: 'https://ee96-45-234-147-117.ngrok-free.app',
   //baseURL:" https://2060-179-54-101-67.ngrok-free.app/",
 
   //timeout:5000

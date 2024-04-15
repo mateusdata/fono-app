@@ -8,8 +8,7 @@ import { Platform, Alert } from "react-native"
 
 import * as FileSystem from "expo-file-system"
 import * as Sharing from "expo-sharing"
-import { Button } from "react-native-paper"
-
+import dayjs from 'dayjs';
 
 
 const AnsweredQuestions = () => {
@@ -20,8 +19,8 @@ const AnsweredQuestions = () => {
     const [progressPercentage, setProgressPercentage] = useState(0)
     const [isDownloading, setIsDownloading] = useState(false)
 
-
-    const PDF_NAME = `Relatório - ${new Date()}.pdf` 
+    const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
+    const PDF_NAME = `Relatório de anamnese - ${date}.pdf` 
     const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}` // leve.
     //const PDF_URI = "https://www.mcfadden.com.br/assets/pdf/Flofi.pdf" // pesado
 
@@ -101,7 +100,7 @@ const AnsweredQuestions = () => {
         <View style={styles.container}>
 
             <Pressable onPress={getPdf} style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10, alignItems: "center" }}>
-                <Text></Text>
+                <Text>{typeof date}</Text>
 
                 <View>
                     {progressPercentage > 0 && (
