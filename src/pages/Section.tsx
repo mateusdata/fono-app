@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Alert } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import api from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
@@ -49,7 +49,7 @@ export default function Section({ navigation }) {
   const { control, formState: { errors }, watch, handleSubmit, reset, setValue } = useForm({
     defaultValues: {
       doc_id: user.doc_id,
-      ses_id: 0,
+      ses_id: null,
       name: dayjs(new Date).format("Protocolo DD/DD/YYYY - HH:mm:ss"),
       description: "sem descrição",
     },
@@ -76,9 +76,8 @@ export default function Section({ navigation }) {
 
   useEffect(() => {
     if (search === "") {
-      // Se a busca estiver vazia, recarrega os vídeos
       setVideosFono([])
-      setChangeList(!changeList); // Ou qualquer método que você use para recarregar os vídeos
+      setChangeList(!changeList);
       setPage(1)
     }
   }, [search]);
@@ -87,7 +86,7 @@ export default function Section({ navigation }) {
     const fetchVideos = async () => {
       try {
         const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
-
+       
         setVideosFono([...videosFono, ...response.data.rows]);
         console.log(response.data.rows)
         setLoading(false)
@@ -96,7 +95,7 @@ export default function Section({ navigation }) {
       }
     };
     fetchVideos();
-  }, [page, changeList]);
+  }, [page,changeList]);
 
 
   const seachVideos = async () => {
@@ -112,7 +111,7 @@ export default function Section({ navigation }) {
     }
   }
 
-
+ 
   const handleEndReached = () => {
     setPage(prevPage => prevPage + 1);
   };
@@ -156,7 +155,7 @@ export default function Section({ navigation }) {
   const onSubmit = async (data) => {
     try {
       const response: any = await api.post("create-protocol", data);
-      alert("Protocolo criado com sucesso 🥳🎉🎉");
+      Alert.alert("❌​ Protocolo", "Protocolo criado com sucesso 🥳🎉🎉");
       reset()
     } catch (error) {
       console.log(error);
@@ -165,10 +164,24 @@ export default function Section({ navigation }) {
   };
 
   const onError = (error) => {
-    alert("Atribua um exercicio")
+    Alert.alert("❌​ Error ao criar sessão", "Atribua um exercicio")
     console.log(error);
     console.log(error)
   }
+
+
+  const createProtocol = async () => {
+   try {
+    const session: any = await api.post("create-session", { pac_id });
+    setValue("ses_id", session.data.ses_id);
+    handleSubmit(onSubmit, onError)()
+   } catch (error) {
+    Alert.alert("❌​ Erro em sessão", "Erro,  tente novamente mais tarde")
+   }
+   
+   }
+
+
   const renderItem = ({ item }) => (
     <Pressable onPress={() => {
       handleVideoPress(item);
@@ -191,7 +204,7 @@ export default function Section({ navigation }) {
   }
   return (
     <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal:8, paddingVertical:5 }}>
-
+      <Text>{JSON.stringify(watch())}</Text>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}
@@ -311,9 +324,9 @@ export default function Section({ navigation }) {
             backgroundColor: '#36B3B9',
           }}
           icon="plus"
-          onPress={handleSubmit(onSubmit, onError)}
+          onPress={()=>createProtocol()}
         >
-          Cria protocolo
+          Criar protocolo
         </Button>
       </View>
 
