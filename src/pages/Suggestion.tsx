@@ -16,7 +16,7 @@ const Suggestion = () => {
         },
         
     });
-    const { user } = useContext(Context);
+    const { user }:any = useContext(Context);
     const onSubmit = (data) => {
         setVisible(true);
         api.post("/send-suggestion", { sugestion: data, nome: user.nome, suggestion: user.suggestion })

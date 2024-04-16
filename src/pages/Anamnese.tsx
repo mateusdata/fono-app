@@ -23,11 +23,11 @@ const Anamnese = ({ navigation }) => {
 
 
   const schema = yup.object({
-    education: yup.string(),
-    base_diseases: yup.string(),
-    food_profile: yup.string(),
-    chewing_complaint: yup.string(),
-    consultation_reason: yup.string(),
+    education: yup.string().required("Obrigatorio"),
+    base_diseases: yup.string().required("Obrigatorio"),
+    food_profile: yup.string().required("Obrigatorio"),
+    chewing_complaint: yup.string().required("Obrigatorio"),
+    consultation_reason: yup.string().required("Obrigatorio"),
     
   }).required();
 
@@ -132,7 +132,7 @@ const Anamnese = ({ navigation }) => {
 
         <View style={{  bottom: 20, marginTop:50}}>
         <Button disabled={loading} loading={loading} style={styles.button} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
-          Enviar
+        Próximo
         </Button>
       </View>
       </ScrollView>

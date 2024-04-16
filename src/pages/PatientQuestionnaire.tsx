@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { View, ScrollView, Text } from "react-native";
+import { View, ScrollView, Text, Alert } from "react-native";
 import { Button, RadioButton } from "react-native-paper";
 import CustomText from "../components/customText";
 import { ContextPacient } from "../context/PacientContext";
@@ -70,6 +70,9 @@ const PatientQuestionnaire = ({ navigation }) => {
       setnextQuestinnaire(!nextQuestinnaire);
     } catch (error) {
       console.log("error", error);
+      if(!error.response){
+        Alert.alert("Error", "Atribua pelo mesmo uma resposta")
+      }
     }
   };
 
@@ -110,7 +113,7 @@ const PatientQuestionnaire = ({ navigation }) => {
 
       <View style={{ borderWidth: 0, justifyContent: "flex-end", alignItems: "flex-end" }}>
         <Button style={{ width: "100%" }} buttonColor="#36B3B9" mode="contained" onPress={handleSubmit(onSubmit)}>
-          Proximo
+        Próximo
         </Button>
       </View>
     </View>

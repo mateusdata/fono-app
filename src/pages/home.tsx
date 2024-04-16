@@ -20,6 +20,7 @@ const Home = ({ navigation }: { navigation: any }) => {
 
   useFocusEffect(() => {
     const fectData = async () => {
+      alert(user.doc_id)
       try {
         const response = await api.get(`/count-pacients/${user.doc_id}`);
         setTotalPacient(response?.data.num_pacients);

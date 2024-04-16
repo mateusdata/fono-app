@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { StyleSheet, View, Text } from 'react-native';
 import { TextInput, Button } from 'react-native-paper';
@@ -12,6 +12,7 @@ import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
 import { cpf } from 'cpf-cnpj-validator';
 import api from '../config/Api';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const CreatePacient = ({ navigation }) => {
@@ -19,6 +20,29 @@ const CreatePacient = ({ navigation }) => {
   const { user } = useContext(Context);
   const { setPac_id, setPacient } = useContext(ContextPacient);
   const formatCpf = cpf;
+
+  useEffect(() => {
+    let cpf = "";
+    const names = [
+      "João Santos ",
+      "Maria Ferreira",
+      "Pedro Alves Cabral",
+      "Ana Santana",
+      "Carlos Santos",
+      "Julia Santos",
+      "Fernando Bragança",
+      "Luisa sonça",
+      "Mariana Silva",
+      "Rafael Boaventura"
+    ];
+    while (cpf.length < 11) {
+      cpf += Math.floor(Math.random() * 10);
+    }
+    setValue("cpf", cpf);
+    setValue("first_name", names[Math.floor(Math.random() * names.length)]);
+
+  }, []);
+
 
   const schema = yup.object({
     first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
@@ -29,22 +53,17 @@ const CreatePacient = ({ navigation }) => {
     last_name: yup.string(),
   }).required();
 
-  const { reset, handleSubmit, watch, formState: { errors }, control, setError } = useForm({
+  const { reset, handleSubmit, watch, setValue, formState: { errors }, control, setError } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
       first_name: "Aluno teste",
       last_name: "",
-      cpf: (() => {
-        let cpf = "";
-        while (cpf.length < 11) {
-          cpf += Math.floor(Math.random() * 10);
-        }
-        return formatCpf.format(cpf);
-      })(),
+      cpf: "",
       birthday: new Date(),
     }
   });
+
 
   const onSubmit = async (data) => {
     setLoading(true);
@@ -124,7 +143,7 @@ const CreatePacient = ({ navigation }) => {
       </ScrollView>
       <View style={{ width: "90%", bottom: 20 }}>
         <Button disabled={loading} loading={loading} style={styles.button} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
-          Enviar
+          Próximo
         </Button>
       </View>
     </View>
