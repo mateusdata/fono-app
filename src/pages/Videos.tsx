@@ -112,7 +112,7 @@ export default function Videos({ navigation }) {
     return <SkelectonView />
   }
   return (
-    <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 8, paddingVertical: 5 }}>
+    <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 10, paddingVertical: 5 }}>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}
@@ -139,14 +139,13 @@ export default function Videos({ navigation }) {
         open={modalVisible}
         dismissOnSnapToBottom
         animation="medium"
-        defaultPosition={50}
         native
         onOpenChange={() => {
           setModalVisible(false);
           setIsVideoPlaying(false)
         }
         }
-        snapPoints={[60,30]}
+        snapPoints={[85]}
         
         >
         
@@ -164,7 +163,7 @@ export default function Videos({ navigation }) {
               {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
               <Video
-                style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: "transparent" }}
+                style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 2, borderColor: "transparent" }}
                 source={{ uri: url + selectedVideo?.video_urls[0] }}
                 resizeMode={ResizeMode.STRETCH}
                 onLoadStart={() => setIsVideoLoading(true)}

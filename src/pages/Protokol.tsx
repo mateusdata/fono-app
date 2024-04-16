@@ -16,8 +16,6 @@ const Protokol = ({ navigation }) => {
     const [open, setopen] = useState<any>(false);
 
 
-
-
     useEffect(() => {
         const fetchData = async () => {
             const response = await api.get(`/info-pacient/${pac_id}`)

@@ -26,8 +26,9 @@ const Home = ({ navigation }: { navigation: any }) => {
         console.log(response?.data)
       } catch (error) {
         if(error.response){
-          alert("Você esta sem internet")
-          BackHandler.exitApp();
+          //alert("Você esta sem interwwwnet")
+          //BackHandler.exitApp();
+          //navigation.navigate("NoInternet")
         }
       }
     };
@@ -59,7 +60,7 @@ const Home = ({ navigation }: { navigation: any }) => {
         <YStack space='$2.5' style={{ width: '100%', height: '100%', marginTop: 40 }}>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Anamnese")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("CreatePacient")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
               <AntDesign name="addfile" size={20} color="#36B3B9" />
               <CustomText >Paciente</CustomText>
             </Pressable >

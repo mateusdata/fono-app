@@ -204,7 +204,6 @@ export default function Section({ navigation }) {
   }
   return (
     <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal:8, paddingVertical:5 }}>
-      <Text>{JSON.stringify(watch())}</Text>
       <Searchbar
         onChange={seachVideos}
         onChangeText={(e) => setSearch(e)}

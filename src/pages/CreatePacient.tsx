@@ -14,53 +14,60 @@ import { cpf } from 'cpf-cnpj-validator';
 import api from '../config/Api';
 
 
-const Anamnese = ({ navigation }) => {
+const CreatePacient = ({ navigation }) => {
   const [loading, setLoading] = useState<boolean>(false)
   const { user } = useContext(Context);
-  const { setPac_id, setPacient, pac_id } = useContext(ContextPacient);
-  const [questionTitle, setQuestionTitle] = useState<string>("")
+  const { setPac_id, setPacient } = useContext(ContextPacient);
   const formatCpf = cpf;
 
-
   const schema = yup.object({
-    education: yup.string(),
-    base_diseases: yup.string(),
-    food_profile: yup.string(),
-    chewing_complaint: yup.string(),
-    consultation_reason: yup.string(),
-    
+    first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
+      { message: 'Não são permitidas  entradas numéricas' }),
+    cpf: yup.string().matches(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/,
+      { message: "Cpf invalido", excludeEmptyString: false }).required("Cpf inválido"),
+    birthday: yup.date().required("Data inválida"),
+    last_name: yup.string(),
   }).required();
 
   const { reset, handleSubmit, watch, formState: { errors }, control, setError } = useForm({
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
-
+      first_name: "Aluno teste",
+      last_name: "",
+      cpf: (() => {
+        let cpf = "";
+        while (cpf.length < 11) {
+          cpf += Math.floor(Math.random() * 10);
+        }
+        return formatCpf.format(cpf);
+      })(),
+      birthday: new Date(),
     }
   });
 
   const onSubmit = async (data) => {
     setLoading(true);
     try {
-      const response = await api.post(`/update-pacient/${pac_id}`, data);
+      const response = await api.post("/create-pacient", { ...data, doc_id: user.doc_id });
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
-      navigation.navigate("PatientQuestionnaire");
+      reset();
+      navigation.navigate("Anamnese");
       setLoading(false);
-    } catch (e) {
+    } catch (error) {
       setLoading(false);
-      console.log(e)
-      if (e?.response) {
-        return setError("chewing_complaint", { message: "Paciente já existe." })
+      console.log(error)
+      if (error?.response) {
+        return setError("cpf", { message: "Paciente já existe." })
       }
-      return setError("chewing_complaint", { message: "Sem conexão com a internet, tente novamente" })
+      return setError("cpf", { message: "Sem conexão com a internet, tente novamente" })
     }
   };
 
   return (
     <View style={styles.container}>
       <ScrollView style={styles.containerChildren}>
-
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -68,83 +75,64 @@ const Anamnese = ({ navigation }) => {
               autoFocus
               onChangeText={onChange}
               mode='outlined'
-              label="Escolaridade"
+              label="Nome"
               activeOutlineColor="#376fe8" />
           )}
-          name='education'
+          name='first_name'
         />
-        <ErrorMessage name={"education"} errors={errors} />
 
+        <ErrorMessage name={"first_name"} errors={errors} />
 
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
-              value={value}
+              value={formatCpf.format(value)}
               onChangeText={onChange}
               mode='outlined'
-              label="Doenças base"
+              label="Cpf"
               activeOutlineColor="#376fe8" />
           )}
-          name='base_diseases'
+          name='cpf'
         />
-        <ErrorMessage name={"base_diseases"} errors={errors} />
-
+        <ErrorMessage name={"cpf"} errors={errors} />
 
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              value={value}
-              onChangeText={onChange}
-              mode='outlined'
-              label="Perfil alimentar"
-              activeOutlineColor="#376fe8" />
+            <SafeAreaProvider>
+              <View style={{ justifyContent: 'center', flex: 0.2, alignItems: 'center', paddingTop: 15 }}>
+                <DatePickerInput
+                  error
+                  locale='pt-BR'
+                  label="Data de nascimento "
+                  value={(watch().birthday)}
+                  onChange={onChange}
+                  inputMode="start"
+                  mode='outlined'
+                  activeOutlineColor={`${errors.birthday ? "red" : "#376fe8"}`}
+                  iconStyle={{ display: 'none' }}
+                />
+              </View>
+            </SafeAreaProvider>
+
           )}
-          name='food_profile'
+
+          name='birthday'
         />
-        <ErrorMessage name={"food_profile"} errors={errors} />
+        <ErrorMessage name={"birthday"} errors={errors} />
 
 
-        <Controller control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              value={value}
-              onChangeText={onChange}
-              mode='outlined'
-              label="Queichas a deglutição"
-              activeOutlineColor="#376fe8" />
-          )}
-          name='chewing_complaint'
-        />
-        <ErrorMessage name={"chewing_complaint"} errors={errors} />
-        
-        <Controller control={control}
-          render={({ field: { onChange, onBlur, value } }) => (
-            <TextInput
-              value={value}
-              onChangeText={onChange}
-              mode='outlined'
-              label="Motivo da consulta"
-              activeOutlineColor="#376fe8" />
-          )}
-          name='consultation_reason'
-        />
-        <ErrorMessage name={"consultation_reason"} errors={errors} />
-
-        <View style={{  bottom: 20, marginTop:50}}>
+      </ScrollView>
+      <View style={{ width: "90%", bottom: 20 }}>
         <Button disabled={loading} loading={loading} style={styles.button} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
           Enviar
         </Button>
       </View>
-      </ScrollView>
-
-     
-
     </View>
   );
 };
 
 
-export default Anamnese;
+export default CreatePacient;
 
 const styles = StyleSheet.create({
   container: {

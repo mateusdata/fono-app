@@ -80,7 +80,7 @@ export default function MyComponent() {
             tabBarActiveTintColor: "white",
             tabBarActiveBackgroundColor: "white",
             headerShown: true,
-            headerTitle: `Fonotheapp ${arrayEmojis[Math.floor(Math.random() * arrayEmojis.length  )]}`,
+            headerTitle: `Fonotheapp ${/*arrayEmojis[Math.floor(Math.random() * arrayEmojis.length  )]*/ arrayEmojis[0] }`,
             headerTintColor: "white"
           }}
         />

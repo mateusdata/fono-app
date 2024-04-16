@@ -22,6 +22,8 @@ import Section from '../../pages/Section';
 import { colorPrimary } from '../../style/ColorPalette';
 import { StatusBar } from 'expo-status-bar';
 import CurrentProtocol from '../../pages/CurrentProtocol';
+import NoInternet from '../../pages/NoInternet';
+import CreatePacient from '../../pages/CreatePacient';
 
 
 const AppStack = createStackNavigator();
@@ -42,8 +44,9 @@ const PrivateRoutes = () => {
           headerShown: false,
         }} />
 
-        <AppStack.Screen name='Anamnese' component={Anamnese} />
-        <AppStack.Screen name='Exercise' component={Exercise} />
+        <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{headerTitle:"Cadastrar paciente", headerTitleAlign:"center"}}/>
+        <AppStack.Screen name='Anamnese' component={Anamnese} options={{headerTitleAlign:"center"}}/>
+        <AppStack.Screen name='Exercise' component={Exercise}  options={{ headerTitleAlign: "center", headerTitle: "Exercicios" }} />
         <AppStack.Screen name='MyInformation' component={MyInformation} options={{ headerTitleAlign: "center", headerTitle: "Minhas informações" }} />
         <AppStack.Screen name='ChangeName' component={ChangeName} options={{ headerTitleAlign: "center", headerTitle: "Alterar nome" }} />
         <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerTitleAlign: "center", headerTitle: "Alterar email" }} />
@@ -51,12 +54,13 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Suggestion' component={Suggestion} options={{ headerTitleAlign: "center", headerTitle: "Sugestão" }} />
         <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{ headerTitleAlign: "center", headerTitle: "" }} />
-        <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente", }} />
+        <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente", headerLeft:null }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
         <AppStack.Screen name='AccompanyPatient' component={AccompanyPatient} options={{ headerTitleAlign: "center", headerTitle: "Acompanhar paciente" }} />
         <AppStack.Screen name='AnsweredQuestions' component={AnsweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Quadro Geral" }} />
         <AppStack.Screen name='Section' component={Section} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Sessão" }} />
         <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
+        <AppStack.Screen name='NoInternet' component={NoInternet} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
 
       </AppStack.Navigator>
     </>
