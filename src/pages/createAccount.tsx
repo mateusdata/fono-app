@@ -14,7 +14,7 @@ const CreateAccount = ({ navigation }: any) => {
   const { setUser, setLoadingAuth } = useContext(Context);
   const [loading, setLoading] = useState(false);
 
-  const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
+  const { watch, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
     defaultValues: {
       nick_name: "",
       password: "",
@@ -31,7 +31,7 @@ const CreateAccount = ({ navigation }: any) => {
       setLoadingAuth(true);
       try {
         await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
-        setUser(response.data);
+        navigation.navigate("FinishRegistration", {user: watch()})
       } catch (error) {
         console.log(error)
         alert("erro")

@@ -16,6 +16,8 @@ const PatientQuestionnaire = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedAnswers, setSelectedAnswers] = useState<any>({});
   const [nextQuestinnaire, setnextQuestinnaire] = useState(false);
+  const [loading, setLoading] = useState<boolean>(false)
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -78,7 +80,7 @@ const PatientQuestionnaire = ({ navigation }) => {
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
-      <ScrollView style={{ flex: 0.9, marginBottom: 20 }}>
+      <ScrollView style={{ flex: 0.9, marginBottom: 50 }}>
         {analysis?.sections?.map((section, sectionIndex) => (
           <View key={sectionIndex} style={{ borderBottomWidth: 1 }}>
             <Text style={{ paddingBottom: 15 }}>{section.name}</Text>
@@ -111,9 +113,11 @@ const PatientQuestionnaire = ({ navigation }) => {
         ))}
       </ScrollView>
 
-      <View style={{ borderWidth: 0, justifyContent: "flex-end", alignItems: "flex-end" }}>
-        <Button style={{ width: "100%" }} buttonColor="#36B3B9" mode="contained" onPress={handleSubmit(onSubmit)}>
-        Próximo
+     
+      <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
+        <Button icon="arrow-right" 
+          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+          Próximo
         </Button>
       </View>
     </View>

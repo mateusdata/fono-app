@@ -1,23 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Text, View } from 'react-native';
 import { Button, Card, Title, Paragraph, ActivityIndicator } from 'react-native-paper';
 import api from '../config/Api';
 import { ContextPacient } from '../context/PacientContext';
 
-const CurrentProtocol = ({navigation}) => {
+const CurrentProtocol = ({navigation, route}) => {
     const { setPac_id, pac_id } = useContext(ContextPacient);
-
+    const { protocolId } = route.params; 
     const [protocol, setProtocol] = useState(null);
 
     useEffect(() => {
         const fetchProtocol = async () => {
-            const response = await api.get(`/current-protocol/${pac_id}?page=10&pageSize=1`);
-            setProtocol(response.data.rows[0].sessions[0].protocol);
-           // const responses = await api.get(`/current-protocol/9?page=10&pageSize=1`);
-           // console.log(responses.data.rows[0].sessions[0].protocol.exercise_plans);
+            try {
+                const response = await api.get(`/info-session/${protocolId}`);
+                setProtocol(response.data.protocol);
+            } catch (error) {
+                console.error(error);
+                // Tratar erro
+            }
         };
         fetchProtocol();
-    }, [pac_id]);
+    }, [protocolId]);
 
     if (!protocol) {
         return <ActivityIndicator animating={true} color={"blue"} />;
@@ -29,13 +32,13 @@ const CurrentProtocol = ({navigation}) => {
                 <Card.Content>
                     <Title>{protocol.name}</Title>
                     <Paragraph>{protocol.description}</Paragraph>
-                    <Paragraph style={{color:"green"}}>Status: {protocol.status}</Paragraph>
+                    <Paragraph style={{color:"green"}}>Status: {protocol.status ==="active" ? "Ativo" : "Inativo"}</Paragraph>
                 </Card.Content>
             </Card>
             {protocol?.exercise_plans.map((plan, index) => (
                 <Card key={index}>
                     <Card.Content>
-                        <Title>Plano</Title>
+                        <Title>Exercise  {index+1}</Title>
                         <Paragraph>Exercise Name: {plan.exercise.name}</Paragraph>
                         <Paragraph>Repetitions: {plan.repetitions}</Paragraph>
                         <Paragraph>Series: {plan.series}</Paragraph>                       

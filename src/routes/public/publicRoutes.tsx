@@ -1,8 +1,6 @@
 import React from 'react';
 import { CardStyleInterpolators, createStackNavigator } from '@react-navigation/stack';
 
-import { Button, Pressable, View } from 'react-native';
-import CustomText from '../../components/customText';
 import PreLogin from '../../pages/PreLogin';
 import Login from '../../pages/login';
 import ChangePassword from '../../pages/changePassword';
@@ -10,6 +8,7 @@ import SendEmail from '../../pages/sendEmail';
 import CheckCode from '../../pages/CheckCode';
 import CreateAccount from '../../pages/createAccount';
 import { StatusBar } from 'expo-status-bar';
+import FinishRegistration from '../../pages/FinishRegistration';
 
 
 
@@ -54,9 +53,17 @@ const PublicRoutes = () => {
           headerTitle: () => null,
           headerTintColor: "white"
         }} />
+
         <AppStack.Screen name="CreateAccount" component={CreateAccount} options={{
           headerShown: true,
           headerTitle: () => null,
+        }} />
+
+        <AppStack.Screen name="FinishRegistration" component={FinishRegistration} options={{
+          headerShown: true,
+          headerTitle: "Verifique sua conta",
+          headerTitleAlign:"center", 
+          headerTintColor:"white"
         }} />
 
       </AppStack.Navigator>

@@ -141,11 +141,14 @@ const CreatePacient = ({ navigation }) => {
 
 
       </ScrollView>
-      <View style={{ width: "90%", bottom: 20 }}>
-        <Button disabled={loading} loading={loading} style={styles.button} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+      
+      <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
+        <Button icon="arrow-right" 
+          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
           Próximo
         </Button>
       </View>
+
     </View>
   );
 };

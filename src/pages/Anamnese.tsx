@@ -28,7 +28,7 @@ const Anamnese = ({ navigation }) => {
     food_profile: yup.string().required("Obrigatorio"),
     chewing_complaint: yup.string().required("Obrigatorio"),
     consultation_reason: yup.string().required("Obrigatorio"),
-    
+
   }).required();
 
   const { reset, handleSubmit, watch, formState: { errors }, control, setError } = useForm({
@@ -116,7 +116,7 @@ const Anamnese = ({ navigation }) => {
           name='chewing_complaint'
         />
         <ErrorMessage name={"chewing_complaint"} errors={errors} />
-        
+
         <Controller control={control}
           render={({ field: { onChange, onBlur, value } }) => (
             <TextInput
@@ -130,14 +130,17 @@ const Anamnese = ({ navigation }) => {
         />
         <ErrorMessage name={"consultation_reason"} errors={errors} />
 
-        <View style={{  bottom: 20, marginTop:50}}>
-        <Button disabled={loading} loading={loading} style={styles.button} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
-        Próximo
-        </Button>
-      </View>
+
       </ScrollView>
 
-     
+
+      <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
+        <Button icon="arrow-right" 
+          disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
+          Próximo
+        </Button>
+      </View>
+
 
     </View>
   );
