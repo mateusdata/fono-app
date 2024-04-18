@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
-import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler, Alert } from 'react-native';
+import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
 import api from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
@@ -16,12 +16,17 @@ import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
 import { Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
+import Toast from '../components/toast';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
+  const [showToast, setShowToast] = useState<boolean>(false);
+  const [mensageToast, setMensageToast] = useState<string>("");
   const [videosFono, setVideosFono] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [loadingBottom, setLoadingBottom] = useState(false);
+
   const [isVideoLoading, setIsVideoLoading] = useState(false);
   const [errorInput, setErroInput] = useState("");
   const { user } = useContext(Context)
@@ -61,18 +66,18 @@ export default function Section({ navigation }) {
   const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
 
   useEffect(() => {
-    
+
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
       setIsVideoPlaying(false)
-      if(modalVisible){
+      if (modalVisible) {
         setModalVisible(false)
         return true
       }
-        return false;
+      return false;
     });
 
     return () => backHandler.remove();
-}, [modalVisible]);
+  }, [modalVisible]);
 
   useEffect(() => {
     if (search === "") {
@@ -86,7 +91,7 @@ export default function Section({ navigation }) {
     const fetchVideos = async () => {
       try {
         const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
-       
+
         setVideosFono([...videosFono, ...response.data.rows]);
         console.log(response.data.rows)
         setLoading(false)
@@ -95,7 +100,7 @@ export default function Section({ navigation }) {
       }
     };
     fetchVideos();
-  }, [page,changeList]);
+  }, [page, changeList]);
 
 
   const seachVideos = async () => {
@@ -111,7 +116,7 @@ export default function Section({ navigation }) {
     }
   }
 
- 
+
   const handleEndReached = () => {
     setPage(prevPage => prevPage + 1);
   };
@@ -132,8 +137,8 @@ export default function Section({ navigation }) {
       let exercisePlans = watch("exercise_plans");
       if (exercisePlans?.some(exercise => exercise?.exe_id === exe_id)) {
         setSeries("");
-        setRepetitions(""); data
-        return alert("Não é possível cadastrar o mesmo exercício");
+        setRepetitions("");    
+        return
       }
       if (!Array.isArray(exercisePlans)) {
         exercisePlans = [];
@@ -146,40 +151,50 @@ export default function Section({ navigation }) {
       setRepetitions("");
       return
     }
-    alert("Erro: informe as series e repetições")
+    setMensageToast("Informe a series e repetição")
+    setShowToast(true)
   }
 
 
 
 
   const onSubmit = async (data) => {
+    setLoadingBottom(true)
     try {
       const response: any = await api.post("create-protocol", data);
-      Alert.alert("❌​ Protocolo", "Protocolo criado com sucesso 🥳🎉🎉");
+      setLoadingBottom(false)
+      setMensageToast("Protocolo criado com sucesso 🥳🎉🎉")
+      setShowToast(true)
       reset()
+
     } catch (error) {
+      setLoadingBottom(false)
       console.log(error);
-      alert("Erro ao criar Protocolo");
+      setMensageToast(!error.response  ? "Sem conexão com a internet" :"Erro ao criar Protocolo")
+      setShowToast(true)
+
     }
   };
 
   const onError = (error) => {
-    Alert.alert("❌​ Error ao criar sessão", "Atribua um exercicio")
+    setMensageToast("Error: atribua um exercicio")
+    setShowToast(true)
     console.log(error);
     console.log(error)
   }
 
 
   const createProtocol = async () => {
-   try {
-    const session: any = await api.post("create-session", { pac_id });
-    setValue("ses_id", session.data.ses_id);
-    handleSubmit(onSubmit, onError)()
-   } catch (error) {
-    Alert.alert("❌​ Erro em sessão", "Erro,  tente novamente mais tarde")
-   }
-   
-   }
+    try {
+      const session: any = await api.post("create-session", { pac_id });
+      setValue("ses_id", session.data.ses_id);
+      handleSubmit(onSubmit, onError)()
+    } catch (error) {
+      setMensageToast("Ocoreu um erro")
+      setShowToast(true)
+    }
+
+  }
 
 
   const renderItem = ({ item }) => (
@@ -203,131 +218,137 @@ export default function Section({ navigation }) {
     return <SkelectonView />
   }
   return (
-    <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal:8, paddingVertical:5 }}>
-      <Searchbar
-        onChange={seachVideos}
-        onChangeText={(e) => setSearch(e)}
-        value={search}
-        placeholder="Pesquisar videos"
-        mode='bar'
-        inputMode='search'
-        selectionColor={"gray"}             
-        cursorColor={"gray"}
-        style={{marginBottom:10}}
-       
-      />
+    <View style={{ flex: 1 }}>
+      <View onTouchMove={() => { }} style={{ flex: 1, paddingHorizontal: 8, paddingVertical: 5 }}>
+        <Searchbar
+          onChange={seachVideos}
+          onChangeText={(e) => setSearch(e)}
+          value={search}
+          placeholder="Pesquisar videos"
+          mode='bar'
+          inputMode='search'
+          selectionColor={"gray"}
+          cursorColor={"gray"}
+          style={{ marginBottom: 10 }}
 
-      <FlatList
-        data={videosFono}
-        keyExtractor={(item, index) => index.toString()}
-        renderItem={({ item }) => renderItem({ item })}
-        onEndReached={handleEndReached}
-        onEndReachedThreshold={0.5}
-      />
+        />
 
-      <Sheet
-        modal
-        open={modalVisible}
-        dismissOnSnapToBottom
-        animation="medium"
-        native
-        onOpenChange={() => {
-          setModalVisible(false);
-          setIsVideoPlaying(false)
-        }
-        }
-        snapPoints={[75]}>
+        <FlatList
+          data={videosFono}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={({ item }) => renderItem({ item })}
+          onEndReached={handleEndReached}
+          onEndReachedThreshold={0.5}
+        />
 
-        <Sheet.Overlay />
+        <Sheet
+          modal
+          open={modalVisible}
+          dismissOnSnapToBottom
+          animation="medium"
+          native
+          onOpenChange={() => {
+            setModalVisible(false);
+            setIsVideoPlaying(false)
+          }
+          }
+          snapPoints={[75]}>
 
-        <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+          <Sheet.Overlay />
 
-          <HeaderSheet />
+          <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+
+            <HeaderSheet />
 
 
-          <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
-          <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
-            <View style={{ justifyContent: "center", alignItems: "center" }}>
-              {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
+            <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
+              <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
+              <View style={{ justifyContent: "center", alignItems: "center" }}>
+                {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
-              <Video
-                style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }}
-                source={{ uri: url + selectedVideo?.video_urls[0] }}
-                resizeMode={ResizeMode.STRETCH}
-                onLoadStart={() => setIsVideoLoading(true)}
-                isLooping={true}
-                usePoster={true}
-                shouldPlay={isVideoPlaying}
-                onLoad={() => setIsVideoLoading(false)}
+                <Video
+                  style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }}
+                  source={{ uri: url + selectedVideo?.video_urls[0] }}
+                  resizeMode={ResizeMode.STRETCH}
+                  onLoadStart={() => setIsVideoLoading(true)}
+                  isLooping={true}
+                  usePoster={true}
+                  shouldPlay={isVideoPlaying}
+                  onLoad={() => setIsVideoLoading(false)}
 
-              />
-
-              <View style={{ flexDirection: "row", gap: 2, marginTop: 5 }}>
-                <TextInput
-                  mode='outlined'
-                  keyboardType='numeric'
-                  placeholder='Ex: 3'
-                  style={{ width: 100, height: 35 }}
-                  label="Series"
-                  value={series}
-                  onChangeText={(event) => setSeries(event)}
                 />
 
-                <TextInput
-                  mode='outlined'
-                  keyboardType='numeric'
-                  placeholder='Ex: 15'
-                  style={{ width: 100, height: 35 }}
-                  label="Repetições"
-                  value={repetitions}
-                  onChangeText={(event) => setRepetitions(event)}
-                />
+                <View style={{ flexDirection: "row", gap: 2, marginTop: 5 }}>
+                  <TextInput
+                    mode='outlined'
+                    keyboardType='numeric'
+                    placeholder='Ex: 3'
+                    style={{ width: 100, height: 35 }}
+                    label="Series"
+                    value={series}
+                    onChangeText={(event) => setSeries(event)}
+                  />
+
+                  <TextInput
+                    mode='outlined'
+                    keyboardType='numeric'
+                    placeholder='Ex: 15'
+                    style={{ width: 100, height: 35 }}
+                    label="Repetições"
+                    value={repetitions}
+                    onChangeText={(event) => setRepetitions(event)}
+                  />
+                </View>
+
+                <Text style={{ color: "red" }}>{errorInput}</Text>
+                <Button onPress={() => addExercice(selectedVideo.exe_id)} style={{ marginTop: 5 }}
+                  textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "#848383"}`} mode='contained-tonal' >
+                  {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "Exercicio adicionado" : "Adicionar"}`}
+                </Button>
               </View>
 
-              <Text style={{ color: "red" }}>{errorInput}</Text>
-              <Button onPress={() => addExercice(selectedVideo.exe_id)} style={{ marginTop: 5 }}
-                textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "#848383"}`} mode='contained-tonal' >
-                {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "Exercicio adicionado" : "Adicionar"}`}
-              </Button>
-            </View>
+              {!isVideoLoading && <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
+                {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
+                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
 
-            {!isVideoLoading && <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>
-              {selectedVideo?.description && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Descrição</CustomText>}
-              <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.description}</CustomText>
+                {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
+                <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
 
-              {selectedVideo?.objective && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Objetivo</CustomText>}
-              <CustomText style={{ textAlign: "justify", fontSize: 15 }}>{selectedVideo?.objective}</CustomText>
+                {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
+                <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
+              </View>}
 
-              {selectedVideo?.academic_sources && <CustomText style={{ textAlign: "center", fontSize: 18, color: colorSecundary }}>Referências</CustomText>}
-              <CustomText fontFamily='Poppins_200ExtraLight_Italic' style={{ textAlign: "justify", fontSize: 12 }}>{`" ${selectedVideo?.academic_sources} "`}</CustomText>
-            </View>}
+            </ScrollView>
 
-          </ScrollView>
+          </Sheet.Frame>
+        </Sheet>
 
-        </Sheet.Frame>
-      </Sheet>
-
-      <View style={{
-        flex: 1,
-        position: 'relative',
-      }}>
-        <Button
-          mode='elevated'
-          textColor='white'
-          style={{
-            height: 40,
-            position: 'absolute',
-            margin: 16,
-            right: 0,
-            bottom: 0,
-            backgroundColor: '#36B3B9',
-          }}
-          icon="plus"
-          onPress={()=>createProtocol()}
-        >
-          Criar protocolo
-        </Button>
+        <View style={{
+          flex: 1,
+          position: 'relative',
+        }}>
+          <Button
+          loading={loadingBottom}
+          disabled={loadingBottom}
+            mode='elevated'
+            textColor='white'
+            style={{
+              height: 40,
+              position: 'absolute',
+              margin: 16,
+              right: 0,
+              bottom: 0,
+              backgroundColor: loadingBottom ? "gray": '#36B3B9',
+            }}
+            icon="plus"
+            onPress={() => createProtocol()}
+          >
+            Criar protocolo
+          </Button>
+        </View>
       </View>
+
+      <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} bottom={65} />
 
     </View>
   );

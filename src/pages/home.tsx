@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { View, Pressable, ScrollView, Animated, StyleSheet, BackHandler } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Pressable, ScrollView, Animated, StyleSheet, BackHandler, ToastAndroid } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { Square, XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -10,36 +10,58 @@ import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { ContextPacient } from '../context/PacientContext';
 import api from '../config/Api';
+import Toast from '../components/toast';
+import NetInfo from "@react-native-community/netinfo";
+import { colorRed } from '../style/ColorPalette';
+
 
 const Home = ({ navigation }: { navigation: any }) => {
   const [showAllCards, setShowAllCards] = useState<boolean>(true);
   const [totalPacient, setTotalPacient] = useState<any>('');
   const { logOut, user } = useContext(Context);
   const { pac_id } = useContext(ContextPacient);
-
-
-  useFocusEffect(() => {
-    const fectData = async () => {
-      try {
-        const response = await api.get(`/count-pacients/${user.doc_id}`);
-        setTotalPacient(response?.data.num_pacients);
-        console.log(response?.data)
-      } catch (error) {
-        if(error.response){
-          //alert("Você esta sem interwwwnet")
-          //BackHandler.exitApp();
-          //navigation.navigate("NoInternet")
-        }
-      }
-    };
-    fectData();
-  });
-
-
+  const [showToast, setShowToast] = useState<boolean>(true);
+  const [mensageToast, setMensageToast] = useState<string>("");
   
+  useEffect(() => {
+
+    const unsubscribe = NetInfo.addEventListener(state => {
+      if (!state.isConnected) {
+          setShowToast(true)
+          setMensageToast("Sem conexão com a internet")
+       return;
+      }
+      setShowToast(false)
+
+    });
+
+    return () => {
+      unsubscribe();
+    };
+  }, []);
+  useFocusEffect(
+    React.useCallback(() => {
+      const fectData = async () => {
+        try {
+          const response = await api.get(`/count-pacients/${user.doc_id}`);
+          setTotalPacient(response?.data.num_pacients);
+          console.log(response?.data)
+        } catch (error) {
+          if (!error.response) {
+           
+          }
+        }
+      };
+      fectData();
+
+    }, [pac_id, user.doc_id]) // Adicione as dependências necessárias
+  );
+
+
 
   return (
     <>
+
       <ScrollView style={styles.container}>
         <View style={styles.header}>
           <Card style={styles.card}>
@@ -48,7 +70,7 @@ const Home = ({ navigation }: { navigation: any }) => {
               <View style={styles.pacientsInfo}>
                 <AntDesign name="medicinebox" size={20} color="#36B3B9" />
                 <Paragraph>
-                {totalPacient !== '' ? (totalPacient === 1 ? " "+ totalPacient + " Paciente" : " "+ totalPacient + " Pacientes ") : " Carregando..."}
+                  {totalPacient !== '' ? (totalPacient === 1 ? " " + totalPacient + " Paciente" : " " + totalPacient + " Pacientes ") : " Carregando..."}
                 </Paragraph>
 
               </View>
@@ -127,6 +149,9 @@ const Home = ({ navigation }: { navigation: any }) => {
         </YStack>
 
       </ScrollView>
+
+      <Toast backgroundColor={colorRed} visible={showToast} mensage={"Você esta sem internet"} setVisible={()=>{}}  duration={6000} />
+
     </>
   );
 };

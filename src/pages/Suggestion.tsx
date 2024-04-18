@@ -7,9 +7,10 @@ import ErrorMessage from '../components/errorMessage';
 import { Context } from '../context/AuthProvider';
 import Toast from '../components/toast';
 import api from '../config/Api';
+import { colorRed } from '../style/ColorPalette';
 
 const Suggestion = () => {
-    const [visible, setVisible] = useState(false);
+    const [showToast, setShowToast] = useState<boolean>(false);
     const { register, trigger, setValue, handleSubmit, watch, formState: { errors }, reset } = useForm({
         defaultValues: {
             suggestion: ""
@@ -18,14 +19,15 @@ const Suggestion = () => {
     });
     const { user }:any = useContext(Context);
     const onSubmit = (data) => {
-        setVisible(true);
-        api.post("/send-suggestion", { sugestion: data, nome: user.nome, suggestion: user.suggestion })
+        setShowToast(true);
+
+        //api.post("/send-suggestion", { sugestion: data, nome: user.nome, suggestion: user.suggestion })
         reset({ suggestion: '' });
     };
     const err = (err) => {}
     return (
         <View style={styles.container}>
-            <Toast  mensage={"Sugestão enviada"} visible={visible} setVisible={setVisible} />
+            <Toast backgroundColor={colorRed} mensage={"Sugestão enviada"} visible={showToast} setVisible={setShowToast} />
             <CustomText fontFamily='Poppins_300Light' style={styles.titulo}> Aplicativo Fonotherapp</CustomText>
             <CustomText style={styles.texto}>Por favor, dê sua sugestão:</CustomText>
             <TextArea

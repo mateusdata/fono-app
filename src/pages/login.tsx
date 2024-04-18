@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../config/Api';
 const Login = ({ navigation }: any) => {
     const { setLoadingAuth, setUser } = useContext(Context);
+    
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
@@ -33,7 +34,10 @@ const Login = ({ navigation }: any) => {
             setLoadingAuth(false);
 
         } catch (error) {
-            setError("password", { message: "Usuario ou senha incorreta!" })
+            if (!error.response) {
+                return setError("password", { message: "Usuario ou senha incorreta!" })
+            }
+            setError("password", { message: "Ocorreu um erro!" })
             setLoading(false);
         }
     };
