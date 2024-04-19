@@ -11,11 +11,13 @@ import HeaderSheet from '../components/HeaderSheet';
 import { Context } from '../context/AuthProvider';
 import { useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
-
+import { AntDesign } from '@expo/vector-icons';
+import { colorGreen, colorRed } from '../style/ColorPalette';
 
 const Protokol = ({ navigation }) => {
     const { setPac_id, pac_id } = useContext(ContextPacient);
     const { user } = useContext(Context);
+    const [loading, setLoading] = useState(true);
 
     const [pacient, setPacient] = useState<FormatPacient>();
     const [protocols, setProtocols] = useState<any>([]);
@@ -31,6 +33,7 @@ const Protokol = ({ navigation }) => {
                     const response = await api.get(`/info-pacient/${pac_id}`);
                     setPacient(response.data);
                 } catch (error) {
+                    setLoading(false)
                     console.error(error);
                     alert("Ocorreu um erro ao carregar os dados do paciente.");
                 }
@@ -39,8 +42,12 @@ const Protokol = ({ navigation }) => {
                     const protocol = await api.get(`last-sessions/${pac_id}/${user.doc_id}?pageSize=100&page=1`);
                     setProtocols(protocol.data);
                     console.log(protocol.data)
+                    setLoading(false)
+
                 } catch (error) {
                     console.error(error);
+                    setLoading(false)
+
                     // alert("Ocorreu um erro ao carregar os protocolos.");
                 }
             };
@@ -51,7 +58,7 @@ const Protokol = ({ navigation }) => {
 
 
 
-    if (!pacient) {
+    if (!pacient || loading) {
         return <SkelectonView />
     }
     return (
@@ -67,7 +74,8 @@ const Protokol = ({ navigation }) => {
                     //setIsVideoPlaying(false)
                 }
                 }
-                snapPoints={[50]} >
+               
+                snapPoints={[60,90,40]} >
 
                 <Sheet.Overlay />
 
@@ -76,6 +84,7 @@ const Protokol = ({ navigation }) => {
                     <HeaderSheet />
 
                     <FlatList
+                    style={{top:10}}
                         data={protocols?.rows}
                         keyExtractor={(item) => item?.ses_id?.toString()} // Assumindo que o objeto tem um campo 'ses_id'
                         renderItem={({ item }) => (
@@ -83,7 +92,7 @@ const Protokol = ({ navigation }) => {
                                 setModalVisible(!modalVisible);
                                 navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
                             }} style={{ marginBottom: 10 }}>
-                                <Card.Title title={item?.protocol?.name} subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`} left={(props) => <IconButton {...props} icon="star" iconColor='#36B3B9' />} />
+                                <Card.Title title={item?.protocol?.name} subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`} left={(props) => <AntDesign name='sharealt' size={30} iconColor='#36B3B9' />} />
                             </Card>
                         )}
                         onEndReachedThreshold={0.1} // Carregar mais itens quando o usuário chegar a 10% do final da lista
@@ -117,20 +126,11 @@ const Protokol = ({ navigation }) => {
 
                 <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário:</Text>
 
-                <Card onPress={() => { setModalVisible(!modalVisible) }} style={{ marginBottom: 10 }}>
-                    <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : ""}`} left={(props) => <IconButton {...props} icon="star" size={40} iconColor='#36B3B9' />} />
-                </Card>
-
-                {/*
-                  <Card onPress={() => navigation.navigate("CurrentProtocol")} style={{ marginBottom: 10 }}>
-                    <Card.Title title={protocols.name} left={(props) => <IconButton {...props} icon="folder" iconColor='#36B3B9' />} />
-                    <Card.Content>
-                        <Paragraph>{`  Status ${protocols.status}`}</Paragraph>
-                    </Card.Content>
-                </Card>
-                */}
-
-
+                <Card onPress={() => { protocols?.count &&setModalVisible(!modalVisible) }} style={{ marginBottom: 10 }}>
+                    <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : "Nenhuma sessão"}`
+                    } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={!protocols?.count ? colorRed : colorGreen} /> :
+                        <AntDesign name='sharealt' size={30} color={colorGreen} />} />
+                </Card>               
 
                 <Text>{JSON.stringify(protocols.exercise)}</Text>
             </ScrollView>

@@ -13,6 +13,7 @@ import api from '../config/Api';
 import Toast from '../components/toast';
 import NetInfo from "@react-native-community/netinfo";
 import { colorRed } from '../style/ColorPalette';
+import SkelectonSmall from '../components/SkelectonSmall';
 
 
 const Home = ({ navigation }: { navigation: any }) => {
@@ -22,14 +23,14 @@ const Home = ({ navigation }: { navigation: any }) => {
   const { pac_id } = useContext(ContextPacient);
   const [showToast, setShowToast] = useState<boolean>(true);
   const [mensageToast, setMensageToast] = useState<string>("");
-  
+
   useEffect(() => {
 
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
-          setShowToast(true)
-          setMensageToast("Sem conexão com a internet")
-       return;
+        setShowToast(true)
+        setMensageToast("Sem conexão com a internet")
+        return;
       }
       setShowToast(false)
 
@@ -39,22 +40,25 @@ const Home = ({ navigation }: { navigation: any }) => {
       unsubscribe();
     };
   }, []);
+
   useFocusEffect(
     React.useCallback(() => {
       const fectData = async () => {
         try {
           const response = await api.get(`/count-pacients/${user.doc_id}`);
-          setTotalPacient(response?.data.num_pacients);
+          setTimeout(() => {
+            setTotalPacient(response?.data.num_pacients);
+          }, 3000);
           console.log(response?.data)
         } catch (error) {
           if (!error.response) {
-           
+
           }
         }
       };
       fectData();
 
-    }, [pac_id, user.doc_id]) // Adicione as dependências necessárias
+    }, [pac_id, user.doc_id])
   );
 
 
@@ -70,7 +74,8 @@ const Home = ({ navigation }: { navigation: any }) => {
               <View style={styles.pacientsInfo}>
                 <AntDesign name="medicinebox" size={20} color="#36B3B9" />
                 <Paragraph>
-                  {totalPacient !== '' ? (totalPacient === 1 ? " " + totalPacient + " Paciente" : " " + totalPacient + " Pacientes ") : " Carregando..."}
+                  {totalPacient !== '' ? (totalPacient === 1 ? " " + totalPacient +
+                    " Paciente" : " " + totalPacient + " Pacientes ") : <SkelectonSmall />}
                 </Paragraph>
 
               </View>
@@ -150,7 +155,7 @@ const Home = ({ navigation }: { navigation: any }) => {
 
       </ScrollView>
 
-      <Toast backgroundColor={colorRed} visible={showToast} mensage={"Você esta sem internet"} setVisible={()=>{}}  duration={6000} />
+      <Toast backgroundColor={colorRed} visible={showToast} mensage={"Você esta sem internet"} setVisible={() => { }} duration={6000} />
 
     </>
   );
@@ -168,7 +173,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   pacientsInfo: {
-    flexDirection: "row", top: 5, alignItems: "center"
+    flexDirection: "row", top: 5, alignItems: "center", borderWidth: 0, gap: 5
   },
   card: {
     marginVertical: 5,

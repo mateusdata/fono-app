@@ -73,7 +73,7 @@ export default function MyComponent() {
           name="Home"
           component={Home}
           options={{
-            tabBarLabel: 'Home',
+            tabBarLabel: 'Início',
             tabBarIcon: ({ color, size }) => {
               return <Icon name="home" size={size} color={color} />;
             },

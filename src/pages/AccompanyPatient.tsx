@@ -18,7 +18,7 @@ const AccompanyPatient = ({navigation}) => {
       const fetchData = async () =>{
         try {
             const response = await api.post(`/search-pacient`,{doc_id:user.doc_id, search:""})
-            setPacients( response?.data.slice(0, 8));
+            setPacients( response?.data.slice(0, 60));
         } catch (error) {
         
         }
