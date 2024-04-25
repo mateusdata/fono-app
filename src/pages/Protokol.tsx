@@ -22,7 +22,11 @@ const Protokol = ({ navigation }) => {
     const [pacient, setPacient] = useState<FormatPacient>();
     const [protocols, setProtocols] = useState<any>([]);
     const [open, setopen] = useState<any>(false);
+
     const [modalVisible, setModalVisible] = useState(false);
+    const [modalVisibleFinished, setModalVisibleFinished] = useState(true);
+
+
     const [page, setPage] = React.useState(1);
 
 
@@ -74,8 +78,8 @@ const Protokol = ({ navigation }) => {
                     //setIsVideoPlaying(false)
                 }
                 }
-               
-                snapPoints={[60,90,40]} >
+
+                snapPoints={[50, 20]} >
 
                 <Sheet.Overlay />
 
@@ -84,7 +88,7 @@ const Protokol = ({ navigation }) => {
                     <HeaderSheet />
 
                     <FlatList
-                    style={{top:10}}
+                        style={{ top: 10 }}
                         data={protocols?.rows}
                         keyExtractor={(item) => item?.ses_id?.toString()} // Assumindo que o objeto tem um campo 'ses_id'
                         renderItem={({ item }) => (
@@ -107,6 +111,34 @@ const Protokol = ({ navigation }) => {
                 </Sheet.Frame>
             </Sheet>
 
+
+
+            <Sheet
+                modal
+                open={modalVisibleFinished}
+                dismissOnSnapToBottom
+                animation="medium"
+                native
+                onOpenChange={() => { setModalVisibleFinished(false) }
+                }
+
+                snapPoints={[40, 15]} >
+
+                <Sheet.Overlay />
+
+                <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
+
+                    <HeaderSheet />
+                    <Button mode='text' onPress={() => {
+                        setModalVisibleFinished(false)
+                        setPac_id(null);
+                        navigation.navigate("Root");
+                    }}>Encerrar sessão</Button>
+
+                </Sheet.Frame>
+            </Sheet>
+
+
             <ScrollView style={{ padding: 15 }}>
 
                 <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
@@ -122,21 +154,25 @@ const Protokol = ({ navigation }) => {
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação fonoaudiologica
                     </Button>
+                    <Button mode='contained' onPress={() => {
+
+                    }}>gerar relatório</Button>
+
                 </View>
 
                 <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário:</Text>
 
-                <Card onPress={() => { protocols?.count &&setModalVisible(!modalVisible) }} style={{ marginBottom: 10 }}>
+                <Card onPress={() => { protocols?.count && setModalVisible(!modalVisible) }} style={{ marginBottom: 10 }}>
                     <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : "Nenhuma sessão"}`
                     } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={!protocols?.count ? colorRed : colorGreen} /> :
                         <AntDesign name='sharealt' size={30} color={colorGreen} />} />
-                </Card>               
+                </Card>
 
                 <Text>{JSON.stringify(protocols.exercise)}</Text>
             </ScrollView>
 
 
-            <View style={{ bottom: 10 }}>
+            <View style={{ bottom: 10, paddingHorizontal: 15 }}>
                 <Button buttonColor='#38CB89' icon="content-save" mode="contained" onPress={() => {
                     navigation.navigate("Section");
                 }} style={{ marginTop: 10 }}>
@@ -144,11 +180,28 @@ const Protokol = ({ navigation }) => {
                 </Button>
 
                 <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {
-                    setPac_id(null)
-                    navigation.navigate("Root");
+
+                    setModalVisibleFinished(!modalVisibleFinished);
                 }} style={{ marginTop: 10 }}>
                     Encerar sesão
                 </Button>
+
+
+                <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {
+
+                    setModalVisibleFinished(!modalVisibleFinished);
+                }} style={{ marginTop: 10 }}>
+                Relatório de acompanhamento:
+                </Button>
+
+                <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {
+
+                    setModalVisibleFinished(!modalVisibleFinished);
+                }} style={{ marginTop: 10 }}>
+                Relatório de alta:
+                </Button>
+
+             
             </View>
         </View>
 
