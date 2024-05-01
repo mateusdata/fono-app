@@ -11,7 +11,6 @@ import * as Sharing from "expo-sharing"
 import dayjs from 'dayjs';
 import { FormatPacient } from '../interfaces/globalInterface';
 import { Item } from 'react-native-paper/lib/typescript/components/Drawer/Drawer';
-import { Context } from '../context/AuthProvider';
 
 
 const AnsweredQuestions = () => {
@@ -19,7 +18,6 @@ const AnsweredQuestions = () => {
   const [answered, setAnswered] = useState([]);
   const { pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
-  const {user} = useContext(Context)
 
 
   const [progressPercentage, setProgressPercentage] = useState(0)
@@ -50,7 +48,7 @@ const AnsweredQuestions = () => {
         setAnswered(response.data);
       } catch (error) {
       }
-    };
+    };pac_id
     fetchData();
   }, []);
 
@@ -65,34 +63,29 @@ const AnsweredQuestions = () => {
 
   async function getPdf() {
     try {
-      setIsDownloading(true);
-  
-      const fileUri = FileSystem.documentDirectory + PDF_NAME;
-  
+      setIsDownloading(true)
+
+      const fileUri = FileSystem.documentDirectory + PDF_NAME
+
       const downloadResumable = FileSystem.createDownloadResumable(
         PDF_URI,
         fileUri,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
-          },
-        },
+        {},
         onDownloadProgress
-      );
-  
-      const downloadResponse = await downloadResumable.downloadAsync();
-  
+      )
+
+      const downloadResponse = await downloadResumable.downloadAsync()
+
       if (downloadResponse?.uri) {
-        await fileSave(downloadResponse.uri, PDF_NAME);
-        setProgressPercentage(0);
-        setIsDownloading(false);
+        await fileSave(downloadResponse.uri, PDF_NAME)
+        setProgressPercentage(0)
+        setIsDownloading(false)
       }
     } catch (error) {
-      Alert.alert("Download", "Não foi possível realizar o download.");
-      console.error(error);
+      Alert.alert("Download", "Não foi possível realizar o download.")
+      console.error(error)
     }
   }
-  
 
   async function fileSave(uri: string, filename: string) {
     if (Platform.OS === "android") {

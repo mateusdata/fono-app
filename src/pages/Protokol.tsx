@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { FlatList, ScrollView, StatusBar, Text, View } from 'react-native';
+import { Alert, FlatList, Platform, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
 import { Avatar, Button, Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { BackHandler } from 'react-native';
@@ -12,9 +12,14 @@ import { Context } from '../context/AuthProvider';
 import { useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { AntDesign } from '@expo/vector-icons';
-import { colorGreen, colorRed } from '../style/ColorPalette';
+import { colorGreen, colorPrimary, colorRed } from '../style/ColorPalette';
+
+import * as FileSystem from "expo-file-system"
+import * as Sharing from "expo-sharing"
+
 
 const Protokol = ({ navigation }) => {
+
     const { setPac_id, pac_id } = useContext(ContextPacient);
     const { user } = useContext(Context);
     const [loading, setLoading] = useState(true);
@@ -24,10 +29,90 @@ const Protokol = ({ navigation }) => {
     const [open, setopen] = useState<any>(false);
 
     const [modalVisible, setModalVisible] = useState(false);
-    const [modalVisibleFinished, setModalVisibleFinished] = useState(true);
+    const [modalVisibleFinished, setModalVisibleFinished] = useState(false);
+
+    const [progressPercentage, setProgressPercentage] = useState(0)
+    const [isDownloading, setIsDownloading] = useState(false)
 
 
     const [page, setPage] = React.useState(1);
+
+    const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
+    const PDF_NAME = `Relatório de anamnese - ${date}.pdf`
+    //const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}` // leve.
+    //const PDF_URI = `https://fono-api.vercel.app/service-term/${pac_id}?price=${10}&number_of_sessions=${5}` // leve.
+
+    // Rota para follow-up-report
+    const name = "name"
+    const PDF_URI2 = `https://fono-api.vercel.app/follow-up-report/${pac_id}?diagnoses=${name}&structural_assessment=${name}&functional_assessment=${name}&swallowing_assessment=${name}&general_guidelines=${name}&conclusion=${name}&next_steps=${name}`;
+
+    // Rota para discharge-report
+    const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${name}&how_it_was_discovered=${name}&first_session_findings=${name}&therapeutic_plan=${name}&patients_progress=${name}&current_condition=${name}&referrals=${name}`;
+
+  
+
+
+
+    //const PDF_URI = "https://www.mcfadden.com.br/assets/pdf/Flofi.pdf" // pesado
+    function onDownloadProgress({
+        totalBytesWritten,
+        totalBytesExpectedToWrite,
+    }: FileSystem.DownloadProgressData) {
+        const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100
+        setProgressPercentage(percentage)
+    }
+
+    async function getPdf() {
+        try {
+            setIsDownloading(true)
+
+            const fileUri = FileSystem.documentDirectory + PDF_NAME
+
+            const downloadResumable = FileSystem.createDownloadResumable(
+                PDF_URI,
+                fileUri,
+                {
+                    headers: {
+                        Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
+                    },
+                },
+                onDownloadProgress
+            )
+
+            const downloadResponse = await downloadResumable.downloadAsync()
+
+            if (downloadResponse?.uri) {
+                await fileSave(downloadResponse.uri, PDF_NAME)
+                setProgressPercentage(0)
+                setIsDownloading(false)
+            }
+        } catch (error) {
+            Alert.alert("Download", "Não foi possível realizar o download.")
+            console.error(error)
+        }
+    }
+
+    async function fileSave(uri: string, filename: string) {
+        if (Platform.OS === "android") {
+            // Pega a pasta temporária.
+            const directoryUri = FileSystem.cacheDirectory + filename
+
+            // Lê o conteúdo do arquivo em formato base64
+            const base64File = await FileSystem.readAsStringAsync(uri, {
+                encoding: FileSystem.EncodingType.Base64,
+            })
+
+            // Escreve o conteúdo do arquivo no diretório.
+            await FileSystem.writeAsStringAsync(directoryUri, base64File, {
+                encoding: FileSystem.EncodingType.Base64,
+            })
+
+            // Abre o arquivo recém-criado
+            await Sharing.shareAsync(directoryUri)
+        } else {
+            Sharing.shareAsync(uri)
+        }
+    }
 
 
     useFocusEffect(
@@ -111,8 +196,6 @@ const Protokol = ({ navigation }) => {
                 </Sheet.Frame>
             </Sheet>
 
-
-
             <Sheet
                 modal
                 open={modalVisibleFinished}
@@ -129,11 +212,46 @@ const Protokol = ({ navigation }) => {
                 <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
 
                     <HeaderSheet />
-                    <Button mode='text' onPress={() => {
-                        setModalVisibleFinished(false)
-                        setPac_id(null);
-                        navigation.navigate("Root");
-                    }}>Encerrar sessão</Button>
+
+                    <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 20 }}>
+
+                        <Button loading={!!progressPercentage} buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+                            getPdf()
+                            setModalVisibleFinished(!modalVisibleFinished);
+                        }} style={{ marginTop: 10 }}>
+                            Recido de prestação de serviço
+                        </Button>
+
+
+                        <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+
+                            setModalVisibleFinished(!modalVisibleFinished);
+                        }} style={{ marginTop: 10 }}>
+                            Relatório de acompanhamento
+                        </Button>
+
+                        <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+
+                            setModalVisibleFinished(!modalVisibleFinished);
+                        }} style={{ marginTop: 10 }}>
+                            Relatório de alta
+                        </Button>
+
+
+                        {false && <Pressable onPress={getPdf} style={{ flexDirection: "row", justifyContent: "space-between", paddingHorizontal: 10, alignItems: "center" }}>
+
+                            <View>
+                                {progressPercentage > 0 && (
+                                    <Text >
+                                        {progressPercentage.toFixed(1)}% baixado...
+                                    </Text>
+                                )}
+
+                                <AntDesign name="pdffile1" size={34} color="red" />
+                            </View>
+                        </Pressable>}
+
+                    </ScrollView>
 
                 </Sheet.Frame>
             </Sheet>
@@ -154,8 +272,8 @@ const Protokol = ({ navigation }) => {
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação fonoaudiologica
                     </Button>
-                    <Button mode='contained' onPress={() => {
-
+                    <Button buttonColor={colorRed} mode='contained' onPress={() => {
+                        setModalVisibleFinished(!modalVisibleFinished)
                     }}>gerar relatório</Button>
 
                 </View>
@@ -179,29 +297,6 @@ const Protokol = ({ navigation }) => {
                     Iniciar sessão
                 </Button>
 
-                <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {
-
-                    setModalVisibleFinished(!modalVisibleFinished);
-                }} style={{ marginTop: 10 }}>
-                    Encerar sesão
-                </Button>
-
-
-                <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {
-
-                    setModalVisibleFinished(!modalVisibleFinished);
-                }} style={{ marginTop: 10 }}>
-                Relatório de acompanhamento:
-                </Button>
-
-                <Button buttonColor='#F04438' textColor='white' icon="content-save" mode="contained" onPress={() => {
-
-                    setModalVisibleFinished(!modalVisibleFinished);
-                }} style={{ marginTop: 10 }}>
-                Relatório de alta:
-                </Button>
-
-             
             </View>
         </View>
 
