@@ -27,33 +27,45 @@ const Protokol = ({ navigation }) => {
     const [pacient, setPacient] = useState<FormatPacient>();
     const [protocols, setProtocols] = useState<any>([]);
     const [open, setopen] = useState<any>(false);
-
+    const [pdfName, setPdfName] = useState("")
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisibleFinished, setModalVisibleFinished] = useState(false);
+    const [currentReport, setCurrentReport] = useState(1)
 
     const [progressPercentage, setProgressPercentage] = useState(0)
     const [isDownloading, setIsDownloading] = useState(false)
 
 
-    const [page, setPage] = React.useState(1);
+    const [page, setPage] = React.useState(0);
 
     const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
-    const PDF_NAME = `Relatório de anamnese - ${date}.pdf`
     //const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}` // leve.
-    //const PDF_URI = `https://fono-api.vercel.app/service-term/${pac_id}?price=${10}&number_of_sessions=${5}` // leve.
 
     // Rota para follow-up-report
     const name = "name"
-    const PDF_URI2 = `https://fono-api.vercel.app/follow-up-report/${pac_id}?diagnoses=${name}&structural_assessment=${name}&functional_assessment=${name}&swallowing_assessment=${name}&general_guidelines=${name}&conclusion=${name}&next_steps=${name}`;
 
+    useEffect(() => {
+        if (pdfName !== "") {
+            console.log("Entrou e mudou de nome")
+            getPdf();
+        }
+        else{
+            console.log("Errorc")
+
+        }
+    }, [pdfName]);
+
+
+    const linkUrlPdf = [
+        `https://fono-api.vercel.app/service-term/${pac_id}?price=${10}&number_of_sessions=${5}`,
+        `https://fono-api.vercel.app/follow-up-report/${pac_id}?diagnoses=${name}&structural_assessment=${name}&functional_assessment=${name}&swallowing_assessment=${name}&general_guidelines=${name}&conclusion=${name}&next_steps=${name}`,
+        `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${name}&how_it_was_discovered=${name}&first_session_findings=${name}&therapeutic_plan=${name}&patients_progress=${name}&current_condition=${name}&referrals=${name}`
+    ]
+    const PDF_URI = linkUrlPdf[currentReport] // leve.
     // Rota para discharge-report
-    const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${name}&how_it_was_discovered=${name}&first_session_findings=${name}&therapeutic_plan=${name}&patients_progress=${name}&current_condition=${name}&referrals=${name}`;
-
-  
-
-
 
     //const PDF_URI = "https://www.mcfadden.com.br/assets/pdf/Flofi.pdf" // pesado
+
     function onDownloadProgress({
         totalBytesWritten,
         totalBytesExpectedToWrite,
@@ -65,8 +77,8 @@ const Protokol = ({ navigation }) => {
     async function getPdf() {
         try {
             setIsDownloading(true)
-
-            const fileUri = FileSystem.documentDirectory + PDF_NAME
+            console.log(pdfName)
+            const fileUri = FileSystem.documentDirectory + pdfName
 
             const downloadResumable = FileSystem.createDownloadResumable(
                 PDF_URI,
@@ -82,7 +94,7 @@ const Protokol = ({ navigation }) => {
             const downloadResponse = await downloadResumable.downloadAsync()
 
             if (downloadResponse?.uri) {
-                await fileSave(downloadResponse.uri, PDF_NAME)
+                await fileSave(downloadResponse.uri, pdfName)
                 setProgressPercentage(0)
                 setIsDownloading(false)
             }
@@ -215,23 +227,36 @@ const Protokol = ({ navigation }) => {
 
                     <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 20 }}>
 
-                        <Button loading={!!progressPercentage} buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
-                            getPdf()
-                            setModalVisibleFinished(!modalVisibleFinished);
-                        }} style={{ marginTop: 10 }}>
-                            Recido de prestação de serviço
+                        <Button
+                            loading={!!progressPercentage}
+                            buttonColor={colorPrimary}
+                            textColor='white'
+                            icon="share"
+                            mode="contained"
+                            onPress={() => {
+                                setCurrentReport(0);
+                                setPdfName(`Recibo de prestação de serviço ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`);
+                                setModalVisibleFinished(!modalVisibleFinished); // Mover isso para depois de setPdfName
+                            }}
+                            style={{ marginTop: 10 }}
+                        >
+                            Recibo de prestação de serviço
                         </Button>
 
 
-                        <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
 
+
+                        <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+                            setCurrentReport(1)
+                            setPdfName(`Relatório de acompanhamento ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`)
                             setModalVisibleFinished(!modalVisibleFinished);
                         }} style={{ marginTop: 10 }}>
                             Relatório de acompanhamento
                         </Button>
 
                         <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
-
+                            setCurrentReport(2)
+                            setPdfName(`Relatório de alta  ${pacient.person.first_name} - ${pacient.person.cpf}.pdf` )
                             setModalVisibleFinished(!modalVisibleFinished);
                         }} style={{ marginTop: 10 }}>
                             Relatório de alta
@@ -273,6 +298,7 @@ const Protokol = ({ navigation }) => {
                         Avaliação fonoaudiologica
                     </Button>
                     <Button buttonColor={colorRed} mode='contained' onPress={() => {
+
                         setModalVisibleFinished(!modalVisibleFinished)
                     }}>gerar relatório</Button>
 
@@ -292,7 +318,7 @@ const Protokol = ({ navigation }) => {
 
             <View style={{ bottom: 10, paddingHorizontal: 15 }}>
                 <Button buttonColor='#38CB89' icon="content-save" mode="contained" onPress={() => {
-                    navigation.navigate("Section");
+                    navigation.navigate(false ? "Section" : "Root");
                 }} style={{ marginTop: 10 }}>
                     Iniciar sessão
                 </Button>
