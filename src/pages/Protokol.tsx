@@ -23,7 +23,6 @@ const Protokol = ({ navigation }) => {
     const { setPac_id, pac_id } = useContext(ContextPacient);
     const { user } = useContext(Context);
     const [loading, setLoading] = useState(true);
-
     const [pacient, setPacient] = useState<FormatPacient>();
     const [protocols, setProtocols] = useState<any>([]);
     const [open, setopen] = useState<any>(false);
@@ -31,11 +30,8 @@ const Protokol = ({ navigation }) => {
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisibleFinished, setModalVisibleFinished] = useState(false);
     const [currentReport, setCurrentReport] = useState(1)
-
     const [progressPercentage, setProgressPercentage] = useState(0)
     const [isDownloading, setIsDownloading] = useState(false)
-
-
     const [page, setPage] = React.useState(0);
 
     const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
@@ -217,7 +213,7 @@ const Protokol = ({ navigation }) => {
                 onOpenChange={() => { setModalVisibleFinished(false) }
                 }
 
-                snapPoints={[40, 15]} >
+                snapPoints={[30]} >
 
                 <Sheet.Overlay />
 

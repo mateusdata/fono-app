@@ -9,7 +9,10 @@ import React, { useEffect } from 'react';
 import NetInfo from "@react-native-community/netinfo";
 import { StatusBar } from 'expo-status-bar';
 import PacientContext from './src/context/PacientContext';
+import * as ScreenOrientation from 'expo-screen-orientation';
+
 export default function App() {
+  ScreenOrientation.unlockAsync();
 
 
   const [tamaguiLoaded] = useFonts({
