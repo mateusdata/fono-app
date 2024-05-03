@@ -14,7 +14,7 @@ interface FormatGlobal {
 
 export const ContextGlobal = createContext<FormatGlobal>({} as FormatGlobal);
 
-const GlobalContext: React.FC<PropsWithChildren<{}>> = ({ children }) => {
+const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
     const [location, setLocation] = useState<any>({
         latitude: null,
         longitude: null

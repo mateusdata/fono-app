@@ -9,13 +9,9 @@ import React, { useEffect } from 'react';
 import NetInfo from "@react-native-community/netinfo";
 import { StatusBar } from 'expo-status-bar';
 import PacientContext from './src/context/PacientContext';
-import * as ScreenOrientation from 'expo-screen-orientation';
 import GlobalContext from './src/context/GlobalContext';
 
 export default function App() {
-  ScreenOrientation.unlockAsync();
-
-
   const [tamaguiLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
