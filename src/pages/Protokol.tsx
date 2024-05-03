@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Alert, FlatList, Platform, Pressable, ScrollView, StatusBar, Text, View } from 'react-native';
-import { Avatar, Button, Card, Title, Paragraph, IconButton } from 'react-native-paper';
+import React, { useContext, useState } from 'react';
+import { Alert, FlatList, ScrollView, Text, View } from 'react-native';
+import { Avatar, Button, Card, Title } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
-import { BackHandler } from 'react-native';
 import { FormatPacient } from '../interfaces/globalInterface';
 import SkelectonView from '../components/SkelectonView';
 import api from '../config/Api';
@@ -14,35 +13,19 @@ import dayjs from 'dayjs';
 import { AntDesign } from '@expo/vector-icons';
 import { colorGreen, colorPrimary, colorRed } from '../style/ColorPalette';
 import * as Location from 'expo-location';
-import * as FileSystem from "expo-file-system"
-import * as Sharing from "expo-sharing"
-import GlobalContext, { ContextGlobal } from '../context/GlobalContext';
-
+import { ContextGlobal } from '../context/GlobalContext';
 
 const Protokol = ({ navigation }) => {
 
-    const { setPac_id, pac_id } = useContext(ContextPacient);
+    const { pac_id } = useContext(ContextPacient);
     const { user } = useContext(Context);
     const [loading, setLoading] = useState(true);
     const [pacient, setPacient] = useState<FormatPacient>();
     const [protocols, setProtocols] = useState<any>([]);
-    const [open, setopen] = useState<any>(false);
-    const [pdfName, setPdfName] = useState("")
     const [modalVisible, setModalVisible] = useState(false);
     const [modalVisibleFinished, setModalVisibleFinished] = useState(false);
-    const [currentReport, setCurrentReport] = useState(null)
-    const [progressPercentage, setProgressPercentage] = useState(0)
-    const [isDownloading, setIsDownloading] = useState(false)
     const [page, setPage] = React.useState(0);
-
-    const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
-    //const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}` // leve.
-
-    // Rota para follow-up-report
-    const name = "name"
-
-
-    const { location, setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
+    const { setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
 
     useFocusEffect(() => {
         getLocation();
@@ -59,90 +42,6 @@ const Protokol = ({ navigation }) => {
         let { coords } = await Location.getCurrentPositionAsync({});
         setLocation({ latitude: coords.latitude, longitude: coords.longitude });
     };
-
-
-    useEffect(() => {
-        if (pdfName !== "") {
-            console.log("Entrou e mudou de nome")
-            getPdf();
-        }
-        else {
-            console.log("Errorc")
-
-        }
-    }, [pdfName]);
-
-
-    const linkUrlPdf = [
-        `https://fono-api.vercel.app/service-term/${pac_id}?price=${10}&number_of_sessions=${5}`,
-        `https://fono-api.vercel.app/follow-up-report/${pac_id}?diagnoses=${name}&structural_assessment=${name}&functional_assessment=${name}&swallowing_assessment=${name}&general_guidelines=${name}&conclusion=${name}&next_steps=${name}`,
-        `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${name}&how_it_was_discovered=${name}&first_session_findings=${name}&therapeutic_plan=${name}&patients_progress=${name}&current_condition=${name}&referrals=${name}`
-    ]
-    const PDF_URI = linkUrlPdf[currentReport] // leve.
-    // Rota para discharge-report
-
-    //const PDF_URI = "https://www.mcfadden.com.br/assets/pdf/Flofi.pdf" // pesado
-
-    function onDownloadProgress({
-        totalBytesWritten,
-        totalBytesExpectedToWrite,
-    }: FileSystem.DownloadProgressData) {
-        const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100
-        setProgressPercentage(percentage)
-    }
-
-    async function getPdf() {
-        try {
-            setIsDownloading(true)
-            console.log(pdfName)
-            const fileUri = FileSystem.documentDirectory + pdfName
-
-            const downloadResumable = FileSystem.createDownloadResumable(
-                PDF_URI,
-                fileUri,
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
-                    },
-                },
-                onDownloadProgress
-            )
-
-            const downloadResponse = await downloadResumable.downloadAsync()
-
-            if (downloadResponse?.uri) {
-                await fileSave(downloadResponse.uri, pdfName)
-                setProgressPercentage(0)
-                setIsDownloading(false)
-            }
-        } catch (error) {
-            Alert.alert("Download", "Não foi possível realizar o download.")
-            console.error(error)
-        }
-    }
-
-    async function fileSave(uri: string, filename: string) {
-        if (Platform.OS === "android") {
-            // Pega a pasta temporária.
-            const directoryUri = FileSystem.cacheDirectory + filename
-
-            // Lê o conteúdo do arquivo em formato base64
-            const base64File = await FileSystem.readAsStringAsync(uri, {
-                encoding: FileSystem.EncodingType.Base64,
-            })
-
-            // Escreve o conteúdo do arquivo no diretório.
-            await FileSystem.writeAsStringAsync(directoryUri, base64File, {
-                encoding: FileSystem.EncodingType.Base64,
-            })
-
-            // Abre o arquivo recém-criado
-            await Sharing.shareAsync(directoryUri)
-        } else {
-            Sharing.shareAsync(uri)
-        }
-    }
-
 
     useFocusEffect(
         React.useCallback(() => {
@@ -165,32 +64,19 @@ const Protokol = ({ navigation }) => {
                 } catch (error) {
                     console.error(error);
                     setLoading(false)
-
-                    // alert("Ocorreu um erro ao carregar os protocolos.");
                 }
             };
 
             fetchData();
-        }, [pac_id, user.doc_id]) // Adicione as dependências necessárias
+        }, [pac_id, user.doc_id]) 
     );
-
-
 
     if (!pacient || loading) {
         return <SkelectonView />
     }
     return (
         <View style={{ flex: 1 }}>
-            <View>
-                {false ? (
-                    <>
-                        <Text selectable >Latitude: {location.latitude}</Text>
-                        <Text selectable >Longitude: {location.longitude}</Text>
-                    </>
-                ) : (
-                    <Text>{false && "Obtendo localização..."}</Text>
-                )}
-            </View>
+
             <Sheet
                 modal
                 open={modalVisible}
@@ -199,10 +85,8 @@ const Protokol = ({ navigation }) => {
                 native
                 onOpenChange={() => {
                     setModalVisible(false);
-                    //setIsVideoPlaying(false)
                 }
                 }
-
                 snapPoints={[50]} >
 
                 <Sheet.Overlay />
@@ -229,9 +113,6 @@ const Protokol = ({ navigation }) => {
                             setPage((prevPage) => prevPage + 1); // Aumentar a página
                         }}
                     />
-
-
-
                 </Sheet.Frame>
             </Sheet>
 
@@ -255,16 +136,12 @@ const Protokol = ({ navigation }) => {
                     <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 20 }}>
 
                         <Button
-                            loading={!!progressPercentage}
                             buttonColor={colorPrimary}
                             textColor='white'
                             icon="share"
                             mode="contained"
                             onPress={() => {
-                                setCurrentReport(0);
-                                //setPdfName(`Recibo de prestação de serviço ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`);
                                 setModalVisibleFinished(!modalVisibleFinished);
-                                // Mover isso para depois de setPdfName
                                 navigation.navigate("ServiceProvisionReceipt", { pacient: pacient })
                             }}
                             style={{ marginTop: 10 }}
@@ -273,8 +150,6 @@ const Protokol = ({ navigation }) => {
                         </Button>
 
                         <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
-                            setCurrentReport(1)
-                            //setPdfName(`Relatório de acompanhamento ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`)
                             setModalVisibleFinished(!modalVisibleFinished);
                             navigation.navigate("MonitoringReportPdf", { pacient: pacient })
                         }} style={{ marginTop: 10 }}>
@@ -282,8 +157,6 @@ const Protokol = ({ navigation }) => {
                         </Button>
 
                         <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
-                            setCurrentReport(2)
-                            //setPdfName(`Relatório de alta  ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`)
                             navigation.navigate("DischargeReportPdf", { pacient: pacient })
                             setModalVisibleFinished(!modalVisibleFinished);
                         }} style={{ marginTop: 10 }}>
@@ -294,7 +167,6 @@ const Protokol = ({ navigation }) => {
 
                 </Sheet.Frame>
             </Sheet>
-
 
             <ScrollView style={{ padding: 15 }}>
 
@@ -328,25 +200,21 @@ const Protokol = ({ navigation }) => {
 
             </ScrollView>
 
-
             <View style={{ bottom: 10, paddingHorizontal: 15 }}>
-                <Button buttonColor={thereSession ? colorRed : '#38CB89' } icon="content-save" mode="contained" onPress={() => {
-                    if (!thereSession){
+                <Button buttonColor={thereSession ? colorRed : '#38CB89'} icon="content-save" mode="contained" onPress={() => {
+                    if (!thereSession) {
                         setThereSession(true)
                         return navigation.navigate("Section");
                     }
                     navigation.navigate("Root");
                     setThereSession(false)
-
-                     }} style={{ marginTop: 10 }}>
+                }} style={{ marginTop: 10 }}>
                     {`${thereSession ? "Encerar sessão" : " Iniciar sessão"}`}
                 </Button>
 
             </View>
         </View>
-
     );
-
 };
 
 export default Protokol;
