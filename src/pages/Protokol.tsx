@@ -203,7 +203,7 @@ const Protokol = ({ navigation }) => {
                 }
                 }
 
-                snapPoints={[50, 20]} >
+                snapPoints={[50]} >
 
                 <Sheet.Overlay />
 
