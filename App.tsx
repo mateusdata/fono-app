@@ -1,4 +1,3 @@
-/*
 import { NavigationContainer } from '@react-navigation/native';
 import AuthProvider from './src/context/AuthProvider';
 import Routes from './src/routes/routes';
@@ -13,6 +12,7 @@ import PacientContext from './src/context/PacientContext';
 import GlobalContext from './src/context/GlobalContext';
 
 export default function App() {
+
   const [tamaguiLoaded] = useFonts({
     Inter: require("@tamagui/font-inter/otf/Inter-Medium.otf"),
     InterBold: require("@tamagui/font-inter/otf/Inter-Bold.otf"),
@@ -64,16 +64,3 @@ export default function App() {
 }
 //#36B3B9
 
-*/
-import React from 'react';
-import { View, Text } from 'react-native';
-
-const App = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Olá, Mundo!</Text>
-    </View>
-  );
-};
-
-export default App;
