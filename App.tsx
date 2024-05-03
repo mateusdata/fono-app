@@ -1,3 +1,4 @@
+/*
 import { NavigationContainer } from '@react-navigation/native';
 import AuthProvider from './src/context/AuthProvider';
 import Routes from './src/routes/routes';
@@ -63,3 +64,16 @@ export default function App() {
 }
 //#36B3B9
 
+*/
+import React from 'react';
+import { View, Text } from 'react-native';
+
+const App = () => {
+  return (
+    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+      <Text>Olá, Mundo!</Text>
+    </View>
+  );
+};
+
+export default App;

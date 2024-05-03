@@ -10,12 +10,11 @@
       [
         "@stripe/stripe-react-native",
         {
-          "merchantIdentifier":"mateus",
+          "merchantIdentifier": "mateus",
           "enableGooglePay": true
         }
       ]
     ],
-
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -41,13 +40,13 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "extra": {
-      "eas": {
-        "projectId": "931c00d8-5625-4e4d-b991-a2eba734f6a6"
-      }
-    },
     "updates": {
       "url": "https://u.expo.dev/931c00d8-5625-4e4d-b991-a2eba734f6a6"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6a004b08-b974-4daf-9ab9-eaa1c54bb8f1"
+      }
     }
   }
 }
