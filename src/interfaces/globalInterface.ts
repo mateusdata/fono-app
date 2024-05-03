@@ -3,6 +3,7 @@ export interface LoginInterface {
     senha: string;
 }
 export interface FormatPacient {
+    pac_id: number;
     base_diseases: string;
     consultation_reason: string;
     food_profile: string;

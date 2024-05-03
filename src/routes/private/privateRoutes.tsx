@@ -25,6 +25,9 @@ import CurrentProtocol from '../../pages/CurrentProtocol';
 import NoInternet from '../../pages/NoInternet';
 import CreatePacient from '../../pages/CreatePacient';
 import UnansweredQuestions from '../../pages/UnansweredQuestions';
+import ServiceProvisionReceipt from '../../pages/ServiceProvisionReceipt';
+import DischargeReportPdf from '../../pages/DischargeReportPdf';
+import MonitoringReportPdf from '../../pages/MonitoringReportPdf';
 
 
 const AppStack = createStackNavigator();
@@ -64,6 +67,12 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Section' component={Section} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Sessão" }} />
         <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
         <AppStack.Screen name='NoInternet' component={NoInternet} options={{ headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
+        
+        <AppStack.Screen name='ServiceProvisionReceipt' component={ServiceProvisionReceipt} options={{ headerTitleAlign: "center", headerTitle: "Recibo de prestação de serviço" }} />
+        <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de acompanhamento" }} />
+        <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
+
+
 
       </AppStack.Navigator>
     </>

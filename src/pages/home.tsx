@@ -117,7 +117,7 @@ const Home = ({ navigation }: { navigation: any }) => {
               <SimpleLineIcons name='badge' size={20} color='#36B3B9' />
               <CustomText>Relatorios</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Exercise")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
               <SimpleLineIcons name='check' size={20} color='#36B3B9' />
               <CustomText>Exercícios</CustomText>
             </Pressable >

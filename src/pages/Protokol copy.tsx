@@ -213,7 +213,7 @@ const Protokol = ({ navigation }) => {
                 onOpenChange={() => { setModalVisibleFinished(false) }
                 }
 
-                snapPoints={[30]} >
+                snapPoints={[50]} >
 
                 <Sheet.Overlay />
 
@@ -234,7 +234,7 @@ const Protokol = ({ navigation }) => {
                                 //setPdfName(`Recibo de prestação de serviço ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`);
                                 setModalVisibleFinished(!modalVisibleFinished); 
                                 // Mover isso para depois de setPdfName
-                                navigation.navigate("ServiceProvisionReceipt", {pacient:pacient})
+                                navigation.navigate("ServiceProvisionReceipt")
                             }}
                             style={{ marginTop: 10 }}
                         >
@@ -245,7 +245,7 @@ const Protokol = ({ navigation }) => {
                             setCurrentReport(1)
                             //setPdfName(`Relatório de acompanhamento ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`)
                             setModalVisibleFinished(!modalVisibleFinished);
-                            navigation.navigate("MonitoringReportPdf", {pacient:pacient})
+                            navigation.navigate("MonitoringReportPdf")
                         }} style={{ marginTop: 10 }}>
                             Relatório de acompanhamento
                         </Button>
@@ -253,7 +253,7 @@ const Protokol = ({ navigation }) => {
                         <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
                             setCurrentReport(2)
                             //setPdfName(`Relatório de alta  ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`)
-                            navigation.navigate("DischargeReportPdf", {pacient:pacient})
+                            navigation.navigate("DischargeReportPdf")
                             setModalVisibleFinished(!modalVisibleFinished);
                         }} style={{ marginTop: 10 }}>
                             Relatório de alta
