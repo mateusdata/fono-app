@@ -203,7 +203,7 @@ const Protokol = ({ navigation }) => {
             <View style={{ bottom: 10, paddingHorizontal: 15 }}>
                 <Button buttonColor={thereSession ? colorRed : '#38CB89'} icon="content-save" mode="contained" onPress={() => {
                     if (!thereSession) {
-                        setThereSession(true)
+                       
                         return navigation.navigate("Section");
                     }
                     navigation.navigate("Root");

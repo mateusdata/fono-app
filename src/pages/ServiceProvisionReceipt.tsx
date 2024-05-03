@@ -23,8 +23,8 @@ const ServiceProvisionReceipt = ({ route }: any) => {
   const pdfName = `Recibo de prestação de serviço ${pacient?.person?.first_name} - ${pacient?.person?.cpf}.pdf`;
 
   const schema = yup.object({
-    price: yup.string().matches(/^\d+$/, { message: "Apenas números são permitidos" }).required("Campo obrigatorio"),
-    number_of_sessions: yup.string().matches(/^\d+$/, { message: "Apenas números são permitidos" }).required("Campo obrigatorio"),
+    price: yup.string().required("Campo obrigatorio"),
+    number_of_sessions: yup.string().matches(/^\d+$/, { message: "Número de sessões invalida" }).required("Campo obrigatorio"),
   });
 
   const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
@@ -109,7 +109,7 @@ const ServiceProvisionReceipt = ({ route }: any) => {
         <Controller
           control={control}
           render={({ field: { onChange, name, value } }) => (
-            <TextInput      activeOutlineColor={colorSecundary} autoFocus label="Preço" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+            <TextInput  keyboardType='numeric'    activeOutlineColor={colorSecundary} autoFocus label="Preço" mode='outlined' value={value?.trim()} onChangeText={onChange} />
           )}
           name='price'
         />
@@ -119,7 +119,7 @@ const ServiceProvisionReceipt = ({ route }: any) => {
         <Controller
           control={control}
           render={({ field: { onChange, name, value } }) => (
-            <TextInput      activeOutlineColor={colorSecundary} label="Número de sessões" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+            <TextInput  keyboardType='number-pad'    activeOutlineColor={colorSecundary} label="Número de sessões" mode='outlined' value={value?.trim()} onChangeText={onChange} />
           )}
           name='number_of_sessions'
         />
