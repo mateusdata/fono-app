@@ -13,6 +13,7 @@ import ErrorMessage from '../components/errorMessage'
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
+import { ContextGlobal } from '../context/GlobalContext'
 const MonitoringReportPdf = ({ route }: any) => {
 
     const { pacient, }: { pacient: FormatPacient } = route.params;
@@ -45,8 +46,10 @@ const MonitoringReportPdf = ({ route }: any) => {
         resolver: yupResolver(schema)
     })
     const name = 10
-    const PDF_URI = `https://fono-api.vercel.app/follow-up-report/${pacient.pac_id}?diagnoses=${watch("diagnoses")}&structural_assessment=${watch("structural_assessment")}&functional_assessment=${watch("functional_assessment")}&swallowing_assessment=${watch("swallowing_assessment")}&general_guidelines=${watch("general_guidelines")}&conclusion=${watch("conclusion")}&next_steps=${watch("next_steps")}`;
-    ;
+    //const PDF_URI = `https://fono-api.vercel.app/follow-up-report/${pacient.pac_id}?diagnoses=${watch("diagnoses")}&structural_assessment=${watch("structural_assessment")}&functional_assessment=${watch("functional_assessment")}&swallowing_assessment=${watch("swallowing_assessment")}&general_guidelines=${watch("general_guidelines")}&conclusion=${watch("conclusion")}&next_steps=${watch("next_steps")}`;;
+    const { location } = useContext(ContextGlobal);
+    const PDF_URI = `https://fono-api.vercel.app/follow-up-report/${pacient?.pac_id}?diagnoses=${watch("diagnoses")}&structural_assessment=${watch("structural_assessment")}&functional_assessment=${watch("functional_assessment")}&swallowing_assessment=${watch("swallowing_assessment")}&general_guidelines=${watch("general_guidelines")}&conclusion=${watch("conclusion")}&next_steps=${watch("next_steps")}&lat=${location.latitude}&lon=${location.longitude}`;
+
 
     function onDownloadProgress({
         totalBytesWritten,

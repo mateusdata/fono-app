@@ -13,9 +13,10 @@ import { useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { AntDesign } from '@expo/vector-icons';
 import { colorGreen, colorPrimary, colorRed } from '../style/ColorPalette';
-
+import * as Location from 'expo-location';
 import * as FileSystem from "expo-file-system"
 import * as Sharing from "expo-sharing"
+import GlobalContext, { ContextGlobal } from '../context/GlobalContext';
 
 
 const Protokol = ({ navigation }) => {
@@ -39,6 +40,26 @@ const Protokol = ({ navigation }) => {
 
     // Rota para follow-up-report
     const name = "name"
+
+
+    const { location, setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
+
+    useFocusEffect(() => {
+        getLocation();
+    });
+
+    const getLocation = async () => {
+        let { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+            Alert.alert("Error em localização", "Não será possível gerar relatório sem permissão de localização");
+            console.error('Permissão para acessar a localização negada');
+            return;
+        }
+
+        let { coords } = await Location.getCurrentPositionAsync({});
+        setLocation({ latitude: coords.latitude, longitude: coords.longitude });
+    };
+
 
     useEffect(() => {
         if (pdfName !== "") {
@@ -160,6 +181,16 @@ const Protokol = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
+            <View>
+                {false ? (
+                    <>
+                        <Text selectable >Latitude: {location.latitude}</Text>
+                        <Text selectable >Longitude: {location.longitude}</Text>
+                    </>
+                ) : (
+                    <Text>{false && "Obtendo localização..."}</Text>
+                )}
+            </View>
             <Sheet
                 modal
                 open={modalVisible}
@@ -232,9 +263,9 @@ const Protokol = ({ navigation }) => {
                             onPress={() => {
                                 setCurrentReport(0);
                                 //setPdfName(`Recibo de prestação de serviço ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`);
-                                setModalVisibleFinished(!modalVisibleFinished); 
+                                setModalVisibleFinished(!modalVisibleFinished);
                                 // Mover isso para depois de setPdfName
-                                navigation.navigate("ServiceProvisionReceipt", {pacient:pacient})
+                                navigation.navigate("ServiceProvisionReceipt", { pacient: pacient })
                             }}
                             style={{ marginTop: 10 }}
                         >
@@ -245,7 +276,7 @@ const Protokol = ({ navigation }) => {
                             setCurrentReport(1)
                             //setPdfName(`Relatório de acompanhamento ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`)
                             setModalVisibleFinished(!modalVisibleFinished);
-                            navigation.navigate("MonitoringReportPdf", {pacient:pacient})
+                            navigation.navigate("MonitoringReportPdf", { pacient: pacient })
                         }} style={{ marginTop: 10 }}>
                             Relatório de acompanhamento
                         </Button>
@@ -253,7 +284,7 @@ const Protokol = ({ navigation }) => {
                         <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
                             setCurrentReport(2)
                             //setPdfName(`Relatório de alta  ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`)
-                            navigation.navigate("DischargeReportPdf", {pacient:pacient})
+                            navigation.navigate("DischargeReportPdf", { pacient: pacient })
                             setModalVisibleFinished(!modalVisibleFinished);
                         }} style={{ marginTop: 10 }}>
                             Relatório de alta
@@ -287,7 +318,7 @@ const Protokol = ({ navigation }) => {
 
                 </View>
 
-                <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário:</Text>
+                <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário: {String(thereSession)}</Text>
 
                 <Card onPress={() => { protocols?.count && setModalVisible(!modalVisible) }} style={{ marginBottom: 10 }}>
                     <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : "Nenhuma sessão"}`
@@ -299,10 +330,16 @@ const Protokol = ({ navigation }) => {
 
 
             <View style={{ bottom: 10, paddingHorizontal: 15 }}>
-                <Button buttonColor='#38CB89' icon="content-save" mode="contained" onPress={() => {
-                    navigation.navigate(false ? "Section" : "Root");
-                }} style={{ marginTop: 10 }}>
-                    Iniciar sessão
+                <Button buttonColor={thereSession ? colorRed : '#38CB89' } icon="content-save" mode="contained" onPress={() => {
+                    if (!thereSession){
+                        setThereSession(true)
+                        return navigation.navigate("Section");
+                    }
+                    navigation.navigate("Root");
+                    setThereSession(false)
+
+                     }} style={{ marginTop: 10 }}>
+                    {`${thereSession ? "Encerar sessão" : " Iniciar sessão"}`}
                 </Button>
 
             </View>

@@ -13,6 +13,7 @@ import ErrorMessage from '../components/errorMessage'
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
+import { ContextGlobal } from '../context/GlobalContext'
 const ServiceProvisionReceipt = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
@@ -33,8 +34,11 @@ const ServiceProvisionReceipt = ({ route }: any) => {
     },
     resolver: yupResolver(schema)
   })
-  const PDF_URI = `https://fono-api.vercel.app/service-term/${pacient.pac_id}?price=${watch("price")}&number_of_sessions=${watch("number_of_sessions")}`;
+  //const PDF_URI = `https://fono-api.vercel.app/service-term/${pacient.pac_id}?price=${watch("price")}&number_of_sessions=${watch("number_of_sessions")}`;
+  const { location } = useContext(ContextGlobal);
 
+  const PDF_URI = `https://fono-api.vercel.app/service-term/${pacient?.pac_id}?price=${watch("price")}&number_of_sessions=${watch("number_of_sessions")}&lat=${location.latitude}&lon=${location.longitude}`;
+ console.log(PDF_URI)
   function onDownloadProgress({
     totalBytesWritten,
     totalBytesExpectedToWrite,

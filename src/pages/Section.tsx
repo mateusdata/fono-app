@@ -17,6 +17,7 @@ import { ContextPacient } from '../context/PacientContext';
 import { Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
 import Toast from '../components/toast';
+import { ContextGlobal } from '../context/GlobalContext';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
@@ -37,6 +38,7 @@ export default function Section({ navigation }) {
 
   const [series, setSeries] = useState<any>("");
   const [repetitions, setRepetitions] = useState<any>("");
+  const { location, setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
 
   const schema = yup.object().shape({
     doc_id: yup.number(),
@@ -164,13 +166,14 @@ export default function Section({ navigation }) {
       const response: any = await api.post("create-protocol", data);
       setLoadingBottom(false)
       setMensageToast("Protocolo criado com sucesso 🥳🎉🎉")
+      setThereSession(true)
       setShowToast(true)
       reset()
 
     } catch (error) {
       setLoadingBottom(false)
       console.log(error);
-      setMensageToast(!error.response  ? "Sem conexão com a internet" :"Erro ao criar Protocolo")
+      setMensageToast(!error.response  ? "Sem conexão com a internet" :"Erro ao criar sessão")
       setShowToast(true)
 
     }

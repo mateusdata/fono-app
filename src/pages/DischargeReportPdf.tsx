@@ -13,6 +13,7 @@ import ErrorMessage from '../components/errorMessage'
 import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
+import { ContextGlobal } from '../context/GlobalContext'
 const DischargeReportPdf = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
@@ -45,8 +46,11 @@ const DischargeReportPdf = ({ route }: any) => {
     resolver: yupResolver(schema)
   })
   const name = 10
-  const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${watch("medical_diagnoses")}&how_it_was_discovered=${watch("how_it_was_discovered")}&first_session_findings=${watch("first_session_findings")}&therapeutic_plan=${watch("therapeutic_plan")}&patients_progress=${watch("patients_progress")}&current_condition=${watch("current_condition")}&referrals=${watch("referrals")}`;
+  //const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${watch("medical_diagnoses")}&how_it_was_discovered=${watch("how_it_was_discovered")}&first_session_findings=${watch("first_session_findings")}&therapeutic_plan=${watch("therapeutic_plan")}&patients_progress=${watch("patients_progress")}&current_condition=${watch("current_condition")}&referrals=${watch("referrals")}`;
 
+  const { location, setLocation} = useContext(ContextGlobal);
+  const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${watch("medical_diagnoses")}&how_it_was_discovered=${watch("how_it_was_discovered")}&first_session_findings=${watch("first_session_findings")}&therapeutic_plan=${watch("therapeutic_plan")}&patients_progress=${watch("patients_progress")}&current_condition=${watch("current_condition")}&referrals=${watch("referrals")}&lat=${location.latitude}&lon=${location.longitude}`;
+  console.log(PDF_URI)
   function onDownloadProgress({
     totalBytesWritten,
     totalBytesExpectedToWrite,
@@ -80,6 +84,8 @@ const DischargeReportPdf = ({ route }: any) => {
         setProgressPercentage(0)
         reset()
         setIsDownloading(false)
+        setLocation({ latitude: 0, longitude: 0});
+
       }
     } catch (error) {
       Alert.alert("Download", "Não foi possível realizar o download.")

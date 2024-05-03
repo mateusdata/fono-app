@@ -46,10 +46,7 @@ const Home = ({ navigation }: { navigation: any }) => {
       const fectData = async () => {
         try {
           const response = await api.get(`/count-pacients/${user.doc_id}`);
-          setTimeout(() => {
-            setTotalPacient(response?.data.num_pacients);
-          }, 3000);
-          console.log(response?.data)
+          setTotalPacient(response?.data.num_pacients);
         } catch (error) {
           if (!error.response) {
 

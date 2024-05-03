@@ -10,6 +10,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { StatusBar } from 'expo-status-bar';
 import PacientContext from './src/context/PacientContext';
 import * as ScreenOrientation from 'expo-screen-orientation';
+import GlobalContext from './src/context/GlobalContext';
 
 export default function App() {
   ScreenOrientation.unlockAsync();
@@ -29,7 +30,7 @@ export default function App() {
 
         setTimeout(() => {
           //BackHandler.exitApp();
-          
+
         }, 2000);
       }
     });
@@ -52,9 +53,11 @@ export default function App() {
         <AuthProvider>
           <TamaguiProvider config={config}>
             
-            <PacientContext>
-              <Routes />
-            </PacientContext>
+            <GlobalContext>
+              <PacientContext>
+                <Routes />
+              </PacientContext>
+            </GlobalContext>
 
           </TamaguiProvider>
         </AuthProvider>
