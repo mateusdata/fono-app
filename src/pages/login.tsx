@@ -9,6 +9,9 @@ import ErrorMessage from '../components/errorMessage';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../config/Api';
+import * as  Animatable from "react-native-animatable"
+
+
 const Login = ({ navigation }: any) => {
     const { setLoadingAuth, setUser } = useContext(Context);
     
@@ -46,9 +49,9 @@ const Login = ({ navigation }: any) => {
         <View style={styles.container}>
             <StatusBar animated hideTransitionAnimation='fade' style='light' />
 
-            <View style={styles.titleContainer}>
+            <Animatable.View animation="fadeInLeftBig" style={styles.titleContainer}>
                 <CustomText style={styles.titleText}>Bem-vindo de volta</CustomText>
-            </View>
+            </Animatable.View>
 
             <View style={styles.formContainer}>
                 <Controller control={control} rules={

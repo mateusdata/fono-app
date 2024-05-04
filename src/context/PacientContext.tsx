@@ -2,8 +2,8 @@ import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useS
 import { View } from 'react-native'
 
 interface FormatPacinet {
-    pac_id:number,
-    setPac_id:  Dispatch<SetStateAction<number>>
+    pac_id:number | null,
+    setPac_id:  Dispatch<SetStateAction<number|null>>
     pacient: Pacient | null;
     setPacient: Dispatch<SetStateAction<Pacient | null>>
 }

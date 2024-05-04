@@ -1,5 +1,5 @@
-import React, { useContext, useState } from 'react';
-import { Alert, FlatList, ScrollView, Text, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Alert, BackHandler, FlatList, ScrollView, Text, View } from 'react-native';
 import { Avatar, Button, Card, Title } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
@@ -11,31 +11,49 @@ import { Context } from '../context/AuthProvider';
 import { useFocusEffect } from '@react-navigation/native';
 import dayjs from 'dayjs';
 import { AntDesign } from '@expo/vector-icons';
-import { colorGreen, colorPrimary, colorRed } from '../style/ColorPalette';
+import { colorGreen, colorPrimary, colorRed, colorSecundary } from '../style/ColorPalette';
 import * as Location from 'expo-location';
 import { ContextGlobal } from '../context/GlobalContext';
+import CustomText from '../components/customText';
+import * as  Animatable from "react-native-animatable"
+
 
 const Protokol = ({ navigation }) => {
 
-    const { pac_id } = useContext(ContextPacient);
+    const { pac_id, setPac_id } = useContext(ContextPacient);
     const { user } = useContext(Context);
     const [loading, setLoading] = useState(true);
     const [pacient, setPacient] = useState<FormatPacient>();
     const [protocols, setProtocols] = useState<any>([]);
     const [modalVisible, setModalVisible] = useState(false);
+    const [firstModal, setFirstModal] = useState<boolean>(true);
     const [modalVisibleFinished, setModalVisibleFinished] = useState(false);
     const [page, setPage] = React.useState(0);
     const { setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
 
-    useFocusEffect(() => {
-        getLocation();
+
+
+    useEffect(() => {
+        return () => backHandler.remove();
+    }, [modalVisible]);
+
+    const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+        if (modalVisible) {
+            setModalVisible(false)
+            return true
+        }
+        return false;
     });
+
+
+    useEffect(() => {
+        getLocation();
+    }, [])
 
     const getLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
         if (status !== 'granted') {
             Alert.alert("Error em localização", "Não será possível gerar relatório sem permissão de localização");
-            console.error('Permissão para acessar a localização negada');
             return;
         }
 
@@ -46,29 +64,26 @@ const Protokol = ({ navigation }) => {
     useFocusEffect(
         React.useCallback(() => {
             const fetchData = async () => {
+                console.log("pegou")
                 try {
                     const response = await api.get(`/info-pacient/${pac_id}`);
                     setPacient(response.data);
                 } catch (error) {
                     setLoading(false)
-                    console.error(error);
-                    alert("Ocorreu um erro ao carregar os dados do paciente.");
                 }
 
                 try {
                     const protocol = await api.get(`last-sessions/${pac_id}/${user.doc_id}?pageSize=100&page=1`);
                     setProtocols(protocol.data);
-                    console.log(protocol.data)
                     setLoading(false)
 
                 } catch (error) {
-                    console.error(error);
                     setLoading(false)
                 }
             };
 
             fetchData();
-        }, [pac_id, user.doc_id]) 
+        }, [pac_id, user.doc_id])
     );
 
     if (!pacient || loading) {
@@ -87,7 +102,7 @@ const Protokol = ({ navigation }) => {
                     setModalVisible(false);
                 }
                 }
-                snapPoints={[50]} >
+                snapPoints={[40]} >
 
                 <Sheet.Overlay />
 
@@ -95,76 +110,58 @@ const Protokol = ({ navigation }) => {
 
                     <HeaderSheet />
 
-                    <FlatList
-                        style={{ top: 10 }}
-                        data={protocols?.rows}
-                        keyExtractor={(item) => item?.ses_id?.toString()} // Assumindo que o objeto tem um campo 'ses_id'
-                        renderItem={({ item }) => (
-                            <Card onPress={() => {
-                                setModalVisible(!modalVisible);
-                                navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
-                            }} style={{ marginBottom: 10 }}>
-                                <Card.Title title={item?.protocol?.name} subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`} left={(props) => <AntDesign name='sharealt' size={30} iconColor='#36B3B9' />} />
-                            </Card>
-                        )}
-                        onEndReachedThreshold={0.1} // Carregar mais itens quando o usuário chegar a 10% do final da lista
-                        onEndReached={() => {
-                            // Função para carregar mais itens ao alcançar o final da lista
-                            setPage((prevPage) => prevPage + 1); // Aumentar a página
-                        }}
-                    />
-                </Sheet.Frame>
-            </Sheet>
-
-            <Sheet
-                modal
-                open={modalVisibleFinished}
-                dismissOnSnapToBottom
-                animation="medium"
-                native
-                onOpenChange={() => { setModalVisibleFinished(false) }
-                }
-
-                snapPoints={[30]} >
-
-                <Sheet.Overlay />
-
-                <Sheet.Frame style={{ borderTopEndRadius: 15, borderTopStartRadius: 15 }}>
-
-                    <HeaderSheet />
-
-                    <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 20 }}>
-
-                        <Button
-                            buttonColor={colorPrimary}
-                            textColor='white'
-                            icon="share"
-                            mode="contained"
-                            onPress={() => {
-                                setModalVisibleFinished(!modalVisibleFinished);
-                                navigation.navigate("ServiceProvisionReceipt", { pacient: pacient })
+                    {firstModal ?
+                        <FlatList
+                            style={{ top: 10 }}
+                            data={protocols?.rows}
+                            keyExtractor={(item) => item?.ses_id?.toString()}
+                            renderItem={({ item }) => (
+                                <Card onPress={() => {
+                                    setModalVisible(false);
+                                    navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
+                                }} style={{ marginBottom: 10 }}>
+                                    <Card.Title title={item?.protocol?.name} subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`} left={(props) => <AntDesign name='sharealt' size={30} iconColor='#36B3B9' />} />
+                                </Card>
+                            )}
+                            onEndReachedThreshold={0.1}
+                            onEndReached={() => {
+                                setPage((prevPage) => prevPage + 1)
                             }}
-                            style={{ marginTop: 10 }}
-                        >
-                            Recibo de prestação de serviço
-                        </Button>
+                        />
+                        :
+                        <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 20 }}>
+                            <Text style={{ textAlign: "center", fontSize: 22, marginVertical: 2 }} >Relatorios disponiveis</Text>
 
-                        <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
-                            setModalVisibleFinished(!modalVisibleFinished);
-                            navigation.navigate("MonitoringReportPdf", { pacient: pacient })
-                        }} style={{ marginTop: 10 }}>
-                            Relatório de acompanhamento
-                        </Button>
+                            <Button
+                                buttonColor={colorPrimary}
+                                textColor='white'
+                                icon="share"
+                                mode="contained"
+                                onPress={() => {
+                                    setModalVisible(false);
+                                    navigation.navigate("ServiceProvisionReceipt", { pacient: pacient })
+                                }}
+                                style={{ marginTop: 10 }}
+                            >
+                                Recibo de prestação de serviço
+                            </Button>
 
-                        <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
-                            navigation.navigate("DischargeReportPdf", { pacient: pacient })
-                            setModalVisibleFinished(!modalVisibleFinished);
-                        }} style={{ marginTop: 10 }}>
-                            Relatório de alta
-                        </Button>
+                            <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+                                setModalVisible(false);
+                                navigation.navigate("MonitoringReportPdf", { pacient: pacient })
+                            }} style={{ marginTop: 10 }}>
+                                Relatório de acompanhamento
+                            </Button>
 
-                    </ScrollView>
+                            <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+                                navigation.navigate("DischargeReportPdf", { pacient: pacient })
+                                setModalVisible(false);
+                            }} style={{ marginTop: 10 }}>
+                                Relatório de alta
+                            </Button>
 
+                        </ScrollView>
+                    }
                 </Sheet.Frame>
             </Sheet>
 
@@ -183,29 +180,39 @@ const Protokol = ({ navigation }) => {
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação fonoaudiologica
                     </Button>
-                    <Button buttonColor={colorRed} mode='contained' onPress={() => {
-
-                        setModalVisibleFinished(!modalVisibleFinished)
-                    }}>gerar relatório</Button>
+                    <Button buttonColor={colorPrimary} mode='contained' onPress={() => {
+                        setFirstModal(false)
+                        setModalVisible(true)
+                    }}>Gerar relatório</Button>
 
                 </View>
 
-                <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário: {String(thereSession)}</Text>
+                <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário</Text>
 
-                <Card onPress={() => { protocols?.count && setModalVisible(!modalVisible) }} style={{ marginBottom: 10 }}>
-                    <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : "Nenhuma sessão"}`
-                    } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={!protocols?.count ? colorRed : colorGreen} /> :
-                        <AntDesign name='sharealt' size={30} color={colorGreen} />} />
-                </Card>
+                <Animatable.View animation={protocols?.count && "slideInUp"} >
+                    <Card onPress={() => {
+                        if (protocols?.count) {
+                            setFirstModal(true)
+                            setModalVisible(true)
+                        }
+                    }} style={{ marginBottom: 10 }}>
+                        <Card.Title style={{}} title={`${protocols?.count ? protocols?.count + " Sessões" : "Nenhuma sessão"}`
+                        } left={(props) => !protocols?.count ? <AntDesign name='closecircleo' size={30} color={!protocols?.count ? colorRed : colorGreen} /> :
+                            <AntDesign name='sharealt' size={30} color={colorGreen} />} />
+                    </Card>
+                </Animatable.View>
+
 
             </ScrollView>
+
 
             <View style={{ bottom: 10, paddingHorizontal: 15 }}>
                 <Button buttonColor={thereSession ? colorRed : '#38CB89'} icon="content-save" mode="contained" onPress={() => {
                     if (!thereSession) {
-                       
                         return navigation.navigate("Section");
                     }
+                
+                    setPac_id(null)
                     navigation.navigate("Root");
                     setThereSession(false)
                 }} style={{ marginTop: 10 }}>

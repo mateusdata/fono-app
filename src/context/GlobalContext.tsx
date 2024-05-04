@@ -8,7 +8,7 @@ interface Location {
 interface FormatGlobal {
     location: Location,
     setLocation: Dispatch<SetStateAction<Location>>,
-    thereSession: boolean,
+    thereSession: any,
     setThereSession:Dispatch<SetStateAction<boolean>>,
 }
 
@@ -19,7 +19,7 @@ const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
         latitude: null,
         longitude: null
     });
-    const [thereSession, setThereSession] = useState(false);
+    const [thereSession, setThereSession] = useState<boolean>(false);
 
     return (
         <ContextGlobal.Provider value={{ location, setLocation, thereSession, setThereSession }}>

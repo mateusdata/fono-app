@@ -38,7 +38,7 @@ export default function Section({ navigation }) {
 
   const [series, setSeries] = useState<any>("");
   const [repetitions, setRepetitions] = useState<any>("");
-  const { location, setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
+  const { setThereSession, thereSession } = useContext(ContextGlobal);
 
   const schema = yup.object().shape({
     doc_id: yup.number(),
@@ -139,7 +139,7 @@ export default function Section({ navigation }) {
       let exercisePlans = watch("exercise_plans");
       if (exercisePlans?.some(exercise => exercise?.exe_id === exe_id)) {
         setSeries("");
-        setRepetitions("");    
+        setRepetitions("");
         return
       }
       if (!Array.isArray(exercisePlans)) {
@@ -163,17 +163,20 @@ export default function Section({ navigation }) {
   const onSubmit = async (data) => {
     setLoadingBottom(true)
     try {
+
+      console.log(thereSession)
       const response: any = await api.post("create-protocol", data);
       setLoadingBottom(false)
-      setMensageToast("Protocolo criado com sucesso 🥳🎉🎉")
       setThereSession(true)
+
+      setMensageToast("Protocolo criado com sucesso 🥳🎉🎉")
       setShowToast(true)
       reset()
 
     } catch (error) {
       setLoadingBottom(false)
       console.log(error);
-      setMensageToast(!error.response  ? "Sem conexão com a internet" :"Erro ao criar sessão")
+      setMensageToast(!error.response ? "Sem conexão com a internet" : "Erro ao criar sessão")
       setShowToast(true)
 
     }
@@ -188,14 +191,19 @@ export default function Section({ navigation }) {
 
 
   const createProtocol = async () => {
-    try {
-      const session: any = await api.post("create-session", { pac_id });
-      setValue("ses_id", session.data.ses_id);
-      handleSubmit(onSubmit, onError)()
-    } catch (error) {
-      setMensageToast("Ocoreu um erro")
-      setShowToast(true)
+    if (!!watch("exercise_plans")) {
+      try {
+        const session: any = await api.post("create-session", { pac_id });
+        setValue("ses_id", session.data.ses_id);
+        handleSubmit(onSubmit, onError)()
+      } catch (error) {
+        setMensageToast("Ocoreu um erro")
+        setShowToast(true)
+      }
+      return
     }
+    setMensageToast("Error: atribua um exercicio")
+    setShowToast(true)
 
   }
 
@@ -331,8 +339,8 @@ export default function Section({ navigation }) {
           position: 'relative',
         }}>
           <Button
-          loading={loadingBottom}
-          disabled={loadingBottom}
+            loading={loadingBottom}
+            disabled={loadingBottom}
             mode='elevated'
             textColor='white'
             style={{
@@ -341,12 +349,12 @@ export default function Section({ navigation }) {
               margin: 16,
               right: 0,
               bottom: 0,
-              backgroundColor: loadingBottom ? "gray": '#36B3B9',
+              backgroundColor: loadingBottom ? "#00000090" : '#36B3B9',
             }}
             icon="plus"
             onPress={() => createProtocol()}
           >
-            Criar protocolo
+            Criar sessão
           </Button>
         </View>
       </View>

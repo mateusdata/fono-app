@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Pressable, ScrollView, Animated, StyleSheet, BackHandler, ToastAndroid } from 'react-native';
+import { View, Pressable, ScrollView, Animated, StyleSheet, BackHandler, ToastAndroid, Share, Text, Linking } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { Square, XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -12,8 +12,10 @@ import { ContextPacient } from '../context/PacientContext';
 import api from '../config/Api';
 import Toast from '../components/toast';
 import NetInfo from "@react-native-community/netinfo";
-import { colorRed } from '../style/ColorPalette';
+import { colorPrimary, colorRed } from '../style/ColorPalette';
 import SkelectonSmall from '../components/SkelectonSmall';
+import * as  Animatable from "react-native-animatable"
+import { ContextGlobal } from '../context/GlobalContext';
 
 
 const Home = ({ navigation }: { navigation: any }) => {
@@ -23,9 +25,10 @@ const Home = ({ navigation }: { navigation: any }) => {
   const { pac_id } = useContext(ContextPacient);
   const [showToast, setShowToast] = useState<boolean>(true);
   const [mensageToast, setMensageToast] = useState<string>("");
+  const { setThereSession, thereSession } = useContext(ContextGlobal);
+
 
   useEffect(() => {
-
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
         setShowToast(true)
@@ -55,25 +58,40 @@ const Home = ({ navigation }: { navigation: any }) => {
       };
       fectData();
 
-    }, [pac_id, user.doc_id])
+    }, [pac_id && thereSession, user.doc_id])
   );
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: '🎉 Olá amigos, venham conferir este super aplicativo de fonoaudiologia para médicos: 📱 https://fonotherapp.vercel.app/ 🎉',
+        url: "https://fonotherapp.vercel.app/",
+      });
+    } catch (error) {
+    }
+  };
 
-
+  const openSite = () => {
+    Linking.openURL("https://fonotherapp.vercel.app/")
+  }
 
   return (
     <>
 
       <ScrollView style={styles.container}>
+
         <View style={styles.header}>
           <Card style={styles.card}>
             <Card.Content>
-              <Title >{user?.nick_name}</Title>
+              <Title style={{ color: colorPrimary }} >{user?.nick_name}</Title>
               <View style={styles.pacientsInfo}>
-                <AntDesign name="medicinebox" size={20} color="#36B3B9" />
-                <Paragraph>
-                  {totalPacient !== '' ? (totalPacient === 1 ? " " + totalPacient +
-                    " Paciente" : " " + totalPacient + " Pacientes ") : <SkelectonSmall />}
-                </Paragraph>
+                <Animatable.View animation="slideInLeft"  style={styles.pacientsInfo}>
+                <AntDesign name="addusergroup" size={22} style={{ top: 0, left: 4 }} color="#36B3B9" />
+                  <Paragraph >
+                    {totalPacient !== '' ? (totalPacient === 1 ? " " + totalPacient +
+                      "Paciente" : + totalPacient + " Pacientes ") : <SkelectonSmall />}
+                  </Paragraph>
+
+                </Animatable.View>
 
               </View>
             </Card.Content>
@@ -87,52 +105,53 @@ const Home = ({ navigation }: { navigation: any }) => {
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("CreatePacient")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <AntDesign name="addfile" size={20} color="#36B3B9" />
+              <AntDesign name="addfile" size={20} style={{ top: 4 }} color="#36B3B9" />
               <CustomText >Paciente</CustomText>
             </Pressable >
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("AccompanyPatient")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <AntDesign name="adduser" size={20} color="#36B3B9" />
+              <AntDesign name="adduser" size={20} style={{ top: 4 }} color="#36B3B9" />
               <CustomText>Acompanhar</CustomText>
             </Pressable >
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Exercise")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <SimpleLineIcons name='chart' size={20} color='#36B3B9' />
+              <SimpleLineIcons name='chart' size={20} style={{ top: 4 }} color='#36B3B9' />
               <CustomText>Exercícios</CustomText>
             </Pressable >
           </XStack>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => {
-              if (pac_id) {
+              if (pac_id && thereSession) {
                 return navigation.navigate("Protokol")
               }
-              alert("Nenhum paciente em atendimento")
+              setMensageToast("Nenhum paciente em atendimento")
+              setShowToast(true)
             }} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <AntDesign name="Safety" size={20} color="#36B3B9" />
-              <CustomText>Protocolo</CustomText>
+              <AntDesign name="Safety" size={20} style={{ top: thereSession ? 9 : 4 }} color={thereSession ? "red" : "#36B3B9"} />
+              <CustomText style={{ textAlign: "center", color: thereSession ? "red" : "black" }}>{thereSession && `Contunuar`} Atendimento</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9" }} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <SimpleLineIcons name='badge' size={20} color='#36B3B9' />
-              <CustomText>Relatorios</CustomText>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={handleShare} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='badge' size={20} style={{ top: 4 }} color='#36B3B9' />
+              <CustomText>Indique</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <SimpleLineIcons name='check' size={20} color='#36B3B9' />
-              <CustomText>Exercícios</CustomText>
+            <Pressable android_ripple={{ color: "#36B3B9", }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='check' size={20} style={{ top: 9 }} color='#36B3B9' />
+              <CustomText style={{ textAlign: "center" }}>Concluir Cadastro</CustomText>
             </Pressable >
           </XStack>
           {showAllCards &&
 
             <Animated.View style={{ opacity: 1, direction: "rtl" }}>
               <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
-                <Pressable android_ripple={{ color: "#36B3B9" }} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-                  <AntDesign name="aliwangwang" size={20} color="#36B3B9" />
-                  <CustomText>Recibos</CustomText>
+                <Pressable android_ripple={{ color: "#36B3B9" }} onPress={openSite} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+                  <AntDesign name="cloud" size={20} style={{ top: 4 }} color="#36B3B9" />
+                  <CustomText>Site</CustomText>
                 </Pressable>
                 <Pressable android_ripple={{ color: "#36B3B9" }} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-                  <SimpleLineIcons name='calendar' size={20} color='#36B3B9' />
+                  <SimpleLineIcons name='calendar' size={20} style={{ top: 4 }} color='#36B3B9' />
                   <CustomText>Ficha</CustomText>
                 </Pressable>
                 <Pressable android_ripple={{ color: "#36B3B9" }} style={{ backgroundColor: "white", width: 105, gap: 12, height: 100, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-                  <SimpleLineIcons name='feed' size={20} color='#36B3B9' />
+                  <SimpleLineIcons name='feed' size={20} style={{ top: 4 }} color='#36B3B9' />
                   <CustomText>Menu</CustomText>
                 </Pressable>
               </XStack>
@@ -152,7 +171,7 @@ const Home = ({ navigation }: { navigation: any }) => {
 
       </ScrollView>
 
-      <Toast backgroundColor={colorRed} visible={showToast} mensage={"Você esta sem internet"} setVisible={() => { }} duration={6000} />
+      <Toast visible={showToast} mensage={mensageToast} setVisible={setShowToast} duration={6000} />
 
     </>
   );
@@ -170,7 +189,7 @@ const styles = StyleSheet.create({
     padding: 0,
   },
   pacientsInfo: {
-    flexDirection: "row", top: 5, alignItems: "center", borderWidth: 0, gap: 5
+    flexDirection: "row", top: 3, alignItems: "center", borderWidth: 0, gap: 5, right: 4,
   },
   card: {
     marginVertical: 5,

@@ -5,6 +5,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
 import api from '../config/Api';
+import * as  Animatable from "react-native-animatable"
+
 
 const AccompanyPatient = ({navigation}) => {
 
@@ -37,7 +39,7 @@ const AccompanyPatient = ({navigation}) => {
     };
 
     return (
-        <View style={{paddingHorizontal:8, paddingVertical:5}}>        
+        <Animatable.View animation="" style={{paddingHorizontal:8, paddingVertical:5}}>        
             <Searchbar
                 placeholder="Pesquisar pacientes"
                 onChangeText={onChangeSearch}
@@ -48,7 +50,7 @@ const AccompanyPatient = ({navigation}) => {
                 cursorColor={"gray"}
             />
 
-            <View>
+            <Animatable.View animation="fadeInDown">
 
                 <FlatList
                     data={pacients}
@@ -69,8 +71,8 @@ const AccompanyPatient = ({navigation}) => {
                     )}
                 />
 
-            </View>
-        </View>
+            </Animatable.View>
+        </Animatable.View>
     );
 };
 

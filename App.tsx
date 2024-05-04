@@ -47,17 +47,15 @@ export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <NavigationContainer>
-        <AuthProvider>
+        <GlobalContext>
           <TamaguiProvider config={config}>
-            
-            <GlobalContext>
+            <AuthProvider>
               <PacientContext>
                 <Routes />
               </PacientContext>
-            </GlobalContext>
-
+            </AuthProvider>
           </TamaguiProvider>
-        </AuthProvider>
+        </GlobalContext>
       </NavigationContainer>
     </GestureHandlerRootView>
   );
