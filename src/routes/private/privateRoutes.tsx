@@ -9,7 +9,6 @@ import Anamnese from '../../pages/Anamnese';
 import Exercise from '../../pages/Exercise';
 import MyInformation from '../../pages/MyInformation';
 import ChangeName from '../../pages/ChangeName';
-import Suggestion from '../../pages/Suggestion';
 import Protokol from '../../pages/Protokol';
 import PatientInfo from '../../pages/PacientInfo';
 import AccompanyPatient from '../../pages/AccompanyPatient';
@@ -28,6 +27,8 @@ import UnansweredQuestions from '../../pages/UnansweredQuestions';
 import ServiceProvisionReceipt from '../../pages/ServiceProvisionReceipt';
 import DischargeReportPdf from '../../pages/DischargeReportPdf';
 import MonitoringReportPdf from '../../pages/MonitoringReportPdf';
+import FrequentlyAskedQuestions from '../../pages/FrequentlyAskedQuestions';
+import Feedback from '../../pages/Feedback';
 
 
 const AppStack = createStackNavigator();
@@ -56,7 +57,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{ headerTitleAlign: "center", headerTitle: "Alterar email" }} />
         <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerTitleAlign: "center", headerTitle: "Alterar senha" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
-        <AppStack.Screen name='Suggestion' component={Suggestion} options={{ headerTitleAlign: "center", headerTitle: "Sugestão" }} />
+        <AppStack.Screen name='Feedback' component={Feedback} options={{ headerTitleAlign: "center", headerTitle: "Feedback" }} />
         <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{ headerTitleAlign: "center", headerTitle: "" }} />
         <AppStack.Screen name='UnansweredQuestions' component={UnansweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "" }}/>
 
@@ -72,6 +73,9 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de acompanhamento" }} />
         <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
 
+        <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{ headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
+        <AppStack.Screen name='teste' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
+          
 
 
       </AppStack.Navigator>
