@@ -94,8 +94,7 @@ export default function Section({ navigation }) {
       try {
         const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
 
-        setVideosFono([...videosFono, ...response.data.rows]);
-        console.log(response.data.rows)
+        setVideosFono([...videosFono, ...response.data.rows]);        
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -112,8 +111,7 @@ export default function Section({ navigation }) {
       setVideosFono(response.data);
       setLoading(false)
     } catch (error) {
-      setLoading(false)
-      console.log(error)
+      setLoading(false)      
       setChangeList(!changeList)
     }
   }
@@ -163,8 +161,7 @@ export default function Section({ navigation }) {
   const onSubmit = async (data) => {
     setLoadingBottom(true)
     try {
-
-      console.log(thereSession)
+      
       const response: any = await api.post("create-protocol", data);
       setLoadingBottom(false)
       setThereSession(true)
@@ -174,8 +171,7 @@ export default function Section({ navigation }) {
       reset()
 
     } catch (error) {
-      setLoadingBottom(false)
-      console.log(error);
+      setLoadingBottom(false)      
       setMensageToast(!error.response ? "Sem conexão com a internet" : "Erro ao criar sessão")
       setShowToast(true)
 
@@ -184,9 +180,7 @@ export default function Section({ navigation }) {
 
   const onError = (error) => {
     setMensageToast("Error: atribua um exercicio")
-    setShowToast(true)
-    console.log(error);
-    console.log(error)
+    setShowToast(true)        
   }
 
 

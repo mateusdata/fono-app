@@ -59,7 +59,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='ChangeCredential' component={ChangeCredential} options={{ headerTitleAlign: "center", headerTitle: "Alterar senha" }} />
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Feedback' component={Feedback} options={{ headerTitleAlign: "center", headerTitle: "Feedback" }} />
-        <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{ headerTitleAlign: "center", headerTitle: "" }} />
+        <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{ headerTitleAlign: "center", headerTitle: "", headerShown:true }} />
         <AppStack.Screen name='UnansweredQuestions' component={UnansweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Concluir cadastro" }}/>
 
         <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente", headerLeft:null }} />

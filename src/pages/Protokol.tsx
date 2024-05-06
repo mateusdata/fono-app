@@ -27,12 +27,13 @@ const Protokol = ({ navigation }) => {
     const [protocols, setProtocols] = useState<any>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [firstModal, setFirstModal] = useState<boolean>(true);
-    const [modalVisibleFinished, setModalVisibleFinished] = useState(false);
     const [page, setPage] = React.useState(0);
     const { setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
-    const {isFromRegistration, setIsFromRegistration} = useContext(ContextGlobal)
+    const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
 
-
+    useEffect(() => {
+        setIsFromRegistration(true)
+    }, [isFromRegistration])
 
     useEffect(() => {
         return () => backHandler.remove();
@@ -43,12 +44,7 @@ const Protokol = ({ navigation }) => {
             setModalVisible(false)
             return true
         }
-    
-        if(isFromRegistration){
-            setIsFromRegistration(false)
-            navigation.navigate("Root")
-            return true;
-          }
+
         return false;
     });
 
@@ -71,7 +67,6 @@ const Protokol = ({ navigation }) => {
     useFocusEffect(
         React.useCallback(() => {
             const fetchData = async () => {
-                console.log("pegou")
                 try {
                     const response = await api.get(`/info-pacient/${pac_id}`);
                     setPacient(response.data);
@@ -98,7 +93,6 @@ const Protokol = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
-
             <Sheet
                 modal
                 open={modalVisible}

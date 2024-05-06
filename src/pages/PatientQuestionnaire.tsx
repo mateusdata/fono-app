@@ -9,6 +9,10 @@ import SkelectonView from "../components/SkelectonView";
 import api from "../config/Api";
 import { colorPrimary } from "../style/ColorPalette";
 import { ContextGlobal } from "../context/GlobalContext";
+import { useFocusEffect } from '@react-navigation/native';
+import { registerAnimation } from "react-native-animatable";
+import LoadingComponent from "../components/LoadingComponent";
+
 
 const PatientQuestionnaire = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -18,32 +22,34 @@ const PatientQuestionnaire = ({ navigation }) => {
   const [selectedAnswers, setSelectedAnswers] = useState<any>({});
   const [nextQuestinnaire, setnextQuestinnaire] = useState(false);
   const [loading, setLoading] = useState<boolean>(false)
-  const { setIsFromRegistration} = useContext(ContextGlobal)
+  const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setIsLoading(true)
-        const response = await api.get(`/next-questionnaire/${pac_id}`);
-        setAnalysis(response.data);
 
-        if (!response?.data || Object.keys(response.data).length === 0) {
-          setIsFromRegistration(true)
-          return navigation.navigate("Protokol");
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        try {
+          setIsLoading(true)
+          const response = await api.get(`/next-questionnaire/${pac_id}`);
+          setAnalysis(response.data);
+          setIsLoading(false);
+
+        } catch (error) {
+          if (error?.response?.status === 404) {
+            navigation.navigate(isFromRegistration ? "Root" : "Protokol");
+          }
+          setIsLoading(false);
         }
-        
-        setIsLoading(false);
-      } catch (error) {
-        setIsLoading(false);
-      }
-    };
-    fetchData();
-  }, [nextQuestinnaire]);
+      };
+      fetchData();
+    }, [nextQuestinnaire, isFromRegistration])
+  );
+
 
   useLayoutEffect(() => {
-    navigation.setOptions({ headerTitle: analysis?.name ? analysis?.name  : "" });
-  }, [analysis?.name]);
+    navigation.setOptions({ headerTitle: analysis?.name ? analysis?.name : "", headerShown: isFromRegistration ? false  : true  });
+  }, [analysis?.name, isFromRegistration]);
 
   const answerSchema = z.object({
     pac_id: z.number().int().positive(),
@@ -53,8 +59,14 @@ const PatientQuestionnaire = ({ navigation }) => {
     })).min(1)
   });
 
+
+ if(isFromRegistration){
+  return <LoadingComponent/>;
+ }
   if (isLoading) {
-    return <SkelectonView />;
+    return <>
+      <SkelectonView />
+    </>;
   }
 
   const onSubmit = async () => {
@@ -70,12 +82,13 @@ const PatientQuestionnaire = ({ navigation }) => {
     try {
       answerSchema.parse(data); // Validate data against schema
       const response = await api.post("/answer-questionnaire", data);
+      console.log("Seu estado de logogado via resgisto esta => ", isFromRegistration)
       setAnalysis({});
       setSelectedAnswers({});
       setnextQuestinnaire(!nextQuestinnaire);
     } catch (error) {
       console.log("error", error);
-      if(!error.response){
+      if (!error.response) {
         Alert.alert("Error", "Atribua pelo mesmo uma resposta")
       }
     }
@@ -83,6 +96,7 @@ const PatientQuestionnaire = ({ navigation }) => {
 
   return (
     <View style={{ padding: 15, flex: 1 }}>
+
       <ScrollView style={{ flex: 0.9, marginBottom: 50 }}>
         {analysis?.sections?.map((section, sectionIndex) => (
           <View key={sectionIndex} style={{ borderBottomWidth: 1 }}>
@@ -116,9 +130,9 @@ const PatientQuestionnaire = ({ navigation }) => {
         ))}
       </ScrollView>
 
-     
+
       <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
-        <Button icon="arrow-right" 
+        <Button icon="arrow-right"
           disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
           Próximo
         </Button>

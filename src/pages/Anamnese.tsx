@@ -35,8 +35,13 @@ const Anamnese = ({ navigation }) => {
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
-
-    }
+      education: "Educação",
+      base_diseases: "Doenças crônicas fictícias",
+      chewing_complaint: "Queixa mastigatória",
+      consultation_reason: "indicação da Flavia, fonoaudióloga",
+      food_profile: "Vegetariano"
+    }    
+    
   });
 
   const onSubmit = async (data) => {

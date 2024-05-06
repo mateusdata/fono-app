@@ -13,6 +13,7 @@ import { ContextPacient } from '../context/PacientContext';
 import { cpf } from 'cpf-cnpj-validator';
 import api from '../config/Api';
 import { useFocusEffect } from '@react-navigation/native';
+import { ContextGlobal } from '../context/GlobalContext';
 
 
 const CreatePacient = ({ navigation }) => {
@@ -20,6 +21,11 @@ const CreatePacient = ({ navigation }) => {
   const { user } = useContext(Context);
   const { setPac_id, setPacient } = useContext(ContextPacient);
   const formatCpf = cpf;
+  const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
+
+    useEffect(()=>{
+        setIsFromRegistration(false)
+      },[])
 
   useEffect(() => {
     let cpf = "";
