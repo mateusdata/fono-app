@@ -99,9 +99,9 @@ const Home = ({ navigation }: { navigation: any }) => {
 
   const onRefresh = () => {
     setRefreshing(true);
-    
+
     fectData();
-       setTimeout(() => {
+    setTimeout(() => {
       setRefreshing(false);
     }, 800)
   };
@@ -111,7 +111,7 @@ const Home = ({ navigation }: { navigation: any }) => {
       <ScrollView
         refreshControl={
           <RefreshControl
-          
+
             refreshing={refreshing}
             onRefresh={onRefresh}
           />
@@ -164,8 +164,14 @@ const Home = ({ navigation }: { navigation: any }) => {
               }
               setMensageToast("Nenhum paciente em atendimento")
               setShowToast(true)
-            }} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <AntDesign name="Safety" size={20} style={{ top: thereSession ? 9 : 4 }} color={thereSession ? "red" : "#36B3B9"} />
+            }} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: thereSession ? 1 : 2, borderColor: thereSession ? colorRed : "#E8E8E8" }}>
+             
+              {thereSession ? <Animatable.View animation={"rubberBand"} iterationCount={"infinite"} iterationDelay={100}>
+                <AntDesign name="arrowright" size={20} style={{ top: thereSession ? 9 : 4 }} color={thereSession ? "red" : "#36B3B9"} />
+              </Animatable.View> :
+
+                <AntDesign name="Safety" size={20} style={{ top: thereSession ? 9 : 4 }} color={thereSession ? "red" : "#36B3B9"} />
+              }
               <CustomText style={{ textAlign: "center", color: thereSession ? "red" : "black" }}>{thereSession && `Contunuar`} Atendimento</CustomText>
             </Pressable >
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={handleShare} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>

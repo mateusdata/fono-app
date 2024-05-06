@@ -25,7 +25,7 @@ export default function ChangeGovLicense() {
         resolver: yupResolver(schema),
         mode: "onSubmit",
         defaultValues: {
-            gov_license: ""
+            gov_license: user.gov_license
         }
     });
 
@@ -52,7 +52,7 @@ export default function ChangeGovLicense() {
         <View style={styles.container}>
             <View style={{ flex: 0.9 }}>
                {<View style={{flexDirection:"row"}}> 
-                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >{`${!user.gov_license ? "Você ainda não tem CRFA": "Meu CRFA atual"}`}</Text>
+                    <Text style={{ fontSize: 18, marginBottom: 10, padding: 5 }} >{`${!user.gov_license ? "Você ainda não cadastrou seu CRFA": "Meu CRFA atual"}`}</Text>
                     <Text style={{ fontSize: 18, marginBottom: 10, padding: 5, color: colorSecundary }} >{user?.gov_license }</Text>
                 </View>}
                 <Controller

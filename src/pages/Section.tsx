@@ -169,7 +169,7 @@ export default function Section({ navigation }) {
       setLoadingBottom(false)
       setThereSession(true)
 
-      setMensageToast("Protocolo criado com sucesso 🥳🎉🎉")
+      setMensageToast("Sessão criado com sucesso 🥳🎉🎉")
       setShowToast(true)
       reset()
 

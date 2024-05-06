@@ -13,7 +13,7 @@ import * as  Animatable from "react-native-animatable"
 
 
 const Login = ({ navigation }: any) => {
-    const { setLoadingAuth, setUser } = useContext(Context);
+    const { setLoadingAuth, setUser, user } = useContext(Context);
     
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
@@ -23,22 +23,39 @@ const Login = ({ navigation }: any) => {
         },
         mode: "onChange"
     });
+
+    const infoUser = async (doc_id:number)=>{
+        const response = await api.get(`/info-user/${doc_id}`);
+      
+        try {
+          const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
+          const updatedUser = { ...recoveryUser, gov_license:response.data.doctor.gov_license };
+          setUser(updatedUser);
+          await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
+        } catch (error) {
+        }
+      
+      }
+
     const onSubmit = async (data: object) => {
         try {
             setLoading(true);
             const response = await api.post("/login", data);
+
             setLoadingAuth(true);
             try {
                 await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
                 setUser(response.data);
+                infoUser(response?.data?.doc_id)
             } catch (error) {
                 alert("erro")
             }
             setLoadingAuth(false);
 
         } catch (error) {
+            setLoading(false);
             if (!error.response) {
-                return setError("password", { message: "Usuario ou senha incorreta!" })
+                return setError("password", { message: "Ocorreu um erro!" })
             }
             setError("password", { message: "Ocorreu um erro!" })
             setLoading(false);

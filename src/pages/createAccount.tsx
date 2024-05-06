@@ -14,7 +14,7 @@ const CreateAccount = ({ navigation }: any) => {
   const { setUser, setLoadingAuth } = useContext(Context);
   const [loading, setLoading] = useState(false);
 
-  const { watch, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
+  const { watch, reset, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
     defaultValues: {
       nick_name: "",
       password: "",
@@ -24,32 +24,14 @@ const CreateAccount = ({ navigation }: any) => {
   });
 
 
-  const login = async (data: object) => {
-    try {
-      setLoading(true);
-      const response = await api.post("/login", data);
-      setLoadingAuth(true);
-      try {
-        await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
-        navigation.navigate("FinishRegistration", {user: watch()})
-      } catch (error) {
-        console.log(error)
-        alert("erro")
-      }
-      setLoadingAuth(false);
-
-    } catch (error) {
-      setError("password", { message: "Ocorreu um error" })
-      setLoading(false);
-    }
-  };
-
   const onSubmit = async (data) => {
 
     try {
       setLoading(true)
       const response = await api.post("/create-user", data)
-      login({ email: data.email, password: data.password })
+      setLoading(false);
+      reset()
+     response.data ? navigation.navigate("FinishRegistration", {user: watch()}) : alert("Ocorreu um erro")
     } catch (error) {
       setError("password", { message: "Ocorreu um error" })
 

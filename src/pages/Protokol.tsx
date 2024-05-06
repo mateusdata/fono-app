@@ -30,6 +30,7 @@ const Protokol = ({ navigation }) => {
     const [modalVisibleFinished, setModalVisibleFinished] = useState(false);
     const [page, setPage] = React.useState(0);
     const { setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
+    const {isFromRegistration, setIsFromRegistration} = useContext(ContextGlobal)
 
 
 
@@ -42,6 +43,12 @@ const Protokol = ({ navigation }) => {
             setModalVisible(false)
             return true
         }
+    
+        if(isFromRegistration){
+            setIsFromRegistration(false)
+            navigation.navigate("Root")
+            return true;
+          }
         return false;
     });
 

@@ -8,6 +8,7 @@ import { z } from "zod";
 import SkelectonView from "../components/SkelectonView";
 import api from "../config/Api";
 import { colorPrimary } from "../style/ColorPalette";
+import { ContextGlobal } from "../context/GlobalContext";
 
 const PatientQuestionnaire = ({ navigation }) => {
   const { control, handleSubmit } = useForm();
@@ -17,6 +18,7 @@ const PatientQuestionnaire = ({ navigation }) => {
   const [selectedAnswers, setSelectedAnswers] = useState<any>({});
   const [nextQuestinnaire, setnextQuestinnaire] = useState(false);
   const [loading, setLoading] = useState<boolean>(false)
+  const { setIsFromRegistration} = useContext(ContextGlobal)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,6 +28,7 @@ const PatientQuestionnaire = ({ navigation }) => {
         setAnalysis(response.data);
 
         if (!response?.data || Object.keys(response.data).length === 0) {
+          setIsFromRegistration(true)
           return navigation.navigate("Protokol");
 
         }

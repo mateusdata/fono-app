@@ -9,7 +9,9 @@ interface FormatGlobal {
     location: Location,
     setLocation: Dispatch<SetStateAction<Location>>,
     thereSession: any,
-    setThereSession:Dispatch<SetStateAction<boolean>>,
+    setThereSession: Dispatch<SetStateAction<boolean>>,
+    isFromRegistration: boolean,
+    setIsFromRegistration: Dispatch<SetStateAction<boolean>>,
 }
 
 export const ContextGlobal = createContext<FormatGlobal>({} as FormatGlobal);
@@ -20,9 +22,13 @@ const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
         longitude: null
     });
     const [thereSession, setThereSession] = useState<boolean>(false);
+    const [isFromRegistration, setIsFromRegistration] = useState<boolean>(false);
+
+
+
 
     return (
-        <ContextGlobal.Provider value={{ location, setLocation, thereSession, setThereSession }}>
+        <ContextGlobal.Provider value={{ location, setLocation, thereSession, setThereSession, isFromRegistration, setIsFromRegistration }}>
             {children}
         </ContextGlobal.Provider>
     );

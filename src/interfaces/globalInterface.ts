@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface LoginInterface {
     email: string;
     senha: string;
@@ -47,4 +49,25 @@ export interface FormatPacient {
         },
 
     ]
+}
+
+export interface FormatUser {
+    token: string;
+    email: string;
+    usu_id: number;
+    doc_id: number;
+    nick_name: string;
+    gov_license: string;
+}
+
+export interface ContextProps {
+    user: FormatUser| null;
+    setUser: Dispatch<SetStateAction<FormatUser| null>>;
+    logOut: () => any;
+    logado: any,
+    email: string | any,
+    setEmail: Dispatch<SetStateAction<string | null>>,
+    loadingAuth: boolean;
+    setLoadingAuth: Dispatch<SetStateAction<boolean>>;
+
 }

@@ -1,27 +1,10 @@
 import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingComponent from "../components/LoadingComponent";
+import { ContextProps, FormatUser } from "../interfaces/globalInterface";
 
-interface ContextProps {
-    user: FormatUser| null;
-    setUser: Dispatch<SetStateAction<FormatUser| null>>;
-    logOut: () => any;
-    logado: any,
-    email: string | any,
-    setEmail: Dispatch<SetStateAction<string | null>>,
-    loadingAuth: boolean;
-    setLoadingAuth: Dispatch<SetStateAction<boolean>>;
 
-}
 
-interface FormatUser {
-    token: string;
-    email: string;
-    usu_id: number;
-    doc_id: number;
-    nick_name: string;
-    gov_license: number;
-}
 export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
