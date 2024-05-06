@@ -1,16 +1,17 @@
 import React from 'react'
 import { View } from 'react-native'
 import Skelecton from './Skelecton'
+import * as  Animatable from "react-native-animatable"
 
 const SkelectonView = () => {
     return (
-        <View style={{ padding: 10 }}>
+        <Animatable.View animation={"bounceInLeft"}   style={{ padding: 10 }}>
             <Skelecton width="100%" />
             <Skelecton width="100%" />
             <Skelecton width="100%" />
             <Skelecton width="100%" />
             <Skelecton width="100%" />
-        </View>
+        </Animatable.View>
     )
 }
 

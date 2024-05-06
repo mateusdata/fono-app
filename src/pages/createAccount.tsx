@@ -39,7 +39,7 @@ const CreateAccount = ({ navigation }: any) => {
       setLoadingAuth(false);
 
     } catch (error) {
-      setError("password", { message: "Usuario ou senha incorreta!" })
+      setError("password", { message: "Ocorreu um error" })
       setLoading(false);
     }
   };
@@ -51,7 +51,9 @@ const CreateAccount = ({ navigation }: any) => {
       const response = await api.post("/create-user", data)
       login({ email: data.email, password: data.password })
     } catch (error) {
-      alert("error")
+      setError("password", { message: "Ocorreu um error" })
+
+      setLoading(false)
     }
   };
 

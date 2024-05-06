@@ -20,6 +20,7 @@ interface FormatUser {
     usu_id: number;
     doc_id: number;
     nick_name: string;
+    gov_license: number;
 }
 export const Context = createContext<ContextProps>({} as ContextProps);
 

@@ -29,6 +29,7 @@ import DischargeReportPdf from '../../pages/DischargeReportPdf';
 import MonitoringReportPdf from '../../pages/MonitoringReportPdf';
 import FrequentlyAskedQuestions from '../../pages/FrequentlyAskedQuestions';
 import Feedback from '../../pages/Feedback';
+import ChangeGovLicense from '../../pages/ChangeGovLicense';
 
 
 const AppStack = createStackNavigator();
@@ -59,7 +60,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Help' component={Help} options={{ headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Feedback' component={Feedback} options={{ headerTitleAlign: "center", headerTitle: "Feedback" }} />
         <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{ headerTitleAlign: "center", headerTitle: "" }} />
-        <AppStack.Screen name='UnansweredQuestions' component={UnansweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "" }}/>
+        <AppStack.Screen name='UnansweredQuestions' component={UnansweredQuestions} options={{ headerTitleAlign: "center", headerTitle: "Concluir cadastro" }}/>
 
         <AppStack.Screen name='Protokol' component={Protokol} options={{ headerTitleAlign: "center", headerTitle: "Perfil do paciente", headerLeft:null }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{ headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />
@@ -74,7 +75,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
 
         <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{ headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
-        <AppStack.Screen name='teste' component={DischargeReportPdf} options={{ headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
+        <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{ headerTitleAlign: "center", headerTitle: "Meu CRFA" }} />
           
 
 

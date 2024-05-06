@@ -64,10 +64,10 @@ export default function ChangeName() {
         <ErrorMessage name={"nick_name"} errors={errors} />
         <Snackbar onDismiss={() => { setShowToast(!showToast) }}
           duration={2000}
-          style={{ backgroundColor: "#38CB89" }} visible={showToast}
-          action={{ label: "☑️" }}
+          visible={showToast}
+          action={{ label: "Fechar" }}
         >
-            Nome Atualizado
+          Nome Atualizado
         </Snackbar>
       </View>
 

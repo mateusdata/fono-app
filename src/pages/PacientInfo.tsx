@@ -23,7 +23,7 @@ const PatientInfo = () => {
     fetchData()
   }, []);
 
-  if (!pacient) {
+  if (true) {
     return <SkelectonView />
   }
   return (

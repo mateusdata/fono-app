@@ -15,14 +15,14 @@ export default function ChangeCredential() {
   Keyboard.isVisible()
   const schema = yup.object({
     new_password: yup.string().min(3, "Nova senha é muito pequena"),
-    current_password: yup.string().min(6,"Senha atual é muito pequena")
+    current_password: yup.string().min(6, "Senha atual é muito pequena")
   })
-  const { control, handleSubmit, setError,watch,  formState: { errors } } = useForm({
+  const { control, handleSubmit, setError, watch, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     mode: "onChange",
     defaultValues: {
       new_password: "",
-      current_password:''
+      current_password: ''
     }
   })
   const onSubmit = async (data: string) => {
@@ -33,12 +33,12 @@ export default function ChangeCredential() {
       setShowToast(true);
     } catch (e) {
       setLoading(false);
-      setError("new_password", {message:"Ocorreu um erro"});
-      setError("current_password", {message:""})
+      setError("new_password", { message: "Ocorreu um erro" });
+      setError("current_password", { message: "" })
 
     }
   };
-  
+
 
   return (
     <View style={styles.container}>
@@ -79,13 +79,13 @@ export default function ChangeCredential() {
           name='new_password'
         />
         <ErrorMessage name={"new_password"} errors={errors} />
-        
+
         <Snackbar onDismiss={() => { setShowToast(!showToast) }}
           duration={2000}
-          style={{ backgroundColor: "#38CB89" }} visible={showToast}
-          action={{ label: "☑️" }}
+          visible={showToast}
+          action={{ label: "Fechar" }}
         >
-            Senha Atualizada
+          Senha Atualizada
         </Snackbar>
       </View>
 

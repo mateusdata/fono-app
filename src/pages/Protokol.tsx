@@ -168,28 +168,32 @@ const Protokol = ({ navigation }) => {
             <ScrollView style={{ padding: 15 }}>
 
                 <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
-                    <Avatar.Text size={64} label={pacient?.person?.first_name[0]?.toUpperCase()} labelStyle={{ color: "white" }} style={{ marginBottom: 10, backgroundColor: "#36B3B9", }} />
+                    <Avatar.Text size={64} label={`${pacient?.person.first_name.split(' ')[0]?.[0]?.toUpperCase()}${pacient?.person.first_name.split(' ')[1]?.[0]?.toUpperCase() || ''}`}
+                        labelStyle={{ color: "white" }} style={{ marginBottom: 10, backgroundColor: "#36B3B9", }} />
                     <Title style={{ marginBottom: 10, }}>{pacient?.person?.first_name && pacient?.person?.first_name}</Title>
                 </View>
 
                 <View style={{ marginTop: 15, marginBottom: 40 }}>
                     <Button buttonColor='#36B3B9' icon="information" mode="contained" onPress={() => navigation.navigate("PatientInfo")} style={{ marginBottom: 10 }}>
-                        Info. Cadastral
+                        Informação Cadastral
                     </Button>
 
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação fonoaudiologica
                     </Button>
-                    <Button buttonColor={colorPrimary} mode='contained' onPress={() => {
+                    <Button icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={20} />} buttonColor={"#E5322D"} mode='contained' onPress={() => {
                         setFirstModal(false)
                         setModalVisible(true)
-                    }}>Gerar relatório</Button>
+                    }}>Gerar relatórios</Button>
+
+
+
 
                 </View>
 
                 <Text style={{ marginBottom: 10, textAlign: "center", fontSize: 18 }}>Sessões do usuário</Text>
 
-                <Animatable.View animation={protocols?.count && "slideInUp"} >
+                <Animatable.View animation={protocols?.count ? "slideInUp" : ""} >
                     <Card onPress={() => {
                         if (protocols?.count) {
                             setFirstModal(true)
@@ -211,7 +215,7 @@ const Protokol = ({ navigation }) => {
                     if (!thereSession) {
                         return navigation.navigate("Section");
                     }
-                
+
                     setPac_id(null)
                     navigation.navigate("Root");
                     setThereSession(false)

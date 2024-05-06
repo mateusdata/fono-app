@@ -65,10 +65,10 @@ export default function ChangeEmail() {
         <ErrorMessage name={"email"} errors={errors} />
         <Snackbar onDismiss={() => { setShowToast(!showToast) }}
           duration={2000}
-          style={{ backgroundColor: "#38CB89" }} visible={showToast}
-          action={{ label: "☑️" }}
-        >
-            Email Atualizado
+          visible={showToast}
+          action={{ label: "Fechar" }}
+          >
+          Email Atualizado
         </Snackbar>
       </View>
 
