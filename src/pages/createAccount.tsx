@@ -30,8 +30,9 @@ const CreateAccount = ({ navigation }: any) => {
       setLoading(true)
       const response = await api.post("/create-user", data)
       setLoading(false);
-      reset()
-     response.data ? navigation.navigate("FinishRegistration", {user: watch()}) : alert("Ocorreu um erro")
+      console.log(response.data)
+      navigation.navigate("FinishRegistration", { user: watch()})
+      reset();
     } catch (error) {
       setError("password", { message: "Ocorreu um error" })
 

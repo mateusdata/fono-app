@@ -26,6 +26,7 @@ const Home = ({ navigation }: { navigation: any }) => {
   const [showToast, setShowToast] = useState<boolean>(true);
   const [mensageToast, setMensageToast] = useState<string>("");
   const { setThereSession, thereSession } = useContext(ContextGlobal);
+  const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
 
   const [screenHeight, setScreenHeight] = useState(Dimensions.get('window').height);
   const [screenWidth, setScreenWidth] = useState(Dimensions.get('window').width);
@@ -65,6 +66,7 @@ const Home = ({ navigation }: { navigation: any }) => {
 
   useFocusEffect(
     React.useCallback(() => {
+      setIsFromRegistration(false)
       fectData()
 
     }, [pac_id && thereSession, user.doc_id])

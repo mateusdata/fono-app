@@ -13,7 +13,7 @@ const PreLogin = ({ navigation }: any) => {
         <View style={{ flex: 1, alignItems: "center", backgroundColor: "#F5F7FF" }}>
             <StatusBar animated hideTransitionAnimation='fade' style='dark' />
 
-            <Image style={{ flex: 0.4, width: "100%" }}
+           <Animatable.Image animation={"fadeInRight"}   style={{ flex: 0.4, width: "100%" }}
                 source={{ uri: 'https://clinicasepam.com.br/wp-content/uploads/2021/06/O-que-e-terapia-da-fala-fono.png' }} />
 
             <View style={{ flex: 0.6, justifyContent: "flex-start", width: "100%", alignItems: "center" }}>
