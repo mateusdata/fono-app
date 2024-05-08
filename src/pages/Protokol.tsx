@@ -130,13 +130,13 @@ const Protokol = ({ navigation }) => {
                             }}
                         />
                         :
-                        <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 20 }}>
-                            <Text style={{ textAlign: "center", fontSize: 22, marginVertical: 2 }} >Relatorios disponiveis</Text>
+                        <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 25 }}>
+                            <Text style={{ textAlign: "center", fontSize: 22, marginVertical: 2 }} >Relatórios disponiveis</Text>
 
                             <Button
                                 buttonColor={colorPrimary}
                                 textColor='white'
-                                icon="share"
+                               icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />}
                                 mode="contained"
                                 onPress={() => {
                                     setModalVisible(false);
@@ -147,14 +147,14 @@ const Protokol = ({ navigation }) => {
                                 Recibo de prestação de serviço
                             </Button>
 
-                            <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+                            <Button buttonColor={colorPrimary} textColor='white'icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />} mode="contained" onPress={() => {
                                 setModalVisible(false);
                                 navigation.navigate("MonitoringReportPdf", { pacient: pacient })
                             }} style={{ marginTop: 10 }}>
                                 Relatório de acompanhamento
                             </Button>
 
-                            <Button buttonColor={colorPrimary} textColor='white' icon="share" mode="contained" onPress={() => {
+                            <Button buttonColor={colorPrimary} textColor='white'icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />} mode="contained" onPress={() => {
                                 navigation.navigate("DischargeReportPdf", { pacient: pacient })
                                 setModalVisible(false);
                             }} style={{ marginTop: 10 }}>
@@ -182,10 +182,10 @@ const Protokol = ({ navigation }) => {
                     <Button buttonColor='#36B3B9' icon="clipboard-text" mode="contained" onPress={() => { navigation.navigate("AnsweredQuestions") }} style={{ marginBottom: 10 }}>
                         Avaliação fonoaudiologica
                     </Button>
-                    <Button icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={20} />} buttonColor={"#E5322D"} mode='contained' onPress={() => {
+                    <Button icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={20} />} buttonColor={colorSecundary} mode='contained' onPress={() => {
                         setFirstModal(false)
                         setModalVisible(true)
-                    }}>Gerar relatórios</Button>
+                    }}>Gerear recibos e relatórios</Button>
 
 
 
@@ -221,7 +221,7 @@ const Protokol = ({ navigation }) => {
                     navigation.navigate("Root");
                     setThereSession(false)
                 }} style={{ marginTop: 10 }}>
-                    {`${thereSession ? "Encerar sessão" : " Iniciar sessão"}`}
+                    {`${thereSession ? "Sair" : " Iniciar sessão"}`}
                 </Button>
 
             </View>

@@ -67,6 +67,7 @@ const Home = ({ navigation }: { navigation: any }) => {
   useFocusEffect(
     React.useCallback(() => {
       setIsFromRegistration(false)
+      setThereSession(false)
       fectData()
 
     }, [pac_id && thereSession, user.doc_id])
@@ -153,63 +154,43 @@ const Home = ({ navigation }: { navigation: any }) => {
               <AntDesign name="adduser" size={20} style={{ top: 4 }} color="#36B3B9" />
               <CustomText>Acompanhar</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Exercise")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <SimpleLineIcons name='chart' size={20} style={{ top: 4 }} color='#36B3B9' />
-              <CustomText>Exercícios</CustomText>
+            <Pressable android_ripple={{ color: "#36B3B9", }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='check' size={19} style={{ top:25, marginBottom:20 }} color='#36B3B9' />
+              <CustomText style={{ textAlign: "center" }}>Concluir Cadastro</CustomText>
             </Pressable >
+
           </XStack>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => {
-              if (pac_id && thereSession) {
-                return navigation.navigate("Protokol")
-              }
-              setMensageToast("Nenhum paciente em atendimento")
-              setShowToast(true)
-            }} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: thereSession ? 1 : 2, borderColor: thereSession ? colorRed : "#E8E8E8" }}>
-             
-              {thereSession ? <Animatable.View animation={"rubberBand"} iterationCount={"infinite"} iterationDelay={100}>
-                <AntDesign name="arrowright" size={20} style={{ top: thereSession ? 9 : 4 }} color={thereSession ? "red" : "#36B3B9"} />
-              </Animatable.View> :
-
-                <AntDesign name="Safety" size={20} style={{ top: thereSession ? 9 : 4 }} color={thereSession ? "red" : "#36B3B9"} />
-              }
-              <CustomText style={{ textAlign: "center", color: thereSession ? "red" : "black" }}>{thereSession && `Contunuar`} Atendimento</CustomText>
-            </Pressable >
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("FrequentlyAskedQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='calendar' size={20} style={{ top:25, marginBottom:20 }} color='#36B3B9' />
+              <CustomText>Perguntas frequentes</CustomText>
+            </Pressable>
             <Pressable android_ripple={{ color: "#36B3B9" }} onPress={handleShare} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <SimpleLineIcons name='badge' size={20} style={{ top: 4 }} color='#36B3B9' />
+              <SimpleLineIcons name='badge' size={20} style={{ top: 5 }} color='#36B3B9' />
               <CustomText>Indique</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9", }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-              <SimpleLineIcons name='check' size={20} style={{ top: 9 }} color='#36B3B9' />
-              <CustomText style={{ textAlign: "center" }}>Concluir Cadastro</CustomText>
-            </Pressable >
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Feedback")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+              <SimpleLineIcons name='feed' size={20} style={{ top: 3 }} color='#36B3B9' />
+              <CustomText>Feedback</CustomText>
+            </Pressable>
           </XStack>
-          {showAllCards &&
+          {showAllCards && false &&
 
             <Animatable.View animation={"pulse"}>
               <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
-                <Pressable android_ripple={{ color: "#36B3B9" }} onPress={openSite} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-                  <MaterialCommunityIcons name="web" size={24} style={{ top: 0 }} color="#36B3B9" />
-                  <CustomText>Site</CustomText>
-                </Pressable>
-                <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("FrequentlyAskedQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-                  <SimpleLineIcons name='calendar' size={20} style={{ top: 10, paddingBottom: 5 }} color='#36B3B9' />
-                  <CustomText>Perguntas frequentes</CustomText>
-                </Pressable>
-                <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Feedback")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
-                  <SimpleLineIcons name='feed' size={20} style={{ top: 0 }} color='#36B3B9' />
-                  <CustomText>Feedback</CustomText>
-                </Pressable>
+
+
+
               </XStack>
             </Animatable.View>
           }
           <View
             onTouchStart={() => setShowAllCards(!showAllCards)} style={{ minWidth: "auto", alignItems: 'center' }}>
 
-            <Square animation="quick" rotate={showAllCards ? '180deg' : '0deg'}>
+            <Square animation="quick" rotate={showAllCards && false ? '180deg' : '180deg'}>
               <MaterialIcons
-                name={`${showAllCards ? "keyboard-arrow-down" : "keyboard-arrow-up"}`}
+                name={`${showAllCards && false ? "keyboard-arrow-down" : "keyboard-arrow-up"}`}
                 size={35} color="#36B3B9" />
             </Square>
           </View>

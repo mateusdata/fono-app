@@ -117,7 +117,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Diagnóstico" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+                        <TextInput activeOutlineColor={colorSecundary} label="Diagnóstico" mode='outlined' value={value} onChangeText={onChange} />
                     )}
                     name='diagnoses'
                 />
@@ -126,7 +126,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação Estrutural" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação Estrutural" mode='outlined' value={value} onChangeText={onChange} />
                     )}
                     name='structural_assessment'
                 />
@@ -135,7 +135,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação Funcional" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação Funcional" mode='outlined' value={value} onChangeText={onChange} />
                     )}
                     name='functional_assessment'
                 />
@@ -144,7 +144,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação de Deglutição" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+                        <TextInput activeOutlineColor={colorSecundary} label="Avaliação de Deglutição" mode='outlined' value={value} onChangeText={onChange} />
                     )}
                     name='swallowing_assessment'
                 />
@@ -153,7 +153,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Orientações Gerais" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+                        <TextInput activeOutlineColor={colorSecundary} label="Orientações Gerais" mode='outlined' value={value} onChangeText={onChange} />
                     )}
                     name='general_guidelines'
                 />
@@ -162,7 +162,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Conclusão" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+                        <TextInput activeOutlineColor={colorSecundary} label="Conclusão" mode='outlined' value={value} onChangeText={onChange} />
                     )}
                     name='conclusion'
                 />
@@ -171,7 +171,7 @@ const MonitoringReportPdf = ({ route }: any) => {
                 <Controller
                     control={control}
                     render={({ field: { onChange, name, value } }) => (
-                        <TextInput activeOutlineColor={colorSecundary} label="Próximos Passos" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+                        <TextInput activeOutlineColor={colorSecundary} label="Próximos Passos" mode='outlined' value={value} onChangeText={onChange} />
                     )}
                     name='next_steps'
                 />

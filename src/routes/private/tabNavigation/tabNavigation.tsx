@@ -88,7 +88,7 @@ export default function MyComponent() {
           name="Videos"
           component={Videos}
           options={{
-            tabBarLabel: 'Videos',
+            tabBarLabel: 'Exercícios',
             tabBarIcon: ({ color, size }) => {
               return <Icon name="video" size={size} color={color} />;
             },

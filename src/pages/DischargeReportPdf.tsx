@@ -160,7 +160,7 @@ const DischargeReportPdf = ({ route }: any) => {
       <View style={{ padding: 12 }}>
         <Button buttonColor={colorPrimary} textColor='white'
           loading={!!progressPercentage} onPress={handleSubmit(getPdf, handleError)} mode='text'>
-          Gerar Recibo
+          Gerar relatório
         </Button>
       </View>
     </ScrollView>
