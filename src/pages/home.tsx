@@ -101,6 +101,7 @@ const Home = ({ navigation }: { navigation: any }) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = () => {
+    setTotalPacient("")
     setRefreshing(true);
 
     fectData();
@@ -175,7 +176,7 @@ const Home = ({ navigation }: { navigation: any }) => {
               <CustomText>Feedback</CustomText>
             </Pressable>
           </XStack>
-          {showAllCards && false &&
+          {false && false &&
 
             <Animatable.View animation={"pulse"}>
               <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
@@ -185,7 +186,9 @@ const Home = ({ navigation }: { navigation: any }) => {
               </XStack>
             </Animatable.View>
           }
-          <View
+
+
+          { false && <View
             onTouchStart={() => setShowAllCards(!showAllCards)} style={{ minWidth: "auto", alignItems: 'center' }}>
 
             <Square animation="quick" rotate={showAllCards && false ? '180deg' : '180deg'}>
@@ -194,7 +197,7 @@ const Home = ({ navigation }: { navigation: any }) => {
                 size={35} color="#36B3B9" />
             </Square>
           </View>
-
+}
         </YStack>
 
       </ScrollView>
