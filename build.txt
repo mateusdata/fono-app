@@ -1,2 +1,0 @@
-eas build -p android --profile preview build expo generate apk for install
-eas build:run -p android --latest
