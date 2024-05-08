@@ -13,6 +13,7 @@ import { ContextPacient } from '../context/PacientContext';
 import { cpf } from 'cpf-cnpj-validator';
 import api from '../config/Api';
 import { useFocusEffect } from '@react-navigation/native';
+import { ContextGlobal } from '../context/GlobalContext';
 
 
 const CreatePacient = ({ navigation }) => {
@@ -20,6 +21,8 @@ const CreatePacient = ({ navigation }) => {
   const { user } = useContext(Context);
   const { setPac_id, setPacient } = useContext(ContextPacient);
   const formatCpf = cpf;
+  const {isDevelopment, setIsdevelopment} =  useContext(ContextGlobal)
+
 
   useEffect(() => {
     let cpf = "";
@@ -38,9 +41,12 @@ const CreatePacient = ({ navigation }) => {
     while (cpf.length < 11) {
       cpf += Math.floor(Math.random() * 10);
     }
-    setValue("cpf", cpf);
-    setValue("first_name", names[Math.floor(Math.random() * names.length)]);
+    if (isDevelopment) {
+      setValue("cpf", cpf);
+      setValue("first_name", names[Math.floor(Math.random() * names.length)]);
+      setValue("birthday", new Date());
 
+    }
   }, []);
 
 
@@ -57,10 +63,10 @@ const CreatePacient = ({ navigation }) => {
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      first_name: "Aluno teste",
+      first_name: "",
       last_name: "",
       cpf: "",
-      birthday: new Date(),
+      birthday: null,
     }
   });
 
@@ -141,9 +147,9 @@ const CreatePacient = ({ navigation }) => {
 
 
       </ScrollView>
-      
+
       <View style={{ position: "absolute", margin: 16, right: 0, bottom: 0, flex: 1 }}>
-        <Button icon="arrow-right" 
+        <Button icon="arrow-right"
           disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
           Próximo
         </Button>

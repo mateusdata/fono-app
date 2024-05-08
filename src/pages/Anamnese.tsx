@@ -12,6 +12,7 @@ import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
 import { cpf } from 'cpf-cnpj-validator';
 import api from '../config/Api';
+import { ContextGlobal } from '../context/GlobalContext';
 
 
 const Anamnese = ({ navigation }) => {
@@ -21,6 +22,7 @@ const Anamnese = ({ navigation }) => {
   const [questionTitle, setQuestionTitle] = useState<string>("")
   const formatCpf = cpf;
 
+  const {isDevelopment, setIsdevelopment} =  useContext(ContextGlobal)
 
   const schema = yup.object({
     education: yup.string().required("Obrigatorio"),
@@ -35,11 +37,11 @@ const Anamnese = ({ navigation }) => {
     resolver: yupResolver(schema),
     mode: 'onChange',
     defaultValues: {
-      education: "Educação",
-      base_diseases: "Doenças crônicas fictícias",
-      chewing_complaint: "Queixa mastigatória",
-      consultation_reason: "indicação da Flavia, fonoaudióloga",
-      food_profile: "Vegetariano"
+      education: isDevelopment ? "Educação" : "",
+      base_diseases: isDevelopment ? "Doenças crônicas fictícias" : "",
+      chewing_complaint: isDevelopment ? "Queixa mastigatória" : "",
+      consultation_reason: isDevelopment ? "indicação da Flavia, fonoaudióloga" : "",
+      food_profile: isDevelopment ? "Vegetariano" : ""
     }    
     
   });

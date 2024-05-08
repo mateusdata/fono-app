@@ -10,18 +10,20 @@ import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import api from '../config/Api';
 import * as  Animatable from "react-native-animatable"
+import { ContextGlobal } from '../context/GlobalContext';
 
 
 const Login = ({ navigation }: any) => {
     const { setLoadingAuth, setUser, user } = useContext(Context);
+    const {isDevelopment, setIsdevelopment} =  useContext(ContextGlobal)
     
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            email: "mateuspele2015@gmail.com",
-            password: "123456"
+            email:isDevelopment ? "mateuspele2015@gmail.com" : "",
+            password:isDevelopment ? "123456" : ""
         },
-        mode: "onChange"
+        mode: "onSubmit"
     });
 
     const infoUser = async (doc_id:number)=>{
