@@ -44,61 +44,68 @@ const AnsweredQuestions = () => {
     fetchData();
   }, [pac_id]);
 
-  const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
-  const PDF_NAME = `Relatório de anamnese - ${pacient?.person?.first_name}.pdf`;
+  //const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
+  
+  const pdfName = `Relatório de anamnese  ${pacient?.person?.first_name} - ${pacient?.person?.cpf}.pdf`;
+
   const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}`;
 
+  
   function onDownloadProgress({
     totalBytesWritten,
     totalBytesExpectedToWrite,
   }: FileSystem.DownloadProgressData) {
-    const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100;
-    setProgressPercentage(percentage);
+    const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100
+    setProgressPercentage(percentage)
   }
 
+  
   async function getPdf() {
     try {
-      setIsDownloading(true);
-      const fileUri = FileSystem.documentDirectory + PDF_NAME;
+      setIsDownloading(true)
+      console.log(pdfName)
+      const fileUri = FileSystem.documentDirectory + pdfName
+
       const downloadResumable = FileSystem.createDownloadResumable(
         PDF_URI,
         fileUri,
         {
           headers: {
-            Authorization: `Bearer ${user.token}`,
+            Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
           },
         },
         onDownloadProgress
-      );
-      const downloadResponse = await downloadResumable.downloadAsync();
+      )
+
+      const downloadResponse = await downloadResumable.downloadAsync()
+
       if (downloadResponse?.uri) {
-        await fileSave(downloadResponse.uri, PDF_NAME);
-        setProgressPercentage(0);
-        setIsDownloading(false);
+        await fileSave(downloadResponse.uri, pdfName)
+        setProgressPercentage(0)
+        setIsDownloading(false)
+
       }
     } catch (error) {
-      Alert.alert("Download", "Não foi possível realizar o download.");
-      console.error(error);
+      Alert.alert("Download", "Não foi possível realizar o download.")
+      console.error(error)
     }
   }
 
   async function fileSave(uri: string, filename: string) {
     if (Platform.OS === "android") {
-      const directoryUri = FileSystem.cacheDirectory + filename;
+      const directoryUri = FileSystem.cacheDirectory + filename
       const base64File = await FileSystem.readAsStringAsync(uri, {
         encoding: FileSystem.EncodingType.Base64,
-      });
+      })
+
       await FileSystem.writeAsStringAsync(directoryUri, base64File, {
         encoding: FileSystem.EncodingType.Base64,
-      });
-      await Sharing.shareAsync(directoryUri);
+      })
+      await Sharing.shareAsync(directoryUri)
     } else {
-      const directoryUri = FileSystem.documentDirectory + filename; // Or an appropriate iOS path
-      await FileSystem.downloadAsync(uri, directoryUri);
-      await Sharing.shareAsync(directoryUri);
+      Sharing.shareAsync(uri)
     }
   }
-
 
   const renderQuestions = (questions) => {
     return questions.map((question) => (
@@ -162,7 +169,7 @@ const AnsweredQuestions = () => {
   };
 
 
-  if (!pacient && !pacient?.person && !pacient?.questionnaires) {
+  if (!pacient && !pacient?.person && !pacient?.person.first_name && !pacient?.questionnaires) {
     return <SkelectonView />
   }
 

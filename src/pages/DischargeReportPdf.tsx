@@ -51,6 +51,8 @@ const DischargeReportPdf = ({ route }: any) => {
   const { location, setLocation} = useContext(ContextGlobal);
   const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${watch("medical_diagnoses")}&how_it_was_discovered=${watch("how_it_was_discovered")}&first_session_findings=${watch("first_session_findings")}&therapeutic_plan=${watch("therapeutic_plan")}&patients_progress=${watch("patients_progress")}&current_condition=${watch("current_condition")}&referrals=${watch("referrals")}&lat=${location.latitude}&lon=${location.longitude}`;
   console.log(PDF_URI)
+
+  
   function onDownloadProgress({
     totalBytesWritten,
     totalBytesExpectedToWrite,
@@ -60,6 +62,7 @@ const DischargeReportPdf = ({ route }: any) => {
   }
 
   const handleError = error => console.log("error");
+  
   async function getPdf() {
     try {
       setIsDownloading(true)
