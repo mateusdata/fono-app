@@ -24,10 +24,6 @@ const AnsweredQuestions = () => {
   const { user } = useContext(Context);
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
-  const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
-  const PDF_NAME = `Relatório de anamnese - ${date}.pdf`;
-  const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}`;
-
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(`/info-pacient/${pac_id}`);
@@ -47,6 +43,10 @@ const AnsweredQuestions = () => {
     };
     fetchData();
   }, [pac_id]);
+
+  const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
+  const PDF_NAME = `Relatório de anamnese - ${pacient?.person?.first_name}.pdf`;
+  const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}`;
 
   function onDownloadProgress({
     totalBytesWritten,
@@ -93,22 +93,25 @@ const AnsweredQuestions = () => {
       });
       await Sharing.shareAsync(directoryUri);
     } else {
-      Sharing.shareAsync(uri);
+      const directoryUri = FileSystem.documentDirectory + filename; // Or an appropriate iOS path
+      await FileSystem.downloadAsync(uri, directoryUri);
+      await Sharing.shareAsync(directoryUri);
     }
   }
 
+
   const renderQuestions = (questions) => {
     return questions.map((question) => (
-      <Animatable.View animation="slideInLeft" key={question.que_id} style={{  right: 30, padding: 10 }}>
+      <Animatable.View animation="slideInLeft" key={question.que_id} style={{ right: 30, padding: 10 }}>
         <Text style={{ flex: 1, fontSize: 18 }}>{question.name}</Text>
-        <View style={{ flexDirection: 'row', alignItems: 'center', padding:5 }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
           {question.alternatives.map((alternative, index) => (
             <Pressable
               key={index}
-              style={{ marginRight: 10, right:7, top:8, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, backgroundColor: alternative === question.answer.alternative ? colorGreen: '#fff' }}
+              style={{ marginRight: 10, right: 7, top: 8, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, backgroundColor: alternative === question.answer.alternative ? colorGreen : '#fff' }}
               onPress={() => handleAnswerClick(question.que_id, alternative)}
             >
-              <Text style={{  color: alternative === question.answer.alternative ? '#fff' : '#007bff' }}>{alternative}</Text>
+              <Text style={{ color: alternative === question.answer.alternative ? '#fff' : '#007bff' }}>{alternative}</Text>
             </Pressable>
           ))}
         </View>
@@ -158,10 +161,10 @@ const AnsweredQuestions = () => {
     console.log(`Questão ${questionId} selecionada: ${alternative}`);
   };
 
-  
+
   if (!pacient && !pacient?.person && !pacient?.questionnaires) {
-    return <SkelectonView/>
-}
+    return <SkelectonView />
+  }
 
 
   return (
@@ -176,9 +179,9 @@ const AnsweredQuestions = () => {
       <List.Section title='Perguntas respondidas' titleStyle={{ color: "black", fontSize: 15, right: 10 }} style={{ gap: 0, }}>
         <List.Accordion
           title="Anamnese"
-          titleStyle={{color:expandedIndex === 0 ? colorGreen : "#2a7c6c"}}
+          titleStyle={{ color: expandedIndex === 0 ? colorGreen : "#2a7c6c" }}
           style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
-          left={(props) => <AntDesign name="Safety" style={{top:5, left:5}} color={expandedIndex === 0 ? colorGreen : "#2a7c6c"}  size={24}  /> }
+          left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === 0 ? colorGreen : "#2a7c6c"} size={24} />}
           expanded={expandedIndex === 0}
           onPress={() => handleAccordionPress(0)}>
           {renderAnamnese()}
@@ -187,11 +190,11 @@ const AnsweredQuestions = () => {
         {answered && answered.map((item, index) => (
           <List.Accordion
             key={index + 1}
-            titleStyle={{color:expandedIndex === index + 1 ? colorGreen : "#2a7c6c"}}
+            titleStyle={{ color: expandedIndex === index + 1 ? colorGreen : "#2a7c6c" }}
 
             title={item.name}
             style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
-            left={(props) => <AntDesign name="Safety" style={{top:5, left:5}}  color={expandedIndex === index + 1 ? colorGreen : "#2a7c6c"} size={24} /> }
+            left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === index + 1 ? colorGreen : "#2a7c6c"} size={24} />}
             expanded={expandedIndex === index + 1}
             onPress={() => handleAccordionPress(index + 1)}>
             {item.sections.map((section) => (

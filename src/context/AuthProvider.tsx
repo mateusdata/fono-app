@@ -24,6 +24,7 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
         }).catch((erro) => {
             setLoadingAuth(false);
+            alert("error")
         });
     }, []);
 

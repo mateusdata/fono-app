@@ -12,11 +12,10 @@ import { ContextPacient } from '../context/PacientContext';
 import api from '../config/Api';
 import Toast from '../components/toast';
 import NetInfo from "@react-native-community/netinfo";
-import { colorPrimary, colorRed } from '../style/ColorPalette';
+import { colorPrimary } from '../style/ColorPalette';
 import SkelectonSmall from '../components/SkelectonSmall';
 import * as  Animatable from "react-native-animatable"
 import { ContextGlobal } from '../context/GlobalContext';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 
 const Home = ({ navigation }: { navigation: any }) => {
@@ -70,12 +69,12 @@ const Home = ({ navigation }: { navigation: any }) => {
       setThereSession(false)
       fectData()
 
-    }, [pac_id && thereSession, user.doc_id])
+    }, [pac_id && thereSession, user?.doc_id])
   );
 
   const fectData = async () => {
     try {
-      const response = await api.get(`/count-pacients/${user.doc_id}`);
+      const response = await api.get(`/count-pacients/${user?.doc_id}`);
       setTotalPacient(response?.data.num_pacients);
     } catch (error) {
       if (!error.response) {
