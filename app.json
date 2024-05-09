@@ -16,7 +16,10 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.projetofono.fonotherapp"
+      "bundleIdentifier": "com.projetofono.fonotherapp",
+      "infoPlist": {
+        "NSFileProtection": "CompleteUnlessOpen"
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -31,12 +34,9 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "updates": {
-      "url": "https://u.expo.dev/f7187c89-5e47-494d-b1cc-c7bd482408d5"
-    },
     "extra": {
       "eas": {
-        "projectId": "f7187c89-5e47-494d-b1cc-c7bd482408d5"
+        "projectId": "2f4189c8-0429-4e64-b086-9bd48024aa99"
       }
     }
   }
