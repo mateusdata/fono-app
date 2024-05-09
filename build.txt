@@ -1,0 +1,8 @@
+eas build -p android --profile preview build expo generate apk for install
+eas build:run -p android --latest
+eas build --local --platform android --profile preview   build local
+time eas build --local --platform android --profile preview build local com time
+eas build -p ios --profile preview
+
+eas build -p android --platform android --profile preview
+
