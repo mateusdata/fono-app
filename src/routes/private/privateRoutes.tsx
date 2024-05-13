@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 import { Context } from '../../context/AuthProvider';
 import TabsNavigation from './tabNavigation/tabNavigation';
 import Anamnese from '../../pages/Anamnese';
-import Exercise from '../../pages/Exercise';
 import MyInformation from '../../pages/MyInformation';
 import ChangeName from '../../pages/ChangeName';
 import Protokol from '../../pages/Protokol';
@@ -52,7 +51,6 @@ const PrivateRoutes = () => {
 
         <AppStack.Screen name='CreatePacient' component={CreatePacient} options={{headerBackTitleVisible:false,headerTitle:"Cadastrar paciente", headerTitleAlign:"center"}}/>
         <AppStack.Screen name='Anamnese' component={Anamnese} options={{headerBackTitleVisible:false,headerTitleAlign:"center"}}/>
-        <AppStack.Screen name='Exercise' component={Exercise}  options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Exercicios" }} />
         <AppStack.Screen name='MyInformation' component={MyInformation} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Minhas informações" }} />
         <AppStack.Screen name='ChangeName' component={ChangeName} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Alterar nome" }} />
         <AppStack.Screen name='ChangeEmail' component={ChangeEmail} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Alterar email" }} />

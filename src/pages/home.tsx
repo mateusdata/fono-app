@@ -142,6 +142,7 @@ const Home = ({ navigation }: { navigation: any }) => {
             </Card.Actions>
           </Card>
         </View>
+        <Text>{`Olá, ${user.nick_name} você esta navegando pelo ${Platform.OS}`}</Text>
 
         <YStack space='$2.5' style={{ width: '100%', height: '100%', marginTop: 40 }}>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>

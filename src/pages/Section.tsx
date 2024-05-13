@@ -330,12 +330,10 @@ export default function Section({ navigation }) {
 
         <View style={{
           flex: 1,
-          position: 'relative',
         }}>
           <Button
             loading={loadingBottom}
             disabled={loadingBottom}
-            mode='elevated'
             textColor='white'
             style={{
               height: 40,
@@ -343,7 +341,7 @@ export default function Section({ navigation }) {
               margin: 16,
               right: 0,
               bottom: 0,
-              backgroundColor: loadingBottom ? "#00000090" : '#36B3B9',
+              backgroundColor: loadingBottom ? "gray" : '#36B3B9',
             }}
             icon="plus"
             onPress={() => createProtocol()}
@@ -375,10 +373,7 @@ const styles = StyleSheet.create({
     margin: 15,
     backgroundColor: '#f5f5f5',
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+   
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
@@ -394,10 +389,6 @@ const styles = StyleSheet.create({
     margin: 15,
     backgroundColor: '#f5f5f5',
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5
