@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, BackHandler, FlatList, ScrollView, Text, View } from 'react-native';
+import { Alert, BackHandler, FlatList, Platform, ScrollView, Text, View } from 'react-native';
 import { Avatar, Button, Card, Title } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
@@ -211,7 +211,7 @@ const Protokol = ({ navigation }) => {
             </ScrollView>
 
 
-            <View style={{ bottom: 10, paddingHorizontal: 15 }}>
+            <View style={{ bottom: 10, paddingHorizontal: 15, marginHorizontal:  5, paddingBottom: Platform.OS==="ios" && 20  }}>
                 <Button buttonColor={thereSession ? colorRed : '#38CB89'} icon="content-save" mode="contained" onPress={() => {
                     if (!thereSession) {
                         return navigation.navigate("Section");

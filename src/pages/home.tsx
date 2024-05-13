@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { View, Pressable, ScrollView, Animated, StyleSheet, BackHandler, ToastAndroid, Share, Text, Linking, Dimensions, RefreshControl } from 'react-native';
+import { View, Pressable, ScrollView, Animated, StyleSheet, BackHandler, ToastAndroid, Share, Text, Linking, Dimensions, RefreshControl, Platform } from 'react-native';
 import { Context } from '../context/AuthProvider';
 import { Square, XStack, YStack } from 'tamagui';
 import { SimpleLineIcons } from '@expo/vector-icons';
@@ -146,15 +146,15 @@ const Home = ({ navigation }: { navigation: any }) => {
         <YStack space='$2.5' style={{ width: '100%', height: '100%', marginTop: 40 }}>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("CreatePacient")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("CreatePacient")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
               <AntDesign name="addfile" size={20} style={{ top: 4 }} color="#36B3B9" />
               <CustomText >Paciente</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("AccompanyPatient")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("AccompanyPatient")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
               <AntDesign name="adduser" size={20} style={{ top: 4 }} color="#36B3B9" />
               <CustomText>Acompanhar</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9", }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9", }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
               <SimpleLineIcons name='check' size={19} style={{ top:25, marginBottom:20 }} color='#36B3B9' />
               <CustomText style={{ textAlign: "center" }}>Concluir Cadastro</CustomText>
             </Pressable >
@@ -162,15 +162,15 @@ const Home = ({ navigation }: { navigation: any }) => {
           </XStack>
           <XStack space='$2.5' style={{ justifyContent: 'center', borderWidth: 0 }}>
 
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("FrequentlyAskedQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("FrequentlyAskedQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
               <SimpleLineIcons name='calendar' size={20} style={{ top:25, marginBottom:20 }} color='#36B3B9' />
               <CustomText>Perguntas frequentes</CustomText>
             </Pressable>
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={handleShare} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={handleShare} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
               <SimpleLineIcons name='badge' size={20} style={{ top: 5 }} color='#36B3B9' />
               <CustomText>Indique</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Feedback")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: '#E8E8E8' }}>
+            <Pressable android_ripple={{ color: "#36B3B9" }} onPress={() => navigation.navigate("Feedback")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
               <SimpleLineIcons name='feed' size={20} style={{ top: 3 }} color='#36B3B9' />
               <CustomText>Feedback</CustomText>
             </Pressable>

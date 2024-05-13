@@ -6,13 +6,11 @@ import { AntDesign } from '@expo/vector-icons';
 import { Platform, Alert } from "react-native";
 import * as FileSystem from "expo-file-system";
 import * as Sharing from "expo-sharing";
-import dayjs from 'dayjs';
 import { FormatPacient } from '../interfaces/globalInterface';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
-import { colorGreen, colorRed, colorSecundary } from '../style/ColorPalette';
+import { colorGreen } from '../style/ColorPalette';
 import SkelectonView from '../components/SkelectonView';
-import Skelecton from '../components/Skelecton';
 import * as  Animatable from "react-native-animatable"
 
 
