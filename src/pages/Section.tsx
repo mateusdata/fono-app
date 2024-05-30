@@ -272,7 +272,7 @@ export default function Section({ navigation }) {
                 {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
                 <Video
-                  style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }}
+                  style={{ width: "50%", height: 200, borderRadius: 0, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }}
                   source={{ uri: url + selectedVideo?.video_urls[0] }}
                   resizeMode={ResizeMode.STRETCH}
                   onLoadStart={() => setIsVideoLoading(true)}

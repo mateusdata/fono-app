@@ -18,7 +18,8 @@
         "supportsTablet": true,
         "bundleIdentifier": "com.projetofono.fonotherapp",
         "infoPlist": {
-          "NSFileProtection": "CompleteUnlessOpen"
+          "NSFileProtection": "CompleteUnlessOpen",
+          "UIBackgroundModes": ["audio", "fetch", "remote-notification", "video"]
         }
       },
       "android": {

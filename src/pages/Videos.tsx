@@ -29,18 +29,18 @@ export default function Videos({ navigation }) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
-  
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if(modalVisible){
+      if (modalVisible) {
         setModalVisible(false)
         return true
       }
-        return false;
+      return false;
     });
 
     return () => backHandler.remove();
-}, [modalVisible]);
+  }, [modalVisible]);
 
   useEffect(() => {
     if (search === "") {
@@ -146,9 +146,9 @@ export default function Videos({ navigation }) {
         }
         }
         snapPoints={[85]}
-        
-        >
-        
+
+      >
+
 
         <Sheet.Overlay />
 
@@ -163,7 +163,7 @@ export default function Videos({ navigation }) {
               {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
               <Video
-                style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 2, borderColor: "transparent" }}
+                style={{ width: 50, height: 350 }}
                 source={{ uri: url + selectedVideo?.video_urls[0] }}
                 resizeMode={ResizeMode.STRETCH}
                 onLoadStart={() => setIsVideoLoading(true)}
@@ -174,8 +174,9 @@ export default function Videos({ navigation }) {
                   setIsVideoLoading(false)
                 }}
 
-              />
 
+              />
+             
             </View>
 
             {!isVideoLoading &&
@@ -199,7 +200,6 @@ export default function Videos({ navigation }) {
       </Sheet>
 
 
-
     </View>
   );
 }
@@ -220,7 +220,7 @@ const styles = StyleSheet.create({
     margin: 15,
     backgroundColor: '#f5f5f5',
     shadowColor: "#000",
-   
+
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,

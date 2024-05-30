@@ -107,7 +107,7 @@ const AnsweredQuestions = () => {
 
   const renderQuestions = (questions) => {
     return questions.map((question) => (
-      <Animatable.View animation="slideInLeft" key={question.que_id} style={{ right: 30, padding: 10 }}>
+      <Animatable.View animation="" key={question.que_id} style={{ right: 30, padding: 10 }}>
         <Text style={{ flex: 1, fontSize: 18 }}>{question.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
           {question.alternatives.map((alternative, index) => (
@@ -125,7 +125,7 @@ const AnsweredQuestions = () => {
   };
   const renderAnamnese = () => {
     return (
-      <Animatable.View animation="slideInLeft" style={styles.anamneseContainer}>
+      <Animatable.View animation="" style={styles.anamneseContainer}>
         <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
           <Text style={styles.anamneseText}>{`Doença base: `}</Text>
           <Text style={[styles.anamneseText, styles.blueText]}>{`${pacient?.base_diseases}`}</Text>
