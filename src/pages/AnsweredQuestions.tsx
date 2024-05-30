@@ -1,17 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { List } from 'react-native-paper';
-import { Linking, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { ActivityIndicator, List } from 'react-native-paper';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import api from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
-import { Platform, Alert } from "react-native";
-import * as FileSystem from "expo-file-system";
-import * as Sharing from "expo-sharing";
 import { FormatPacient } from '../interfaces/globalInterface';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
-import { colorGreen } from '../style/ColorPalette';
+import { colorGreen, colorPrimary } from '../style/ColorPalette';
 import SkelectonView from '../components/SkelectonView';
 import * as  Animatable from "react-native-animatable"
+import downloadPDF from '../utils/downloadPDF';
 
 
 const AnsweredQuestions = () => {
@@ -20,8 +18,9 @@ const AnsweredQuestions = () => {
   const { pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
   const { user } = useContext(Context);
-  const [progressPercentage, setProgressPercentage] = useState(0);
-  const [isDownloading, setIsDownloading] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(`/info-pacient/${pac_id}`);
@@ -42,68 +41,18 @@ const AnsweredQuestions = () => {
     fetchData();
   }, [pac_id]);
 
-  //const date = dayjs(new Date()).format("DD-MM-YYYY-HH-mm-ss-SSS");
-  
-  const pdfName = `Relatório de anamnese  ${pacient?.person?.first_name} - ${pacient?.person?.cpf}.pdf`;
 
-  const PDF_URI = `https://fono-api.vercel.app/generate-report/${pac_id}`;
-
-  
-  function onDownloadProgress({
-    totalBytesWritten,
-    totalBytesExpectedToWrite,
-  }: FileSystem.DownloadProgressData) {
-    const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100
-    setProgressPercentage(percentage)
-  }
-
-  
   async function getPdf() {
     try {
-      setIsDownloading(true)
-      console.log(pdfName)
-      const fileUri = FileSystem.documentDirectory + pdfName
-
-      const downloadResumable = FileSystem.createDownloadResumable(
-        PDF_URI,
-        fileUri,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
-          },
-        },
-        onDownloadProgress
-      )
-
-      const downloadResponse = await downloadResumable.downloadAsync()
-
-      if (downloadResponse?.uri) {
-        await fileSave(downloadResponse.uri, pdfName)
-        setProgressPercentage(0)
-        setIsDownloading(false)
-
-      }
+      setLoading(true);
+      const response: any = await api.get(`/generate-report/${pac_id}`)
+      await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
     } catch (error) {
-      Alert.alert("Download", "Não foi possível realizar o download.")
-      console.error(error)
+      console.error("Ocorreu um erro" + error.message)
+      setLoading(false)
     }
   }
 
-  async function fileSave(uri: string, filename: string) {
-    if (Platform.OS === "android") {
-      const directoryUri = FileSystem.cacheDirectory + filename
-      const base64File = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-
-      await FileSystem.writeAsStringAsync(directoryUri, base64File, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-      await Sharing.shareAsync(directoryUri)
-    } else {
-      Sharing.shareAsync(uri)
-    }
-  }
 
   const renderQuestions = (questions) => {
     return questions.map((question) => (
@@ -180,6 +129,7 @@ const AnsweredQuestions = () => {
           <Text style={styles.text}>{`Relatório de anamnese do paciente ${pacient?.person.first_name.split(' ')[0]}`}</Text>
         </View>
       </Pressable>
+      {loading && <ActivityIndicator size="small" color={colorPrimary}/>}
 
       <List.Section title='Perguntas respondidas' titleStyle={{ color: "black", fontSize: 15, right: 10 }} style={{ gap: 0, }}>
         <List.Accordion

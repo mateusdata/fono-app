@@ -55,8 +55,20 @@ const MyInformation = ({ navigation }) => {
         borderColor: "gray", paddingBottom: 5, width: "100%", paddingHorizontal:15
       }}>
         <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
-          <Ionicons name="settings-outline" size={28} color={colorPrimary} />
+          <Ionicons name="id-card-outline" size={28} color={colorPrimary} />
           <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>CRFA</CustomText>
+        </View>
+        <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
+      </Pressable>
+
+      <Pressable onPress={() => navigation.navigate("ChangePhone")} android_ripple={{ color: colorPrimary }} style={{
+        flexDirection: "row", alignItems: "center",
+        justifyContent: "space-between", 
+        borderColor: "gray", paddingBottom: 5, width: "100%", paddingHorizontal:15
+      }}>
+        <View style={{ alignItems: "center", flexDirection: "row", gap: 15, marginTop: 10 }}>
+          <Ionicons name="phone-portrait-outline" size={28} color={colorPrimary} />
+          <CustomText fontFamily='Poppins_400Regular' style={{ fontSize: 17 }}>Telefone</CustomText>
         </View>
         <MaterialIcons name="arrow-forward-ios" size={18} color={colorPrimary} />
       </Pressable>

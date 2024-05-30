@@ -58,6 +58,7 @@ export interface FormatUser {
     doc_id: number;
     nick_name: string;
     gov_license: string;
+    phone: string
 }
 
 export interface ContextProps {

@@ -96,9 +96,7 @@ const Home = ({ navigation }: { navigation: any }) => {
     Linking.openURL("https://fonotherapp.vercel.app/")
   }
 
-
   const [refreshing, setRefreshing] = useState(false);
-
   const onRefresh = () => {
     setTotalPacient("")
     setRefreshing(true);

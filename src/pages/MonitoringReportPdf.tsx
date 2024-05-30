@@ -14,13 +14,13 @@ import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
 import { ContextGlobal } from '../context/GlobalContext'
+import downloadPDF from '../utils/downloadPDF'
+import api from '../config/Api'
 const MonitoringReportPdf = ({ route }: any) => {
 
     const { pacient, }: { pacient: FormatPacient } = route.params;
     const { user } = useContext(Context);
-    const [progressPercentage, setProgressPercentage] = useState(0);
-    const [isDownloading, setIsDownloading] = useState(false);
-    const pdfName = `Relatório de acompanhamento ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`;
+    const [loading, setLoading] = useState(false);
 
     const schema = yup.object({
         diagnoses: yup.string().required("Campo obrigatório"),
@@ -30,8 +30,11 @@ const MonitoringReportPdf = ({ route }: any) => {
         general_guidelines: yup.string().required("Campo obrigatório"),
         conclusion: yup.string().required("Campo obrigatório"),
         next_steps: yup.string().required("Campo obrigatório"),
+        lat: yup.number().optional(),
+        lon: yup.number().optional()
     });
 
+    const { location } = useContext(ContextGlobal);
     const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
         defaultValues: {
             diagnoses: "",
@@ -40,77 +43,36 @@ const MonitoringReportPdf = ({ route }: any) => {
             swallowing_assessment: "",
             general_guidelines: "",
             conclusion: "",
-            next_steps: ""
+            next_steps: "",
+            lat: location.latitude,
+            lon: location.longitude
+
 
         },
         resolver: yupResolver(schema)
     })
-    const name = 10
-    //const PDF_URI = `https://fono-api.vercel.app/follow-up-report/${pacient.pac_id}?diagnoses=${watch("diagnoses")}&structural_assessment=${watch("structural_assessment")}&functional_assessment=${watch("functional_assessment")}&swallowing_assessment=${watch("swallowing_assessment")}&general_guidelines=${watch("general_guidelines")}&conclusion=${watch("conclusion")}&next_steps=${watch("next_steps")}`;;
-    const { location } = useContext(ContextGlobal);
-    const PDF_URI = `https://fono-api.vercel.app/follow-up-report/${pacient?.pac_id}?diagnoses=${watch("diagnoses")}&structural_assessment=${watch("structural_assessment")}&functional_assessment=${watch("functional_assessment")}&swallowing_assessment=${watch("swallowing_assessment")}&general_guidelines=${watch("general_guidelines")}&conclusion=${watch("conclusion")}&next_steps=${watch("next_steps")}&lat=${location.latitude}&lon=${location.longitude}`;
-
-
-    function onDownloadProgress({
-        totalBytesWritten,
-        totalBytesExpectedToWrite,
-    }: FileSystem.DownloadProgressData) {
-        const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100
-        setProgressPercentage(percentage)
-    }
 
     const handleError = error => console.log("error");
-    async function getPdf() {
+
+    async function getPdf(values: any) {
         try {
-            setIsDownloading(true)
-            console.log(pdfName)
-            const fileUri = FileSystem.documentDirectory + pdfName
+            setLoading(true);
+            console.log(typeof values.number_of_sessions)
 
-            const downloadResumable = FileSystem.createDownloadResumable(
-                PDF_URI,
-                fileUri,
-                {
-                    headers: {
-                        Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
-                    },
-                },
-                onDownloadProgress
-            )
+            const response: any = await api.post(`/follow-up-report/${pacient?.pac_id}`, values)
+            console.log(response.data);
 
-            const downloadResponse = await downloadResumable.downloadAsync()
-
-            if (downloadResponse?.uri) {
-                await fileSave(downloadResponse.uri, pdfName)
-                setProgressPercentage(0)
-                reset()
-                setIsDownloading(false)
-            }
+            await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
         } catch (error) {
-            Alert.alert("Download", "Não foi possível realizar o download.")
-            console.error(error)
+            console.error("Ocorreu um erro", error)
         }
     }
 
-    async function fileSave(uri: string, filename: string) {
-        if (Platform.OS === "android") {
-            const directoryUri = FileSystem.cacheDirectory + filename
-            const base64File = await FileSystem.readAsStringAsync(uri, {
-                encoding: FileSystem.EncodingType.Base64,
-            })
-
-            await FileSystem.writeAsStringAsync(directoryUri, base64File, {
-                encoding: FileSystem.EncodingType.Base64,
-            })
-            await Sharing.shareAsync(directoryUri)
-        } else {
-            Sharing.shareAsync(uri)
-        }
-    }
 
     return (
         <ScrollView style={{ padding: 10, }}>
             <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-            Relatório de acompanhamento do paciente   {pacient.person.first_name}
+                Relatório de acompanhamento do paciente   {pacient.person.first_name}
             </CustomText>
 
             <View>
@@ -180,7 +142,7 @@ const MonitoringReportPdf = ({ route }: any) => {
 
             <View style={{ padding: 0, paddingBottom: 5 }}>
                 <Button buttonColor={colorPrimary} textColor='white'
-                    loading={!!progressPercentage} onPress={handleSubmit(getPdf, handleError)} mode='text'>
+                    loading={loading} onPress={handleSubmit(getPdf, handleError)} mode='text'>
                     Gerar relatório
                 </Button>
             </View>

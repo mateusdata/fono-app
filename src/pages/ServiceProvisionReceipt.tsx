@@ -1,11 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react'
-import { Alert, Platform, Text, View } from 'react-native'
-import { Button, TextInput } from 'react-native-paper'
-
-import * as FileSystem from "expo-file-system"
-import * as Sharing from "expo-sharing"
+import React, { useContext, useState } from 'react'
+import { ActivityIndicator, Button, TextInput } from 'react-native-paper'
 import { Context } from '../context/AuthProvider'
-import { ContextPacient } from '../context/PacientContext'
 import { FormatPacient } from '../interfaces/globalInterface'
 import CustomText from '../components/customText'
 import { Controller, useForm } from 'react-hook-form'
@@ -14,84 +9,47 @@ import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
 import { ContextGlobal } from '../context/GlobalContext'
+import api from '../config/Api'
+import downloadPDF from '../utils/downloadPDF'
+import { View } from 'react-native-animatable'
 const ServiceProvisionReceipt = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
   const { user } = useContext(Context);
-  const [progressPercentage, setProgressPercentage] = useState(0);
-  const [isDownloading, setIsDownloading] = useState(false);
-  const pdfName = `Recibo de prestação de serviço ${pacient?.person?.first_name} - ${pacient?.person?.cpf}.pdf`;
+  const [loading, setLoading] = useState(false);
 
   const schema = yup.object({
-    price: yup.string().required("Campo obrigatorio"),
-    number_of_sessions: yup.string().matches(/^\d+$/, { message: "Número de sessões invalida" }).required("Campo obrigatorio"),
+    price: yup.number().required("Campo obrigatorio"),
+    number_of_sessions: yup.number().required("Campo obrigatorio"),
+    lat: yup.number().optional(),
+    lon: yup.number().optional()
   });
+  const { location } = useContext(ContextGlobal);
 
   const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
     defaultValues: {
-      price: "",
-      number_of_sessions: ""
+      price: null,
+      number_of_sessions: null,
+      lat: location.latitude,
+      lon:location.longitude
     },
     resolver: yupResolver(schema)
   })
-  //const PDF_URI = `https://fono-api.vercel.app/service-term/${pacient.pac_id}?price=${watch("price")}&number_of_sessions=${watch("number_of_sessions")}`;
-  const { location } = useContext(ContextGlobal);
 
-  const PDF_URI = `https://fono-api.vercel.app/service-term/${pacient?.pac_id}?price=${watch("price")}&number_of_sessions=${watch("number_of_sessions")}&lat=${location.latitude}&lon=${location.longitude}`;
- console.log(PDF_URI)
-  function onDownloadProgress({
-    totalBytesWritten,
-    totalBytesExpectedToWrite,
-  }: FileSystem.DownloadProgressData) {
-    const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100
-    setProgressPercentage(percentage)
-  }
 
   const handleError = error => console.log("error");
-  async function getPdf() {
+
+  async function getPdf(values: any) {
     try {
-      setIsDownloading(true)
-      console.log(pdfName)
-      const fileUri = FileSystem.documentDirectory + pdfName
+      setLoading(true);
+      console.log(typeof values.number_of_sessions)
 
-      const downloadResumable = FileSystem.createDownloadResumable(
-        PDF_URI,
-        fileUri,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
-          },
-        },
-        onDownloadProgress
-      )
+      const response: any = await api.post(`/service-term/${pacient?.pac_id}`, values)
+      console.log(response.data);
 
-      const downloadResponse = await downloadResumable.downloadAsync()
-
-      if (downloadResponse?.uri) {
-        await fileSave(downloadResponse.uri, pdfName)
-        setProgressPercentage(0)
-        reset()
-        setIsDownloading(false)
-      }
+      await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
     } catch (error) {
-      Alert.alert("Download", "Não foi possível realizar o download.")
-      console.error(error)
-    }
-  }
-
-  async function fileSave(uri: string, filename: string) {
-    if (Platform.OS === "android") {
-      const directoryUri = FileSystem.cacheDirectory + filename
-      const base64File = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-
-      await FileSystem.writeAsStringAsync(directoryUri, base64File, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-      await Sharing.shareAsync(directoryUri)
-    } else {
-      Sharing.shareAsync(uri)
+      console.error("Ocorreu um erro", error)
     }
   }
 
@@ -99,17 +57,17 @@ const ServiceProvisionReceipt = ({ route }: any) => {
     <View style={{ padding: 10 }}>
       <View >
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, paddingHorizontal: 0 }}>
-          Recibo de prestação de serviço do paciente 
+          Recibo de prestação de serviço do paciente
         </CustomText>
-        <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color:colorSecundary}}>
-         {pacient.person.first_name}
+        <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
+          {pacient.person.first_name}
         </CustomText>
       </View>
       <View>
         <Controller
           control={control}
           render={({ field: { onChange, name, value } }) => (
-            <TextInput  keyboardType='numeric'    activeOutlineColor={colorSecundary} autoFocus label="Preço" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+            <TextInput keyboardType='numeric' activeOutlineColor={colorSecundary} autoFocus label="Preço" mode='outlined' value={value?.toString()} onChangeText={onChange} />
           )}
           name='price'
         />
@@ -119,7 +77,7 @@ const ServiceProvisionReceipt = ({ route }: any) => {
         <Controller
           control={control}
           render={({ field: { onChange, name, value } }) => (
-            <TextInput  keyboardType='number-pad'    activeOutlineColor={colorSecundary} label="Número de sessões" mode='outlined' value={value?.trim()} onChangeText={onChange} />
+            <TextInput keyboardType='number-pad' activeOutlineColor={colorSecundary} label="Número de sessões" mode='outlined' value={value?.toString()} onChangeText={onChange} />
           )}
           name='number_of_sessions'
         />
@@ -130,7 +88,7 @@ const ServiceProvisionReceipt = ({ route }: any) => {
       </View>
       <View style={{ padding: 12 }}>
         <Button buttonColor={colorPrimary} textColor='white'
-          loading={!!progressPercentage} onPress={handleSubmit(getPdf, handleError)} mode='text'>
+          loading={loading} onPress={handleSubmit(getPdf, handleError)} mode='text'>
           Gerar Recibo
         </Button>
       </View>

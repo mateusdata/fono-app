@@ -14,6 +14,8 @@ import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
 import { ContextGlobal } from '../context/GlobalContext'
+import downloadPDF from '../utils/downloadPDF'
+import api from '../config/Api'
 const DischargeReportPdf = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
@@ -21,6 +23,7 @@ const DischargeReportPdf = ({ route }: any) => {
   const [progressPercentage, setProgressPercentage] = useState(0);
   const [isDownloading, setIsDownloading] = useState(false);
   const pdfName = `Relatório de alta  ${pacient.person.first_name} - ${pacient.person.cpf}.pdf`;
+  const [loading, setLoading] = useState(false);
 
   const schema = yup.object().shape({
     medical_diagnoses: yup.string().required("Campo obrigatório"),
@@ -29,9 +32,12 @@ const DischargeReportPdf = ({ route }: any) => {
     therapeutic_plan: yup.string().required("Campo obrigatório"),
     patients_progress: yup.string().required("Campo obrigatório"),
     current_condition: yup.string().required("Campo obrigatório"),
-    referrals: yup.string().required("Campo obrigatório")
+    referrals: yup.string().required("Campo obrigatório"),
+    lat: yup.number().optional(),
+    lon: yup.number().optional()
   });
 
+  const { location, setLocation } = useContext(ContextGlobal);
 
   const { control, formState: { errors }, reset, watch, handleSubmit } = useForm({
     defaultValues: {
@@ -41,79 +47,34 @@ const DischargeReportPdf = ({ route }: any) => {
       therapeutic_plan: "",
       patients_progress: "",
       current_condition: "",
-      referrals: ""
+      referrals: "",
+      lat: location.latitude,
+      lon: location.longitude
     },
     resolver: yupResolver(schema)
   })
   const name = 10
   //const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${watch("medical_diagnoses")}&how_it_was_discovered=${watch("how_it_was_discovered")}&first_session_findings=${watch("first_session_findings")}&therapeutic_plan=${watch("therapeutic_plan")}&patients_progress=${watch("patients_progress")}&current_condition=${watch("current_condition")}&referrals=${watch("referrals")}`;
 
-  const { location, setLocation} = useContext(ContextGlobal);
-  const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${watch("medical_diagnoses")}&how_it_was_discovered=${watch("how_it_was_discovered")}&first_session_findings=${watch("first_session_findings")}&therapeutic_plan=${watch("therapeutic_plan")}&patients_progress=${watch("patients_progress")}&current_condition=${watch("current_condition")}&referrals=${watch("referrals")}&lat=${location.latitude}&lon=${location.longitude}`;
-  console.log(PDF_URI)
 
-  
-  function onDownloadProgress({
-    totalBytesWritten,
-    totalBytesExpectedToWrite,
-  }: FileSystem.DownloadProgressData) {
-    const percentage = (totalBytesWritten / totalBytesExpectedToWrite) * 100
-    setProgressPercentage(percentage)
-  }
 
   const handleError = error => console.log("error");
-  
-  async function getPdf() {
+
+  async function getPdf(values: any) {
     try {
-      setIsDownloading(true)
-      console.log(pdfName)
-      const fileUri = FileSystem.documentDirectory + pdfName
+      setLoading(true);
+      const response: any = await api.post(`/discharg-report/${pacient?.pac_id}`, values)
 
-      const downloadResumable = FileSystem.createDownloadResumable(
-        PDF_URI,
-        fileUri,
-        {
-          headers: {
-            Authorization: `Bearer ${user.token}`, // Substitua your_token_here pelo seu token de autenticação
-          },
-        },
-        onDownloadProgress
-      )
-
-      const downloadResponse = await downloadResumable.downloadAsync()
-
-      if (downloadResponse?.uri) {
-        await fileSave(downloadResponse.uri, pdfName)
-        setProgressPercentage(0)
-        reset()
-        setIsDownloading(false)
-        setLocation({ latitude: 0, longitude: 0});
-
-      }
+      await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
     } catch (error) {
-      Alert.alert("Download", "Não foi possível realizar o download.")
-      console.error(error)
-    }
-  }
+      console.error("Ocorreu um erro", error)
 
-  async function fileSave(uri: string, filename: string) {
-    if (Platform.OS === "android") {
-      const directoryUri = FileSystem.cacheDirectory + filename
-      const base64File = await FileSystem.readAsStringAsync(uri, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-
-      await FileSystem.writeAsStringAsync(directoryUri, base64File, {
-        encoding: FileSystem.EncodingType.Base64,
-      })
-      await Sharing.shareAsync(directoryUri)
-    } else {
-      Sharing.shareAsync(uri)
     }
   }
 
 
-  const nomeChaves: {[key: string]: string} = {
+
+  const nomeChaves: { [key: string]: string } = {
     medical_diagnoses: "Diagnósticos",
     how_it_was_discovered: "Como foi descoberto",
     first_session_findings: "Avaliação Inicial",
@@ -136,7 +97,7 @@ const DischargeReportPdf = ({ route }: any) => {
       </View>
 
       <View>
-        {Object.keys(schema.fields).map((key) => (
+        {Object.keys(schema.fields).filter((item)=> item!="lat" && item!=="lon").map((key) => (
           <React.Fragment key={key}>
             {schema.fields.hasOwnProperty(key) && (
               <Controller
@@ -146,7 +107,7 @@ const DischargeReportPdf = ({ route }: any) => {
                     activeOutlineColor={colorSecundary}
                     label={nomeChaves[key]}
                     mode='outlined'
-                    value={value}
+                    value={value.toString()}
                     onChangeText={onChange}
                   />
                 )}
