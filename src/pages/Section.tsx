@@ -214,7 +214,7 @@ export default function Section({ navigation }) {
             ? "#38CB89" : "#d2d4db", marginVertical: 5
       }}>
       <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8, }}>
-        <AntDesign name="play" size={30} color={watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "white" : "#36B3B9"} />
+        <AntDesign name="playcircleo" size={30} color={watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "white" : colorPrimary} />
         <Text style={{ color: watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "white" : "black" }}>{item?.name}</Text>
       </View>
     </Pressable>

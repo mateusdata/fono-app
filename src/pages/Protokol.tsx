@@ -114,14 +114,22 @@ const Protokol = ({ navigation }) => {
                     {firstModal ?
                         <FlatList
                             style={{ top: 10 }}
-                            data={protocols?.rows}
+                            data={protocols?.rows.reverse()}
                             keyExtractor={(item) => item?.ses_id?.toString()}
                             renderItem={({ item }) => (
                                 <Card onPress={() => {
                                     setModalVisible(false);
                                     navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
                                 }} style={{ marginBottom: 10 }}>
-                                    <Card.Title title={item?.protocol?.name} subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`} left={(props) => <AntDesign name='sharealt' size={30} iconColor='#36B3B9' />} />
+                                    { item?.protocol?.name && 
+                                        <> 
+                                            <Card.Title
+                                                title={item?.protocol?.name}
+                                                subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`}
+                                                left={(props) => <AntDesign name='sharealt' size={30} iconColor='#36B3B9' />}
+                                            />
+                                        </>
+                                    }
                                 </Card>
                             )}
                             onEndReachedThreshold={0.1}
@@ -136,7 +144,7 @@ const Protokol = ({ navigation }) => {
                             <Button
                                 buttonColor={colorPrimary}
                                 textColor='white'
-                               icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />}
+                                icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />}
                                 mode="contained"
                                 onPress={() => {
                                     setModalVisible(false);
@@ -147,14 +155,14 @@ const Protokol = ({ navigation }) => {
                                 Recibo de prestação de serviço
                             </Button>
 
-                            <Button buttonColor={colorPrimary} textColor='white'icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />} mode="contained" onPress={() => {
+                            <Button buttonColor={colorPrimary} textColor='white' icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />} mode="contained" onPress={() => {
                                 setModalVisible(false);
                                 navigation.navigate("MonitoringReportPdf", { pacient: pacient })
                             }} style={{ marginTop: 10 }}>
                                 Relatório de acompanhamento
                             </Button>
 
-                            <Button buttonColor={colorPrimary} textColor='white'icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />} mode="contained" onPress={() => {
+                            <Button buttonColor={colorPrimary} textColor='white' icon={(props) => <AntDesign name="pdffile1" style={{ top: 0, left: 0 }} color={"white"} size={18} />} mode="contained" onPress={() => {
                                 navigation.navigate("DischargeReportPdf", { pacient: pacient })
                                 setModalVisible(false);
                             }} style={{ marginTop: 10 }}>
@@ -211,7 +219,7 @@ const Protokol = ({ navigation }) => {
             </ScrollView>
 
 
-            <View style={{ bottom: 10, paddingHorizontal: 15, marginHorizontal:  5, paddingBottom: Platform.OS==="ios" && 20  }}>
+            <View style={{ bottom: 10, paddingHorizontal: 15, marginHorizontal: 5, paddingBottom: Platform.OS === "ios" && 20 }}>
                 <Button buttonColor={thereSession ? colorRed : '#38CB89'} icon="content-save" mode="contained" onPress={() => {
                     if (!thereSession) {
                         return navigation.navigate("Section");
