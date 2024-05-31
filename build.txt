@@ -13,3 +13,44 @@ eas build -p ios --profile preview build ios no servidor expo
 
 #BAIXAR O UTIMO build ios
 eas build:run -p ios --latest
+
+
+#Config for build expo ios and android
+
+* ios
+
+{
+  "build": {
+    "preview": {
+      "ios": {
+        "simulator": true
+      }
+    },
+    "production": {}
+  }
+}
+
+* android
+
+{
+  "build": {
+    "preview": {
+      "android": {
+        "buildType": "apk"
+      }
+    },
+    "preview2": {
+      "android": {
+        "gradleCommand": ":app:assembleRelease"
+      }
+    },
+    "preview3": {
+      "developmentClient": true
+    },
+    "preview4": {
+      "distribution": "internal"
+    },
+    "production": {}
+  }
+}
+

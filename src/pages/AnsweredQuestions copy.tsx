@@ -27,7 +27,7 @@ const AnsweredQuestions = () => {
   const [loading, setLoading] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
   const [showToast, setShowToast] = useState<boolean>(false);
-  const [questionnaireId, setQuestionareId] = useState<number>(null)
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,60 +61,25 @@ const AnsweredQuestions = () => {
     }
   }
 
-  const handleAnswerClick = async (questionId, alternative) => {
-    try {
-      const updatedQuestionnaire = {
-        questions: [
-          {
-            que_id: questionId,
-            alternatives: [alternative],
-          },
-        ],
-      };
-
-      alert(JSON.stringify(updatedQuestionnaire, null, 2))
-      alert(questionnaireId)
-      const response = await api.post(`/update-questionnaire/${questionnaireId}`, updatedQuestionnaire);
-      console.log(response.data);
-
-      setAnswered((prevAnswered) =>
-        prevAnswered.map((question) =>
-          question.que_id === questionId
-            ? {
-              ...question,
-              answer: { alternative },
-            }
-            : question
-        )
-      );
-    } catch (error) {
-      console.error('Erro ao salvar resposta:', error);
-    }
-  };
-
 
   const renderQuestions = (questions) => {
     return questions.map((question) => (
       <Animatable.View animation="" key={question.que_id} style={{ right: 30, padding: 10 }}>
         <Text style={{ flex: 1, fontSize: 18 }}>{question.name}</Text>
         <View style={{ flexDirection: 'row', alignItems: 'center', padding: 5 }}>
-          {question.alternatives.map((alternative, index) => {
-            const isSelected = question.answer && alternative === question.answer.alternative;
-            return (
-              <Pressable
-                key={index}
-                style={{ marginRight: 10, right: 7, top: 8, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, backgroundColor: isSelected ? colorGreen : '#fff' }}
-                onPress={() => handleAnswerClick(question.que_id, alternative)}
-              >
-                <Text style={{ color: isSelected ? '#fff' : '#007bff' }}>{alternative}</Text>
-              </Pressable>
-            );
-          })}
+          {question.alternatives.map((alternative, index) => (
+            <Pressable
+              key={index}
+              style={{ marginRight: 10, right: 7, top: 8, paddingHorizontal: 10, paddingVertical: 5, borderRadius: 5, backgroundColor: alternative === question.answer.alternative ? colorGreen : '#fff' }}
+              onPress={() => handleAnswerClick(question.que_id, alternative)}
+            >
+              <Text style={{ color: alternative === question.answer.alternative ? '#fff' : '#007bff' }}>{alternative}</Text>
+            </Pressable>
+          ))}
         </View>
       </Animatable.View>
     ));
   };
-
   const renderAnamnese = () => {
     return (
       <Animatable.View animation="" style={styles.anamneseContainer}>
@@ -163,6 +128,10 @@ const AnsweredQuestions = () => {
 
 
 
+  const handleAnswerClick = (questionId, alternative) => {
+    // Aqui você pode implementar a lógica para enviar a resposta para o servidor
+    console.log(`Questão ${questionId} selecionada: ${alternative}`);
+  };
 
 
   if (!pacient && !pacient?.person && !pacient?.person.first_name && !pacient?.questionnaires) {
@@ -202,10 +171,7 @@ const AnsweredQuestions = () => {
               style={{ backgroundColor: "#E8E8E8", marginBottom: 10 }}
               left={(props) => <AntDesign name="Safety" style={{ top: 5, left: 5 }} color={expandedIndex === index + 1 ? colorGreen : "#2a7c6c"} size={24} />}
               expanded={expandedIndex === index + 1}
-              onPress={() => {
-                setQuestionareId(item?.qus_id)
-                handleAccordionPress(index + 1)
-              }}>
+              onPress={() => handleAccordionPress(index + 1)}>
               {item.sections.map((section) => (
                 <View key={section.qhs_id}>
                   {renderQuestions(section.questions)}
@@ -215,7 +181,6 @@ const AnsweredQuestions = () => {
           ))}
 
         </List.Section>
-        <Text>{questionnaireId}</Text>
 
         <Sheet
           modal
