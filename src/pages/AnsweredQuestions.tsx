@@ -38,18 +38,18 @@ const AnsweredQuestions = () => {
   }, [pac_id, showToast]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await api.get(`answered-questionnaire/${pac_id}`);
-        setAnswered(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    fetchData();
+
+    fetchQuestionnaire();
   }, [pac_id]);
 
-
+  const fetchQuestionnaire = async () => {
+    try {
+      const response = await api.get(`answered-questionnaire/${pac_id}`);
+      setAnswered(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   async function getPdf() {
     try {
       setLoading(true);
@@ -63,30 +63,19 @@ const AnsweredQuestions = () => {
 
   const handleAnswerClick = async (questionId, alternative) => {
     try {
+
       const updatedQuestionnaire = {
-        questions: [
+        pac_id,
+        answers: [
           {
             que_id: questionId,
-            alternatives: [alternative],
+            alternative: alternative,
           },
         ],
       };
 
-      alert(JSON.stringify(updatedQuestionnaire, null, 2))
-      alert(questionnaireId)
-      const response = await api.post(`/update-questionnaire/${questionnaireId}`, updatedQuestionnaire);
-      console.log(response.data);
-
-      setAnswered((prevAnswered) =>
-        prevAnswered.map((question) =>
-          question.que_id === questionId
-            ? {
-              ...question,
-              answer: { alternative },
-            }
-            : question
-        )
-      );
+      const response = await api.post(`/update-questionnaire`, updatedQuestionnaire);
+      fetchQuestionnaire()
     } catch (error) {
       console.error('Erro ao salvar resposta:', error);
     }
@@ -215,7 +204,6 @@ const AnsweredQuestions = () => {
           ))}
 
         </List.Section>
-        <Text>{questionnaireId}</Text>
 
         <Sheet
           modal

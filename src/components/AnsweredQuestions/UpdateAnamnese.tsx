@@ -67,6 +67,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: F
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
+                            autoFocus
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'
