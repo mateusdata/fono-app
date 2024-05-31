@@ -6,7 +6,7 @@ import { AntDesign } from '@expo/vector-icons';
 import SkelectonView from '../components/SkelectonView';
 import CustomText from '../components/customText';
 import { ActivityIndicator, Button, FAB, Modal, Searchbar, TextInput } from 'react-native-paper';
-import { colorPrimary, colorSecundary } from '../style/ColorPalette';
+import { colorPrimary, colorRed, colorSecundary } from '../style/ColorPalette';
 import { Dialog } from 'tamagui';
 import dayjs from 'dayjs';
 import * as yup from "yup"
@@ -125,39 +125,32 @@ export default function Section({ navigation }) {
     setSelectedVideo(uri);
     setModalVisible(true);
   };
+
   const addExercice = (exe_id: number) => {
+    let exercisePlans = watch("exercise_plans") || [];
+    const exerciseIndex = exercisePlans.findIndex(exercise => exercise?.exe_id === exe_id);
 
-    if (series && repetitions) {
-      const data = {
-        exe_id,
-        series,
-        repetitions
-      };
-
-      let exercisePlans = watch("exercise_plans");
-      if (exercisePlans?.some(exercise => exercise?.exe_id === exe_id)) {
-        setSeries("");
-        setRepetitions("");
-        return
-      }
-      if (!Array.isArray(exercisePlans)) {
-        exercisePlans = [];
-        setSeries("");
-        setRepetitions("");
-      }
-
-      setValue("exercise_plans", [...exercisePlans, data]);
-      setSeries("");
-      setRepetitions("");
-      return
+    if (exerciseIndex !== -1) {
+        // Remove exercise
+        exercisePlans.splice(exerciseIndex, 1);
+    } else if (series && repetitions) {
+        // Add exercise
+        const data = {
+            exe_id,
+            series,
+            repetitions
+        };
+        exercisePlans = [...exercisePlans, data];
+    } else {
+        setMensageToast("Informe a series e repetição");
+        setShowToast(true);
+        return;
     }
-    setMensageToast("Informe a series e repetição")
-    setShowToast(true)
-  }
 
-
-
-
+    setValue("exercise_plans", exercisePlans);
+    setSeries("");
+    setRepetitions("");
+};
   const onSubmit = async (data) => {
     setLoadingBottom(true)
     try {
@@ -202,23 +195,28 @@ export default function Section({ navigation }) {
   }
 
 
-  const renderItem = ({ item }) => (
-    <Pressable onPress={() => {
-      handleVideoPress(item);
-      setIsVideoPlaying(true)
-    }}
+  const renderItem = ({ item }) => {
+    const isExerciseAdded = watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id);
+    return (
+        <Pressable onPress={() => {
+            handleVideoPress(item);
+            setIsVideoPlaying(true);
+        }}
+            style={{
+                flexDirection: "row",
+                alignItems: "center",
+                backgroundColor: isExerciseAdded ? "#38CB89" : "#d2d4db",
+                marginVertical: 5
+            }}>
+            <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8 }}>
+                <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "white" : colorPrimary} />
+                <Text style={{ color: isExerciseAdded ? "white" : "black" }}>{item?.name}</Text>
+            </View>
+        </Pressable>
+    );
+};
 
-      style={{
-        flexDirection: "row", alignItems: "center", backgroundColor:
-          watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id)
-            ? "#38CB89" : "#d2d4db", marginVertical: 5
-      }}>
-      <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8, }}>
-        <AntDesign name="playcircleo" size={30} color={watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "white" : colorPrimary} />
-        <Text style={{ color: watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id) ? "white" : "black" }}>{item?.name}</Text>
-      </View>
-    </Pressable>
-  );
+
   if (loading) {
     return <SkelectonView />
   }
@@ -266,7 +264,7 @@ export default function Section({ navigation }) {
             <HeaderSheet />
 
 
-            <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
+            <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%", }}>
               <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
               <View style={{ justifyContent: "center", alignItems: "center" }}>
                 {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
@@ -282,12 +280,16 @@ export default function Section({ navigation }) {
 
                 />
 
-                <View style={{ flexDirection: "row", gap: 2, marginTop: 5 }}>
+                <View style={{ flexDirection: "column", width: "50%", gap: 1, marginTop: 5 }}>
+
+                { !watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) &&  <>
+                  
+                  
                   <TextInput
                     mode='outlined'
                     keyboardType='numeric'
                     placeholder='Ex: 3'
-                    style={{ width: 100, height: 35 }}
+                    style={{ width: "auto", height: 35 }}
                     label="Series"
                     value={series}
                     onChangeText={(event) => setSeries(event)}
@@ -297,18 +299,21 @@ export default function Section({ navigation }) {
                     mode='outlined'
                     keyboardType='numeric'
                     placeholder='Ex: 15'
-                    style={{ width: 100, height: 35 }}
+                    style={{ width: "auto", height: 35 }}
                     label="Repetições"
                     value={repetitions}
                     onChangeText={(event) => setRepetitions(event)}
                   />
+                   </>}
                 </View>
 
                 <Text style={{ color: "red" }}>{errorInput}</Text>
-                <Button onPress={() => addExercice(selectedVideo.exe_id)} style={{ marginTop: 5 }}
-                  textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "#848383"}`} mode='contained-tonal' >
-                  {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "Exercicio adicionado" : "Adicionar"}`}
-                </Button>
+                <View style={{width:"50%"}}>
+                  <Button onPress={() => addExercice(selectedVideo.exe_id)} style={{ marginTop: 5 }}
+                    textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? colorRed : "#848383"}`} mode='contained-tonal' >
+                    {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "Remover exercicio" : "Adicionar"}`}
+                  </Button>
+                </View>
               </View>
 
               {!isVideoLoading && <View style={{ width: "100%", paddingTop: 5, paddingHorizontal: 25 }}>

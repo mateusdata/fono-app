@@ -10,22 +10,26 @@ import { AntDesign } from '@expo/vector-icons';
 import dayjs from 'dayjs';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { colorPrimary } from '../style/ColorPalette';
+import { useFocusEffect } from '@react-navigation/native';
 
 
 const PatientInfo = ({navigation}) => {
   const { pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
-  const [modalVisible, setModalVisible] = useState(false);
+
+  useFocusEffect(
+    React.useCallback(() => {
+       
+      const fetchData = async () => {
+        const response = await api.get(`/info-pacient/${pac_id}`)
+        setPacient(response.data);
+        console.log(response.data.person.birthday)
+      }
+      fetchData()
+    }, [pac_id])
+);
 
   
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await api.get(`/info-pacient/${pac_id}`)
-      setPacient(response.data);
-      console.log(response.data.person.birthday)
-    }
-    fetchData()
-  }, []);
 
   if (!pacient) {
     return <SkelectonView />

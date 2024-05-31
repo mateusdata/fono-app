@@ -121,6 +121,7 @@ const CurrentProtocol = ({ navigation, route }) => {
 
 
                     <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
+                        
                         <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
                             {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}

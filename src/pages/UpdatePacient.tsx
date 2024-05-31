@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { ScrollView } from 'react-native-gesture-handler';
 import { cpf } from 'cpf-cnpj-validator';
-
+import dayjs from 'dayjs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DatePickerInput } from 'react-native-paper-dates';
 import { FormatPacient } from '../interfaces/globalInterface';
@@ -38,7 +38,7 @@ const UpdatePacient = ({ route }) => {
         mode: 'onChange',
         defaultValues: {
             first_name: pacient?.person?.first_name,
-            birthday: convertDateToISO(pacient?.person?.birthday),
+            birthday: pacient?.person?.birthday ? dayjs(pacient?.person?.birthday, 'DD/MM/YYYY').toDate() : null,
         }
     });
 
@@ -48,9 +48,7 @@ const UpdatePacient = ({ route }) => {
         try {
             const response = await api.post(`/update-pacient/${pacient?.pac_id}`, data);
             setLoading(false);
-            setTimeout(() => {
-                setShowToast(true)
-            }, 300);
+            setShowToast(true)
         } catch (e) {
             if (e?.response) {
                 setLoading(false);
@@ -112,7 +110,7 @@ const UpdatePacient = ({ route }) => {
                 </View>
 
                 <View style={{ flex: 1, width: "90%" }}>
-                    <Button icon="arrow-right"
+                    <Button
                         disabled={loading} loading={loading} buttonColor='#36B3B9' mode="contained" onPress={handleSubmit(onSubmit)}>
                         Atualizar
                     </Button>
