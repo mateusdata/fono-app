@@ -94,7 +94,7 @@ export default function Section({ navigation }) {
       try {
         const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
 
-        setVideosFono([...videosFono, ...response.data.rows]);        
+        setVideosFono([...videosFono, ...response.data.rows]);
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -111,7 +111,7 @@ export default function Section({ navigation }) {
       setVideosFono(response.data);
       setLoading(false)
     } catch (error) {
-      setLoading(false)      
+      setLoading(false)
       setChangeList(!changeList)
     }
   }
@@ -161,7 +161,7 @@ export default function Section({ navigation }) {
   const onSubmit = async (data) => {
     setLoadingBottom(true)
     try {
-      
+
       const response: any = await api.post("create-protocol", data);
       setLoadingBottom(false)
       setThereSession(true)
@@ -171,7 +171,7 @@ export default function Section({ navigation }) {
       reset()
 
     } catch (error) {
-      setLoadingBottom(false)      
+      setLoadingBottom(false)
       setMensageToast(!error.response ? "Sem conexão com a internet" : "Erro ao criar sessão")
       setShowToast(true)
 
@@ -180,7 +180,7 @@ export default function Section({ navigation }) {
 
   const onError = (error) => {
     setMensageToast("Error: atribua um exercicio")
-    setShowToast(true)        
+    setShowToast(true)
   }
 
 
@@ -272,8 +272,7 @@ export default function Section({ navigation }) {
                 {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
                 <Video
-                  style={{ width: "50%", height: 200, borderRadius: 0, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }}
-                  source={{ uri: url + selectedVideo?.video_urls[0] }}
+                  style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }} source={{ uri: url + selectedVideo?.video_urls[0] }}
                   resizeMode={ResizeMode.STRETCH}
                   onLoadStart={() => setIsVideoLoading(true)}
                   isLooping={true}
@@ -373,7 +372,7 @@ const styles = StyleSheet.create({
     margin: 15,
     backgroundColor: '#f5f5f5',
     shadowColor: "#000",
-   
+
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
