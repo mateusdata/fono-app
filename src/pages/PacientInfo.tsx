@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { Avatar, Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
@@ -8,12 +8,16 @@ import api from '../config/Api';
 import SkelectonView from '../components/SkelectonView';
 import { AntDesign } from '@expo/vector-icons';
 import dayjs from 'dayjs';
-import * as  Animatable from "react-native-animatable"
+import { MaterialIcons, Ionicons } from '@expo/vector-icons';
+import { colorPrimary } from '../style/ColorPalette';
 
 
-const PatientInfo = () => {
+const PatientInfo = ({navigation}) => {
   const { pac_id } = useContext(ContextPacient);
   const [pacient, setPacient] = useState<FormatPacient>();
+  const [modalVisible, setModalVisible] = useState(false);
+
+  
   useEffect(() => {
     const fetchData = async () => {
       const response = await api.get(`/info-pacient/${pac_id}`)
@@ -28,8 +32,10 @@ const PatientInfo = () => {
   }
   return (
     <View style={{ padding: 15 }}>
-
-  
+      <Pressable onPress={() => navigation.navigate("UpdatePacient",{pacient:pacient})} android_ripple={{ color: colorPrimary }} style={{ flexDirection: "row", justifyContent: "flex-end", alignContent: "flex-end", }}>
+        <Text style={{ textAlign: "center", top: 2 }}>editar</Text>
+        <MaterialIcons name="edit-square" size={28} color={"orange"} />
+      </Pressable>
       <Card style={{ marginBottom: 10, padding: 2, }}>
         <Card.Title title={" " + pacient?.person?.first_name?.toUpperCase()} left={(props) => <IconButton {...props} icon="account" iconColor='#36B3B9' />} />
       </Card>

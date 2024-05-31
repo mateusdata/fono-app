@@ -30,6 +30,7 @@ import FrequentlyAskedQuestions from '../../pages/FrequentlyAskedQuestions';
 import Feedback from '../../pages/Feedback';
 import ChangeGovLicense from '../../pages/ChangeGovLicense';
 import ChangePhone from '../../pages/ChangePhone';
+import UpdatePacient from '../../pages/UpdatePacient';
 
 
 const AppStack = createStackNavigator();
@@ -76,6 +77,8 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='FrequentlyAskedQuestions' component={FrequentlyAskedQuestions} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Guias de Suporte" }} />
         <AppStack.Screen name='ChangeGovLicense' component={ChangeGovLicense} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Meu CRFA" }} />
         <AppStack.Screen name='ChangePhone' component={ChangePhone} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Meu Telefone" }} />
+
+        <AppStack.Screen name='UpdatePacient' component={UpdatePacient} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Atualizar paciente" }} />
 
         
 

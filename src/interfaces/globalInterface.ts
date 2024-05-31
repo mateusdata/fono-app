@@ -16,7 +16,7 @@ export interface FormatPacient {
         first_name: string;
         last_name: string;
         cpf: string;
-        birthday: string;
+        birthday: Date | string;
         gender: string;
         per_id?: string;
         use_id?: string;
