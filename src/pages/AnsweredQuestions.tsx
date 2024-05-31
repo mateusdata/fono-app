@@ -75,25 +75,25 @@ const AnsweredQuestions = () => {
   const renderAnamnese = () => {
     return (
       <Animatable.View animation="" style={styles.anamneseContainer}>
-        <View style={{ flexDirection: "row", flexWrap: "wrap" }}>
+        <View style={{width:"95%"}}>
           <Text style={styles.anamneseText}>{`Doença base: `}</Text>
-          <Text style={[styles.anamneseText, styles.blueText]}>{`${pacient?.base_diseases}`}</Text>
+          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.base_diseases}`}</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{width:"95%"}}>
           <Text style={styles.anamneseText}>{`Perfil alimentar: `}</Text>
-          <Text style={[styles.anamneseText, styles.blueText]}>{`${pacient?.food_profile}`}</Text>
+          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.food_profile}`}</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{width:"95%"}}>
           <Text style={styles.anamneseText}>{`Queixas de deglutição: `}</Text>
-          <Text style={[styles.anamneseText, styles.blueText]}>{`${pacient?.chewing_complaint}`}</Text>
+          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.chewing_complaint}`}</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{width:"95%"}}>
           <Text style={styles.anamneseText}>{`Educação: `}</Text>
-          <Text style={[styles.anamneseText, styles.blueText]}>{`${pacient?.education}`}</Text>
+          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.education}`}</Text>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View style={{width:"95%"}}>
           <Text style={styles.anamneseText}>{`Motivo da consulta: `}</Text>
-          <Text style={[styles.anamneseText, styles.blueText]}>{`${pacient?.consultation_reason}`}</Text>
+          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.consultation_reason}`}</Text>
         </View>
       </Animatable.View>
     );
@@ -177,6 +177,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginHorizontal: -18,
     marginVertical: 5,
+    
   },
   anamneseText: {
     fontSize: 18,
