@@ -1,45 +1,52 @@
 {
-    "expo": {
-      "name": "Fonotherapp",
-      "slug": "Fonotherapp",
-      "version": "1.0.0",
-      "orientation": "portrait",
-      "icon": "./assets/icon.png",
-      "userInterfaceStyle": "light",
-      "splash": {
-        "image": "./assets/splash.png",
-        "resizeMode": "contain",
+  "expo": {
+    "name": "Fonotherapp",
+    "slug": "Fonotherapp",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.projetofono.fonotherapp",
+      "infoPlist": {
+        "NSFileProtection": "CompleteUnlessOpen",
+        "UIBackgroundModes": [
+          "audio",
+          "fetch",
+          "remote-notification",
+          "video"
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "assetBundlePatterns": [
-        "**/*"
-      ],
-      "ios": {
-        "supportsTablet": true,
-        "bundleIdentifier": "com.projetofono.fonotherapp",
-        "infoPlist": {
-          "NSFileProtection": "CompleteUnlessOpen",
-          "UIBackgroundModes": ["audio", "fetch", "remote-notification", "video"]
-        }
-      },
-      "android": {
-        "adaptiveIcon": {
-          "foregroundImage": "./assets/adaptive-icon.png",
-          "backgroundColor": "#ffffff"
-        },
-        "package": "com.projetofono.Fonotherapp"
-      },
-      "web": {
-        "favicon": "./assets/favicon.png"
-      },
-      "runtimeVersion": {
-        "policy": "appVersion"
-      },
-      "extra": {
-        "eas": {
-          "projectId": "1778e413-5665-4d18-95be-986fcf1b117e"
-        }
+      "package": "com.projetofono.Fonotherapp"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "1778e413-5665-4d18-95be-986fcf1b117e"
       }
-    }
+    },
+    "plugins": [
+      "expo-video"
+    ]
   }
-  
+}

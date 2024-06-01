@@ -1,4 +1,6 @@
-eas build -p android --profile preview  => build expo generate apk for install
+
+# comandos para build
+ea  s build -p android --profile preview  => build expo generate apk for install
 eas build:run -p android --latest  => baixar utim,o build android 
 eas build --local --platform android --profile preview =>  build local
 time eas build --local --platform android --profile preview build local com time
@@ -8,7 +10,7 @@ eas build -p ios --profile preview build ios no servidor expo
 
 
 
-#MOSTRAR LISTA DE build ios
+# MOSTRAR LISTA DE build ios
     eas build:run -p ios     
 
 #BAIXAR O UTIMO build ios
