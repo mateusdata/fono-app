@@ -33,6 +33,7 @@ export default function Videos({ navigation }) {
 
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
+      setIsVideoPlaying(false)
       if (modalVisible) {
         setModalVisible(false)
         return true

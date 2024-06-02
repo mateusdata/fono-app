@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Alert, BackHandler, Dimensions, FlatList, Platform, ScrollView, Text, View } from 'react-native';
-import { Avatar, Button, Card, Title } from 'react-native-paper';
+import { Avatar, Button, Card, Modal, Title } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
 import SkelectonView from '../components/SkelectonView';
 import api from '../config/Api';
-import { Sheet } from 'tamagui';
+import { Dialog, Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
 import { Context } from '../context/AuthProvider';
 import { useFocusEffect } from '@react-navigation/native';
@@ -16,8 +16,8 @@ import * as Location from 'expo-location';
 import { ContextGlobal } from '../context/GlobalContext';
 import CustomText from '../components/customText';
 import * as  Animatable from "react-native-animatable"
-const { height: screenHeight } = Dimensions.get('window');
-
+import { Feather } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 
 const Protokol = ({ navigation }) => {
 
@@ -31,7 +31,25 @@ const Protokol = ({ navigation }) => {
     const [page, setPage] = React.useState(0);
     const { setLocation, thereSession, setThereSession } = useContext(ContextGlobal);
     const { setIsFromRegistration, isFromRegistration } = useContext(ContextGlobal)
+    const [visible, setVisible] = useState(false);
 
+    const showModal = () => setVisible(true);
+    const hideModal = () => setVisible(false);
+
+    useEffect(() => {
+        if (!user?.phone || !user?.gov_license) {
+            setTimeout(() => {
+                showModal()
+
+            }, 3000);
+        }
+        getLocation();
+    }, [])
+
+    const navigateToMyInformation = () => {
+        hideModal();
+        navigation.navigate('MyInformation');
+    };
     useEffect(() => {
         setIsFromRegistration(true)
     }, [isFromRegistration])
@@ -50,9 +68,7 @@ const Protokol = ({ navigation }) => {
     });
 
 
-    useEffect(() => {
-        getLocation();
-    }, [])
+
 
     const getLocation = async () => {
         let { status } = await Location.requestForegroundPermissionsAsync();
@@ -94,6 +110,32 @@ const Protokol = ({ navigation }) => {
     }
     return (
         <View style={{ flex: 1 }}>
+
+            <Dialog modal open={visible}  >
+                <Dialog.Trigger />
+                <Dialog.Portal>
+                    <Dialog.Overlay key="overlay" onPress={hideModal} />
+                    <Dialog.Content key="content" style={{ width: "90%", top: "10%" }}>
+                        <Dialog.Title>
+                            <Text> {`Olá ${user.nick_name}, `}</Text>
+                        </Dialog.Title>
+                        <Dialog.Description />
+                        <Dialog.Close />
+                        <View style={{ justifyContent: 'center', alignItems: 'center' }}>
+                            <Text style={{ fontSize: 15, marginBottom: 20 }}>
+
+                                Para que seu telefone e CRFA apareçam nos relatórios, por favor, cadastre-os abaixo:
+                            </Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%', top: 10 }}>
+                                <Button onPress={hideModal} textColor={colorRed} >Cancelar</Button>
+                                <Button onPress={navigateToMyInformation} textColor={colorGreen} >Cadastrar</Button>
+                            </View>
+                        </View>
+
+                    </Dialog.Content>
+                </Dialog.Portal>
+            </Dialog>
+
             <Sheet
                 modal
                 open={modalVisible}
@@ -104,7 +146,7 @@ const Protokol = ({ navigation }) => {
                     setModalVisible(false);
                 }
                 }
-                snapPoints={[firstModal? 45: 30]} >
+                snapPoints={[firstModal ? 60 : 30]} >
 
                 <Sheet.Overlay />
 
@@ -113,31 +155,38 @@ const Protokol = ({ navigation }) => {
                     <HeaderSheet />
 
                     {firstModal ?
-                        <FlatList
-                            style={{ top: 10 }}
-                            data={protocols?.rows.reverse()}
-                            keyExtractor={(item) => item?.ses_id?.toString()}
-                            renderItem={({ item }) => (
-                                <Card onPress={() => {
-                                    setModalVisible(false);
-                                    navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
-                                }} style={{ marginBottom: 10 }}>
-                                    { item?.protocol?.name && 
-                                        <> 
-                                            <Card.Title
-                                                title={item?.protocol?.name}
-                                                subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`}
-                                                left={(props) => <AntDesign name='sharealt' size={30} iconColor='#36B3B9' />}
-                                            />
-                                        </>
-                                    }
-                                </Card>
-                            )}
-                            onEndReachedThreshold={0.1}
-                            onEndReached={() => {
-                                setPage((prevPage) => prevPage + 1)
-                            }}
-                        />
+                        <View>
+                            <Text style={{textAlign:"center", fontSize:22}}>Protocolos criados</Text>
+                            <FlatList
+                                style={{ top: 10, padding: 15 }}
+                                data={protocols?.rows?.reverse()}
+                                keyExtractor={(item) => item?.ses_id?.toString()}
+                                renderItem={({ item, index }) => (
+                                    <ScrollView>
+                                        <Card collapsable contentStyle={{ marginBottom: 10, backgroundColor: index === 0 ? colorGreen : 'transparent' }} onPress={() => {
+                                            setModalVisible(false);
+                                            navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
+                                        }} style={{ marginBottom: 10, backgroundColor: index === 0 ? colorGreen : "white" }}>
+                                            {item?.protocol?.name &&
+                                                <>
+                                                    <Card.Title
+                                                        title={item?.protocol?.name}
+                                                        titleStyle={{ color: index === 0 && 'white' }}
+                                                        subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`}
+                                                        subtitleStyle={{ color: index === 0 && 'white' }}
+                                                        left={(props) => <AntDesign name='CodeSandbox' size={30} color={index === 0 ? "white" : "#36B3B9"} />}
+                                                    />
+                                                </>
+                                            }
+                                        </Card>
+                                    </ScrollView>
+                                )}
+                                onEndReachedThreshold={0.1}
+                                onEndReached={() => {
+                                    setPage((prevPage) => prevPage + 1)
+                                }}
+                            />
+                        </View>
                         :
                         <ScrollView style={{ bottom: 10, paddingHorizontal: 15, paddingVertical: 25 }}>
                             <Text style={{ textAlign: "center", fontSize: 22, marginVertical: 2 }} >Relatórios disponiveis</Text>
@@ -178,8 +227,7 @@ const Protokol = ({ navigation }) => {
             <ScrollView style={{ padding: 15 }}>
 
                 <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
-                    <Avatar.Text size={64} label={`${pacient?.person.first_name.split(' ')[0]?.[0]?.toUpperCase()}${pacient?.person.first_name.split(' ')[1]?.[0]?.toUpperCase() || ''}`}
-                        labelStyle={{ color: "white" }} style={{ marginBottom: 10, backgroundColor: "#36B3B9", }} />
+                    <FontAwesome name="user" style={{ top: 0, left: 0 }} color={colorPrimary} size={80} />
                     <Title style={{ marginBottom: 10, }}>{pacient?.person?.first_name && pacient?.person?.first_name}</Title>
                 </View>
 

@@ -31,7 +31,6 @@ const CurrentProtocol = ({ navigation, route }) => {
 
 
     useEffect(() => {
-
         const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
             setIsVideoPlaying(false)
             if (modalVisible) {
@@ -43,6 +42,7 @@ const CurrentProtocol = ({ navigation, route }) => {
 
         return () => backHandler.remove();
     }, [modalVisible]);
+
 
 
     useEffect(() => {
@@ -60,7 +60,7 @@ const CurrentProtocol = ({ navigation, route }) => {
     }, [protocolId]);
 
     if (!protocol) {
-        return <SkelectonView/>
+        return <SkelectonView />
     }
 
 
@@ -123,7 +123,7 @@ const CurrentProtocol = ({ navigation, route }) => {
 
 
                     <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
-                        
+
                         <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
 
@@ -135,7 +135,7 @@ const CurrentProtocol = ({ navigation, route }) => {
                                 isLooping={true}
                                 key={selectedVideo?.exe_id}
                                 usePoster={isVideoLoading}
-                                posterSource={{ uri: urlPosterSouce}}
+                                posterSource={{ uri: urlPosterSouce }}
                                 shouldPlay={isVideoPlaying}
                                 onLoad={() => {
                                     setIsVideoLoading(false)
