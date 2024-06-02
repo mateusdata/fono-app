@@ -5,12 +5,12 @@ import * as  Animatable from "react-native-animatable"
 import MyLoader from './myLoader'
 import LoadingComponent from './LoadingComponent'
 
-const SkelectonView = () => {
+const SkelectonView = ({delay}:any) => {
     const [visible, setVisible] = useState(true)
     useEffect(()=>{
         setTimeout(() => {
             setVisible(false)
-        }, 200);
+        }, delay? delay : 200);
     },[visible])
     if(visible){
         return null

@@ -10,6 +10,7 @@ import HeaderSheet from '../components/HeaderSheet';
 import { ScrollView } from 'react-native-gesture-handler';
 import CustomText from '../components/customText';
 import { ResizeMode, Video } from 'expo-av';
+import SkelectonView from '../components/SkelectonView';
 
 
 const CurrentProtocol = ({ navigation, route }) => {
@@ -58,7 +59,7 @@ const CurrentProtocol = ({ navigation, route }) => {
     }, [protocolId]);
 
     if (!protocol) {
-        return <ActivityIndicator animating={true} color={"blue"} />;
+        return <SkelectonView/>
     }
 
 
@@ -124,7 +125,6 @@ const CurrentProtocol = ({ navigation, route }) => {
                         
                         <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
                         <View style={{ justifyContent: "center", alignItems: "center" }}>
-                            {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
                             <Video
                                 style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 2, borderColor: "transparent" }}
@@ -132,7 +132,9 @@ const CurrentProtocol = ({ navigation, route }) => {
                                 resizeMode={ResizeMode.STRETCH}
                                 onLoadStart={() => setIsVideoLoading(true)}
                                 isLooping={true}
-                                usePoster={true}
+                                key={selectedVideo?.exe_id}
+                                usePoster={isVideoLoading}
+                                posterSource={{ uri: "https://i.pinimg.com/originals/ec/d6/bc/ecd6bc09da634e4e2efa16b571618a22.gif"}}
                                 shouldPlay={isVideoPlaying}
                                 onLoad={() => {
                                     setIsVideoLoading(false)

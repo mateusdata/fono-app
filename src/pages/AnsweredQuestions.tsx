@@ -42,14 +42,7 @@ const AnsweredQuestions = () => {
     fetchQuestionnaire();
   }, [pac_id]);
 
-  const fetchQuestionnaire = async () => {
-    try {
-      const response = await api.get(`answered-questionnaire/${pac_id}`);
-      setAnswered(response.data);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+
   async function getPdf() {
     try {
       setLoading(true);
@@ -81,6 +74,21 @@ const AnsweredQuestions = () => {
     }
   };
 
+  const fetchQuestionnaire = async () => {
+    try {
+      const response = await api.get(`answered-questionnaire/${pac_id}`);
+      const sortedData = response.data.sort((a, b) => {
+        if (a.name === "Análise Funcional") return -1;
+        if (b.name === "Análise Funcional") return 1;
+        if (a.name === "Análise Estrutural") return -1;
+        if (b.name === "Análise Estrutural") return 1;
+        return 0;
+      });
+      setAnswered(sortedData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const renderQuestions = (questions) => {
     return questions.map((question) => (

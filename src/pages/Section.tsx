@@ -267,15 +267,14 @@ export default function Section({ navigation }) {
             <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%", }}>
               <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
               <View style={{ justifyContent: "center", alignItems: "center" }}>
-                {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
-
                 <Video
                   style={{ width: "50%", height: 200, borderRadius: 15, borderWidth: 2, borderColor: watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "#38CB89" : "transparent" }} source={{ uri: url + selectedVideo?.video_urls[0] }}
                   resizeMode={ResizeMode.STRETCH}
                   onLoadStart={() => setIsVideoLoading(true)}
                   isLooping={true}
-                  usePoster={true}
-                  shouldPlay={isVideoPlaying}
+                  key={selectedVideo?.exe_id}
+                  usePoster={isVideoLoading}
+                  posterSource={{ uri: "https://i.pinimg.com/originals/ec/d6/bc/ecd6bc09da634e4e2efa16b571618a22.gif"}}                  shouldPlay={isVideoPlaying}
                   onLoad={() => setIsVideoLoading(false)}
 
                 />

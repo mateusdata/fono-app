@@ -29,18 +29,18 @@ export default function Videos({ navigation }) {
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const url = "https://fono-api-solitary-surf-9909.fly.dev/videos/"
-  
+
   useEffect(() => {
     const backHandler = BackHandler.addEventListener('hardwareBackPress', () => {
-      if(modalVisible){
+      if (modalVisible) {
         setModalVisible(false)
         return true
       }
-        return false;
+      return false;
     });
 
     return () => backHandler.remove();
-}, [modalVisible]);
+  }, [modalVisible]);
 
   useEffect(() => {
     if (search === "") {
@@ -146,9 +146,9 @@ export default function Videos({ navigation }) {
         }
         }
         snapPoints={[85]}
-        
-        >
-        
+
+      >
+
 
         <Sheet.Overlay />
 
@@ -160,21 +160,23 @@ export default function Videos({ navigation }) {
           <ScrollView style={{ backgroundColor: 'transparent', maxWidth: "100%", minWidth: "100%" }}>
             <CustomText style={{ textAlign: "center", fontSize: 18, marginTop: 12, color: colorSecundary, paddingHorizontal: 25 }}>{selectedVideo?.name}</CustomText>
             <View style={{ justifyContent: "center", alignItems: "center" }}>
-              {isVideoLoading && <ActivityIndicator size="large" color={colorSecundary} />}
 
               <Video
-                style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 2, borderColor: "transparent" }}
+                style={{ width: "78%", height: 350, borderRadius: 15, borderWidth: 1, borderColor: "#d6d6d6", backgroundColor: "white" }}
                 source={{ uri: url + selectedVideo?.video_urls[0] }}
-                resizeMode={ResizeMode.STRETCH}
+                resizeMode={ResizeMode.COVER}
                 onLoadStart={() => setIsVideoLoading(true)}
                 isLooping={true}
-                usePoster={false}
+                key={selectedVideo?.exe_id}
+                usePoster={isVideoLoading}
+                posterSource={{ uri: "https://i.pinimg.com/originals/ec/d6/bc/ecd6bc09da634e4e2efa16b571618a22.gif"}}
                 shouldPlay={isVideoPlaying}
                 onLoad={() => {
-                  setIsVideoLoading(false)
+                  setIsVideoLoading(false);
+                  setIsVideoPlaying(true); // Definir como true apenas quando o vídeo estiver carregado
                 }}
-
               />
+
 
             </View>
 

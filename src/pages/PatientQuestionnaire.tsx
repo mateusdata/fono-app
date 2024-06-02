@@ -12,9 +12,11 @@ import { ContextGlobal } from "../context/GlobalContext";
 import { useFocusEffect } from '@react-navigation/native';
 import { registerAnimation } from "react-native-animatable";
 import LoadingComponent from "../components/LoadingComponent";
+import Toast from "../components/toast";
 
 
 const PatientQuestionnaire = ({ navigation }) => {
+  const [showToast, setShowToast] = useState<boolean>(false);
   const { control, handleSubmit } = useForm();
   const [analysis, setAnalysis] = useState<any>({});
   const { pac_id, pacient } = useContext(ContextPacient);
@@ -65,7 +67,7 @@ const PatientQuestionnaire = ({ navigation }) => {
  }
   if (isLoading) {
     return <>
-      <SkelectonView />
+      <SkelectonView delay={100} />
     </>;
   }
 
@@ -89,7 +91,7 @@ const PatientQuestionnaire = ({ navigation }) => {
     } catch (error) {
       console.log("error", error);
       if (!error.response) {
-        Alert.alert("Error", "Atribua pelo mesmo uma resposta")
+        setShowToast(true)
       }
     }
   };
@@ -137,6 +139,8 @@ const PatientQuestionnaire = ({ navigation }) => {
           Próximo
         </Button>
       </View>
+      <Toast visible={showToast} mensage={"Atribua pelo menos um campo"} setVisible={setShowToast} duration={2000} />
+
     </View>
   );
 };
