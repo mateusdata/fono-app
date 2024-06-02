@@ -16,6 +16,7 @@ import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
 import { Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
+import { urlPosterSouce } from '../utils/urlPosterSource';
 
 export default function Videos({ navigation }) {
   const [page, setPage] = useState(1);
@@ -57,7 +58,6 @@ export default function Videos({ navigation }) {
         const response = await api.get(`/list-exercise?pageSize=15&page=${page}`);
 
         setVideosFono([...videosFono, ...response.data.rows]);
-        console.log(response.data.rows)
         setLoading(false)
       } catch (error) {
         setLoading(false)
@@ -169,7 +169,7 @@ export default function Videos({ navigation }) {
                 isLooping={true}
                 key={selectedVideo?.exe_id}
                 usePoster={isVideoLoading}
-                posterSource={{ uri: "https://i.pinimg.com/originals/ec/d6/bc/ecd6bc09da634e4e2efa16b571618a22.gif"}}
+                posterSource={{ uri: urlPosterSouce}}
                 shouldPlay={isVideoPlaying}
                 onLoad={() => {
                   setIsVideoLoading(false);

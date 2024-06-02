@@ -45,7 +45,6 @@ const ServiceProvisionReceipt = ({ route }: any) => {
       console.log(typeof values.number_of_sessions)
 
       const response: any = await api.post(`/service-term/${pacient?.pac_id}`, values)
-      console.log(response.data);
 
       await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
     } catch (error) {

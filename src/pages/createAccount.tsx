@@ -30,7 +30,6 @@ const CreateAccount = ({ navigation }: any) => {
       setLoading(true)
       const response = await api.post("/create-user", data)
       setLoading(false);
-      console.log(response.data)
       navigation.navigate("FinishRegistration", { user: watch()})
       reset();
     } catch (error) {
