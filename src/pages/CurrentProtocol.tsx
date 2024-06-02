@@ -11,6 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import CustomText from '../components/customText';
 import { ResizeMode, Video } from 'expo-av';
 import SkelectonView from '../components/SkelectonView';
+import { urlPosterSouce } from '../utils/urlPosterSource';
 
 
 const CurrentProtocol = ({ navigation, route }) => {
@@ -134,7 +135,7 @@ const CurrentProtocol = ({ navigation, route }) => {
                                 isLooping={true}
                                 key={selectedVideo?.exe_id}
                                 usePoster={isVideoLoading}
-                                posterSource={{ uri: "https://i.pinimg.com/originals/ec/d6/bc/ecd6bc09da634e4e2efa16b571618a22.gif"}}
+                                posterSource={{ uri: urlPosterSouce}}
                                 shouldPlay={isVideoPlaying}
                                 onLoad={() => {
                                     setIsVideoLoading(false)

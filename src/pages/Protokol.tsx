@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Alert, BackHandler, FlatList, Platform, ScrollView, Text, View } from 'react-native';
+import { Alert, BackHandler, Dimensions, FlatList, Platform, ScrollView, Text, View } from 'react-native';
 import { Avatar, Button, Card, Title } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
@@ -16,6 +16,7 @@ import * as Location from 'expo-location';
 import { ContextGlobal } from '../context/GlobalContext';
 import CustomText from '../components/customText';
 import * as  Animatable from "react-native-animatable"
+const { height: screenHeight } = Dimensions.get('window');
 
 
 const Protokol = ({ navigation }) => {
@@ -103,7 +104,7 @@ const Protokol = ({ navigation }) => {
                     setModalVisible(false);
                 }
                 }
-                snapPoints={[40]} >
+                snapPoints={[firstModal? 45: 30]} >
 
                 <Sheet.Overlay />
 

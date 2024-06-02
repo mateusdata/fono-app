@@ -18,6 +18,7 @@ import { Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
 import Toast from '../components/toast';
 import { ContextGlobal } from '../context/GlobalContext';
+import { urlPosterSouce } from '../utils/urlPosterSource';
 
 export default function Section({ navigation }) {
   const [page, setPage] = useState(1);
@@ -274,7 +275,7 @@ export default function Section({ navigation }) {
                   isLooping={true}
                   key={selectedVideo?.exe_id}
                   usePoster={isVideoLoading}
-                  posterSource={{ uri: "https://i.pinimg.com/originals/ec/d6/bc/ecd6bc09da634e4e2efa16b571618a22.gif"}}                  shouldPlay={isVideoPlaying}
+                  posterSource={{ uri: urlPosterSouce}}                  shouldPlay={isVideoPlaying}
                   onLoad={() => setIsVideoLoading(false)}
 
                 />
