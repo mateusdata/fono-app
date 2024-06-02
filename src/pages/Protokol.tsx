@@ -117,7 +117,7 @@ const Protokol = ({ navigation }) => {
                     <Dialog.Overlay key="overlay" onPress={hideModal} />
                     <Dialog.Content key="content" style={{ width: "90%", top: "10%" }}>
                         <Dialog.Title>
-                            <Text> {`Olá ${user.nick_name}, `}</Text>
+                            <Text> {`Olá ${user.nick_name} `}</Text>
                         </Dialog.Title>
                         <Dialog.Description />
                         <Dialog.Close />
@@ -127,7 +127,7 @@ const Protokol = ({ navigation }) => {
                                 Para que seu telefone e CRFA apareçam nos relatórios, por favor, cadastre-os abaixo:
                             </Text>
                             <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '100%', top: 10 }}>
-                                <Button onPress={hideModal} textColor={colorRed} >Cancelar</Button>
+                                <Button onPress={hideModal} textColor={colorRed} >Sair</Button>
                                 <Button onPress={navigateToMyInformation} textColor={colorGreen} >Cadastrar</Button>
                             </View>
                         </View>
