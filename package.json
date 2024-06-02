@@ -70,8 +70,5 @@
     "@types/react-slick": "^0.23.12",
     "typescript": "~5.3.3"
   },
-  "private": true,
-  "plugins": [
-    "react-native-video"
-  ]
+  "private": true
 }
