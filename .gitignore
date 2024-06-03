@@ -3,7 +3,8 @@
 # dependencies
 node_modules/
 android
-ios 
+ios
+package copy.json 
 
 # Expo
 .expo/

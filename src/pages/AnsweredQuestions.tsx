@@ -117,7 +117,7 @@ const AnsweredQuestions = () => {
       <Animatable.View animation="" style={styles.anamneseContainer}>
         <View style={{ width: "95%" }}>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
-            <Text style={styles.anamneseText}>{`Doença base: `}</Text>
+            <Text style={styles.anamneseText}>{`${pacient?.food_profile ? "Doença base:" : "Nâo cadastrado"}  `}</Text>
             <Pressable onPress={() => setModalVisible(true)} android_ripple={{ color: colorPrimary }} style={{ flexDirection: "row", justifyContent: "center", alignContent: "center", }}>
               <Text style={{ textAlign: "center", top: 2 }}>editar</Text>
               <MaterialIcons name="edit-square" size={28} color={"orange"} />
@@ -126,25 +126,31 @@ const AnsweredQuestions = () => {
           </View>
 
           <View>
-            <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.base_diseases}`}</Text>
+            {pacient.food_profile && <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.base_diseases}`}</Text>}
           </View>
         </View>
-        <View style={{ width: "95%" }}>
-          <Text style={styles.anamneseText}>{`Perfil alimentar: `}</Text>
-          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.food_profile}`}</Text>
-        </View>
-        <View style={{ width: "95%" }}>
-          <Text style={styles.anamneseText}>{`Queixas de deglutição: `}</Text>
-          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.chewing_complaint}`}</Text>
-        </View>
-        <View style={{ width: "95%" }}>
-          <Text style={styles.anamneseText}>{`Educação: `}</Text>
-          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.education}`}</Text>
-        </View>
-        <View style={{ width: "95%" }}>
-          <Text style={styles.anamneseText}>{`Motivo da consulta: `}</Text>
-          <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.consultation_reason}`}</Text>
-        </View>
+
+
+        {pacient.food_profile &&
+          <>
+            <View style={{ width: "95%" }}>
+              <Text style={styles.anamneseText}>{`Perfil alimentar: `}</Text>
+              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.food_profile}`}</Text>
+            </View>
+            <View style={{ width: "95%" }}>
+              <Text style={styles.anamneseText}>{`Queixas de deglutição: `}</Text>
+              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.chewing_complaint}`}</Text>
+            </View>
+            <View style={{ width: "95%" }}>
+              <Text style={styles.anamneseText}>{`Educação: `}</Text>
+              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.education}`}</Text>
+            </View>
+            <View style={{ width: "95%" }}>
+              <Text style={styles.anamneseText}>{`Motivo da consulta: `}</Text>
+              <Text numberOfLines={10} style={[styles.anamneseText, styles.blueText]}>{`${pacient?.consultation_reason}`}</Text>
+            </View>
+          </>
+        }
       </Animatable.View>
     );
   };

@@ -3,19 +3,74 @@ import { List } from 'react-native-paper';
 import { StyleSheet, Text, View } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
 import * as Animatable from "react-native-animatable";
+import { ScrollView } from 'react-native-gesture-handler';
 
 const FrequentlyAskedQuestions = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
-
   const faq = [
-    { title: "Como faço para logar?", description: "Para fazer login, clique no botão 'Login' e insira suas credenciais." },
-    { title: "Onde encontro meu perfil?", description: "Seu perfil está na guia 'Perfil' do menu lateral." },
-    { title: "Como agendo uma consulta?", description: "Vá para 'Agendamento' e siga as instruções para selecionar o horário." },
-    { title: "Posso cancelar uma consulta?", description: "Sim, vá para 'Agendamento', selecione a consulta e cancele." },
-    { title: "Ver resultados dos questionários?", description: "Os resultados estão em 'Resultados', onde você verá um resumo." },
-    { title: "Compartilhar resultados?", description: "Compartilhe com seu médico em 'Resultados'." },
-    { title: "App em outros idiomas?", description: "Atualmente, apenas em português, mas adicionaremos mais idiomas." }
+    { 
+      title: "Como cadastrar um paciente?", 
+      description: "Vá para 'Pacientes', preencha o formulário de cadastro e atribua suas análises. Depois, atribua os relatórios de análise estrutural e funcional." 
+    },
+    { 
+      title: "Como faço para fazer login?", 
+      description: "Para fazer login, clique no botão 'Login' e insira suas credenciais." 
+    },
+    { 
+      title: "Onde encontro meu perfil?", 
+      description: "Seu perfil está na guia 'Conta' na página inicial." 
+    },
+    { 
+      title: "Como crio uma consulta?", 
+      description: "Vá para 'Acompanhamento' e siga as instruções para selecionar." 
+    },
+    { 
+      title: "Como criar sessão?", 
+      description: "Vá para 'Acompanhamento', pesquise um paciente, inicie um atendimento, atribua exercícios para o paciente e clique no botão 'Criar sessão'." 
+    },
+    { 
+      title: "Como ver os questionários?", 
+      description: "Os questionários respondidos estão em 'Avaliação fonoaudiologica', onde você verá um resumo." 
+    },
+   
+    { 
+      title: "Como compartilhar o app?", 
+      description: "Vá para 'Indique', compartilhe o app com seus amigos médicos e indique-os." 
+    },
+    { 
+      title: "Como ver os vídeos do app?", 
+      description: "Vá para 'Vídeos' e veja os vídeos de exercícios do app. Nesta seção, você pode ver os vídeos com descrição, objetivo e referências." 
+    },
+    { 
+      title: "Como recuperar minha senha?", 
+      description: "Há duas formas: vá para 'Conta' e depois 'Perfil', ou saia do app, clique em 'Esqueci minha senha' e siga os passos enviados por e-mail." 
+    },
+    { 
+      title: "O app está disponível em outros idiomas?", 
+      description: "Atualmente, o app está disponível apenas em português, mas adicionaremos mais idiomas futuramente." 
+    },
+    { 
+      title: "Como posso obter ajuda?", 
+      description: "Vá para 'Conta' e depois 'Ajuda' para obter assistência." 
+    },
+    { 
+      title: "Como faço para dar uma sugestão?", 
+      description: "Vá para 'Conta' e depois 'Sugestão' para enviar suas sugestões." 
+    },
+    { 
+      title: "Como faço para sair da minha conta?", 
+      description: "Vá para 'Conta' e clique em 'Sair da conta' para se desconectar." 
+    },
+    { 
+      title: "Como pesquiso meus pacientes?", 
+      description: "Vá para 'Acompanhamento' e utilize a função 'Pesquisar paciente' para encontrar seus pacientes." 
+    },
+    { 
+      title: "Como gerar relatórios?", 
+      description: "Vá para 'Acompanhamento', pesquise o paciente, clique em 'Gerar relatórios' e siga o passo a passo." 
+    }
   ];
+  
   
   function handleAccordionPress(index) {
     if (expandedIndex === index) {
@@ -37,19 +92,19 @@ const FrequentlyAskedQuestions = () => {
         onPress={() => handleAccordionPress(index)}
       >
         <Animatable.View animation="fadeIn" style={{ paddingHorizontal: 10 }}>
-          <Text style={{ fontSize: 16 }}>{item.description}</Text>
+          <Text style={{ fontSize: 16, marginBottom:15, right:15 }}>{item.description}</Text>
         </Animatable.View>
       </List.Accordion>
     ));
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       {/* Seção de Perguntas Frequentes */}
       <List.Section title='Perguntas frequentes' titleStyle={{ color: "black", fontSize: 18, marginBottom:10, right: 10 }} style={{ gap: 0 }}>
         {renderFAQ()}
       </List.Section>
-    </View>
+    </ScrollView>
   );
 };
 

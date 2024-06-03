@@ -8,9 +8,11 @@ import Videos from '../../../pages/Videos';
 import MyAccount from '../../../pages/MyAccount';
 import { StatusBar } from 'expo-status-bar';
 import { colorPrimary } from '../../../style/ColorPalette';
+import { View } from 'react-native-animatable';
+import { Image, Text } from 'react-native';
 
 const Tab = createBottomTabNavigator();
-const arrayEmojis = ["🫂","🫂","😊","🥰", "🗣️",];
+const arrayEmojis = ["🫂", "🫂", "😊", "🥰", "🗣️",];
 
 
 export default function MyComponent() {
@@ -19,7 +21,7 @@ export default function MyComponent() {
       <Tab.Navigator
         screenOptions={{
           headerShown: false,
-          headerStyle:{
+          headerStyle: {
             backgroundColor: colorPrimary
           }
         }}
@@ -80,7 +82,15 @@ export default function MyComponent() {
             tabBarActiveTintColor: "white",
             tabBarActiveBackgroundColor: "white",
             headerShown: true,
-            headerTitle: `Fonotheapp ${/*arrayEmojis[Math.floor(Math.random() * arrayEmojis.length  )]*/ arrayEmojis[0] }`,
+            headerTitle: () => (
+              <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View style={{flexDirection:"row", gap:1}}>
+                  <Text style={{ color: "white", fontSize: 20, fontWeight: 600 }}>Fonother</Text>
+                  <Text style={{ color: "#f754ad", fontSize: 20, fontWeight: 600 }}>app</Text>
+                </View>
+                <Image resizeMode='contain' style={{ width: 40, height: 40, right: 8, }} source={require("../../../assets/images/logo.png")} />
+              </View>
+            ),
             headerTintColor: "white"
           }}
         />
@@ -92,7 +102,7 @@ export default function MyComponent() {
             tabBarIcon: ({ color, size }) => {
               return <Icon name="video" size={size} color={color} />;
             },
-            headerShown: true,            
+            headerShown: true,
             headerTintColor: "white"
           }}
         />

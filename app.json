@@ -9,7 +9,11 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#159797",
+      "androidStatusBar": {
+        "backgroundColor": "white",
+        "style": "light"
+      }
     },
     "assetBundlePatterns": [
       "**/*"
