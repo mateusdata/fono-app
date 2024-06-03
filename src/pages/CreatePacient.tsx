@@ -21,7 +21,7 @@ const CreatePacient = ({ navigation }) => {
   const { user } = useContext(Context);
   const { setPac_id, setPacient } = useContext(ContextPacient);
   const formatCpf = cpf;
-  const {isDevelopment, setIsdevelopment} =  useContext(ContextGlobal)
+  const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
 
 
   useEffect(() => {
@@ -48,20 +48,23 @@ const CreatePacient = ({ navigation }) => {
 
     }
   }, []);
+  const today = new Date();
+  const twoYearsAgo = new Date(today.getFullYear() - 2, today.getMonth(), today.getDate());
 
 
   const schema = yup.object({
-    first_name: yup.string().required("Paciente é obrigatorio").matches(/^(?!^\d+$).+$/,
-      { message: 'Não são permitidas  entradas numéricas' }),
+    first_name: yup.string().required("Paciente é obrigatório").matches(/^(?!^\d+$).+$/,
+      { message: 'Não são permitidas entradas numéricas' }),
     cpf: yup.string().matches(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/,
-      { message: "Cpf invalido", excludeEmptyString: false }).required("Cpf inválido"),
-    birthday: yup.date().required("Data inválida"),
+      { message: "CPF inválido", excludeEmptyString: false }).required("CPF inválido"),
+    birthday: yup.date().min(new Date(1920, 0, 1), "Data inválida, permitido ate 1920").max(new Date(today.getFullYear() - 1, 11, 31), "Data inválida").required("Data inválida").max(twoYearsAgo, "Idade mínima de dois anos"),
     last_name: yup.string(),
   }).required();
 
+
   const { reset, handleSubmit, watch, setValue, formState: { errors }, control, setError } = useForm({
     resolver: yupResolver(schema),
-    mode: 'onChange',
+    mode: 'all',
     defaultValues: {
       first_name: "",
       last_name: "",
@@ -72,8 +75,14 @@ const CreatePacient = ({ navigation }) => {
 
 
   const onSubmit = async (data) => {
-    setLoading(true);
     try {
+      if (!cpf.isValid(data.cpf)) {
+        setError("cpf", { message: "CPF inválido" });
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
       const response = await api.post("/create-pacient", { ...data, doc_id: user.doc_id });
       setPac_id(response.data.pac_id);
       setPacient(response?.data?.person);
@@ -82,13 +91,15 @@ const CreatePacient = ({ navigation }) => {
       setLoading(false);
     } catch (error) {
       setLoading(false);
-      console.log(error)
+      console.log(error);
       if (error?.response) {
-        return setError("cpf", { message: "Paciente já existe." })
+        setError("cpf", { message: "Paciente já existe." });
+      } else {
+        setError("cpf", { message: "Sem conexão com a internet, tente novamente" });
       }
-      return setError("cpf", { message: "Sem conexão com a internet, tente novamente" })
     }
   };
+
 
   return (
     <View style={styles.container}>
