@@ -15,7 +15,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
 import { ContextGlobal } from '../context/GlobalContext'
 import downloadPDF from '../utils/downloadPDF'
-import api from '../config/Api'
+import { api }  from '../config/Api'
 const MonitoringReportPdf = ({ route }: any) => {
 
     const { pacient, }: { pacient: FormatPacient } = route.params;

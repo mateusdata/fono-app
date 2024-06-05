@@ -2,15 +2,20 @@ import React, { Dispatch, PropsWithChildren, SetStateAction, createContext, useE
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import LoadingComponent from "../components/LoadingComponent";
 import { ContextProps, FormatUser } from "../interfaces/globalInterface";
+import { setInterceptors } from "../config/Api";
 
 
 
 export const Context = createContext<ContextProps>({} as ContextProps);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-    const [user, setUser] = useState<FormatUser| null>(null);
+    const [user, setUser] = useState<FormatUser | null>(null);
     const [loadingAuth, setLoadingAuth] = useState<boolean>(false);
     const [email, setEmail] = useState<string | any>('');
+
+    useEffect(() => {
+        setInterceptors(setUser)
+    }, [])
 
     useEffect(() => {
         setLoadingAuth(true)

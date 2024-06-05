@@ -8,9 +8,9 @@ import { Controller, useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
 import { StatusBar } from 'expo-status-bar';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../config/Api';
 import * as  Animatable from "react-native-animatable"
 import { ContextGlobal } from '../context/GlobalContext';
+import { api } from '../config/Api';
 
 
 const Login = ({ navigation }: any) => {
@@ -55,9 +55,13 @@ const Login = ({ navigation }: any) => {
             setLoadingAuth(false);
 
         } catch (error) {
+            console.log(error)
+            alert(error?.response?.status)
+
             setLoading(false);
-            if (!error.response) {
-                return setError("password", { message: "Ocorreu um erro!" })
+            if (error?.response) {
+                if (error?.response?.status===401)
+                return setError("password", { message: "email ou senha incorretos" })
             }
             setError("password", { message: "Ocorreu um erro!" })
             setLoading(false);

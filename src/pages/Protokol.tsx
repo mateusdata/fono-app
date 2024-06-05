@@ -4,7 +4,7 @@ import { Avatar, Button, Card, Modal, Title } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
 import SkelectonView from '../components/SkelectonView';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import { Dialog, Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
 import { Context } from '../context/AuthProvider';

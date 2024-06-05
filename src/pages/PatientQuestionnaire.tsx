@@ -6,7 +6,7 @@ import CustomText from "../components/customText";
 import { ContextPacient } from "../context/PacientContext";
 import { z } from "zod";
 import SkelectonView from "../components/SkelectonView";
-import api from "../config/Api";
+import { api }  from "../config/Api";
 import { colorPrimary } from "../style/ColorPalette";
 import { ContextGlobal } from "../context/GlobalContext";
 import { useFocusEffect } from '@react-navigation/native';

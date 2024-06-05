@@ -7,7 +7,7 @@ import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 export default function ChangeName() {
   const { user, setUser } = React.useContext(Context);
   const [loading, setLoading] = React.useState<boolean>(false);

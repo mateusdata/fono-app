@@ -3,7 +3,7 @@ import { Alert, Pressable, View } from 'react-native'
 import { MaterialIcons, Ionicons} from '@expo/vector-icons';
 import CustomText from '../components/customText';
 import { Context } from '../context/AuthProvider';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorPrimary } from '../style/ColorPalette';
 

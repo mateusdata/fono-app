@@ -8,7 +8,7 @@ import ErrorMessage from '../components/errorMessage';
 import axios from 'axios';
 import CustomText from '../components/customText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 
 const CreateAccount = ({ navigation }: any) => {
   const { setUser, setLoadingAuth } = useContext(Context);

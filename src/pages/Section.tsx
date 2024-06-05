@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
 import SkelectonView from '../components/SkelectonView';
 import CustomText from '../components/customText';

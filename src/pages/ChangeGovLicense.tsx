@@ -7,7 +7,7 @@ import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import { colorPrimary, colorSecundary } from '../style/ColorPalette';
 
 export default function ChangeGovLicense() {

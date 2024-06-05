@@ -6,7 +6,7 @@ import { Controller, useForm } from 'react-hook-form';
 import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 
 export default function ChangeCredential() {
   const { user, setUser } = React.useContext(Context);

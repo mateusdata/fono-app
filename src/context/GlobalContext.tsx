@@ -19,6 +19,7 @@ interface FormatGlobal {
 export const ContextGlobal = createContext<FormatGlobal>({} as FormatGlobal);
 
 const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
+    
     const [location, setLocation] = useState<any>({
         latitude: null,
         longitude: null
@@ -32,7 +33,7 @@ const GlobalContext: React.FC<PropsWithChildren> = ({ children }) => {
 
 
     return (
-        <ContextGlobal.Provider value={{isDevelopment, setIsdevelopment, location, setLocation, thereSession, setThereSession, isFromRegistration, setIsFromRegistration }}>
+        <ContextGlobal.Provider value={{ isDevelopment, setIsdevelopment, location, setLocation, thereSession, setThereSession, isFromRegistration, setIsFromRegistration }}>
             {children}
         </ContextGlobal.Provider>
     );

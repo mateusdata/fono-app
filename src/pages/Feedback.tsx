@@ -5,7 +5,7 @@ import { TextArea } from 'tamagui';
 import { useForm } from 'react-hook-form';
 import ErrorMessage from '../components/errorMessage';
 import { Context } from '../context/AuthProvider';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import { colorPrimary, colorRed } from '../style/ColorPalette';
 import Toast from '../components/toast';
 import { Button } from 'react-native-paper';

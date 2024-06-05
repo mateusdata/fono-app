@@ -7,7 +7,7 @@ import * as yup from "yup"
 import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 
 export default function CheckCode({ navigation }) {
     const { email, setEmail } = React.useContext(Context);

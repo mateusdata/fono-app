@@ -11,7 +11,7 @@ import { ScrollView } from 'react-native-gesture-handler';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
 import { cpf } from 'cpf-cnpj-validator';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import { ContextGlobal } from '../context/GlobalContext';
 
 

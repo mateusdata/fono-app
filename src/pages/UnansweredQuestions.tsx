@@ -4,7 +4,7 @@ import { Searchbar, List } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import * as  Animatable from "react-native-animatable"
 import CustomText from '../components/customText';
 import { AntDesign } from '@expo/vector-icons';

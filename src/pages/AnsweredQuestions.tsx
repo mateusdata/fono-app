@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, List } from 'react-native-paper';
 import { Keyboard, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
 import { FormatPacient } from '../interfaces/globalInterface';
 import { Context } from '../context/AuthProvider';

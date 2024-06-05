@@ -10,7 +10,7 @@ import dayjs from 'dayjs';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { DatePickerInput } from 'react-native-paper-dates';
 import { FormatPacient } from '../interfaces/globalInterface';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import ErrorMessage from '../components/errorMessage';
 import Toast from '../components/toast';
 

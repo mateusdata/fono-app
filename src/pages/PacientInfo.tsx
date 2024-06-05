@@ -4,7 +4,7 @@ import { Avatar, Card, Title, Paragraph, IconButton } from 'react-native-paper';
 import { ContextPacient } from '../context/PacientContext';
 import { FormatPacient } from '../interfaces/globalInterface';
 import { cpf } from 'cpf-cnpj-validator';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import SkelectonView from '../components/SkelectonView';
 import { AntDesign } from '@expo/vector-icons';
 import dayjs from 'dayjs';

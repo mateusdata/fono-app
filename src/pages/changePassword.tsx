@@ -8,7 +8,7 @@ import ErrorMessage from '../components/errorMessage';
 import { yupResolver } from '@hookform/resolvers/yup';
 import CustomText from '../components/customText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 
 export default function ChangePassword({navigation}) {
 

@@ -6,7 +6,7 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup"
 import { ScrollView } from 'react-native-gesture-handler';
 import { cpf } from 'cpf-cnpj-validator';
-import api from '../../config/Api';
+import { api }  from '../../config/Api';
 import ErrorMessage from '../errorMessage';
 import { FormatPacient } from '../../interfaces/globalInterface';
 import Toast from '../toast';

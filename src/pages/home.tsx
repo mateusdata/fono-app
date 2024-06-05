@@ -9,7 +9,7 @@ import CustomText from '../components/customText';
 import { Button, Card, Title, Paragraph } from 'react-native-paper';
 import { useFocusEffect } from '@react-navigation/native';
 import { ContextPacient } from '../context/PacientContext';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import Toast from '../components/toast';
 import NetInfo from "@react-native-community/netinfo";
 import { colorPrimary } from '../style/ColorPalette';

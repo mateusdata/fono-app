@@ -4,7 +4,7 @@ import { Searchbar, List, Button } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import * as  Animatable from "react-native-animatable"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorRed } from '../style/ColorPalette';

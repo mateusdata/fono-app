@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { BackHandler, Pressable, Text, View } from 'react-native';
 import { Button, Card, Title, Paragraph, ActivityIndicator } from 'react-native-paper';
-import api from '../config/Api';
+import { api }  from '../config/Api';
 import { ContextPacient } from '../context/PacientContext';
 import { AntDesign } from '@expo/vector-icons';
 import { colorGreen, colorRed, colorSecundary } from '../style/ColorPalette';

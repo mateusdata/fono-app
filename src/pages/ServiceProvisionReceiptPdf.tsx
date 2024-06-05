@@ -9,7 +9,7 @@ import * as yup from "yup"
 import { yupResolver } from '@hookform/resolvers/yup'
 import { colorGreen, colorPrimary, colorSecundary } from '../style/ColorPalette'
 import { ContextGlobal } from '../context/GlobalContext'
-import api from '../config/Api'
+import { api }  from '../config/Api'
 import downloadPDF from '../utils/downloadPDF'
 import { View } from 'react-native-animatable'
 const ServiceProvisionReceiptPdf = ({ route }: any) => {
