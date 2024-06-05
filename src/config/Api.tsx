@@ -2,11 +2,9 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const api = axios.create({
-  //baseURL: 'https://fono-api-solitary-surf-9909.fly.dev',
-  //baseURL: 'https://fono-api.vercel.app',
-  baseURL: "https://fono-api-solitary-surf-9909.fly.dev",
+  baseURL: 'https://fono-api.vercel.app',
+  //baseURL: "https://fono-api-solitary-surf-9909.fly.dev",
 
-  timeout: 8000
 });
 api.interceptors.request.use(async (config) => {
   try {

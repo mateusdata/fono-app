@@ -23,7 +23,6 @@ import CurrentProtocol from '../../pages/CurrentProtocol';
 import NoInternet from '../../pages/NoInternet';
 import CreatePacient from '../../pages/CreatePacient';
 import UnansweredQuestions from '../../pages/UnansweredQuestions';
-import ServiceProvisionReceipt from '../../pages/ServiceProvisionReceipt';
 import DischargeReportPdf from '../../pages/DischargeReportPdf';
 import MonitoringReportPdf from '../../pages/MonitoringReportPdf';
 import FrequentlyAskedQuestions from '../../pages/FrequentlyAskedQuestions';
@@ -31,6 +30,7 @@ import Feedback from '../../pages/Feedback';
 import ChangeGovLicense from '../../pages/ChangeGovLicense';
 import ChangePhone from '../../pages/ChangePhone';
 import UpdatePacient from '../../pages/UpdatePacient';
+import ServiceProvisionReceiptPdf from '../../pages/ServiceProvisionReceiptPdf';
 
 
 const AppStack = createStackNavigator();
@@ -70,7 +70,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='CurrentProtocol' component={CurrentProtocol} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
         <AppStack.Screen name='NoInternet' component={NoInternet} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitleStyle: { color: "white" }, headerTitle: "Lista de exercicios" }} />
         
-        <AppStack.Screen name='ServiceProvisionReceipt' component={ServiceProvisionReceipt} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Recibo de prestação de serviço" }} />
+        <AppStack.Screen name='ServiceProvisionReceiptPdf' component={ServiceProvisionReceiptPdf} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Recibo de prestação de serviço" }} />
         <AppStack.Screen name='MonitoringReportPdf' component={MonitoringReportPdf} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Relatório de acompanhamento" }} />
         <AppStack.Screen name='DischargeReportPdf' component={DischargeReportPdf} options={{headerBackTitleVisible:false,  headerTitleAlign: "center", headerTitle: "Relatório de alta" }} />
 

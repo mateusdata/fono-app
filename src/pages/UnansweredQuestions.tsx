@@ -7,7 +7,9 @@ import { ContextPacient } from '../context/PacientContext';
 import api from '../config/Api';
 import * as  Animatable from "react-native-animatable"
 import CustomText from '../components/customText';
+import { AntDesign } from '@expo/vector-icons';
 import SkelectonView from '../components/SkelectonView';
+import { colorGreen } from '../style/ColorPalette';
 
 const UnansweredQuestions = ({ navigation }) => {
 
@@ -34,7 +36,24 @@ const UnansweredQuestions = ({ navigation }) => {
 
     return (
         <View style={{ paddingHorizontal: 8, paddingVertical: 5 }}>
-            <CustomText style={{ fontSize: 18, padding: 10, CustomTextAlign: "center" }}>Pacientes com cadastro incompletos</CustomText>
+
+            {pacients?.length > 0 ?
+
+                <CustomText style={{ fontSize: 18, padding: 10, textAlign: "center" }}>
+                    Pacientes com cadastro incompletos
+                </CustomText>
+                :
+                <View style={{ flexDirection: "column", gap: 0 }}>
+                    <CustomText style={{ fontSize: 18, padding: 2, textAlign: "center" }}>
+                        Nenhum paciente com cadastro incompleto
+                    </CustomText>
+                    <Text style={{ textAlign: "center" }}>
+                        <AntDesign name="checkcircle" size={40} color={colorGreen} />
+                    </Text>
+
+                </View>
+            }
+
 
             <View>
                 {loading ?

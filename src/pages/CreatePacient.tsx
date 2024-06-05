@@ -44,12 +44,14 @@ const CreatePacient = ({ navigation }) => {
     if (isDevelopment) {
       setValue("cpf", cpf);
       setValue("first_name", names[Math.floor(Math.random() * names.length)]);
-      setValue("birthday", new Date());
-
+      let birthday = new Date();
+      birthday.setFullYear(1997);
+      setValue("birthday", birthday);
     }
+    
   }, []);
   const today = new Date();
-  const twoYearsAgo = new Date(today.getFullYear() - 2, today.getMonth(), today.getDate());
+  const twoYearsAgo = new Date(today.getFullYear() - 1, today.getMonth(), today.getDate());
 
 
   const schema = yup.object({
@@ -57,7 +59,7 @@ const CreatePacient = ({ navigation }) => {
       { message: 'Não são permitidas entradas numéricas' }),
     cpf: yup.string().matches(/^(\d{3}\.\d{3}\.\d{3}-\d{2}|\d{11})$/,
       { message: "CPF inválido", excludeEmptyString: false }).required("CPF inválido"),
-    birthday: yup.date().min(new Date(1920, 0, 1), "Data inválida, permitido ate 1920").max(new Date(today.getFullYear() - 1, 11, 31), "Data inválida").required("Data inválida").max(twoYearsAgo, "Idade mínima de dois anos"),
+    birthday: yup.date().min(new Date(1920, 0, 1), "Data inválida, permitido ate 1920").max(new Date(today.getFullYear() - 1, 11, 31), "Data inválida").required("Data inválida").max(twoYearsAgo, "Idade mínima de 1 anos"),
     last_name: yup.string(),
   }).required();
 
@@ -76,11 +78,12 @@ const CreatePacient = ({ navigation }) => {
 
   const onSubmit = async (data) => {
     try {
+      /*
       if (!cpf.isValid(data.cpf)) {
         setError("cpf", { message: "CPF inválido" });
         setLoading(false);
         return;
-      }
+      }*/
 
       setLoading(true);
       const response = await api.post("/create-pacient", { ...data, doc_id: user.doc_id });

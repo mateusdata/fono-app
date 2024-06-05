@@ -39,9 +39,9 @@ const Protokol = ({ navigation }) => {
     useEffect(() => {
         if (!user?.phone || !user?.gov_license) {
             setTimeout(() => {
-                showModal()
+                //showModal()
 
-            }, 3000);
+            }, 200000);
         }
         getLocation();
     }, [])
@@ -92,6 +92,7 @@ const Protokol = ({ navigation }) => {
                 }
 
                 try {
+                    setProtocols([])
                     const protocol = await api.get(`last-sessions/${pac_id}/${user.doc_id}?pageSize=100&page=1`);
                     setProtocols(protocol.data);
                     setLoading(false)
@@ -156,29 +157,32 @@ const Protokol = ({ navigation }) => {
 
                     {firstModal ?
                         <View>
-                            <Text style={{textAlign:"center", fontSize:22}}>Protocolos criados</Text>
+                            <Text style={{ textAlign: "center", fontSize: 22 }}>Protocolos criados</Text>
                             <FlatList
                                 style={{ top: 10, padding: 15 }}
-                                data={protocols?.rows?.reverse()}
-                                keyExtractor={(item) => item?.ses_id?.toString()}
+                                data={protocols?.rows}
+                                keyExtractor={(item) => item?.ses_id}
                                 renderItem={({ item, index }) => (
                                     <ScrollView>
-                                        <Card collapsable contentStyle={{ marginBottom: 10, backgroundColor: index === 0 ? colorGreen : 'transparent' }} onPress={() => {
-                                            setModalVisible(false);
-                                            navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
-                                        }} style={{ marginBottom: 10, backgroundColor: index === 0 ? colorGreen : "white" }}>
-                                            {item?.protocol?.name &&
-                                                <>
+                                        <Animatable.View animation={index === 0 ? "pulse" : ""} easing="ease-out" iterationCount="infinite">
+
+                                            {
+                                                item?.protocol?.name &&
+                                                <Card collapsable contentStyle={{ marginBottom: 10, backgroundColor: index === 0 ? colorGreen : 'transparent' }} onPress={() => {
+                                                    setModalVisible(false);
+                                                    navigation.navigate('CurrentProtocol', { protocolId: item?.ses_id });
+                                                }} style={{ marginBottom: 10, margin: 2, backgroundColor: index === 0 ? colorGreen : "white" }}>
                                                     <Card.Title
                                                         title={item?.protocol?.name}
                                                         titleStyle={{ color: index === 0 && 'white' }}
                                                         subtitle={`Data de Criação: ${dayjs(item?.protocol?.created_at).format("DD-MM-YYYY - hh-mm")}`}
                                                         subtitleStyle={{ color: index === 0 && 'white' }}
-                                                        left={(props) => <AntDesign name='CodeSandbox' size={30} color={index === 0 ? "white" : "#36B3B9"} />}
+                                                        left={(props) => <AntDesign name={`${index === 0 ? "star" : 'CodeSandbox'}`} size={30} color={index === 0 ? "white" : "#36B3B9"} />}
                                                     />
-                                                </>
+                                                </Card>
                                             }
-                                        </Card>
+
+                                        </Animatable.View>
                                     </ScrollView>
                                 )}
                                 onEndReachedThreshold={0.1}
@@ -269,7 +273,7 @@ const Protokol = ({ navigation }) => {
 
 
             <View style={{ bottom: 10, paddingHorizontal: 15, marginHorizontal: 5, paddingBottom: Platform.OS === "ios" && 20 }}>
-                <Button buttonColor={thereSession ? colorRed : '#38CB89'} icon="content-save" mode="contained" onPress={() => {
+                <Button buttonColor={thereSession ? colorRed : colorSecundary} icon="content-save" mode="contained" onPress={() => {
                     if (!thereSession) {
                         return navigation.navigate("Section");
                     }

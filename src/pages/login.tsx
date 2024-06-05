@@ -68,7 +68,7 @@ const Login = ({ navigation }: any) => {
         <View style={styles.container}>
             <StatusBar animated hideTransitionAnimation='fade' style='light' />
 
-            <Animatable.View animation="fadeInLeftBig" style={styles.titleContainer}>
+            <Animatable.View style={styles.titleContainer}>
                 <CustomText style={styles.titleText}>Bem-vindo de volta</CustomText>
             </Animatable.View>
 

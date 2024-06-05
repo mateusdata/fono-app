@@ -53,10 +53,6 @@ const DischargeReportPdf = ({ route }: any) => {
     },
     resolver: yupResolver(schema)
   })
-  const name = 10
-  //const PDF_URI = `https://fono-api.vercel.app/discharg-report/1?medical_diagnoses=${watch("medical_diagnoses")}&how_it_was_discovered=${watch("how_it_was_discovered")}&first_session_findings=${watch("first_session_findings")}&therapeutic_plan=${watch("therapeutic_plan")}&patients_progress=${watch("patients_progress")}&current_condition=${watch("current_condition")}&referrals=${watch("referrals")}`;
-
-
 
   const handleError = error => console.log("error");
 
@@ -68,6 +64,7 @@ const DischargeReportPdf = ({ route }: any) => {
       await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
     } catch (error) {
       console.error("Ocorreu um erro", error)
+      alert("Erro ao gerar pdf")
 
     }
   }

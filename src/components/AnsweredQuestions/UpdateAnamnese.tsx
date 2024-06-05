@@ -13,7 +13,7 @@ import Toast from '../toast';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 
-const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: FormatPacient, setShowToast: Function, setModalVisible: Function }) => {
+const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible, setSnapPoints }: { pacient: FormatPacient, setShowToast: Function, setModalVisible: Function, setSnapPoints: Function }) => {
     const [loading, setLoading] = useState<boolean>(false)
 
 
@@ -59,6 +59,10 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: F
         }
     };
 
+    async function changeSnapPoints() {
+        setSnapPoints(90)
+    }
+
     return (
         <View style={styles.container}>
             <ScrollView style={styles.containerChildren}>
@@ -67,7 +71,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: F
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            autoFocus
+                            onPress={changeSnapPoints}                           
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'
@@ -81,6 +85,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: F
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
+                            onPress={changeSnapPoints}
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'
@@ -94,6 +99,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: F
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
+                            onPress={changeSnapPoints}
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'
@@ -104,11 +110,11 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: F
                 />
                 <ErrorMessage name={"chewing_complaint"} errors={errors} />
 
-                <Controller control={control}
+                <Controller  control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
-                            value={value}
-                            autoFocus
+                            onPress={changeSnapPoints}
+                            value={value}                           
                             onChangeText={onChange}
                             mode='outlined'
                             label="Escolaridade"
@@ -121,6 +127,7 @@ const UpdateAnamnese = ({ pacient, setShowToast, setModalVisible }: { pacient: F
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value } }) => (
                         <TextInput
+                            onPress={changeSnapPoints}
                             value={value}
                             onChangeText={onChange}
                             mode='outlined'

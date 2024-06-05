@@ -33,7 +33,12 @@ const CreateAccount = ({ navigation }: any) => {
       navigation.navigate("FinishRegistration", { user: watch()})
       reset();
     } catch (error) {
+     if(error.response){
       setError("password", { message: "Ocorreu um error" })
+      return  setLoading(false)
+
+     }
+     setError("password", { message: "sem conexão com a internet" })
 
       setLoading(false)
     }

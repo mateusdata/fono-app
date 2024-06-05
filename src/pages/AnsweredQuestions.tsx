@@ -2,7 +2,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, List } from 'react-native-paper';
-import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Keyboard, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import api from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
 import { FormatPacient } from '../interfaces/globalInterface';
@@ -16,6 +16,7 @@ import UpdateAnamnese from '../components/AnsweredQuestions/UpdateAnamnese';
 import { Sheet } from 'tamagui';
 import HeaderSheet from '../components/HeaderSheet';
 import Toast from '../components/toast';
+import { number } from 'yup';
 
 
 const AnsweredQuestions = () => {
@@ -28,6 +29,7 @@ const AnsweredQuestions = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [questionnaireId, setQuestionareId] = useState<number>(null)
+  const [snapPoints, setSnapPoints]  =  useState<number>(65)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -225,8 +227,13 @@ const AnsweredQuestions = () => {
           dismissOnSnapToBottom
           animation="medium"
           native
-          onOpenChange={() => setModalVisible(false)}
-          snapPoints={[90]}
+          onOpenChange={() => {
+            Keyboard.dismiss();
+            setSnapPoints(65)
+            setModalVisible(false)
+          
+          }}
+          snapPoints={[snapPoints]}
 
         >
 
@@ -238,7 +245,7 @@ const AnsweredQuestions = () => {
 
             <ScrollView style={{ backgroundColor: 'transparent' }}>
 
-              <UpdateAnamnese setModalVisible={setModalVisible} pacient={pacient} setShowToast={setShowToast} />
+              <UpdateAnamnese setSnapPoints={setSnapPoints} setModalVisible={setModalVisible} pacient={pacient} setShowToast={setShowToast} />
 
             </ScrollView>
 

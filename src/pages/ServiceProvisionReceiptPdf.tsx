@@ -12,7 +12,7 @@ import { ContextGlobal } from '../context/GlobalContext'
 import api from '../config/Api'
 import downloadPDF from '../utils/downloadPDF'
 import { View } from 'react-native-animatable'
-const ServiceProvisionReceipt = ({ route }: any) => {
+const ServiceProvisionReceiptPdf = ({ route }: any) => {
 
   const { pacient, }: { pacient: FormatPacient } = route.params;
   const { user } = useContext(Context);
@@ -95,4 +95,4 @@ const ServiceProvisionReceipt = ({ route }: any) => {
   )
 }
 
-export default ServiceProvisionReceipt
+export default ServiceProvisionReceiptPdf
