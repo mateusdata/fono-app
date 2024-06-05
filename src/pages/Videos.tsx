@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
-import { api }  from '../config/Api';
+import { api } from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
 import SkelectonView from '../components/SkelectonView';
 import CustomText from '../components/customText';
@@ -170,8 +170,10 @@ export default function Videos({ navigation }) {
                 isLooping={true}
                 key={selectedVideo?.exe_id}
                 usePoster={isVideoLoading}
-                posterSource={{ uri: urlPosterSouce}}
+                posterSource={{ uri: urlPosterSouce }}
                 shouldPlay={isVideoPlaying}
+                posterStyle={{ justifyContent: "center", flex: 1, alignItems: "center", height: 100, top: 110, width: "100%" }}
+
                 onLoad={() => {
                   setIsVideoLoading(false);
                   setIsVideoPlaying(true); // Definir como true apenas quando o vídeo estiver carregado

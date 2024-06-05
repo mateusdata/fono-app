@@ -124,23 +124,27 @@ const Login = ({ navigation }: any) => {
                     name="email"
                 />
 
-                <ErrorMessage name={"email"} errors={errors} mt={5} mb={2} />
+                <ErrorMessage name={"password"} errors={errors} mt={5} mb={2} />
+
 
                 <Controller control={control}
                     render={({ field: { onChange, onBlur, value, } }) => (
                         <TextInput
+                            mode="outlined"
                             autoCorrect={false}
                             outlineStyle={{ borderWidth: (watch("password") && !errors.password) ? 2 : 2 }}
                             outlineColor={(watch("password") && !errors.password) ? "green" : "gray"}
-                            mode="outlined"
                             activeOutlineColor={!watch("password") ? colorSecundary : !(errors?.password) ? "green" : "red"}
+                            error={!!errors.password} label="password"
                             placeholder="Senha" onBlur={onBlur} onChangeText={onChange} value={value} secureTextEntry
                         />
                     )}
                     name="password"
                 />
 
-                <ErrorMessage name={"password"} errors={errors} />
+                <ErrorMessage name={"password"} errors={errors} mt={5} mb={2} />
+
+              
                 <View>
                     <Button
                         mode='contained-tonal'

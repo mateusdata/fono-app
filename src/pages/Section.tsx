@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { View, FlatList, Text, StyleSheet, Pressable, ScrollView, Image, BackHandler } from 'react-native';
 import { Video, ResizeMode } from 'expo-av';
-import { api }  from '../config/Api';
+import { api } from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
 import SkelectonView from '../components/SkelectonView';
 import CustomText from '../components/customText';
@@ -132,26 +132,26 @@ export default function Section({ navigation }) {
     const exerciseIndex = exercisePlans.findIndex(exercise => exercise?.exe_id === exe_id);
 
     if (exerciseIndex !== -1) {
-        // Remove exercise
-        exercisePlans.splice(exerciseIndex, 1);
+      // Remove exercise
+      exercisePlans.splice(exerciseIndex, 1);
     } else if (series && repetitions) {
-        // Add exercise
-        const data = {
-            exe_id,
-            series,
-            repetitions
-        };
-        exercisePlans = [...exercisePlans, data];
+      // Add exercise
+      const data = {
+        exe_id,
+        series,
+        repetitions
+      };
+      exercisePlans = [...exercisePlans, data];
     } else {
-        setMensageToast("Informe a series e repetição");
-        setShowToast(true);
-        return;
+      setMensageToast("Informe a series e repetição");
+      setShowToast(true);
+      return;
     }
 
     setValue("exercise_plans", exercisePlans);
     setSeries("");
     setRepetitions("");
-};
+  };
   const onSubmit = async (data) => {
     setLoadingBottom(true)
     try {
@@ -199,23 +199,23 @@ export default function Section({ navigation }) {
   const renderItem = ({ item }) => {
     const isExerciseAdded = watch("exercise_plans")?.some(exercise => exercise?.exe_id === item.exe_id);
     return (
-        <Pressable onPress={() => {
-            handleVideoPress(item);
-            setIsVideoPlaying(true);
-        }}
-            style={{
-                flexDirection: "row",
-                alignItems: "center",
-                backgroundColor: isExerciseAdded ? "#38CB89" : "#d2d4db",
-                marginVertical: 5
-            }}>
-            <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8 }}>
-                <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "white" : colorPrimary} />
-                <Text style={{ color: isExerciseAdded ? "white" : "black" }}>{item?.name}</Text>
-            </View>
-        </Pressable>
+      <Pressable onPress={() => {
+        handleVideoPress(item);
+        setIsVideoPlaying(true);
+      }}
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: isExerciseAdded ? "#38CB89" : "#d2d4db",
+          marginVertical: 5
+        }}>
+        <View style={{ padding: 10, flexDirection: 'row', justifyContent: "center", alignItems: "center", gap: 8 }}>
+          <AntDesign name="playcircleo" size={30} color={isExerciseAdded ? "white" : colorPrimary} />
+          <Text style={{ color: isExerciseAdded ? "white" : "black" }}>{item?.name}</Text>
+        </View>
+      </Pressable>
     );
-};
+  };
 
 
   if (loading) {
@@ -275,40 +275,43 @@ export default function Section({ navigation }) {
                   isLooping={true}
                   key={selectedVideo?.exe_id}
                   usePoster={isVideoLoading}
-                  posterSource={{ uri: urlPosterSouce}}                  shouldPlay={isVideoPlaying}
+                  posterSource={{ uri: urlPosterSouce }}
+                  shouldPlay={isVideoPlaying}
+                  posterStyle={{ justifyContent: "center", flex: 1, alignItems: "center", height: 100, top: 110, width: "100%" }}
+
                   onLoad={() => setIsVideoLoading(false)}
 
                 />
 
                 <View style={{ flexDirection: "column", width: "50%", gap: 1, marginTop: 5 }}>
 
-                { !watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) &&  <>
-                  
-                  
-                  <TextInput
-                    mode='outlined'
-                    keyboardType='numeric'
-                    placeholder='Ex: 3'
-                    style={{ width: "auto", height: 35 }}
-                    label="Series"
-                    value={series}
-                    onChangeText={(event) => setSeries(event)}
-                  />
+                  {!watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) && <>
 
-                  <TextInput
-                    mode='outlined'
-                    keyboardType='numeric'
-                    placeholder='Ex: 15'
-                    style={{ width: "auto", height: 35 }}
-                    label="Repetições"
-                    value={repetitions}
-                    onChangeText={(event) => setRepetitions(event)}
-                  />
-                   </>}
+
+                    <TextInput
+                      mode='outlined'
+                      keyboardType='numeric'
+                      placeholder='Ex: 3'
+                      style={{ width: "auto", height: 35 }}
+                      label="Series"
+                      value={series}
+                      onChangeText={(event) => setSeries(event)}
+                    />
+
+                    <TextInput
+                      mode='outlined'
+                      keyboardType='numeric'
+                      placeholder='Ex: 15'
+                      style={{ width: "auto", height: 35 }}
+                      label="Repetições"
+                      value={repetitions}
+                      onChangeText={(event) => setRepetitions(event)}
+                    />
+                  </>}
                 </View>
 
                 <Text style={{ color: "red" }}>{errorInput}</Text>
-                <View style={{width:"50%"}}>
+                <View style={{ width: "50%" }}>
                   <Button onPress={() => addExercice(selectedVideo.exe_id)} style={{ marginTop: 5 }}
                     textColor='white' buttonColor={`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? colorRed : "#848383"}`} mode='contained-tonal' >
                     {`${watch("exercise_plans")?.some(exercise => exercise?.exe_id === selectedVideo.exe_id) ? "Remover exercicio" : "Adicionar"}`}

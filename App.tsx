@@ -10,6 +10,7 @@ import NetInfo from "@react-native-community/netinfo";
 import { StatusBar } from 'expo-status-bar';
 import PacientContext from './src/context/PacientContext';
 import GlobalContext from './src/context/GlobalContext';
+import * as Notifications from 'expo-notifications';
 
 export default function App() {
 
@@ -20,7 +21,13 @@ export default function App() {
 
 
   useEffect(() => {
-
+    const requestNotificationPermissions = async () => {
+      const { status } = await Notifications.requestPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Permissão para notificações não concedida');
+      }
+    };
+    requestNotificationPermissions();
     const unsubscribe = NetInfo.addEventListener(state => {
       if (!state.isConnected) {
         //alert("Você esta sem conexão com a internet")
