@@ -34,7 +34,7 @@ const PacientUnansweredQuestions  = ({ navigation }) => {
 
 
     if(loading){
-        return <SkelectonView/>
+        return <SkelectonView delay={0}/>
     }
 
     return (

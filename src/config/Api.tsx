@@ -27,7 +27,6 @@ api.interceptors.request.use(async (config) => {
 });
 
 
-// Interceptor de resposta para capturar erros
 
 async function setInterceptors(setUser: any) {
   api.interceptors.response.use(
@@ -37,7 +36,7 @@ async function setInterceptors(setUser: any) {
     },
     async (error) => {
 
-      // Verifique se o erro é um 403
+      // Verifique se o erro é um 401
       if (error.response && error.response.status === 401) {
         try {
           // Limpe o AsyncStorage

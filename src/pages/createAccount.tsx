@@ -8,11 +8,33 @@ import ErrorMessage from '../components/errorMessage';
 import axios from 'axios';
 import CustomText from '../components/customText';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { api }  from '../config/Api';
-
+import { api } from '../config/Api';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup"
 const CreateAccount = ({ navigation }: any) => {
   const { setUser, setLoadingAuth } = useContext(Context);
   const [loading, setLoading] = useState(false);
+
+
+
+  const schema = yup.object({
+    nick_name: yup
+      .string()
+      .required('Nick name é obrigatório'),
+
+    email: yup
+      .string()
+      .transform(value => value.toLowerCase())
+      .required('Obrigatório')
+      .max(40, 'O tamanho máximo do texto é 40 caracteres')
+      .email('Email inválido'),
+
+    password: yup
+      .string()
+      .required('Obrigatório')
+      .max(40, 'O tamanho máximo do texto é 40 caracteres')
+      .min(5, 'Informe uma senha maior'),
+  }).required();
 
   const { watch, reset, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
     defaultValues: {
@@ -20,7 +42,8 @@ const CreateAccount = ({ navigation }: any) => {
       password: "",
       email: ""
     },
-    mode: "onChange"
+    mode: "onChange",
+    resolver: yupResolver(schema)
   });
 
 
@@ -30,15 +53,15 @@ const CreateAccount = ({ navigation }: any) => {
       setLoading(true)
       const response = await api.post("/create-user", data)
       setLoading(false);
-      navigation.navigate("FinishRegistration", { user: watch()})
+      navigation.navigate("FinishRegistration", { user: watch() })
       reset();
     } catch (error) {
-     if(error.response){
-      setError("password", { message: "Ocorreu um error" })
-      return  setLoading(false)
+      if (error.response) {
+        setError("password", { message: "Ocorreu um error" })
+        return setLoading(false)
 
-     }
-     setError("password", { message: "sem conexão com a internet" })
+      }
+      setError("password", { message: "sem conexão com a internet" })
 
       setLoading(false)
     }
@@ -60,12 +83,7 @@ const CreateAccount = ({ navigation }: any) => {
 
         </View>
         <View style={styles.inputContainer}>
-          <Controller control={control} rules={
-            {
-              required: 'Obrigatório', maxLength: { value: 40, message: "o tamanho maximo do texto é 40 caracteres" },
-              minLength: { value: 3, message: "Informe um texto maior" },
-              pattern: { value: /^(?!^\d+$).+$/, message: 'Não são permitidas  entradas numéricas' }
-            }}
+          <Controller control={control}
             render={({ field: { onChange, onBlur, value, } }) => (
               <TextInput
                 mode="outlined" autoFocus activeOutlineColor="#376fe8" error={!!errors.nick_name} label="Nome"
@@ -78,11 +96,6 @@ const CreateAccount = ({ navigation }: any) => {
           <ErrorMessage name={"nick_name"} errors={errors} />
 
           <Controller control={control}
-            rules={{
-              required: 'Obrigatório', maxLength: { value: 40, message: "o tamanho maximo do texto é 40 caracteres" },
-              minLength: { value: 3, message: "Informe um texto maior" },
-              pattern: { value: /^\S+@\S+\.\S+$/, message: 'Email inválido' }
-            }}
             render={({ field: { onChange, onBlur, value, } }) => (
               <TextInput
                 mode="outlined" activeOutlineColor="#376fe8" error={!!errors.email} label="email"

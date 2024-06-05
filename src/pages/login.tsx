@@ -13,19 +13,38 @@ import { ContextGlobal } from '../context/GlobalContext';
 import { api } from '../config/Api';
 import { LinearGradient } from 'expo-linear-gradient';
 import { styleGradient } from '../style/styleGradient';
+import { colorSecundary } from '../style/ColorPalette';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from "yup"
 
 
 const Login = ({ navigation }: any) => {
     const { setLoadingAuth, setUser, user } = useContext(Context);
     const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
 
+    const schema = yup.object({
+        email: yup
+            .string()
+            .transform(value => value.toLowerCase())
+            .required('Obrigatório')
+            .max(40, 'O tamanho máximo do texto é 40 caracteres')
+            .email("Email inválido"),
+
+        password: yup
+            .string()
+            .required('Obrigatório')
+            .max(40, 'O tamanho máximo do texto é 40 caracteres')
+            .min(5, 'Informe uma senha maior'),
+    }).required();
+
     const [loading, setLoading] = useState(false);
-    const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
+    const { watch, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
             email: isDevelopment ? "mateuspele2015@gmail.com" : "",
             password: isDevelopment ? "123456" : ""
         },
-        mode: "onSubmit"
+        mode: "onChange",
+        resolver: yupResolver(schema)
     });
 
     const infoUser = async (doc_id: number) => {
@@ -90,30 +109,31 @@ const Login = ({ navigation }: any) => {
             </Animatable.View>
 
             <View style={styles.formContainer}>
-                <Controller control={control} rules={
-                    {
-                        required: 'Obrigatório', maxLength: { value: 40, message: "o tamanho maximo do texto é 40 caracteres" },
-                        pattern: { value: /^\S+@\S+\.\S+$/, message: 'Email inválido' }
-                    }}
+                <Controller control={control}
                     render={({ field: { onChange, onBlur, value, } }) => (
                         <TextInput
-                            mode="outlined" activeOutlineColor="#376fe8" error={!!errors.email} label="Email"
+                            mode="outlined"
+                            autoCorrect={false}
+                            outlineStyle={{ borderWidth: (watch("email") && !errors.email) ? 2 : 2 }}
+                            outlineColor={(watch("email") && !errors.email) ? "green" : "gray"}
+                            activeOutlineColor={!watch("email") ? colorSecundary : !(errors?.email) ? "green" : "red"}
+                            error={!!errors.email} label="Email"
                             placeholder="Email" onBlur={onBlur} onChangeText={onChange} value={value}
                         />
                     )}
                     name="email"
                 />
 
-                <ErrorMessage name={"email"} errors={errors} />
+                <ErrorMessage name={"email"} errors={errors} mt={5} mb={2} />
 
-                <Controller control={control} rules={
-                    {
-                        required: 'Obrigatório', maxLength: { value: 40, message: "o tamanho maximo do texto é 40 caracteres" },
-                        minLength: { value: 5, message: "Informe uma senha maior" },
-                    }}
+                <Controller control={control}
                     render={({ field: { onChange, onBlur, value, } }) => (
                         <TextInput
-                            mode="outlined" activeOutlineColor="#376fe8" error={!!errors.password} label="Senha"
+                            autoCorrect={false}
+                            outlineStyle={{ borderWidth: (watch("password") && !errors.password) ? 2 : 2 }}
+                            outlineColor={(watch("password") && !errors.password) ? "green" : "gray"}
+                            mode="outlined"
+                            activeOutlineColor={!watch("password") ? colorSecundary : !(errors?.password) ? "green" : "red"}
                             placeholder="Senha" onBlur={onBlur} onChangeText={onChange} value={value} secureTextEntry
                         />
                     )}
@@ -146,7 +166,7 @@ const Login = ({ navigation }: any) => {
 const styles = StyleSheet.create({
     container: {
         fontFamily: "Poppins_600SemiBold",
-        flex: 1,       
+        flex: 1,
         justifyContent: 'flex-start',
         padding: 2,
     },
@@ -164,10 +184,11 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         fontFamily: "Poppins_600SemiBold",
-        flex: 1,       
+        flex: 1,
         padding: 20,
         borderRadius: 10,
         justifyContent: 'center',
+        gap: 0
     },
     label: {
         fontFamily: "Poppins_600SemiBold",
@@ -175,7 +196,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     input: {
-        fontFamily: "Poppins_600SemiBold",       
+        fontFamily: "Poppins_600SemiBold",
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#000000',
