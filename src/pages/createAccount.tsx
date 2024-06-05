@@ -11,6 +11,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { api } from '../config/Api';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from "yup"
+import { WelcomeNotification } from '../utils/WelcomeNotification';
+import { LinearGradient } from 'expo-linear-gradient';
+import { styleGradient } from '../style/styleGradient';
 const CreateAccount = ({ navigation }: any) => {
   const { setUser, setLoadingAuth } = useContext(Context);
   const [loading, setLoading] = useState(false);
@@ -53,6 +56,7 @@ const CreateAccount = ({ navigation }: any) => {
       setLoading(true)
       const response = await api.post("/create-user", data)
       setLoading(false);
+      WelcomeNotification(`Olá, ${response?.data?.nick_name?.split(' ')[0]}! Seja bem-vindo à Fonotheapp 🚀`, "Sua ferramenta completa para a fonoaudiologia.", 1);
       navigation.navigate("FinishRegistration", { user: watch() })
       reset();
     } catch (error) {
@@ -68,7 +72,19 @@ const CreateAccount = ({ navigation }: any) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
+       <LinearGradient
+                colors={[
+                    'hsla(320, 100%, 97%, 1)',
+                    'hsla(320, 100%, 99%, 1)',
+                    'hsla(320, 100%, 96%, 1)',
+                    'hsla(205, 100%, 95%, 1)',
+                    'hsla(313, 100%, 98%, 1)'
+                ]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styleGradient.background}
+            />
       <View style={styles.contentContainer}>
         <View style={{ gap: 10, marginTop: 10 }}>
           <CustomText fontFamily='Poppins_300Light' style={{
@@ -140,17 +156,16 @@ const CreateAccount = ({ navigation }: any) => {
           </Pressable>
         </View>
       </View>
-    </ScrollView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
   },
   contentContainer: {
-    backgroundColor: "#FFFFFF",
+   
     flex: 1,
     height: "100%",
     justifyContent: "flex-start",

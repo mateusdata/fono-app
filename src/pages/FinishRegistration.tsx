@@ -2,6 +2,8 @@ import React from 'react';
 import { View, StatusBar, Image, Linking } from 'react-native';
 import { Button, Text } from 'react-native-paper';
 import { colorPrimary } from '../style/ColorPalette';
+import { LinearGradient } from 'expo-linear-gradient';
+import { styleGradient } from '../style/styleGradient';
 const ImageTerminate = require("../assets/images/animate.gif"); 
 
 interface FormatUser {
@@ -16,6 +18,18 @@ const FinishRegistration = ({ navigation, route }) => {
 
     return (
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: "#F5F7FF" }}>
+              <LinearGradient
+                colors={[
+                    'hsla(320, 100%, 98%, 1)',
+                    'hsla(320, 100%, 99%, 1)',
+                    'hsla(320, 100%, 99%, 1)',
+                    'hsla(205, 100%, 95%, 1)',
+                    'hsla(313, 100%, 98%, 1)'
+                ]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styleGradient.background}
+            />
             <View style={{justifyContent:"center", alignItems:"center", padding:12}}>
 
                 <StatusBar animated={true} barStyle='light-content' />

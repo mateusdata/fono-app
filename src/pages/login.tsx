@@ -92,7 +92,7 @@ const Login = ({ navigation }: any) => {
         <View style={styles.container}>
             <LinearGradient
                 colors={[
-                    'hsla(320, 100%, 96%, 1)',
+                    'hsla(205, 100%, 95%, 1)',
                     'hsla(320, 100%, 99%, 1)',
                     'hsla(210, 100%, 97%, 1)',
                     'hsla(205, 100%, 95%, 1)',
