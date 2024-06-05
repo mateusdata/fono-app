@@ -152,7 +152,7 @@ const Home = ({ navigation }: { navigation: any }) => {
               <AntDesign name="adduser" size={20} style={{ top: 4 }} color="#36B3B9" />
               <CustomText>Acompanhar</CustomText>
             </Pressable >
-            <Pressable android_ripple={{ color: "#36B3B9", }} onPress={() => navigation.navigate("UnansweredQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
+            <Pressable android_ripple={{ color: "#36B3B9", }} onPress={() => navigation.navigate("PacientUnansweredQuestions")} style={{ backgroundColor: "white", width: screenHeight > 700 ? 110 : 105, gap: 12, height: 105, justifyContent: 'center', alignItems: 'center', borderRadius: 5, borderWidth: 2, borderColor: Platform.OS==="ios" ? "#a8a8a8" :'#E8E8E8'  }}>
               <SimpleLineIcons name='check' size={19} style={{ top:25, marginBottom:20 }} color='#36B3B9' />
               <CustomText style={{ textAlign: "center" }}>Concluir Cadastro</CustomText>
             </Pressable >

@@ -11,33 +11,35 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as  Animatable from "react-native-animatable"
 import { ContextGlobal } from '../context/GlobalContext';
 import { api } from '../config/Api';
+import { LinearGradient } from 'expo-linear-gradient';
+import { styleGradient } from '../style/styleGradient';
 
 
 const Login = ({ navigation }: any) => {
     const { setLoadingAuth, setUser, user } = useContext(Context);
-    const {isDevelopment, setIsdevelopment} =  useContext(ContextGlobal)
-    
+    const { isDevelopment, setIsdevelopment } = useContext(ContextGlobal)
+
     const [loading, setLoading] = useState(false);
     const { register, handleSubmit, setError, trigger, control, formState: { errors }, setValue } = useForm({
         defaultValues: {
-            email:isDevelopment ? "mateuspele2015@gmail.com" : "",
-            password:isDevelopment ? "123456" : ""
+            email: isDevelopment ? "mateuspele2015@gmail.com" : "",
+            password: isDevelopment ? "123456" : ""
         },
         mode: "onSubmit"
     });
 
-    const infoUser = async (doc_id:number)=>{
+    const infoUser = async (doc_id: number) => {
         const response = await api.get(`/info-user/${doc_id}`);
-      
+
         try {
-          const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
-          const updatedUser = { ...recoveryUser, gov_license:response.data.doctor.gov_license };
-          setUser(updatedUser);
-          await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
+            const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
+            const updatedUser = { ...recoveryUser, gov_license: response.data.doctor.gov_license };
+            setUser(updatedUser);
+            await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
         } catch (error) {
         }
-      
-      }
+
+    }
 
     const onSubmit = async (data: object) => {
         try {
@@ -56,12 +58,11 @@ const Login = ({ navigation }: any) => {
 
         } catch (error) {
             console.log(error)
-            alert(error?.response?.status)
 
             setLoading(false);
             if (error?.response) {
-                if (error?.response?.status===401)
-                return setError("password", { message: "email ou senha incorretos" })
+                if (error?.response?.status === 401)
+                    return setError("password", { message: "email ou senha incorretos" })
             }
             setError("password", { message: "Ocorreu um erro!" })
             setLoading(false);
@@ -70,6 +71,18 @@ const Login = ({ navigation }: any) => {
 
     return (
         <View style={styles.container}>
+            <LinearGradient
+                colors={[
+                    'hsla(320, 100%, 96%, 1)',
+                    'hsla(320, 100%, 99%, 1)',
+                    'hsla(210, 100%, 97%, 1)',
+                    'hsla(205, 100%, 95%, 1)',
+                    'hsla(313, 100%, 98%, 1)'
+                ]}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 1, y: 1 }}
+                style={styleGradient.background}
+            />
             <StatusBar animated hideTransitionAnimation='fade' style='light' />
 
             <Animatable.View style={styles.titleContainer}>
@@ -133,8 +146,7 @@ const Login = ({ navigation }: any) => {
 const styles = StyleSheet.create({
     container: {
         fontFamily: "Poppins_600SemiBold",
-        flex: 1,
-        backgroundColor: '#FFFFFF',
+        flex: 1,       
         justifyContent: 'flex-start',
         padding: 2,
     },
@@ -152,8 +164,7 @@ const styles = StyleSheet.create({
     },
     formContainer: {
         fontFamily: "Poppins_600SemiBold",
-        flex: 1,
-        backgroundColor: '#ffffff',
+        flex: 1,       
         padding: 20,
         borderRadius: 10,
         justifyContent: 'center',
@@ -164,8 +175,7 @@ const styles = StyleSheet.create({
         marginBottom: 5,
     },
     input: {
-        fontFamily: "Poppins_600SemiBold",
-        backgroundColor: '#FFFFFF',
+        fontFamily: "Poppins_600SemiBold",       
         borderRadius: 5,
         borderWidth: 1,
         borderColor: '#000000',

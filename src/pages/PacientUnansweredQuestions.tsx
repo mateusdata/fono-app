@@ -11,13 +11,13 @@ import { AntDesign } from '@expo/vector-icons';
 import SkelectonView from '../components/SkelectonView';
 import { colorGreen } from '../style/ColorPalette';
 
-const UnansweredQuestions = ({ navigation }) => {
+const PacientUnansweredQuestions  = ({ navigation }) => {
 
     const { logOut, user } = useContext(Context);
     const { setPac_id, pac_id } = useContext(ContextPacient);
     const [loading, setLoading] = useState(true)
     const [searchQuery, setSearchQuery] = useState('');
-    const [pacients, setPacients] = useState([]);
+    const [pacients, setPacients] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +33,9 @@ const UnansweredQuestions = ({ navigation }) => {
     }, [])
 
 
+    if(loading){
+        return <SkelectonView/>
+    }
 
     return (
         <View style={{ paddingHorizontal: 8, paddingVertical: 5 }}>
@@ -85,4 +88,4 @@ const UnansweredQuestions = ({ navigation }) => {
     );
 };
 
-export default UnansweredQuestions;
+export default PacientUnansweredQuestions ;

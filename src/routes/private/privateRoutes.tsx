@@ -22,7 +22,6 @@ import { StatusBar } from 'expo-status-bar';
 import CurrentProtocol from '../../pages/CurrentProtocol';
 import NoInternet from '../../pages/NoInternet';
 import CreatePacient from '../../pages/CreatePacient';
-import UnansweredQuestions from '../../pages/UnansweredQuestions';
 import DischargeReportPdf from '../../pages/DischargeReportPdf';
 import MonitoringReportPdf from '../../pages/MonitoringReportPdf';
 import FrequentlyAskedQuestions from '../../pages/FrequentlyAskedQuestions';
@@ -31,6 +30,7 @@ import ChangeGovLicense from '../../pages/ChangeGovLicense';
 import ChangePhone from '../../pages/ChangePhone';
 import UpdatePacient from '../../pages/UpdatePacient';
 import ServiceProvisionReceiptPdf from '../../pages/ServiceProvisionReceiptPdf';
+import PacientUnansweredQuestions from '../../pages/PacientUnansweredQuestions';
 
 
 const AppStack = createStackNavigator();
@@ -60,7 +60,7 @@ const PrivateRoutes = () => {
         <AppStack.Screen name='Help' component={Help} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Contato" }} />
         <AppStack.Screen name='Feedback' component={Feedback} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Feedback" }} />
         <AppStack.Screen name='PatientQuestionnaire' component={PatientQuestionnaire} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "", headerShown:true }} />
-        <AppStack.Screen name='UnansweredQuestions' component={UnansweredQuestions} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Concluir cadastro" }}/>
+        <AppStack.Screen name='PacientUnansweredQuestions' component={PacientUnansweredQuestions} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Concluir cadastro" }}/>
 
         <AppStack.Screen name='Protokol' component={Protokol} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Perfil do paciente" }} />
         <AppStack.Screen name='PatientInfo' component={PatientInfo} options={{headerBackTitleVisible:false, headerTitleAlign: "center", headerTitle: "Informação do paciente" }} />

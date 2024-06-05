@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from 'react-native';
 
 const api = axios.create({
-  baseURL: 'https://532e-181-216-222-58.ngrok-free.app',
+  baseURL: 'https://fono-api.vercel.app',
   //baseURL: "https://fono-api-solitary-surf-9909.fly.dev",
 
 });
@@ -28,30 +28,31 @@ api.interceptors.request.use(async (config) => {
 
 
 // Interceptor de resposta para capturar erros
-let interceptorsConfigured = false;
 
-async function setInterceptors(setUser) {
-  if (!interceptorsConfigured) {
-    api.interceptors.response.use(
-      (response) => {
-        return response;
-      },
-      async (error) => {
-        if (error.response && error.response.status === 401) {
-          try {
-            Alert.alert("sessão expirada", "Faça login novamente");
-            await AsyncStorage.removeItem("usuario");
-            await AsyncStorage.removeItem("pacientes");
-            setUser(null);
-          } catch (asyncStorageError) {
-            console.error("Error removing user from AsyncStorage:", asyncStorageError);
-          }
+async function setInterceptors(setUser: any) {
+  api.interceptors.response.use(
+
+    (response) => {
+      return response;
+    },
+    async (error) => {
+
+      // Verifique se o erro é um 403
+      if (error.response && error.response.status === 401) {
+        try {
+          // Limpe o AsyncStorage
+          await AsyncStorage.removeItem("usuario");
+          await AsyncStorage.removeItem("pacientes");
+          setUser(null)
+        } catch (asyncStorageError) {
+          console.error("Error removing user from AsyncStorage:", asyncStorageError);
         }
-        return Promise.reject(error);
       }
-    );
-    interceptorsConfigured = true;
-  }
+
+      // Rejeite a promessa com o erro original
+      return Promise.reject(error);
+    }
+  );
 }
 
 

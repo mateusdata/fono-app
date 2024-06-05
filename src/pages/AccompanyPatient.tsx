@@ -4,7 +4,7 @@ import { Searchbar, List, Button } from 'react-native-paper';
 import { MaterialIcons } from '@expo/vector-icons';
 import { Context } from '../context/AuthProvider';
 import { ContextPacient } from '../context/PacientContext';
-import { api }  from '../config/Api';
+import { api } from '../config/Api';
 import * as  Animatable from "react-native-animatable"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { colorRed } from '../style/ColorPalette';
@@ -17,6 +17,8 @@ const AccompanyPatient = ({ navigation }) => {
 
     const [searchQuery, setSearchQuery] = useState('');
     const [pacients, setPacients] = useState([]);
+    const [isPacientsLocal, setisPacientsLocal] = useState(false);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -33,6 +35,7 @@ const AccompanyPatient = ({ navigation }) => {
 
         setSearchQuery(search)
         if (search.length > 0) {
+            setisPacientsLocal(false)
             try {
                 const response = await api.post(`/search-pacient`, { doc_id: user.doc_id, search: search })
                 console.log(response.data)
@@ -59,11 +62,13 @@ const AccompanyPatient = ({ navigation }) => {
             const pacientesString = await AsyncStorage.getItem('pacientes');
             if (pacientesString !== null) {
                 setPacients(JSON.parse(pacientesString));
+                setisPacientsLocal(true)
                 const newPacient = JSON.parse(pacientesString)
                 newPacient?.length > 50 && cleanLocalStorage();
             }
         } catch (error) {
             console.error('Erro ao carregar pacientes:', error);
+            setisPacientsLocal(false)
         }
     };
 
@@ -101,7 +106,11 @@ const AccompanyPatient = ({ navigation }) => {
             console.error('Erro ao limpar LocalStorage dos pacientes:', error);
         }
     };
-
+async function cleanSeach() {
+    setSearchQuery("")
+    setPacients(pacients)
+    setisPacientsLocal(true)
+}
 
     return (
         <View style={{ flex: 1 }}>
@@ -114,26 +123,29 @@ const AccompanyPatient = ({ navigation }) => {
                     inputMode='search'
                     selectionColor={"gray"}
                     cursorColor={"gray"}
+                    onClearIconPress={cleanSeach}
                 />
 
-                <Animatable.View animation="fadeInDown">
+                <Animatable.View animation="">
 
                     <FlatList
-                        data={pacients}
+                        data={isPacientsLocal? pacients?.reverse(): pacients}
                         style={{ top: 5, marginTop: 5, paddingLeft: 6 }}
                         keyExtractor={(item) => item?.pacient?.pac_id}
-                        renderItem={({ item }) => (
+                        renderItem={({ item, index}) => (
                             <Pressable onPress={() => {
                                 setPac_id(item?.pacient?.pac_id);
                                 saveLocalStorage(item)
                                 navigation.navigate("Protokol")
                             }} android_ripple={{ color: "#36B3B9" }}>
-                                <List.Item
-                                    style={{ borderBottomWidth: 0.3, borderColor: "gray", width: "96%" }}
-                                    title={item?.first_name + (!item?.pacient?.food_profile ? "❓" : "")}
-                                    description={`CPF: ${item.cpf}`}
-                                    left={() => <MaterialIcons name="person" size={24} color="#36B3B9" style={{ top: 9, left: 6 }} />}
-                                />
+                                <>
+                                    {isPacientsLocal &&  index === 0 && <Text>Útimas pesquisas</Text>}
+                                    <List.Item
+                                        style={{ borderBottomWidth: 0.3, borderColor: "gray", width: "96%" }}
+                                        title={item?.first_name + (!item?.pacient?.food_profile ? "❓" : "")}
+                                        description={`CPF: ${item.cpf}`}
+                                        left={() => <MaterialIcons name="person" size={24} color="#36B3B9" style={{ top: 9, left: 6 }} />}
+                                    /></>
                             </Pressable>
                         )}
                     />

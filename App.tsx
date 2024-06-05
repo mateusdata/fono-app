@@ -10,8 +10,6 @@ import NetInfo from "@react-native-community/netinfo";
 import { StatusBar } from 'expo-status-bar';
 import PacientContext from './src/context/PacientContext';
 import GlobalContext from './src/context/GlobalContext';
-import { LinearGradient } from 'expo-linear-gradient';
-import { StyleSheet } from 'react-native';
 
 export default function App() {
 
@@ -53,18 +51,6 @@ export default function App() {
           <TamaguiProvider config={config}>
             <AuthProvider>
               <PacientContext>
-                <LinearGradient
-                  colors={[
-                    'hsla(320, 100%, 95%, 1)',
-                    'hsla(320, 100%, 99%, 1)',
-                    'hsla(210, 100%, 97%, 1)',
-                    'hsla(205, 100%, 95%, 1)',
-                    'hsla(313, 100%, 98%, 1)'
-                  ]}
-                  start={{ x: 0, y: 0 }}
-                  end={{ x: 1, y: 1 }}
-                  style={styles.background}
-                />
                 <Routes />
               </PacientContext>
             </AuthProvider>
@@ -75,22 +61,4 @@ export default function App() {
   );
 }
 //#36B3B9
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  background: {
-    ...StyleSheet.absoluteFillObject,
-  },
-  textContainer: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    padding: 10,
-    borderRadius: 5,
-    marginTop: 10,
-  },
-});
-
 
