@@ -6,6 +6,7 @@
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
+    "scheme": "fonotherapp",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -44,13 +45,13 @@
     "runtimeVersion": {
       "policy": "appVersion"
     },
-    "extra": {
-      "eas": {
-        "projectId": "1778e413-5665-4d18-95be-986fcf1b117e"
-      }
-    },
     "plugins": [
       "expo-video"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "7f207d32-dff2-4e9d-b31f-7a357711db25"
+      }
+    }
   }
 }

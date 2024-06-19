@@ -124,7 +124,7 @@ const Login = ({ navigation }: any) => {
                     name="email"
                 />
 
-                <ErrorMessage name={"password"} errors={errors} mt={5} mb={2} />
+                <ErrorMessage name={"email"} errors={errors} mt={5} mb={2} />
 
 
                 <Controller control={control}

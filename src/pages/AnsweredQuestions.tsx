@@ -41,7 +41,7 @@ const AnsweredQuestions = () => {
 
   useEffect(() => {
 
-    fetchQuestionnaire();
+    fetchQuestionnaire(); 
   }, [pac_id]);
 
 
