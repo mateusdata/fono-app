@@ -49,6 +49,8 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
       await downloadPDF(response?.data?.doc_url, response?.data?.doc_name, user?.token, setLoading)
     } catch (error) {
       console.error("Ocorreu um erro", error)
+      setLoading(false);
+
     }
   }
 
@@ -59,7 +61,7 @@ const ServiceProvisionReceiptPdf = ({ route }: any) => {
           Recibo de prestação de serviço do paciente
         </CustomText>
         <CustomText fontFamily='Poppins_300Light' style={{ textAlign: "center", fontSize: 17, color: colorSecundary }}>
-          {pacient.person.first_name}
+          {pacient.first_name}
         </CustomText>
       </View>
       <View>

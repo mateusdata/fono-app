@@ -9,11 +9,11 @@ export interface FormatPacient {
     base_diseases: string;
     consultation_reason: string;
     food_profile: string;
+    first_name: string;
     chewing_complaint: string;
     education: string;
     status: string;
     person?: {
-        first_name: string;
         last_name: string;
         cpf: string;
         birthday: string ;

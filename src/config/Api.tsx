@@ -3,7 +3,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Alert } from 'react-native';
 
 const api = axios.create({
-  baseURL: 'https://fono-api.vercel.app',
+  //baseURL: 'https://fono-api.vercel.app',
+  baseURL: 'https://fono-api-adonis.fly.dev',
   //baseURL: "https://fono-api-solitary-surf-9909.fly.dev",
 
 });

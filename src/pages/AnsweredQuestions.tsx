@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { MaterialIcons, Ionicons } from '@expo/vector-icons';
 import { ActivityIndicator, List } from 'react-native-paper';
 import { Keyboard, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
-import { api }  from '../config/Api';
+import { api } from '../config/Api';
 import { AntDesign } from '@expo/vector-icons';
 import { FormatPacient } from '../interfaces/globalInterface';
 import { Context } from '../context/AuthProvider';
@@ -29,7 +29,7 @@ const AnsweredQuestions = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [showToast, setShowToast] = useState<boolean>(false);
   const [questionnaireId, setQuestionareId] = useState<number>(null)
-  const [snapPoints, setSnapPoints]  =  useState<number>(65)
+  const [snapPoints, setSnapPoints] = useState<number>(65)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,7 +41,7 @@ const AnsweredQuestions = () => {
 
   useEffect(() => {
 
-    fetchQuestionnaire(); 
+    fetchQuestionnaire();
   }, [pac_id]);
 
 
@@ -170,7 +170,7 @@ const AnsweredQuestions = () => {
 
 
 
-  if (!pacient && !pacient?.person && !pacient?.person.first_name && !pacient?.questionnaires) {
+  if (!pacient && !pacient?.person && !pacient?.first_name && !pacient?.questionnaires) {
     return <SkelectonView />
   }
 
@@ -179,10 +179,12 @@ const AnsweredQuestions = () => {
   return (
     <>
       <ScrollView style={styles.container}>
+        <Text> {  JSON.stringify(answered, null, 2)}
+        </Text>
         <Pressable onPress={getPdf} style={styles.pressable}>
           <View style={styles.row}>
             <AntDesign name="pdffile1" size={34} color="red" />
-            <Text style={styles.text}>{`Relatório de anamnese do paciente ${pacient?.person.first_name.split(' ')[0]}`}</Text>
+            <Text style={styles.text}>{`Relatório de anamnese do paciente ${pacient?.first_name.split(' ')[0]}`}</Text>
           </View>
         </Pressable>
         {loading && <ActivityIndicator size="small" color={colorPrimary} />}
@@ -231,7 +233,7 @@ const AnsweredQuestions = () => {
             Keyboard.dismiss();
             setSnapPoints(65)
             setModalVisible(false)
-          
+
           }}
           snapPoints={[snapPoints]}
 

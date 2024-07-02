@@ -20,17 +20,7 @@ const AccompanyPatient = ({ navigation }) => {
     const [isPacientsLocal, setisPacientsLocal] = useState(false);
 
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await api.post(`/search-pacient`, { doc_id: user.doc_id, search: "" })
-                setPacients(response?.data.slice(0, 60));
-            } catch (error) {
-
-            }
-        }
-        fetchData()
-    }, [])
+  
     const onChangeSearch = async (search) => {
 
         setSearchQuery(search)

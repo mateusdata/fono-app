@@ -157,7 +157,7 @@ const Protokol = ({ navigation }) => {
 
                     {firstModal ?
                         <View>
-                            <Text style={{ textAlign: "center", fontSize: 22 }}>Protocolos criados</Text>
+                            <Text style={{ textAlign: "center", fontSize: 22 }}> Sessões</Text>
                             <FlatList
                                 style={{ top: 10, padding: 15 }}
                                 data={protocols?.rows}
@@ -202,7 +202,7 @@ const Protokol = ({ navigation }) => {
                                 mode="contained"
                                 onPress={() => {
                                     setModalVisible(false);
-                                    navigation.navigate("ServiceProvisionReceipt", { pacient: pacient })
+                                    navigation.navigate("ServiceProvisionReceiptPdf", { pacient: pacient })
                                 }}
                                 style={{ marginTop: 10 }}
                             >
@@ -232,7 +232,7 @@ const Protokol = ({ navigation }) => {
 
                 <View style={{ justifyContent: "center", alignItems: "center", marginTop: 15 }}>
                     <FontAwesome name="user" style={{ top: 0, left: 0 }} color={colorPrimary} size={80} />
-                    <Title style={{ marginBottom: 10, }}>{pacient?.person?.first_name && pacient?.person?.first_name}</Title>
+                    <Title style={{ marginBottom: 10, }}>{pacient?.first_name && pacient?.first_name}</Title>
                 </View>
 
                 <View style={{ marginTop: 15, marginBottom: 40 }}>

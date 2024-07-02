@@ -69,7 +69,7 @@ const CreatePacient = ({ navigation }) => {
     mode: 'all',
     defaultValues: {
       first_name: "",
-      last_name: "",
+      last_name: "null",
       cpf: "",
       birthday: null,
     }

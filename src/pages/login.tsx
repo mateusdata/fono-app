@@ -48,14 +48,18 @@ const Login = ({ navigation }: any) => {
     });
 
     const infoUser = async (doc_id: number) => {
-        const response = await api.get(`/info-user/${doc_id}`);
+
+
 
         try {
+            const response = await api.get(`/info-user/${doc_id}`);
+            alert(JSON.stringify(response.data))
             const recoveryUser = JSON.parse(await AsyncStorage.getItem("usuario"));
             const updatedUser = { ...recoveryUser, gov_license: response.data.doctor.gov_license };
             setUser(updatedUser);
             await AsyncStorage.setItem("usuario", JSON.stringify(updatedUser));
         } catch (error) {
+            alert("error")
         }
 
     }
@@ -65,11 +69,13 @@ const Login = ({ navigation }: any) => {
             setLoading(true);
             const response = await api.post("/login", data);
 
-            setLoadingAuth(true);
             try {
+
                 await AsyncStorage.setItem("usuario", JSON.stringify(response.data));
+                setLoadingAuth(true);
                 setUser(response.data);
-                infoUser(response?.data?.doc_id)
+                //infoUser(response?.data?.doc_id)
+                //alert(JSON.stringify(data))
             } catch (error) {
                 alert("erro")
             }
@@ -80,8 +86,15 @@ const Login = ({ navigation }: any) => {
 
             setLoading(false);
             if (error?.response) {
-                if (error?.response?.status === 401)
-                    return setError("password", { message: "email ou senha incorretos" })
+                if (error?.response?.status === 401){
+                    setError("email",{})
+                    return setError("password", { message: "email ou senha incorretos" });
+                }
+                if (error?.response?.status === 404){
+                    setError("email",{})
+                    return setError("password", { message: error.response?.data?.message });
+                }
+
             }
             setError("password", { message: "Ocorreu um erro!" })
             setLoading(false);
@@ -144,7 +157,7 @@ const Login = ({ navigation }: any) => {
 
                 <ErrorMessage name={"password"} errors={errors} mt={5} mb={2} />
 
-              
+
                 <View>
                     <Button
                         mode='contained-tonal'

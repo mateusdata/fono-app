@@ -36,8 +36,14 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
 
 
 
-    const logOut = () => {
+    const logOut = async () => {
         setLoadingAuth(true)
+        try {
+            await AsyncStorage.removeItem("pacientes");
+            
+        } catch (error) {
+            alert("Ocoreu um error")
+        }
         AsyncStorage.removeItem("usuario").then((response) => {
             setTimeout(() => {
                 setUser(null);
